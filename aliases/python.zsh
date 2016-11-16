@@ -1,8 +1,6 @@
-" Simple alias to python
 alias py='python'
 alias ipy='ipython'
 
-" Virtual Env
 alias wrk='workon'
 alias wrk.deactivate='deactivate'
 alias wrk.mk='mkvirtualenv --no-site-packages'

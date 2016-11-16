@@ -1,7 +1,7 @@
+# Lower from python
 function lowercase {
     python -c "print('$1'.lower())"
 }
-
 
 # I miss this feature in python
 # Install some library on env and save it in given file
