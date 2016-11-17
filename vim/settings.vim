@@ -9,8 +9,9 @@ nmap <silent> <C-[> :tabprevious<CR>
 nmap <silent> <C-]> :tabnext<CR>
 nmap <silent> <C-t> :tab new<cr>
 
-" Buffer Fuzzy Search
+" Fuzzy Search
 nmap <silent> <C-b> ,b
+nmap <silent> T ,t
 " Multiple Edition
 vmap <C-m> ,mc<cr>
 
