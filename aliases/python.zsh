@@ -1,13 +1,2 @@
 alias py='python'
 alias ipy='ipython'
-
-alias wrk='workon'
-alias wrk.deactivate='deactivate'
-alias wrk.mk='mkvirtualenv --no-site-packages'
-alias wrk.mk_withsitepackages='mkvirtualenv'
-alias wrk.rm='rmvirtualenv'
-alias wrk.switch='workon'
-alias wrk.add2virtualenv='add2virtualenv'
-alias wrk.cdsitepackages='cdsitepackages'
-alias wrk.cd='cdvirtualenv'
-alias wrk.lssitepackages='lssitepackages'

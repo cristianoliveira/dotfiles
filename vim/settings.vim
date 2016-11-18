@@ -7,11 +7,12 @@ nmap <C-f> :AgFile ""<Left>
 " Tab Osx Style
 nmap <silent> <C-[> :tabprevious<CR>
 nmap <silent> <C-]> :tabnext<CR>
-nmap <silent> <C-t> :tab new<cr>
 
 " Fuzzy Search
 nmap <silent> <C-b> ,b
-nmap <silent> T ,t
+nmap <silent> <C-t> ,t
+nmap T ,t
+
 " Multiple Edition
 vmap <C-m> ,mc<cr>
 

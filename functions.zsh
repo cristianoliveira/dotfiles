@@ -48,3 +48,21 @@ function gifify() {
         echo "proper usage: gifify <input_movie.mov>. You DO need to include extension."
    fi
 }
+
+
+# Kills any process that matches a regexp passed to it
+function killit() {
+    ps aux | grep -v "grep" | grep "$@" | awk '{print $2}' | xargs sudo kill
+}
+
+# Shows process running that matches
+function psaux() {
+    ps aux | grep "$@"
+}
+
+# Python stuff
+
+# Workon current directory name
+function workenv() {
+  workon $(basename $PWD)
+}
