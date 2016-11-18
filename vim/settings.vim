@@ -16,6 +16,11 @@ nmap T ,t
 " Multiple Edition
 vmap <C-m> ,mc<cr>
 
+" Clipboard
+vmap <C-V> "*y
+vmap <leader>y "*y
+nmap <leader>p "*p
+
 " Sintax Linters
 let g:syntastic_python_checkers = ['flake8']
 
