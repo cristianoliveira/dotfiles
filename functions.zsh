@@ -63,6 +63,6 @@ function psaux() {
 # Python stuff
 
 # Workon current directory name
-function workenv() {
+function py.env() {
   workon $(basename $PWD)
 }
