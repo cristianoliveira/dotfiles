@@ -37,3 +37,5 @@ let g:solarized_visibility = "high"
 let g:solarized_contrast = "high"
 colorscheme solarized
 
+let g:syntastic_python_python_exec = "$(which python3)"
+
