@@ -66,3 +66,15 @@ function psaux() {
 function py.env() {
   workon $(basename $PWD)
 }
+
+
+function auth-token() { 
+  credentials="$(python -c "import base64; print base64.b64encode('$1:$2')")"
+  echo $credentials
+  echo "$(curl -XPOST https://searchengine.backstage.dev.globoi.com/sitemap_g1/_search 
+    -l 'Authorization: Basic $credentials'
+    -H 'Content-Type: application/x-www-form-urlencoded' \
+    -d grant_type=client_credentials)"
+}
+
+
