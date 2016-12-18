@@ -1,5 +1,7 @@
 execute pathogen#infect()
 
+let mapleader = "\<Space>"
+
 set nocompatible
 filetype off
 set foldmethod=marker
