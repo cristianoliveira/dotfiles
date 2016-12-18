@@ -25,6 +25,7 @@ Plugin 'ConradIrwin/vim-bracketed-paste'
 Plugin 'gcmt/wildfire.vim'
 Plugin 'Yggdroot/indentLine'
 Plugin 'rking/ag.vim'
+Plugin 'altercation/vim-colors-solarized'
 
 "Front End
 Plugin 'pangloss/vim-javascript'

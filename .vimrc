@@ -51,3 +51,5 @@ so ~/.vim/plugins.vim
 so ~/.vim/settings/search.vim
 so ~/.vim/settings/nerdtree.vim
 so ~/.vim/settings/mappings.vim
+
+colorscheme solarized
