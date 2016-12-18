@@ -10,11 +10,12 @@ function! GetVisual()
   return selection
 endfunction
 
-nmap ,ag :Ag ""<Left>
-nmap ,af :AgFile ""<Left>
+nmap <leader>gg :Ag ""<Left>
+nmap <leader>gf :AgFile ""<Left>
 
 "grep the current word using K (mnemonic Kurrent)
 nnoremap <leader>k :Ag <cword><CR>
+nnoremap <leader>o :e <cword><CR>
 
 "grep visual selection
 vnoremap <leader>k :<C-U>execute "Ag " . GetVisual()<CR>
