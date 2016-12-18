@@ -1,6 +1,9 @@
 nnoremap <silent> <Leader>sw :call WindowSwap#EasyWindowSwap()<CR>
 nmap <Leader>` :call WindowSwap#EasyWindowSwap()<CR><Leader>[:call WindowSwap#EasyWindowSwap()<CR>
 
+
+nmap <Leader>s <C-W>s
+nmap <Leader>v <C-W>v
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>

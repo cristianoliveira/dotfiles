@@ -46,6 +46,12 @@ let g:airline_powerline_fonts = 0 "change 0 to 1 if you have a powerline font
 set laststatus=2
 set t_Co=256
 
+" Delete works on insert mode
+set backspace=indent,eol,start
+
+" 80 columns
+set colorcolumn=80
+
 " Remove trailing whitespace on save
 autocmd BufWritePre * :%s/\s\+$//e
 

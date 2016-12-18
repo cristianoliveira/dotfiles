@@ -12,6 +12,7 @@ endfunction
 
 nmap <leader>gg :Ag ""<Left>
 nmap <leader>gf :AgFile ""<Left>
+vnoremap <leader>gf :<C-U>execute "AgFile " . GetVisual()<CR>
 
 "grep the current word using K (mnemonic Kurrent)
 nnoremap <leader>k :Ag <cword><CR>
@@ -24,24 +25,26 @@ vnoremap <leader>k :<C-U>execute "Ag " . GetVisual()<CR>
 nnoremap ,K viwf!:<C-U>execute "Ag " . GetVisual()<CR>
 
 "grep for 'def foo'
-nnoremap <silent> ,gd :Ag 'def <cword>'<CR>
+noremap <leader>gd :Ag 'def .*<cword>'<CR>
+noremap <leader>gc :Ag 'class .*<cword>'<CR>
 
 ",gg = Grep! - using Ag the silver searcher
 " open up a grep line, with a quote started for the search
-nnoremap ,gg :Ag ""<left>
 
 "Grep for usages of the current file
 nnoremap ,gcf :exec "Ag " . expand("%:t:r")<CR>
 
 let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
 
-nmap <Leader>t :CtrlP<CR>
-nmap <Leader>b :CtrlPBuffer<CR>
-nmap <Leader>f :CtrlPLine<CR>
+nnoremap ,ag :Ag ""<left>
+nmap <Leader>at :CtrlP<CR>
+nmap <Leader>ab :CtrlPBuffer<CR>
+nmap <Leader>af :CgtrlPLine<CR>
 
 if exists("g:ctrlp_user_command")
   unlet g:ctrlp_user_command
 endif
+
 if executable('ag')
   " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
   let g:ctrlp_user_command =
@@ -69,10 +72,10 @@ nnoremap <silent> <D-P> :ClearCtrlPCache<cr>
 " Idea from : http://www.charlietanksley.net/blog/blog/2011/10/18/vim-navigation-with-lustyexplorer-and-lustyjuggler/
 " Open CtrlP starting from a particular path, making it much
 " more likely to find the correct thing first. mnemonic 'jump to [something]'
-map <leader>ja :CtrlP app/assets<CR>
-map <leader>mm :CtrlP app/models<CR>
-map <leader>cc :CtrlP app/controllers<CR>
-map <leader>vv :CtrlP app/views<CR>
-map <leader>jj :CtrlP app/assets/javascripts<CR>
-map <leader>ss :CtrlP spec<CR>
+map <leader>aa :CtbrlP app/assets<CR>
+map <leader>am :CtrlP app/models<CR>
+map <leader>ac :CtrlP app/controllers<CR>
+map <leader>av :CtrlP app/views<CR>
+map <leader>aj :CtrlP app/assets/javascripts<CR>
+map <leader>as :CtrlP spec<CR>
 
