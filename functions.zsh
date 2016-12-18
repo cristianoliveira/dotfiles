@@ -15,25 +15,6 @@ function cpost { curl -XPOST -D - $@ }
 # lazyperson - makes an directory and enter in it
 function mkdircd { mkdir $1 && cd $1 }
 
-# Open on browser the search
-# Ex: $ google dotfiles
-# will open http://google.com/search?q=dofiles
-function google() {
-    search=""
-    echo "Googling: $@"
-    for term in $@; do
-        search="$search%20$term"
-    done
-
-    os=$(lowercase $(uname -s))
-
-    if [[ $os == 'darwin' ]]; then
-      open "http://www.google.com/search?q=$search"
-    else
-      xdg-open "http://www.google.com/search?q=$search"
-    fi
-}
-
 # Creates a gif for a given mov file
 function gifify() {
   if [[ -n "$1" ]]; then
@@ -67,11 +48,10 @@ function py.env() {
   workon $(basename $PWD)
 }
 
-
-function auth-token() { 
+function auth-token() {
   credentials="$(python -c "import base64; print base64.b64encode('$1:$2')")"
   echo $credentials
-  echo "$(curl -XPOST https://searchengine.backstage.dev.globoi.com/sitemap_g1/_search 
+  echo "$(curl -XPOST $FN_AUTH_ENDPOINT
     -l 'Authorization: Basic $credentials'
     -H 'Content-Type: application/x-www-form-urlencoded' \
     -d grant_type=client_credentials)"
