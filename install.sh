@@ -5,4 +5,5 @@ source antigen.zsh
 
 ln -s .tmux.conf ~/.tmux.conf
 ln -s ~/.dotfiles/.vimrc ~/.vimrc
+ln -s ~/.dotfiles/zsh/.zshrc ~/.zshrc
 ln -s ~/.dotfiles/.vim ~/.vim
