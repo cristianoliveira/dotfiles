@@ -76,7 +76,7 @@ antigen () {
   IFS=$'\n'
   records=(${(f)_ANTIGEN_BUNDLE_RECORD})
   IFS="$_IFS"
-  
+
   echo "${records[(r)*$bundle*]}"
 }
 # Returns bundle names from _ANTIGEN_BUNDLE_RECORD
@@ -142,7 +142,7 @@ antigen () {
     local dir=$(-antigen-get-clone-dir $ANTIGEN_DEFAULT_REPO_URL)
     echo $(ls $dir/themes | sed 's/.zsh-theme//')
   fi
-  
+
   return 0
 }
 # Updates _ANTIGEN_INTERACTIVE environment variable to reflect
@@ -466,7 +466,7 @@ antigen () {
   else
     success=1
   fi
-  
+
   return $success
 }
 -antigen-parse-args () {
@@ -585,7 +585,7 @@ antigen-bundle () {
     local branch=
     local no_local_clone=false
     local btype=plugin
-    
+
     if [[ -z "$1" ]]; then
         echo "Antigen: Must provide a bundle url or name."
         return 1
@@ -694,7 +694,7 @@ antigen-list () {
     echo "You don't have any bundles." >&2
     return 1
   fi
-  
+
   if [[ $format == "--short" ]]; then
     -antigen-get-bundles
   else
@@ -738,7 +738,7 @@ antigen-purge () {
     echo "Bundle has no local clone. Will not be removed."
     return 1
   fi
-  
+
   if [[ -n "$url" ]]; then
     if -antigen-purge-bundle $url $force; then
       antigen-reset
@@ -747,7 +747,7 @@ antigen-purge () {
     echo "Bundle not found in record. Try 'antigen bundle $bundle' first."
     return 1
   fi
-  
+
   return 0
 }
 
@@ -910,18 +910,18 @@ antigen-theme () {
     # This is only needed on interactive mode
     autoload -U add-zsh-hook is-at-least
     local hook
-    
+
     # Clear out prompts
     PROMPT=""
     RPROMPT=""
-    
+
     for hook in chpwd precmd preexec periodic; do
         # add-zsh-hook's -D option was introduced first in 4.3.6-dev and
         # 4.3.7 first stable, 4.3.5 and below may experiment minor issues
         # while switching themes interactively.
         if is-at-least 4.3.7; then
             add-zsh-hook -D "${hook}" "prompt_*"
-            add-zsh-hook -D "${hook}" "*_${hook}" # common in omz themes 
+            add-zsh-hook -D "${hook}" "*_${hook}" # common in omz themes
         fi
         add-zsh-hook -d "${hook}" "vcs_info"  # common in omz themes
     done
@@ -1284,16 +1284,16 @@ zcache-done () {
         return 1
     fi
     unset _ZCACHE_EXTENSION_ACTIVE
-    
+
     -zcache-unhook-antigen
-    
+
     # Avoids seg fault on zsh 4.3.5
     if [[ ${#_ZCACHE_BUNDLES} -gt 0 ]]; then
         if ! zcache-cache-exists || -zcache-cache-invalidated; then
             -zcache-generate-cache
             -antigen-reset-compdump
         fi
-        
+
         zcache-load-cache
     fi
 
@@ -1306,7 +1306,7 @@ zcache-done () {
         -zcache-antigen-update "$@"
         antigen-reset
     }
-    
+
     unset _ZCACHE_BUNDLES
 }
 
@@ -1410,7 +1410,7 @@ if [[ $_ANTIGEN_CACHE_ENABLED == true ]]; then
     if [[ $_ANTIGEN_INTERACTIVE == false ]]; then
         zcache-start
     fi
-else    
+else
     # Disable antigen-init and antigen-reset commands if cache is disabled
     # and running in interactive modes
     unfunction -- antigen-init antigen-reset antigen-cache-reset
