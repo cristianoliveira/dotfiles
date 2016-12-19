@@ -25,6 +25,7 @@ Plugin 'gcmt/wildfire.vim'
 Plugin 'Yggdroot/indentLine'
 Plugin 'rking/ag.vim'
 Plugin 'altercation/vim-colors-solarized'
+Plugin 'sheerun/vim-polyglot'
 
 "Front End
 Plugin 'pangloss/vim-javascript'
