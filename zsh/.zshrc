@@ -104,3 +104,5 @@ unset fasd_cache
 
 for alias_file ($HOME/.dotfiles/zsh/aliases/*.zsh) source $alias_file
 
+export PATH=$PATH:/Users/crosa/.multirust/toolchains/stable/cargo/bin
+

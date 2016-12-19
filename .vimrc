@@ -56,8 +56,6 @@ set colorcolumn=80
 autocmd BufWritePre * :%s/\s\+$//e
 
 so ~/.vim/plugins.vim
-so ~/.vim/settings/search.vim
-so ~/.vim/settings/NERDtree.vim
-so ~/.vim/settings/mappings.vim
+so ~/.vim/settings.vim
 
 colorscheme solarized
