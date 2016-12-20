@@ -27,6 +27,7 @@ nnoremap ,K viwf!:<C-U>execute "Ag " . GetVisual()<CR>
 "grep for 'def foo'
 noremap <leader>gd :Ag 'def .*<cword>'<CR>
 noremap <leader>gc :Ag 'class .*<cword>'<CR>
+noremap <leader>gm :Ag 'module .*<cword>'<CR>
 
 ",gg = Grep! - using Ag the silver searcher
 " open up a grep line, with a quote started for the search
@@ -37,9 +38,6 @@ nnoremap ,gcf :exec "Ag " . expand("%:t:r")<CR>
 let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
 
 nnoremap ,ag :Ag ""<left>
-nmap <Leader>at :CtrlP<CR>
-nmap <Leader>ab :CtrlPBuffer<CR>
-nmap <Leader>af :CgtrlPLine<CR>
 
 if exists("g:ctrlp_user_command")
   unlet g:ctrlp_user_command
@@ -72,10 +70,13 @@ nnoremap <silent> <D-P> :ClearCtrlPCache<cr>
 " Idea from : http://www.charlietanksley.net/blog/blog/2011/10/18/vim-navigation-with-lustyexplorer-and-lustyjuggler/
 " Open CtrlP starting from a particular path, making it much
 " more likely to find the correct thing first. mnemonic 'jump to [something]'
-map <leader>aa :CtbrlP app/assets<CR>
-map <leader>am :CtrlP app/models<CR>
-map <leader>ac :CtrlP app/controllers<CR>
-map <leader>av :CtrlP app/views<CR>
-map <leader>aj :CtrlP app/assets/javascripts<CR>
-map <leader>as :CtrlP spec<CR>
+nmap <Leader>ft :CtrlP<CR>
+nmap <Leader>fb :CtrlPBuffer<CR>
+nmap <Leader>ff :CgtrlPLine<CR>
+map <leader>fa :CtbrlP app/assets<CR>
+map <leader>fm :CtrlP app/models<CR>
+map <leader>fc :CtrlP app/controllers<CR>
+map <leader>fv :CtrlP app/views<CR>
+map <leader>fj :CtrlP app/assets/javascripts<CR>
+map <leader>fs :CtrlP spec<CR>
 
