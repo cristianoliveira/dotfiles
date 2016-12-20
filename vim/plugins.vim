@@ -27,6 +27,9 @@ Plugin 'rking/ag.vim'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'sheerun/vim-polyglot'
 
+"Provides open file directs on line by `:e ./spec/test_spec.rb:16`
+Plugin 'kopischke/vim-fetch'
+
 "Front End
 Plugin 'pangloss/vim-javascript'
 
