@@ -51,7 +51,7 @@ ZSH_THEME="avit"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git z vi-mode tmux web-search history-substring-search)
+plugins=(git rvm z vi-mode tmux web-search history-substring-search)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -103,6 +103,4 @@ source "$fasd_cache"
 unset fasd_cache
 
 for alias_file ($HOME/.dotfiles/zsh/aliases/*.zsh) source $alias_file
-
-export PATH=$PATH:/Users/crosa/.multirust/toolchains/stable/cargo/bin
-
+for settings_file ($HOME/.dotfiles/zsh/settings/*.zsh) source $settings_file
