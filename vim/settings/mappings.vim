@@ -45,3 +45,6 @@ map <Space>w <Plug>CamelCaseMotion_w
 map <Space>b <Plug>CamelCaseMotion_b
 map <Space>e <Plug>CamelCaseMotion_e
 
+nmap <Leader>ob :vert sb
+nmap <c-\> :Commentary<CR>
+vmap <c-\> :Commentary<CR>
