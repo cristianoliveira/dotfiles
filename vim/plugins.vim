@@ -24,7 +24,6 @@ Plugin 'ConradIrwin/vim-bracketed-paste'
 Plugin 'gcmt/wildfire.vim'
 Plugin 'Yggdroot/indentLine'
 Plugin 'rking/ag.vim'
-Plugin 'altercation/vim-colors-solarized'
 Plugin 'sheerun/vim-polyglot'
 
 "Provides open file directs on line by `:e ./spec/test_spec.rb:16`
@@ -35,6 +34,12 @@ Plugin 'pangloss/vim-javascript'
 
 "Color Schemes
 Plugin 'vim-scripts/wombat256.vim'
+
+"Close structures like `def foo; end` automatically
+Plugin 'tpope/vim-endwise'
+
+"Apparecene
+Plugin 'altercation/vim-colors-solarized'
 
 call vundle#end()            " required
 filetype plugin indent on
