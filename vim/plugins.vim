@@ -15,9 +15,11 @@ Plugin 'Yggdroot/indentLine'
 "Apparecene
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'sheerun/vim-polyglot'
+Plugin 'vim-scripts/wombat256.vim'
 
 "Autocomplete
 Plugin 'ConradIrwin/vim-bracketed-paste'
+Plugin 'tpope/vim-repeat.git'
 
 "Close structures like `def foo; end` automatically
 Plugin 'tpope/vim-endwise'
@@ -26,9 +28,6 @@ Plugin 'honza/vim-snippets'
 Plugin 'joom/vim-commentary'
 Plugin 'tpope/vim-surround'
 Plugin 'jiangmiao/auto-pairs'
-
-"Color Schemes
-Plugin 'vim-scripts/wombat256.vim'
 
 "Ctags integration
 Plugin 'craigemery/vim-autotag'
