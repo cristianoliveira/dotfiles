@@ -8,7 +8,7 @@ let NERDTreeDirArrows = 1
 let NERDTreeQuitOnOpen = 1
 let NERDTreeIgnore=['\.pyc$', '\~$']
 let NERDTreeShowLineNumbers = 1
-let g:NERDTreeWinSize = 30
+let g:NERDTreeWinSize = 40
 
 function! NERDTreeQuit()
   redir => buffersoutput
