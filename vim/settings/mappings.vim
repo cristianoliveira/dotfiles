@@ -32,8 +32,8 @@ nmap <F5> :source ~/.vimrc<CR>
 
 "New Tab
 nmap <Leader>tt :tabnew<CR>
-nmap <Leader>tn :tabnext<CR>
-nmap <Leader>tp :tabprev<CR>
+nmap <Leader>} :tabnext<CR>
+nmap <Leader>{ :tabprev<CR>
 
 "Paste mode toggle
 set pastetoggle=<F5><F5>
@@ -91,3 +91,6 @@ vmap ,} c{ <C-R>" }<ESC>
 vmap ,{ c{<C-R>"}<ESC>
 
 map ,` ysiw`
+
+nmap <Leader>rr :%s/<C-r>///g<left><left>
+vnoremap <Leader>// y/<C-R>"<CR>
