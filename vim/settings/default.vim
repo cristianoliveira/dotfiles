@@ -1,0 +1,2 @@
+set ttyfast
+set lazyredraw
