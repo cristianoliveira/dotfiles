@@ -28,10 +28,9 @@ vmap <Leader>P "+P
 vmap y ygv<Esc>
 
 "Reload vimrc
-nmap <F5> :source ~/.vimrc<CR>
 
 "New Tab
-nmap <Leader>tt :tabnew<CR>
+nmap <Leader>tn :tabnew<CR>
 nmap <Leader>} :tabnext<CR>
 nmap <Leader>{ :tabprev<CR>
 
@@ -94,4 +93,5 @@ map ,` ysiw`
 
 " Find and Replace
 nmap <Leader>rr :%s/<C-r>///g<left><left>
+vmap <Leader>rr :s/<C-r>///g<left><left>
 vnoremap <Leader>// y/<C-R>"<CR>
