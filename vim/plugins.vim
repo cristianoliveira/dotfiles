@@ -4,7 +4,6 @@ Plugin 'gmarik/vundle'
 
 Plugin 'bling/vim-airline'
 Plugin 'bkad/CamelCaseMotion'
-Plugin 'valloric/MatchTagAlways'
 Plugin 'MarcWeber/vim-addon-mw-utils'
 Plugin 'tomtom/tlib_vim'
 Plugin 'wesQ3/vim-windowswap'
@@ -21,22 +20,24 @@ Plugin 'vim-scripts/wombat256.vim'
 Plugin 'ConradIrwin/vim-bracketed-paste'
 Plugin 'tpope/vim-repeat.git'
 
-"Close structures like `def foo; end` automatically
-Plugin 'tpope/vim-endwise'
-Plugin 'garbas/vim-snipmate'
-Plugin 'honza/vim-snippets'
-Plugin 'joom/vim-commentary'
-Plugin 'tpope/vim-surround'
-Plugin 'jiangmiao/auto-pairs'
-
 "Ctags integration
 Plugin 'craigemery/vim-autotag'
 
 "Edition plugins
 Plugin 'kristijanhusak/vim-multiple-cursors'
 
-"Front End
+" Syntatic and Linter
+Plugin 'vim-syntastic/syntastic'
+Plugin 'tpope/vim-endwise'
+Plugin 'garbas/vim-snipmate'
+Plugin 'honza/vim-snippets'
+Plugin 'joom/vim-commentary'
+Plugin 'tpope/vim-surround'
+Plugin 'jiangmiao/auto-pairs'
+Plugin 'valloric/MatchTagAlways'
+
 Plugin 'pangloss/vim-javascript'
+Plugin 'rust-lang/rust.vim'
 
 "Git integration
 Plugin 'tpope/vim-fugitive'
