@@ -111,7 +111,7 @@
 [core]
   autocrlf = false
   editor = vim
-	excludesfile = /Users/crosa/.dotfile/git/default-ignore
+	excludesfile = ~/.gitignore
 [advice]
   statusHints = false
 [diff]
