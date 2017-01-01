@@ -39,7 +39,7 @@ Plugin 'valloric/MatchTagAlways'
 Plugin 'pangloss/vim-javascript'
 Plugin 'rust-lang/rust.vim'
 
-"Git integration
+" Git integration
 Plugin 'tpope/vim-fugitive'
 Plugin 'airblade/vim-gitgutter'
 
@@ -51,6 +51,9 @@ Plugin 'jistr/vim-nerdtree-tabs'
 "Search plugins
 Plugin 'rking/ag.vim'
 Plugin 'ctrlpvim/ctrlp.vim'
+
+" Documentation
+Plugin 'rizzatti/dash.vim'
 
 call vundle#end()            " required
 filetype plugin indent on
