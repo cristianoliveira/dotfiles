@@ -3,8 +3,8 @@ nmap <Leader>` :call WindowSwap#EasyWindowSwap()<CR><Leader>[:call WindowSwap#Ea
 
 map K <NOP>
 
-nmap <Leader>s <C-W>s
-nmap <Leader>v <C-W>v
+nmap <Leader>s :split <CR>
+nmap <Leader>v :vsplit <CR>
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>

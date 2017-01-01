@@ -11,19 +11,19 @@ Plugin 'ervandew/supertab'
 Plugin 'gcmt/wildfire.vim'
 Plugin 'Yggdroot/indentLine'
 
-"Apparecene
+" Apparecene
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'sheerun/vim-polyglot'
 Plugin 'vim-scripts/wombat256.vim'
 
-"Autocomplete
+" Autocomplete
 Plugin 'ConradIrwin/vim-bracketed-paste'
 Plugin 'tpope/vim-repeat.git'
 
-"Ctags integration
+" Ctags integration
 Plugin 'craigemery/vim-autotag'
 
-"Edition plugins
+" Edition plugins
 Plugin 'kristijanhusak/vim-multiple-cursors'
 
 " Syntatic and Linter
@@ -43,12 +43,12 @@ Plugin 'rust-lang/rust.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'airblade/vim-gitgutter'
 
-"Navigation open file directs on line by `:e ./spec/test_spec.rb:16`
+" Navigation open file directs on line by `:e ./spec/test_spec.rb:16`
 Plugin 'kopischke/vim-fetch'
 Plugin 'scrooloose/nerdtree'
 Plugin 'jistr/vim-nerdtree-tabs'
 
-"Search plugins
+" Search plugins
 Plugin 'rking/ag.vim'
 Plugin 'ctrlpvim/ctrlp.vim'
 
