@@ -4,7 +4,11 @@ let mapleader = "\<Space>"
 
 set nocompatible
 filetype off
-set foldmethod=marker
+
+set foldmethod=indent
+set foldnestmax=5
+set nofoldenable
+
 set linebreak
 
 set number
@@ -41,8 +45,6 @@ set linespace=3
 
 let g:windowswap_map_keys = 0 "prevent default bindings
 
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_powerline_fonts = 0 "change 0 to 1 if you have a powerline font
 set laststatus=2
 set t_Co=256
 
