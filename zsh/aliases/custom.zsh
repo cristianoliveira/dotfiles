@@ -18,3 +18,5 @@ alias :slp='pmset sleepnow'
 
 alias gen-ctags-rust='ctags -f tags --options=/Users/crosa/.dotfiles/ctags.rust'
 alias habits='\history -1000 -1 | sed "s/^[[:space:]]*[0-9]*[[:space:]]*//" | sort | uniq -c | sort -n -r | head -n 30'
+
+alias wruby='find **/*.rb | entr '
