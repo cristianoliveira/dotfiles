@@ -2,8 +2,6 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'gmarik/vundle'
 
-Plugin 'bling/vim-airline'
-Plugin 'bkad/CamelCaseMotion'
 Plugin 'MarcWeber/vim-addon-mw-utils'
 Plugin 'tomtom/tlib_vim'
 Plugin 'wesQ3/vim-windowswap'
@@ -11,10 +9,11 @@ Plugin 'ervandew/supertab'
 Plugin 'gcmt/wildfire.vim'
 Plugin 'Yggdroot/indentLine'
 
-" Apparecene
+" Appearance
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'sheerun/vim-polyglot'
 Plugin 'vim-scripts/wombat256.vim'
+Plugin 'bling/vim-airline'
 
 " Autocomplete
 Plugin 'ConradIrwin/vim-bracketed-paste'
@@ -36,8 +35,6 @@ Plugin 'tpope/vim-surround'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'valloric/MatchTagAlways'
 
-Plugin 'pangloss/vim-javascript'
-Plugin 'rust-lang/rust.vim'
 
 " Git integration
 Plugin 'tpope/vim-fugitive'
@@ -54,6 +51,17 @@ Plugin 'ctrlpvim/ctrlp.vim'
 
 " Documentation
 Plugin 'rizzatti/dash.vim'
+
+" Languages
+" Ruby
+Plugin 'tpope/vim-rails'
+
+" Javascript
+Plugin 'pangloss/vim-javascript'
+Plugin 'mxw/vim-jsx'
+
+" Rust
+Plugin 'rust-lang/rust.vim'
 
 call vundle#end()            " required
 filetype plugin indent on

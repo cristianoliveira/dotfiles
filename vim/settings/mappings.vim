@@ -95,3 +95,6 @@ map ,` ysiw`
 nmap <Leader>rr :%s/<C-r>///g<left><left>
 vmap <Leader>rr :s/<C-r>///g<left><left>
 vnoremap <Leader>// y/<C-R>"<CR>
+
+:nnoremap <Leader>bn :bnext<CR>
+:nnoremap <Leader>bp :bprevious<CR>
