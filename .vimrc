@@ -59,7 +59,6 @@ autocmd BufWritePre * :%s/\s\+$//e
 
 command! ReloadSettings :source ~/.vimrc
 command! BuffersRefresh :bufdo e
-command! Ctags :! ctags . &
 
 so ~/.vim/plugins.vim
 so ~/.vim/settings.vim
