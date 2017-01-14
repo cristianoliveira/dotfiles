@@ -9,7 +9,8 @@ set foldmethod=indent
 set foldnestmax=5
 set nofoldenable
 
-set linebreak
+" Breaks line when it doesn't feet on pane
+" set linebreak
 
 set number
 

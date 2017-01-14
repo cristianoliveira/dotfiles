@@ -2,6 +2,7 @@ nnoremap <silent> <Leader>sw :call WindowSwap#EasyWindowSwap()<CR>
 nmap <Leader>` :call WindowSwap#EasyWindowSwap()<CR><Leader>[:call WindowSwap#EasyWindowSwap()<CR>
 
 map K <NOP>
+map <leader>ch :noh <CR>
 
 nmap <Leader>s :split <CR>
 nmap <Leader>v :vsplit <CR>
