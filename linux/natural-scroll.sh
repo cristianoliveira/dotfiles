@@ -1,0 +1,1 @@
+synclient VertScrollDelta=-58
