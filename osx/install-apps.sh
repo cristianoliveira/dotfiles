@@ -4,6 +4,12 @@ command -v brew > /dev/null || (echo; echo ">> Homebrew" && ruby -e "$(curl -fsS
 
 brew tap Homebrew/bundle
 
+echo; echo ">> Setting the right grants for apps"
+sudo chown -R `whoami`:admin /usr/local/bin
+sudo chown -R `whoami`:admin /usr/local/share
+
+brew link gdbm xz pcre
+
 echo; echo ">> Installing Apps"
 brew bundle --verbose
 
