@@ -35,6 +35,7 @@ cask 'the-unarchiver'
 cask 'transmission'
 cask 'vlc'
 cask 'whatsapp'
+cask 'franz'
 
 # Install fonts
 cask 'font-sauce-code-powerline'
@@ -78,7 +79,7 @@ brew 'zsh-completions'
 brew 'zsh-autosuggestions'
 brew 'zsh-history-substring-search'
 brew 'zsh-syntax-highlighting'
-brew 'fastd'
+brew 'fasd'
 
 # Install neovim
 tap 'neovim/neovim'
