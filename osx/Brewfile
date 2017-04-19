@@ -36,6 +36,8 @@ cask 'transmission'
 cask 'vlc'
 cask 'whatsapp'
 cask 'franz'
+cask 'vagrant'
+cask 'virtualbox'
 
 # Install fonts
 cask 'font-sauce-code-powerline'
