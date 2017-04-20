@@ -108,3 +108,4 @@ for alias_file ($HOME/.dotfiles/zsh/aliases/*.zsh) source $alias_file
 for settings_file ($HOME/.dotfiles/zsh/settings/*.zsh) source $settings_file
 for func_files ($HOME/.dotfiles/zsh/func/*.zsh) source $func_files
 
+export PATH="$HOME/.rbenv/bin:$PATH"
