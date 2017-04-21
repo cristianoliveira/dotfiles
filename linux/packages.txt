@@ -1370,6 +1370,7 @@ x11-xserver-utils
 xauth
 xbitmaps
 xbrlapi
+xcape
 xcursor-themes
 xdg-user-dirs
 xdg-user-dirs-gtk
