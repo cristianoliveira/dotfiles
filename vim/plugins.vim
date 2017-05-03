@@ -59,6 +59,9 @@ Plugin 'tpope/vim-rails'
 " Javascript
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
+Plugin 'epilande/vim-es2015-snippets'
+Plugin 'epilande/vim-react-snippets'
+Plugin 'SirVer/ultisnips'
 
 " Rust
 Plugin 'rust-lang/rust.vim'
