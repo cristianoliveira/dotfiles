@@ -83,6 +83,7 @@ brew 'zsh-history-substring-search'
 brew 'zsh-syntax-highlighting'
 brew 'fasd'
 brew 'qt' # for capibara
+brew 'vim'
 
 # Install neovim
 tap 'neovim/neovim'
