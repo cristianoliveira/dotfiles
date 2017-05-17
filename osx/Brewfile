@@ -84,6 +84,7 @@ brew 'zsh-syntax-highlighting'
 brew 'fasd'
 brew 'qt' # for capibara
 brew 'vim'
+brew 'jq'
 
 # Install neovim
 tap 'neovim/neovim'
