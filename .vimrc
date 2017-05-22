@@ -63,5 +63,6 @@ command! BuffersRefresh :bufdo e
 
 so ~/.vim/plugins.vim
 so ~/.vim/settings.vim
+so ~/.vim/functions.vim
 
 colorscheme solarized
