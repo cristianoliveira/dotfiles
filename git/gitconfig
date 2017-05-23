@@ -87,6 +87,8 @@
   # tag
   t = tag -n                        # show tags with <n> lines of each tag message
 
+  changes-list =  git diff-tree --no-commit-id --name-only -r
+
   # svn helpers
   svnr = svn rebase
   svnd = svn dcommit

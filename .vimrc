@@ -59,7 +59,7 @@ set colorcolumn=80
 autocmd BufWritePre * :%s/\s\+$//e
 
 command! ReloadSettings :source ~/.vimrc
-command! BuffersRefresh :bufdo e
+command! RefreshAll :bufdo e
 
 so ~/.vim/plugins.vim
 so ~/.vim/settings.vim

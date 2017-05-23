@@ -55,6 +55,7 @@ Plugin 'rizzatti/dash.vim'
 " Languages
 " Ruby
 Plugin 'tpope/vim-rails'
+Plugin 'thoughtbot/vim-rspec'
 
 " Javascript
 Plugin 'pangloss/vim-javascript'
