@@ -3,6 +3,7 @@ alias :e='vim .'
 
 alias :edot='vim ~/.dotfiles'
 alias :zreload='source ~/.zshrc'
+alias :run='./run'
 
 alias G=grep
 

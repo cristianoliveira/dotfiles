@@ -11,6 +11,9 @@ function! GetVisual()
 endfunction
 
 nmap <leader>gg :Ag ""<Left>
+nmap <leader>agj :Ag --js ""<Left>
+nmap <leader>ags :Ag--scss  ""<Left>
+
 nmap <leader>gf :AgFile ""<Left>
 vnoremap <leader>gf :<C-U>execute "AgFile " . GetVisual()<CR>
 

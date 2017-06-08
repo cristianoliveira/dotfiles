@@ -113,3 +113,6 @@ for func_files ($HOME/.dotfiles/zsh/func/*.zsh) source $func_files
 export PATH="$HOME/.rbenv/bin:$PATH"
 # node
 export PATH="/usr/local/Cellar/node/7.9.0/libexec/npm/bin/:$PATH"
+
+# added by travis gem
+[ -f /Users/cristian.oliveira/.travis/travis.sh ] && source /Users/cristian.oliveira/.travis/travis.sh

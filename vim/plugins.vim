@@ -67,5 +67,8 @@ Plugin 'SirVer/ultisnips'
 " Rust
 Plugin 'rust-lang/rust.vim'
 
+" Golang
+Plugin 'fatih/vim-go'
+
 call vundle#end()            " required
 filetype plugin indent on
