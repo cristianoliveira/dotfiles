@@ -1,0 +1,13 @@
+name=$1
+workspace="$HOME/$name"
+
+tmux -2 new-session -d -s $name
+tmux send-keys "cd $workspace" C-m
+tmux send-keys 'vim' C-m
+
+tmux new-window -t $name
+tmux send-keys "cd $workspace" C-m
+
+tmux new-window -t $name
+tmux send-keys "cd $workspace" C-m
+tmux send-keys "./run"
