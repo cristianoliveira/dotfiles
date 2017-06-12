@@ -10,10 +10,8 @@ tap 'caskroom/versions'
 tap 'caskroom/fonts'
 
 # Install Apps
-cask 'airmail-beta'
 cask 'alfred'
 cask 'appcleaner'
-cask 'basecamp'
 cask 'charles'
 cask 'docker'
 cask 'dropbox'
@@ -35,9 +33,9 @@ cask 'the-unarchiver'
 cask 'transmission'
 cask 'vlc'
 cask 'whatsapp'
-cask 'franz'
 cask 'vagrant'
 cask 'virtualbox'
+cask 'tigervpn'
 
 # Install fonts
 cask 'font-sauce-code-powerline'
