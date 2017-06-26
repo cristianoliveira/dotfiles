@@ -6,7 +6,7 @@ let g:NERDTreeMapChangeRoot =  "`"
 let NERDTreeMinimalUI=1
 let NERDTreeDirArrows = 1
 let NERDTreeQuitOnOpen = 1
-let NERDTreeIgnore=['\.pyc$', '\~$']
+let NERDTreeIgnore=['\.pyc$', '\~$', 'node_modules']
 let NERDTreeShowLineNumbers = 1
 let g:NERDTreeWinSize = 40
 
