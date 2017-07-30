@@ -62,6 +62,7 @@ Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
 Plugin 'epilande/vim-es2015-snippets'
 Plugin 'epilande/vim-react-snippets'
+Plugin 'cristianoliveira/vim-react-html-snippets'
 Plugin 'SirVer/ultisnips'
 
 " Rust
