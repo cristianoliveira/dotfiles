@@ -1,3 +1,5 @@
+sh setup.sh
+
 cd osx
 
 echo "Installing apps for osx"

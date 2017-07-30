@@ -1,0 +1,5 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =3
+let g:netrw_dirhist_1='/Users/cristian.oliveira/work/movinga/movinga-apps/movinga-react-bf/src/components/common'
+let g:netrw_dirhist_2='/Users/cristian.oliveira/work/movinga/movinga-apps/movinga-react-bf/src/components'
+let g:netrw_dirhist_3='/Users/cristian.oliveira/work/movinga/movinga-apps/movinga-react-bf/src/components/common'
