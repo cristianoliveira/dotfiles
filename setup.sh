@@ -1,10 +1,10 @@
 echo "Add all symbolic links..."
-cp ~/.tmux.conf  ~/old-tmux.conf
-cp ~/.vimrc ~/old-vimrc
-cp ~/.zshrc ~/old-zshrc
-cp ~/.vim ~/old-vim
-cp ~/.gitignore ~/old-gitignore
-cp ~/.ctags ~/old-ctags
+mv ~/.tmux.conf  ~/old-tmux.conf
+mv ~/.vimrc ~/old-vimrc
+mv ~/.zshrc ~/old-zshrc
+mv ~/.vim ~/old-vim
+mv ~/.gitignore ~/old-gitignore
+mv ~/.ctags ~/old-ctags
 
 ln -s ~/.dotfiles/tmux/tmux.conf ~/.tmux.conf
 ln -s ~/.dotfiles/vim/vimrc ~/.vimrc
@@ -21,8 +21,7 @@ git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 vim +PluginInstall +qall
 
 echo "Installing rbenv"
-git clone https://github.com/rbenv/rbenv.git rbenv
-ln -s ~/.dotfiles/rbenv ~/.rbenv
+git clone https://github.com/rbenv/rbenv.git ~/.rbenv
 eval "$(~/.rbenv/bin/rbenv init -)"
 
 echo "dotfiles executed."
