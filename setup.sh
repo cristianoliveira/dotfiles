@@ -27,6 +27,8 @@ echo "Installing rbenv"
 git clone https://github.com/rbenv/rbenv.git ~/.rbenv
 eval "$(~/.rbenv/bin/rbenv init -)"
 
-echo "dotfiles executed."
+echo "Installing nvm"
+curl https://raw.githubusercontent.com/creationix/nvm/v0.11.1/install.sh | bash
+
+echo "Dotfiles has been executed."
 echo "Installed: zsh, vim and tmux"
-echo "Configured."
