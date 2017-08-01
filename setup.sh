@@ -14,6 +14,9 @@ ln -s ~/.dotfiles/git/gitconfig ~/.gitconfig
 ln -s ~/.dotfiles/git/gitignore ~/.gitignore
 ln -s ~/.dotfiles/ctags ~/.ctags
 
+echo "Istalling tmux-setup helper"
+ln -s ~/tmux/tmux-setup /usr/local/bin/tmux-setup
+
 echo "Installing zsh"
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" &
 
