@@ -67,4 +67,7 @@ alias gchb='git checkout -b'
 alias gch='git checkout'
 alias greset!='git reset --hard origin/master'
 alias gchm='git checkout master'
+
+# Helpers
 alias gwip='git add . && git commit -m "WIP"'
+alias goverride='git push origin +$(git branch | grep \* | cut -d ' ' -f2)'
