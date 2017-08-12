@@ -1,12 +1,8 @@
 [Desktop Entry]
-Version=1.0
-Encoding=UTF-8
 Name=Script
 Type=Application
 Exec=/usr/local/share/onlogin.sh
-Icon=
-Terminal=false
-StartupNotify=false
+Terminal=true
+StartupNotify=true
+Icon=gnome-do
 Hidden=false
-GenericName=
-GenericName[en_US]=
