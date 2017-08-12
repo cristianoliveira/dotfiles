@@ -2,5 +2,5 @@ sh setup.sh
 
 cd linux
 
-echo "Installing packages"
-sh ./install-packages.sh
+echo "Setup linux machine"
+sh ./setup.sh
