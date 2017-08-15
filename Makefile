@@ -1,4 +1,4 @@
-.PHONY: setup
+.PHONY: setup osx linux
 
 setup:
 	sh ./setup.sh
