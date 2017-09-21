@@ -1,2 +1,2 @@
-alias gorm='go run main.go'
-alias got='go test'
+alias grun='go run main.go'
+alias gtest='go test'

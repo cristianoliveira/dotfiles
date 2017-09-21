@@ -56,7 +56,7 @@ set backspace=indent,eol,start
 set colorcolumn=80
 
 " Makes aliases visible to vim :! command
-set shellcmdflag=-ic
+" set shellcmdflag=-ic
 
 " Remove trailing whitespace on save
 autocmd BufWritePre * :%s/\s\+$//e

@@ -50,6 +50,8 @@ map <Space>e <Plug>CamelCaseMotion_e
 nmap <Leader>ob :vert sb
 nmap <c-\> :Commentary<CR>
 vmap <c-\> :Commentary<CR>
+nmap <c-e> :e.<CR>
+vmap <c-e> :e.<CR>
 
 " Make 0 go to the first character rather than the beginning
 " of the line. When we're programming, we're almost always
