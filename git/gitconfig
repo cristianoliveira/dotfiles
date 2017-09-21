@@ -111,11 +111,12 @@
 [push]
   # 'git push' will push the current branch to its tracking branch
   # the usual default is to push all branches
-  default = upstream
+	default = current
 [core]
   autocrlf = false
 	editor = vim
 	excludesfile = ~/.gitignore
+	pager = diff-so-fancy | less --tabs=4 -RFX
 [advice]
   statusHints = false
 [diff]
