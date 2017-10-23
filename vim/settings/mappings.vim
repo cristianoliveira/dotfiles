@@ -99,5 +99,8 @@ nmap <Leader>rr :%s/<C-r>///g<left><left>
 vmap <Leader>rr :s/<C-r>///g<left><left>
 vnoremap <Leader>// y/<C-R>"<CR>
 
-:nnoremap <Leader>bn :bnext<CR>
-:nnoremap <Leader>bp :bprevious<CR>
+nnoremap <Leader>bn :bnext<CR>
+nnoremap <Leader>bp :bprevious<CR>
+
+noremap <silent> <leader>ns :vsplit<CR>:LightTree<CR>
+noremap <silent> <leader>nt :LightTree<CR>

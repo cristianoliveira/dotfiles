@@ -1,6 +1,6 @@
 " Make nerdtree look nice
 let NERDTreeMinimalUI = 1
-nmap <Leader>] :NERDTreeTabsToggle<CR>
+" nmap <Leader>] :NERDTreeTabsToggle<CR>
 nnoremap <Space>c :NERDTreeCWD<CR>
 let g:NERDTreeMapChangeRoot =  "`"
 let NERDTreeMinimalUI=1

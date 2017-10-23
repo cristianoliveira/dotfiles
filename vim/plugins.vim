@@ -42,7 +42,8 @@ Plugin 'airblade/vim-gitgutter'
 
 " Navigation open file directs on line by `:e ./spec/test_spec.rb:16`
 Plugin 'kopischke/vim-fetch'
-Plugin 'scrooloose/nerdtree'
+" Plugin 'scrooloose/nerdtree'
+Plugin 'juanibiapina/vim-lighttree'
 Plugin 'jistr/vim-nerdtree-tabs'
 
 " Search plugins
