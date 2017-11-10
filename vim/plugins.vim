@@ -47,7 +47,7 @@ Plugin 'juanibiapina/vim-lighttree'
 Plugin 'jistr/vim-nerdtree-tabs'
 
 " Search plugins
-Plugin 'rking/ag.vim'
+Plugin 'mileszs/ack.vim'
 Plugin 'ctrlpvim/ctrlp.vim'
 
 " Documentation

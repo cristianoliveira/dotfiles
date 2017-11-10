@@ -1,2 +1,2 @@
 alias grun='go run main.go'
-alias gtest='go test'
+alias gtest='go test ./...'

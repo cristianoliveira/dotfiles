@@ -10,19 +10,19 @@ function! GetVisual()
   return selection
 endfunction
 
-nmap <leader>gg :Ag ""<Left>
-nmap <leader>agj :Ag --js ""<Left>
-nmap <leader>ags :Ag--scss  ""<Left>
+nmap <leader>gg :Ack ""<Left>
+nmap <leader>agj :Ack --js ""<Left>
+nmap <leader>ags :Ack--scss  ""<Left>
 
 nmap <leader>gf :AgFile ""<Left>
 vnoremap <leader>gf :<C-U>execute "AgFile " . GetVisual()<CR>
 
 "grep the current word using K (mnemonic Kurrent)
-nnoremap <leader>k :Ag <cword><CR>
+nnoremap <leader>k :Ack <cword><CR>
 nnoremap <leader>o :e <cword><CR>
 
 "grep visual selection
-vnoremap <leader>k :<C-U>execute "Ag " . GetVisual()<CR>
+vnoremap <leader>k :<C-U>execute "Ack " . GetVisual()<CR>
 
 "grep current word up to the next exclamation point using ,K
 nnoremap ,K viwf!:<C-U>execute "Ag " . GetVisual()<CR>

@@ -84,6 +84,8 @@ brew 'fasd'
 brew 'qt' # for capibara
 brew 'vim'
 brew 'jq'
+brew 'jq'
+brew 'ripgrep'
 
 # Install neovim
 tap 'neovim/neovim'

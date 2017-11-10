@@ -60,6 +60,10 @@ set colorcolumn=80
 
 " Remove trailing whitespace on save
 autocmd BufWritePre * :%s/\s\+$//e
+set autowriteall
+set autoread
+set hidden
+au FocusLost * silent! wa
 
 command! ReloadSettings :source ~/.vimrc
 command! RefreshAll :bufdo e
