@@ -1,0 +1,1 @@
+/home/cristianoliveira/.dotfiles/vim
