@@ -59,10 +59,11 @@ Plugin 'tpope/vim-rails'
 Plugin 'thoughtbot/vim-rspec'
 
 " Javascript
-Plugin 'pangloss/vim-javascript'
-Plugin 'mxw/vim-jsx'
+" Plugin 'pangloss/vim-javascript'
+" Plugin 'mxw/vim-jsx'
 Plugin 'epilande/vim-es2015-snippets'
 Plugin 'epilande/vim-react-snippets'
+Plugin 'joaohkfaria/vim-jest-snippets'
 Plugin 'cristianoliveira/vim-react-html-snippets'
 Plugin 'SirVer/ultisnips'
 
