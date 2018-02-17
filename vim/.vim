@@ -1,1 +1,1 @@
-/home/cristianoliveira/.dotfiles/vim
+/Users/cristianoliveira/.dotfiles/vim

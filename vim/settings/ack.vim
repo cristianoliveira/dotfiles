@@ -1,4 +1,4 @@
-let g:ackprg = "rg --hidden --vimgrep -g '!.git'"
+let g:ackprg = "rg --vimgrep --no-heading"
 
 function! GetVisual()
   let reg_save = getreg('"')
@@ -13,11 +13,8 @@ function! GetVisual()
 endfunction
 
 nmap <leader>gg :Ack ""<Left>
-nmap <leader>agj :Ack --js ""<Left>
-nmap <leader>ags :Ack--scss  ""<Left>
-
-nmap <leader>gf :AgFile ""<Left>
-vnoremap <leader>gf :<C-U>execute "AgFile " . GetVisual()<CR>
+nmap <leader>agj :Ack js ""<Left>
+nmap <leader>ags :Ack css  ""<Left>
 
 "grep the current word using K (mnemonic Kurrent)
 nnoremap <leader>k :Ack <cword><CR>
@@ -33,5 +30,5 @@ nnoremap ,K viwf!:<C-U>execute "Ag " . GetVisual()<CR>
 " open up a grep line, with a quote started for the search
 
 "Grep for usages of the current file
-nnoremap ,gcf :exec "Ag " . expand("%:t:r")<CR>
+nnoremap <leader>gcf :exec "Ack " . expand("%:t:r")<CR>
 

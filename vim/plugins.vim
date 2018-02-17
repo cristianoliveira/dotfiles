@@ -18,23 +18,27 @@ Plugin 'bling/vim-airline'
 " Autocomplete
 Plugin 'ConradIrwin/vim-bracketed-paste'
 Plugin 'tpope/vim-repeat.git'
+Plugin 'jiangmiao/auto-pairs'
+
+" Snippets
+Plugin 'garbas/vim-snipmate'
+Plugin 'honza/vim-snippets'
+Plugin 'epilande/vim-es2015-snippets'
+Plugin 'epilande/vim-react-snippets'
+Plugin 'cristianoliveira/vim-react-html-snippets'
 
 " Ctags integration
-Plugin 'craigemery/vim-autotag'
+" Plugin 'craigemery/vim-autotag'
 
 " Edition plugins
 Plugin 'kristijanhusak/vim-multiple-cursors'
 
 " Syntatic and Linter
-Plugin 'vim-syntastic/syntastic'
-Plugin 'tpope/vim-endwise'
-Plugin 'garbas/vim-snipmate'
-Plugin 'honza/vim-snippets'
+Plugin 'w0rp/ale' " Plugin 'vim-syntastic/syntastic'
 Plugin 'joom/vim-commentary'
 Plugin 'tpope/vim-surround'
-Plugin 'jiangmiao/auto-pairs'
 Plugin 'valloric/MatchTagAlways'
-
+Plugin 'prettier/vim-prettier', { 'do': 'yarn install' }
 
 " Git integration
 Plugin 'tpope/vim-fugitive'
@@ -42,9 +46,7 @@ Plugin 'airblade/vim-gitgutter'
 
 " Navigation open file directs on line by `:e ./spec/test_spec.rb:16`
 Plugin 'kopischke/vim-fetch'
-" Plugin 'scrooloose/nerdtree'
-Plugin 'juanibiapina/vim-lighttree'
-Plugin 'jistr/vim-nerdtree-tabs'
+Plugin 'juanibiapina/vim-lighttree' " Plugin 'scrooloose/nerdtree'
 
 " Search plugins
 Plugin 'mileszs/ack.vim'
@@ -57,15 +59,7 @@ Plugin 'rizzatti/dash.vim'
 " Ruby
 Plugin 'tpope/vim-rails'
 Plugin 'thoughtbot/vim-rspec'
-
-" Javascript
-" Plugin 'pangloss/vim-javascript'
-" Plugin 'mxw/vim-jsx'
-Plugin 'epilande/vim-es2015-snippets'
-Plugin 'epilande/vim-react-snippets'
-Plugin 'joaohkfaria/vim-jest-snippets'
-Plugin 'cristianoliveira/vim-react-html-snippets'
-Plugin 'SirVer/ultisnips'
+Plugin 'tpope/vim-endwise'
 
 " Rust
 Plugin 'rust-lang/rust.vim'

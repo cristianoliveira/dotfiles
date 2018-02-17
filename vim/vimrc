@@ -42,6 +42,7 @@ set undolevels=1000
 set noswapfile
 set nobackup
 set number
+set relativenumber
 set linespace=3
 
 let g:windowswap_map_keys = 0 "prevent default bindings
@@ -52,8 +53,7 @@ set t_Co=256
 " Delete works on insert mode
 set backspace=indent,eol,start
 
-" 80 columns
-set colorcolumn=80
+set colorcolumn=100
 
 " Makes aliases visible to vim :! command
 " set shellcmdflag=-ic
@@ -65,11 +65,9 @@ set autoread
 set hidden
 au FocusLost * silent! wa
 
-command! ReloadSettings :source ~/.vimrc
-command! RefreshAll :bufdo e
-
 so ~/.vim/plugins.vim
 so ~/.vim/settings.vim
 so ~/.vim/functions.vim
+so ~/.vim/commands.vim
 
 colorscheme solarized
