@@ -21,7 +21,7 @@ Plugin 'tpope/vim-repeat.git'
 Plugin 'jiangmiao/auto-pairs'
 
 " Snippets
-Plugin 'garbas/vim-snipmate'
+Plugin 'sirver/UltiSnips'
 Plugin 'honza/vim-snippets'
 Plugin 'epilande/vim-es2015-snippets'
 Plugin 'epilande/vim-react-snippets'
