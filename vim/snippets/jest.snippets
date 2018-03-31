@@ -1,0 +1,55 @@
+snippet impr "Import react (js)"
+	import React from 'react'; $0
+
+snippet imps "Import shallow enzyme (js)"
+	import { shallow } from 'enzyme'; $0
+
+snippet impm "Import mount enzyme (js)"
+	import { mount } from 'enzyme'; $0
+
+snippet impp "Import proptypes (js)"
+	import PropTypes from 'prop-types'; $0
+
+snippet dess "Describe (js)"
+	describe('${1:description}', () => {
+		$0
+	});
+
+snippet itt "it (js)"
+	it('${1:description}', () => {
+		$0
+	});
+
+snippet beff "before each (js)"
+	beforeEach(() => {
+		$0
+	});
+
+snippet aftt "after each (js)"
+	afterEach(() => {
+		$0
+	});
+
+snippet befaa "before all (js)"
+	beforeAll(() => {
+		$0
+	});
+
+snippet aftaa "after all (js)"
+	afterAll(() => {
+		$0
+	});
+
+snippet tsha "shallow test (js)"
+  const props = {};
+
+  const component = <${1:component} {...props}/>
+
+  expect(component).toEqual('')
+
+snippet tmou "mount test (js)"
+  const props = {};
+
+  const component = <${1:component} {...props}/>
+
+  expect(component).toEqual('')
