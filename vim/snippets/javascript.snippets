@@ -1,45 +1,3 @@
-snippet impr "Import react (js)"
-	import React from 'react'; $0
-
-snippet imps "Import shallow enzyme (js)"
-	import { shallow } from 'enzyme'; $0
-
-snippet impm "Import mount enzyme (js)"
-	import { mount } from 'enzyme'; $0
-
-snippet impp "Import proptypes (js)"
-	import PropTypes from 'prop-types'; $0
-
-snippet dess "Describe (js)"
-	describe('${1:description}', () => {
-		$0
-	});
-
-snippet itt "it (js)"
-	it('${1:description}', () => {
-		$0
-	});
-
-snippet beff "before each (js)"
-	beforeEach(() => {
-		$0
-	});
-
-snippet aftt "after each (js)"
-	afterEach(() => {
-		$0
-	});
-
-snippet befaa "before all (js)"
-	beforeAll(() => {
-		$0
-	});
-
-snippet aftaa "after all (js)"
-	afterAll(() => {
-		$0
-	});
-
 # Elements
 snippet a
 	<a href="${1:#}">${0:$1}</a>
@@ -99,8 +57,7 @@ snippet aside#
 snippet audio
 	<audio src="${1}>${0}</audio>
 snippet b
-	<b>${0}</b>
-snippet base
+	<b>${0}</b> snippet base
 	<base href="${1}" target="${0}" />
 snippet bdi
 	<bdi>${0}</bdo>
@@ -778,4 +735,76 @@ snippet wbr
 	<wbr />
 snippet viewport
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+## JEST
+snippet impr "Import react (js)"
+	import React from 'react'; $0
+
+snippet imps "Import shallow enzyme (js)"
+	import { shallow } from 'enzyme'; $0
+
+snippet impm "Import mount enzyme (js)"
+	import { mount } from 'enzyme'; $0
+
+snippet impp "Import proptypes (js)"
+	import PropTypes from 'prop-types'; $0
+
+snippet dess "Describe (js)"
+	describe('${1:description}', () => {
+		$0
+	});
+
+snippet itt "it (js)"
+	it('${1:description}', () => {
+		$0
+	});
+
+snippet beff "before each (js)"
+	beforeEach(() => {
+		$0
+	});
+
+snippet aftt "after each (js)"
+	afterEach(() => {
+		$0
+	});
+
+snippet befaa "before all (js)"
+	beforeAll(() => {
+		$0
+	});
+
+snippet aftaa "after all (js)"
+	afterAll(() => {
+		$0
+	});
+
+snippet trc "test react component (js)"
+	import React from 'react';
+	import { shallow } from 'enzyme';
+
+	import $1 from './${2:$1}';
+
+	describe('${3:$1}', () => {
+		const defaultProps = {};
+
+		it('$4', () => {
+		});
+	});
+
+snippet tsha "test shallow (js)"
+	const props = {};
+
+	const component = shallow(<${1:component} {...props}/>)
+
+	expect(component).toEqual('')
+
+snippet tmou "test mount (js)"
+	const props = {};
+
+	const component = mount(<${1:component} {...props}/>)
+
+	expect(component).toEqual('')
+
 
