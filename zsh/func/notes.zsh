@@ -1,17 +1,18 @@
 function notepath(){
   notedate=$(date +"%Y-%m-%d")
-  echo "$HOME/notes/$notedate.md"
+  echo "$HOME/notes/$notedate.txt"
 }
 
 function noteit() {
-  echo "__________________" >> "$notepath"
-  echo "$notepath"
+  path=notepath
+  echo "__________________" >> "$path"
+  echo "$path"
   if [ ! -z "$1" ]; then
-    echo "$@" >> "$notepath"
+    echo "$@" >> "$path"
   else
-    cat - >> "$notepath"
+    cat "$path"
   fi
-  echo "__________________" >> "$notepath"
+  echo "__________________" >> "$path"
 }
 
 function notedit() {

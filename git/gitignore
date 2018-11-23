@@ -20,3 +20,9 @@ dump.rdb
 
 # osx
 .DS_Store
+
+.ergo
+
+_scripts/
+
+.watch.yaml

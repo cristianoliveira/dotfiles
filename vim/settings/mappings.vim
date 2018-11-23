@@ -104,3 +104,8 @@ nnoremap <Leader>bp :bprevious<CR>
 
 noremap <silent> <leader>ns :vsplit<CR>:LightTree<CR>
 noremap <silent> <leader>nt :LightTree<CR>
+
+noremap <silent> <leader>os :RelatedSpecVOpen<CR>
+noremap <silent> <leader>vs :RelatedSpecVOpen<CR>
+
+noremap <silent> <leader>nf :set nofoldenable<CR>

@@ -1,7 +1,7 @@
 if executable('rg')
   set grepprg=rg\ --color=never
   let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
-  let g:ctrlp_use_caching = 0
+  " let g:ctrlp_use_caching = 0
 endif
 
 " if executable('ag')
@@ -36,6 +36,7 @@ let g:ctrlp_switch_buffer = 0
 
 " Cmd-Shift-P to clear the cache
 nnoremap <silent> <D-P> :ClearCtrlPCache<cr>
+nnoremap <D-B> :CtrlPBuffer
 
 " Idea from : http://www.charlietanksley.net/blog/blog/2011/10/18/vim-navigation-with-lustyexplorer-and-lustyjuggler/
 " Open CtrlP starting from a particular path, making it much
@@ -54,3 +55,5 @@ map <leader>fv :CtrlP app/views<CR>
 map <leader>fj :CtrlP app/assets/javascripts<CR>
 map <leader>fs :CtrlP spec<CR>
 
+nmap <c-b> :CtrlPBuffer<CR>
+vmap <c-b> :CtrlPBuffer<CR>

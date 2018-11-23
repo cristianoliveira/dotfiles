@@ -6,22 +6,19 @@ set nocompatible
 filetype off
 
 set foldmethod=indent
-set foldnestmax=5
+set foldnestmax=3
 set nofoldenable
 
 " Breaks line when it doesn't feet on pane
 " set linebreak
 
-set number
-
 syntax on
 set mouse=a
-
-filetype plugin indent on
 
 set encoding=utf-8
 set fileencodings=utf-8
 
+set nowrap
 set autoindent
 set smartindent
 set cindent
@@ -31,7 +28,7 @@ set smarttab
 set shiftwidth=2
 set softtabstop=2
 set tabstop=2
-set wildignore=*/.git/*,*/tmp/*,*.swp,*.pyc
+set wildignore=*/.git/*,*/tmp/*,*.swp,*.pyc,*/node_modules/*
 set ignorecase
 set smartcase
 set hlsearch
@@ -42,8 +39,10 @@ set undolevels=1000
 set noswapfile
 set nobackup
 set number
-set relativenumber
+" set relativenumber
 set linespace=3
+set visualbell           " don't beep
+set noerrorbells         " don't beep
 
 let g:windowswap_map_keys = 0 "prevent default bindings
 
@@ -53,7 +52,7 @@ set t_Co=256
 " Delete works on insert mode
 set backspace=indent,eol,start
 
-set colorcolumn=100
+set colorcolumn=80
 
 " Makes aliases visible to vim :! command
 " set shellcmdflag=-ic
@@ -66,8 +65,8 @@ set hidden
 au FocusLost * silent! wa
 
 so ~/.vim/plugins.vim
-so ~/.vim/settings.vim
 so ~/.vim/functions.vim
 so ~/.vim/commands.vim
+so ~/.vim/settings.vim
 
 colorscheme solarized

@@ -6,3 +6,6 @@ alias :ys='yarn start'
 alias :YS='yarn start'
 alias :yt='yarn test'
 alias :YS='yarn test'
+
+alias ydb='yarn deploy-beta'
+alias ydt='yarn deploy-theta'

@@ -3,10 +3,10 @@ call vundle#begin()
 Plugin 'gmarik/vundle'
 
 Plugin 'MarcWeber/vim-addon-mw-utils'
-Plugin 'tomtom/tlib_vim'
-Plugin 'wesQ3/vim-windowswap'
-Plugin 'ervandew/supertab'
-Plugin 'gcmt/wildfire.vim'
+" Plugin 'romtom/tlib_vim'
+" Plugin 'wesQ3/vim-windowswap'
+" Plugin 'ervandew/supertab'
+" Plugin 'gcmt/wildfire.vim'
 Plugin 'Yggdroot/indentLine'
 
 " Appearance
@@ -26,6 +26,7 @@ Plugin 'honza/vim-snippets'
 Plugin 'epilande/vim-es2015-snippets'
 Plugin 'epilande/vim-react-snippets'
 Plugin 'cristianoliveira/vim-react-html-snippets'
+Plugin 'cristianoliveira/vim-circuit-ui-snippets'
 
 " Ctags integration
 " Plugin 'craigemery/vim-autotag'
@@ -37,12 +38,13 @@ Plugin 'kristijanhusak/vim-multiple-cursors'
 Plugin 'w0rp/ale' " Plugin 'vim-syntastic/syntastic'
 Plugin 'joom/vim-commentary'
 Plugin 'tpope/vim-surround'
-Plugin 'valloric/MatchTagAlways'
+" Plugin 'valloric/MatchTagAlways'
 Plugin 'prettier/vim-prettier', { 'do': 'yarn install' }
 
 " Git integration
 Plugin 'tpope/vim-fugitive'
 Plugin 'airblade/vim-gitgutter'
+Plugin 'ruanyl/vim-gh-line' " Open github with line you are in vim
 
 " Navigation open file directs on line by `:e ./spec/test_spec.rb:16`
 Plugin 'kopischke/vim-fetch'

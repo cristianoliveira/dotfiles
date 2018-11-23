@@ -43,13 +43,40 @@ snippet aftaa "after all (js)"
 snippet tsha "shallow test (js)"
   const props = {};
 
-  const component = <${1:component} {...props}/>
+  const component = shallow(<${1:component} {...props}/>)
 
   expect(component).toEqual('')
 
 snippet tmou "mount test (js)"
   const props = {};
 
-  const component = <${1:component} {...props}/>
+  const component = mount(<${1:component} {...props}/>)
 
   expect(component).toEqual('')
+
+snippet trc "test react component (js)"
+	import React from 'react';
+	import { shallow, mount } from 'enzyme';
+
+	import { $1 } from './${2:$1}';
+
+	describe('${3:$1}', () => {
+		const defaultProps = {};
+
+		it('$4', () => {
+			const props = {};
+
+			const component = mount(<${5:$1} {...props}/>)
+
+			expect(component).toEqual('')
+		});
+	});
+
+snippet cfds "component find data-selector"
+	component.find('[data-selector="${0}"]')
+
+snippet cffm "component find field name"
+	component.find('[name="${0}"]')
+
+snippet etms "expect to match snapshot"
+	expect(component).toMatchSnapshot()
