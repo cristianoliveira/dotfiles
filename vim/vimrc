@@ -38,9 +38,12 @@ set history=1000
 set undolevels=1000
 set noswapfile
 set nobackup
+
 set number
-" set relativenumber
+set relativenumber
+set cursorline
 set linespace=3
+
 set visualbell           " don't beep
 set noerrorbells         " don't beep
 
@@ -53,6 +56,18 @@ set t_Co=256
 set backspace=indent,eol,start
 
 set colorcolumn=80
+
+" Performance tricks
+set ttyfast
+set lazyredraw
+
+set synmaxcol=128
+syntax sync minlines=256
+
+set regexpengine=1
+set noshowcmd
+
+let g:netrw_dirhistmax = 0
 
 " Makes aliases visible to vim :! command
 " set shellcmdflag=-ic

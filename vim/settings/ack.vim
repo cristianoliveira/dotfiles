@@ -33,3 +33,5 @@ nnoremap <leader>gcf :exec "Ack " . expand("%:t:r")<CR>
 nmap <leader>agj :Ack! js ""<Left>
 nmap <leader>ags :Ack! css  ""<Left>
 nmap <leader>agr :Ack! rb ""<Left>
+
+nmap <leader>jk :Ack! js <cword><CR>

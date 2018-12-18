@@ -1,9 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =7
-let g:netrw_dirhist_1='/Users/cristian.oliveira/work/movinga/movinga-apps/movinga-react-bf/src/components/common'
-let g:netrw_dirhist_2='/Users/cristian.oliveira/work/movinga/movinga-apps/movinga-react-bf/src/components'
-let g:netrw_dirhist_3='/Users/cristian.oliveira/work/movinga/movinga-apps/movinga-react-bf/src/components/common'
-let g:netrw_dirhist_4='/Users/cristianoliveira/other/jest-tdd-workshop/examples'
-let g:netrw_dirhist_5='/Users/cristianoliveira/work/ze-dashboard'
-let g:netrw_dirhist_6='/Users/cristianoliveira/work/ze-dashboard/src'
-let g:netrw_dirhist_7='/Users/cristianoliveira/work/ze-dashboard/src/pages/Shop/Addresses'
