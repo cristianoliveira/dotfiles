@@ -1,5 +1,5 @@
 # Add versions
-tap 'homebrew/versions'
+# tap 'homebrew/versions'
 
 # Add services
 tap 'homebrew/services'
@@ -16,7 +16,7 @@ cask 'charles'
 cask 'docker'
 cask 'firefox'
 cask 'google-chrome'
-cask 'google-drive'
+cask 'google-drive-file-stream'
 cask 'google-hangouts'
 cask 'harvest'
 cask 'iterm2-beta'
@@ -85,6 +85,7 @@ brew 'vim'
 brew 'jq'
 brew 'ripgrep'
 brew 'diff-so-fancy'
+brew 'tunnelblick'
 
 # Install neovim
 # tap 'neovim/neovim'
