@@ -118,8 +118,12 @@ for alias_file ($HOME/.dotfiles/zsh/aliases/*.zsh) source $alias_file
 for settings_file ($HOME/.dotfiles/zsh/settings/*.zsh) source $settings_file
 for func_files ($HOME/.dotfiles/zsh/func/*.zsh) source $func_files
 
-export SUMUP_CONFIG_DIR="/Users/cristianoliveira/work/ze-dashboard"
-export JENKINS_USER_TOKEN=cristian.oliveiradarosa@sumup.com:7d63710dc0656cb607b2fea1309586e9
+if [ ! -e "./.env" ]; then
+  echo "For env variables create a file in ~/.env"
+else
+  echo "Loading env variables from ~/.env"
+  source .env
+fi
 
 # tabtab source for yarn package
 # uninstall by removing these lines or running `tabtab uninstall yarn`
