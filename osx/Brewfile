@@ -34,8 +34,9 @@ cask 'vlc'
 cask 'whatsapp'
 cask 'vagrant'
 cask 'virtualbox'
-cask 'tigervpn'
 cask 'telegram'
+# cask 'tigervpn'
+cask 'tunnelblick'
 
 # Install fonts
 cask 'font-sauce-code-powerline'
@@ -85,7 +86,6 @@ brew 'vim'
 brew 'jq'
 brew 'ripgrep'
 brew 'diff-so-fancy'
-brew 'tunnelblick'
 
 # Install neovim
 # tap 'neovim/neovim'
