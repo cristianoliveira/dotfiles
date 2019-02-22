@@ -820,3 +820,21 @@ snippet cffm "component find field name"
 
 snippet etms "expect to match snapshot"
 	expect(component).toMatchSnapshot()
+
+snippet cmbind "class method binding"
+	this.$1 = this.${2:$1}.bind(this)
+
+snippet rclass "class method binding"
+	class ${1:ClassName} extends React.Component {
+		constructor(props) {
+		  super(props)
+			this.state = {};
+		}
+
+		render() {
+			return (
+				${0:<div />}
+			);
+		}
+	}
+
