@@ -118,12 +118,8 @@ for alias_file ($HOME/.dotfiles/zsh/aliases/*.zsh) source $alias_file
 for settings_file ($HOME/.dotfiles/zsh/settings/*.zsh) source $settings_file
 for func_files ($HOME/.dotfiles/zsh/func/*.zsh) source $func_files
 
-if [ ! -e "./.env" ]; then
-  echo "For env variables create a file in ~/.env"
-else
-  echo "Loading env variables from ~/.env"
-  source .env
-fi
+echo "Loading env variables from ~/.env"
+. ~/.env
 
 # tabtab source for yarn package
 # uninstall by removing these lines or running `tabtab uninstall yarn`
