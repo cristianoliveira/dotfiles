@@ -10,7 +10,8 @@ set foldnestmax=3
 set nofoldenable
 
 " Breaks line when it doesn't feet on pane
-" set linebreak
+set linebreak
+set wrap
 
 syntax on
 set mouse=a
