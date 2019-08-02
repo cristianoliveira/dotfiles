@@ -9,7 +9,7 @@ It's just my dotfiles. :sunglasses: :sunglasses: :package:
 
   And a lot of pre installed apps. See in: `osx/Brewfile` or `linux/packages.txt`
    
-  I usally work with:
+  I work with:
   
   - Javascript and Reactjs
   - Rust
