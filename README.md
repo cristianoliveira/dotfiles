@@ -1,5 +1,5 @@
 # dotfiles
-It's just my dotfiles. :sunglasses: :sunglasses: :package:
+My dotfiles for setting up a new dev environment. :package: :sunglasses: :sunglasses: :package:
 
 # What do I use?
 
