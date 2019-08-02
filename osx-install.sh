@@ -14,3 +14,6 @@ sh $HOME/.dotfiles/osx/configure-osx.sh squall
 
 echo "\n\n\n\n\n----------------------Setup-------------------\n\n\n\n\n"
 sh $HOME/.dotfiles/setup.sh
+
+echo "\n\n\n\n\n----------------------Installing CLIs-------------------\n\n\n\n\n"
+ln -s $HOME/.dotfiles/osx/bin/notifyme /usr/local/bin/notifyme
