@@ -1,13 +1,21 @@
 # dotfiles
-Just my dotfiles. :sunglasses: :sunglasses: :package:
+It's just my dotfiles. :sunglasses: :sunglasses: :package:
 
-# What included?
+# What do I use?
 
   - ZSH (oh-my-zsh)
   - Vim 8
   - Tmux 2.5
 
   And a lot of pre installed apps. See in: `osx/Brewfile` or `linux/packages.txt`
+   
+  I usally work with:
+  
+  - Javascript and Reactjs
+  - Rust
+  - Ruby
+  - Python 
+  - Golang
 
 # Installing
 ```bash
