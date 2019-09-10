@@ -13,4 +13,5 @@ ${0} 'My long build command'
 
 TASK=${1?"${USAGE}"}
 
-osascript -e "display notification \"Your task $TASK is done!\" with title \"$TASK\""
+say "$TASK is finished"
+osascript -e "display notification \"Your task $TASK is done!\" with title \"$TASK\ finished""
