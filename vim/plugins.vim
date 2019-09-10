@@ -29,7 +29,9 @@ Plugin 'cristianoliveira/vim-react-html-snippets'
 Plugin 'cristianoliveira/vim-circuit-ui-snippets'
 
 " Ctags integration
-" Plugin 'craigemery/vim-autotag'
+Plugin 'craigemery/vim-autotag'
+" Plugin 'xolox/vim-easytags'
+" Plugin 'xolox/vim-misc'
 
 " Edition plugins
 Plugin 'kristijanhusak/vim-multiple-cursors'

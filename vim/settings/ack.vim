@@ -18,6 +18,7 @@ nmap <leader>gg :Ack! ""<Left>
 nnoremap <leader>k :Ack! <cword><CR>
 nnoremap <leader>o :e <cword><CR>
 
+
 "grep visual selection
 vnoremap <leader>k :<C-U>execute "Ack '" . GetVisual() "'"<CR>
 
