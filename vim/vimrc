@@ -19,7 +19,6 @@ set mouse=a
 set encoding=utf-8
 set fileencodings=utf-8
 
-set nowrap
 set autoindent
 set smartindent
 set cindent
@@ -42,7 +41,7 @@ set nobackup
 " set autochdir
 
 set number
-set relativenumber
+" set relativenumber
 set cursorline
 set linespace=3
 
