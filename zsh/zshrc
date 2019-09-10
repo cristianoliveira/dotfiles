@@ -121,6 +121,9 @@ for func_files ($HOME/.dotfiles/zsh/func/*.zsh) source $func_files
 echo "Loading env variables from ~/.env"
 . ~/.env
 
+echo "Loading local configs from ~/.custom_zshrc"
+. ~/.custom_zshrc
+
 # tabtab source for yarn package
 # uninstall by removing these lines or running `tabtab uninstall yarn`
 [[ -f /usr/local/lib/node_modules/yarn-completions/node_modules/tabtab/.completions/yarn.zsh ]] && . /usr/local/lib/node_modules/yarn-completions/node_modules/tabtab/.completions/yarn.zsh

@@ -78,8 +78,14 @@ alias gbl='git branch --sort=-committerdate| head -n 1'
 alias gpf='git push --force-with-lease'
 
 # Helpers
-alias gwip='git add . && git commit -m "WIP"'
+alias gwip='git add . && git commit -m "WIP" --no-verify'
 alias goverride='git push origin +$(git branch | grep \* | cut -d ' ' -f2)'
 alias gbh='git branch --sort=-committerdate | head -n'
 alias gclb='git branch --sort=-committerdate | head -n 1 | pbcopy'
 alias gdfb="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
+alias gclnb='git branch --merged | grep -v "\*" | xargs -n 1 git branch -d'
+alias gp!='git push --no-verify' # avoid prehooks
+alias gp!!='git push --no-verify --force-with-lease' # avoid prehooks and force
+alias gmlb='git merge `git branch --sort=-committerdate| head -n 1`'
+alias gdm='git diff origin/master'
+alias gllc='git log --format="%H" -n 1'
