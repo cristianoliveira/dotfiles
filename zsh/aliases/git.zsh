@@ -56,6 +56,7 @@ alias gpn='git push --no-verify' # avoid prehooks
 alias gnb='git nb' # new branch aka checkout -b
 alias grs='git reset'
 alias grsh='git reset --hard'
+alias grsom='git reset --hard origin/master'
 alias gcln='git clean'
 alias gcln='git clean -df'
 alias gclndfx='git clean -dfx'
