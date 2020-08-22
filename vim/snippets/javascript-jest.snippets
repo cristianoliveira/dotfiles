@@ -7,6 +7,9 @@ snippet imps "Import shallow enzyme (js)"
 snippet impm "Import mount enzyme (js)"
 	import { mount } from 'enzyme'; $0
 
+snippet imrt "Import render from testing library (js)"
+	import { render } from 'testing-library'; $0
+
 snippet impp "Import proptypes (js)"
 	import PropTypes from 'prop-types'; $0
 
@@ -54,9 +57,16 @@ snippet tmou "mount test (js)"
 
   expect(component).toEqual('')
 
+snippet tren "render testing (js)"
+	const props = {...defaultProps};
+
+	const wrapper = render(<${1:component} {...props}/>)
+
+	expect(wrapper).toEqual('')
+
 snippet trc "test react component (js)"
 	import React from 'react';
-	import { shallow, mount } from 'enzyme';
+	import { render } from 'testing-library';
 
 	import { $1 } from './${2:$1}';
 
@@ -64,13 +74,39 @@ snippet trc "test react component (js)"
 		const defaultProps = {};
 
 		it('$4', () => {
-			const props = {};
+			const props = {...defaultProps};
 
-			const component = mount(<${5:$1} {...props}/>)
+			const wrapper = render(<${5:$1} {...props}/>)
 
-			expect(component).toEqual('')
+			expect(wrapper).toEqual('')
 		});
 	});
+
+snippet tgc "test generic component (js)"
+	import { render } from 'testing-library';
+
+	import $1 from './${2:$1}';
+
+	describe('${3:$1}', () => {
+		const defaultProps = {};
+
+		it('$4', () => {
+			const props = {...defaultProps};
+
+			const wrapper = render(<${5:$1} {...props}/>)
+
+			expect(wrapper).toEqual('')
+		});
+	});
+
+snippet wfgt "wrapper get by text"
+	wrapper.getByText('${0}')
+
+snippet wfglt "wrapper get by label text"
+	wrapper.getByLabelText('${0}')
+
+snippet rspr "render and spread result"
+	const { container, getByText, getBy } = render(<${0} />)
 
 snippet cfds "component find data-selector"
 	component.find('[data-selector="${0}"]')
