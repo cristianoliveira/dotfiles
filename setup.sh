@@ -30,6 +30,9 @@ eval "$(~/.rbenv/bin/rbenv init -)"
 echo "Installing nvm"
 curl https://raw.githubusercontent.com/creationix/nvm/v0.11.1/install.sh | bash
 
+echo "Installing gvm"
+bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
+
 chsh -s /bin/zsh
 
 echo "Installing Rust with rustup"
