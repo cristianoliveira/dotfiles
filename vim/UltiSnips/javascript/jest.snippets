@@ -1,121 +1,155 @@
 snippet impr "Import react (js)"
 	import React from 'react'; $0
+endsnippet
 
 snippet imps "Import shallow enzyme (js)"
 	import { shallow } from 'enzyme'; $0
+endsnippet
 
 snippet impm "Import mount enzyme (js)"
 	import { mount } from 'enzyme'; $0
+endsnippet
 
 snippet imrt "Import render from testing library (js)"
 	import { render } from 'testing-library'; $0
+endsnippet
 
 snippet impp "Import proptypes (js)"
 	import PropTypes from 'prop-types'; $0
+endsnippet
 
 snippet dess "Describe (js)"
 	describe('${1:description}', () => {
 		$0
 	});
+endsnippet
 
 snippet itt "it (js)"
 	it('${1:description}', () => {
 		$0
 	});
+endsnippet
 
 snippet beff "before each (js)"
 	beforeEach(() => {
 		$0
 	});
+endsnippet
 
 snippet aftt "after each (js)"
 	afterEach(() => {
 		$0
 	});
+endsnippet
 
 snippet befaa "before all (js)"
 	beforeAll(() => {
 		$0
 	});
+endsnippet
 
 snippet aftaa "after all (js)"
 	afterAll(() => {
 		$0
 	});
+endsnippet
 
 snippet tsha "shallow test (js)"
-  const props = {};
+const props = {};
 
-  const component = shallow(<${1:component} {...props}/>)
+const component = shallow(<${1:component} {...props}/>)
 
-  expect(component).toEqual('')
+expect(component).toEqual('')
+endsnippet
 
 snippet tmou "mount test (js)"
-  const props = {};
+const props = {};
 
-  const component = mount(<${1:component} {...props}/>)
+const component = mount(<${1:component} {...props}/>)
 
-  expect(component).toEqual('')
+expect(component).toEqual('')
+endsnippet
 
 snippet tren "render testing (js)"
-	const props = {...defaultProps};
+const props = {...defaultProps};
 
-	const wrapper = render(<${1:component} {...props}/>)
+const wrapper = render(<${1:component} {...props}/>)
 
-	expect(wrapper).toEqual('')
+expect(wrapper).toEqual('')
+endsnippet
 
 snippet trc "test react component (js)"
-	import React from 'react';
-	import { render } from 'testing-library';
+import React from 'react';
+import { render } from 'testing-library';
 
-	import { $1 } from './${2:$1}';
+import { $1 } from './${2:$1}';
 
-	describe('${3:$1}', () => {
-		const defaultProps = {};
+describe('${3:$1}', () => {
+	const defaultProps = {};
 
-		it('$4', () => {
-			const props = {...defaultProps};
+	it('$4', () => {
+		const props = {...defaultProps};
 
-			const wrapper = render(<${5:$1} {...props}/>)
+		const wrapper = render(<${5:$1} {...props}/>)
 
-			expect(wrapper).toEqual('')
-		});
+		expect(wrapper).toEqual('')
 	});
+});
+endsnippet
 
 snippet tgc "test generic component (js)"
-	import { render } from 'testing-library';
+import { render } from 'testing-library';
 
-	import $1 from './${2:$1}';
+import $1 from './${2:$1}';
 
-	describe('${3:$1}', () => {
-		const defaultProps = {};
+describe('${3:$1}', () => {
+	const defaultProps = {};
 
-		it('$4', () => {
-			const props = {...defaultProps};
+	it('$4', () => {
+		const props = {...defaultProps};
 
-			const wrapper = render(<${5:$1} {...props}/>)
+		const wrapper = render(<${5:$1} {...props}/>)
 
-			expect(wrapper).toEqual('')
-		});
+		expect(wrapper).toEqual('')
 	});
+});
+endsnippet
 
 snippet wfgt "wrapper get by text"
 	wrapper.getByText('${0}')
+endsnippet
 
 snippet wfglt "wrapper get by label text"
 	wrapper.getByLabelText('${0}')
+endsnippet
 
 snippet rspr "render and spread result"
 	const { container, getByText, getBy } = render(<${0} />)
+endsnippet
 
 snippet cfds "component find data-selector"
 	component.find('[data-selector="${0}"]')
+endsnippet
 
 snippet cffm "component find field name"
 	component.find('[name="${0}"]')
+endsnippet
 
 snippet etms "expect to match snapshot"
 	expect(component).toMatchSnapshot()
+endsnippet
 
 snippet cmbind "class method binding"
 	this.$1 = this.${2:$1}.bind(this)
+endsnippet
+
+snippet tmca "test multiple cases"
+const cases = [
+]
+
+cases.forEach(case => {
+	it(\`test for ${case}\`, ()=> {
+		expect(case).toEqual(case)
+	})
+})
+endsnippet
