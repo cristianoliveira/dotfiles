@@ -62,7 +62,7 @@ set colorcolumn=80
 set ttyfast
 set lazyredraw
 
-set synmaxcol=128
+set synmaxcol=512
 syntax sync minlines=256
 
 set regexpengine=1
