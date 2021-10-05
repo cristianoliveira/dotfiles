@@ -82,6 +82,7 @@ brew 'jq'
 brew 'ripgrep'
 brew 'diff-so-fancy'
 brew 'entr' # watch files and execute a cmd
+brew 'fd'
 
 # Install neovim
 # tap 'neovim/neovim'
