@@ -11,7 +11,6 @@ Plugin 'Yggdroot/indentLine'
 
 " Appearance
 Plugin 'altercation/vim-colors-solarized'
-Plugin 'sheerun/vim-polyglot'
 Plugin 'vim-scripts/wombat256.vim'
 Plugin 'bling/vim-airline'
 

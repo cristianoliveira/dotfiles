@@ -119,3 +119,5 @@ alias grv='git remote -v'
 alias grr='git remote rm'
 alias grad='git remote add'
 alias gs='git status'
+
+alias gmt="git mergetool"
