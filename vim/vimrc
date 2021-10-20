@@ -86,4 +86,7 @@ so ~/.vim/functions.vim
 so ~/.vim/commands.vim
 so ~/.vim/settings.vim
 
+set conceallevel=0
+let g:vim_json_conceal=0
+
 colorscheme solarized
