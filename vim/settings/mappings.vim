@@ -111,4 +111,8 @@ noremap <silent> <leader>nt :LightTree<CR>
 noremap <silent> <leader>os :RelatedSpecVOpen<CR>
 noremap <silent> <leader>vs :RelatedSpecVOpen<CR>
 
+
 noremap <silent> <leader>nf :set nofoldenable<CR>
+
+noremap <silent> <leader>Q :qa!<CR>
+
