@@ -119,11 +119,21 @@ for alias_file ($HOME/.dotfiles/zsh/aliases/*.zsh) source $alias_file
 for settings_file ($HOME/.dotfiles/zsh/settings/*.zsh) source $settings_file
 for func_files ($HOME/.dotfiles/zsh/func/*.zsh) source $func_files
 
-echo "Loading env variables from ~/.env"
-. ~/.env
+ENV_FILE="$HOME/.env"
+if [[ -f "$ENV_FILE" ]]; then
+    echo "$ENV_FILE exists. Loading..."
+    source "$ENV_FILE"
+else
+    echo "No custom $ENV_FILE file found"
+fi
 
-echo "Loading local configs from ~/.custom_zshrc"
-. ~/.custom_zshrc
+CUSTOM_ZSHRC="$HOME/.custom_zshrc"
+if [[ -f "$CUSTOM_ZSHRC" ]]; then
+    echo "$CUSTOM_ZSHRC exists. Loading..."
+    source "$CUSTOM_ZSHRC"
+else
+    echo "No custom $CUSTOM_ZSHRC file found"
+fi
 
 # tabtab source for yarn package
 # uninstall by removing these lines or running `tabtab uninstall yarn`
@@ -131,9 +141,6 @@ echo "Loading local configs from ~/.custom_zshrc"
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
-
-# Add GVM to the PATH. So go versions are managed by GVM
-source /Users/cristianoliveira/.gvm/scripts/gvm
 
 echo "Everything is ready."
 
