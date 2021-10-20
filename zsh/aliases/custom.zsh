@@ -22,3 +22,5 @@ alias habits='\history -1000 -1 | sed "s/^[[:space:]]*[0-9]*[[:space:]]*//" | so
 alias wruby='find **/*.rb | entr '
 
 alias running-on='lsof -i'
+
+alias cmdf='\history | grep'
