@@ -57,6 +57,8 @@
   simple = log --pretty=format:\" * %s\"
   shortnocolor = log --pretty=format:\"%h %cr %cn %s\"
   follow = log --follow
+  # Format to be easily 'pipeable' with commit hash on the first position
+  lgp = log --no-merges --pretty=format:"%h %s (%cn) %cr"
 
   # pull
   pl = pull                         # pull
