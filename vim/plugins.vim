@@ -23,7 +23,7 @@ Plugin 'jiangmiao/auto-pairs'
 Plugin 'sirver/UltiSnips'
 Plugin 'honza/vim-snippets'
 Plugin 'epilande/vim-es2015-snippets'
-Plugin 'epilande/vim-react-snippets'
+" Plugin 'epilande/vim-react-snippets'
 Plugin 'cristianoliveira/vim-react-html-snippets'
 Plugin 'cristianoliveira/vim-circuit-ui-snippets'
 

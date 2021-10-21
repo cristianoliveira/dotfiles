@@ -1,1 +1,1 @@
-let g:UltiSnipsSnippetDirectories=["UltiSnips"]
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
