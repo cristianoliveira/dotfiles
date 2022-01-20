@@ -6,6 +6,7 @@ tap 'homebrew/services'
 
 # Install cask with versions and fonts
 tap 'homebrew/cask'
+tap 'homebrew/cask-versions'
 tap 'homebrew/homebrew-core'
 
 # Install Apps
@@ -36,7 +37,7 @@ cask 'atom'
 
 # Install fonts
 tap 'homebrew/cask-fonts'
-cask 'font-sauce-code-powerline'
+cask 'font-source-code-pro-for-powerline'
 
 # Install command line tools
 brew 'ack'
@@ -55,7 +56,6 @@ brew 'imagemagick'
 brew 'nginx'
 brew 'node'
 brew 'openssl'
-brew 'phantomjs'
 brew 'postgresql'
 brew 'python3'
 brew 'rbenv'
