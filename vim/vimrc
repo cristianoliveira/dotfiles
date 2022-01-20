@@ -68,6 +68,8 @@ syntax sync minlines=256
 set regexpengine=1
 set noshowcmd
 set conceallevel=0
+let g:vim_json_conceal=0
+
 
 let g:netrw_dirhistmax = 0
 
@@ -85,8 +87,5 @@ so ~/.vim/plugins.vim
 so ~/.vim/functions.vim
 so ~/.vim/commands.vim
 so ~/.vim/settings.vim
-
-set conceallevel=0
-let g:vim_json_conceal=0
 
 colorscheme solarized

@@ -40,7 +40,7 @@ Plugin 'w0rp/ale' " Plugin 'vim-syntastic/syntastic'
 Plugin 'joom/vim-commentary'
 Plugin 'tpope/vim-surround'
 " Plugin 'valloric/MatchTagAlways'
-Plugin 'prettier/vim-prettier', { 'do': 'yarn install' }
+" Plugin 'prettier/vim-prettier', { 'do': 'yarn install' }
 
 " Git integration
 Plugin 'tpope/vim-fugitive'

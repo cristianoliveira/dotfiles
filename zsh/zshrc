@@ -146,5 +146,10 @@ fi
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 
+# enable autocomplete for commands
+autoload -Uz compinit && compinit
+
 echo "Everything is ready."
+
+alias flog=git log
 
