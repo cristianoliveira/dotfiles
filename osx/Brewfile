@@ -6,7 +6,7 @@ tap 'homebrew/services'
 
 # Install cask with versions and fonts
 tap 'homebrew/cask'
-tap 'homebrew/versions'
+tap 'homebrew/homebrew-core'
 
 # Install Apps
 cask 'alfred'
