@@ -11,3 +11,6 @@ linux:
 
 osx:
 	sh ./osx-install.sh
+
+osx-karabiner:
+	cp -rf ~/.dotfiles/resources/karabiner ~/.config/
