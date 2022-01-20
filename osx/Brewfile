@@ -34,6 +34,7 @@ cask 'telegram'
 cask 'tunnelblick'
 cask 'spectacle'
 cask 'atom'
+cask 'bitwarden'
 
 # Install fonts
 tap 'homebrew/cask-fonts'
