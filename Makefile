@@ -3,6 +3,9 @@
 setup:
 	sh ./setup.sh
 
+ssh:
+	sh ./ssh-key.sh
+
 linux:
 	sh ./linux-install.sh
 
