@@ -36,6 +36,7 @@ cask 'spectacle'
 cask 'atom'
 cask 'bitwarden'
 cask 'discord'
+cask 'zoom'
 
 # Install fonts
 tap 'homebrew/cask-fonts'
@@ -85,6 +86,7 @@ brew 'ripgrep'
 brew 'diff-so-fancy'
 brew 'entr' # watch files and execute a cmd
 brew 'fd'
+brew 'openjdk'
 
 # Install neovim
 # tap 'neovim/neovim'
