@@ -23,20 +23,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/mas
 git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 vim +PluginInstall +qall
 
-echo "Installing rbenv"
-git clone https://github.com/rbenv/rbenv.git ~/.rbenv
-eval "$(~/.rbenv/bin/rbenv init -)"
-
-echo "Installing nvm"
-curl https://raw.githubusercontent.com/creationix/nvm/v0.11.1/install.sh | bash
-
-echo "Installing gvm"
-bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
-
 chsh -s /bin/zsh
-
-echo "Installing Rust with rustup"
-curl https://sh.rustup.rs -sSf | sh
 
 echo "Dotfiles has been executed."
 echo "Installed: zsh, vim and tmux"

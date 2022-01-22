@@ -108,14 +108,6 @@ unset fasd_cache
 
 eval "$(fasd --init auto)"
 
-# rbenv
-export PATH="$HOME/.rbenv/bin:$PATH"
-# node
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-export NVM_NODEJS_ORG_MIRROR=http://nodejs.org/dist
-
 # added by travis gem
 [ -f /Users/cristian.oliveira/.travis/travis.sh ] && source /Users/cristian.oliveira/.travis/travis.sh
 
@@ -150,6 +142,3 @@ export PATH="$PATH:$HOME/.rvm/bin"
 autoload -Uz compinit && compinit
 
 echo "Everything is ready."
-
-alias flog=git log
-

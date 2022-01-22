@@ -5,6 +5,7 @@ map K <NOP>
 map <leader>ch :noh <CR>
 
 nmap <Leader>s :split <CR>
+nmap <Leader>w :split <CR>
 nmap <Leader>v :vsplit <CR>
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
@@ -43,7 +44,7 @@ vnoremap > ><CR>gv
 vnoremap < <<CR>gv
 
 " "Camel case motion (with shift)
-map <Space>w <Plug>CamelCaseMotion_w
+" map <Space>w <Plug>CamelCaseMotion_w
 map <Space>b <Plug>CamelCaseMotion_b
 map <Space>e <Plug>CamelCaseMotion_e
 
