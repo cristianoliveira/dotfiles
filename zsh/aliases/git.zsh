@@ -46,6 +46,8 @@ alias gpl='git pull'
 alias gplr='git pull --rebase'
 
 # git push
+alias gp='git push -u'
+alias gps='git push'
 alias gpush='git push'
 alias gpushu='git push -u' # it sets the upstream for the given remote/branch
 alias gpn='git push --no-verify' # avoid prehooks
