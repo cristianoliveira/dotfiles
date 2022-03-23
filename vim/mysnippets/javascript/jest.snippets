@@ -19,39 +19,39 @@ snippet impp "Import proptypes (js)"
 endsnippet
 
 snippet dess "Describe (js)"
-	describe('${1:description}', () => {
-		$0
-	});
+describe('${1:description}', () => {
+	$0
+});
 endsnippet
 
 snippet itt "it (js)"
-	it('${1:description}', () => {
-		$0
-	});
+it('${1:description}', () => {
+	$0
+});
 endsnippet
 
 snippet beff "before each (js)"
-	beforeEach(() => {
-		$0
-	});
+beforeEach(() => {
+	$0
+});
 endsnippet
 
 snippet aftt "after each (js)"
-	afterEach(() => {
-		$0
-	});
+afterEach(() => {
+	$0
+});
 endsnippet
 
 snippet befaa "before all (js)"
-	beforeAll(() => {
-		$0
-	});
+beforeAll(() => {
+	$0
+});
 endsnippet
 
 snippet aftaa "after all (js)"
-	afterAll(() => {
-		$0
-	});
+afterAll(() => {
+	$0
+});
 endsnippet
 
 snippet tsha "shallow test (js)"
@@ -93,6 +93,20 @@ describe('${3:$1}', () => {
 		const wrapper = render(<${5:$1} {...props}/>)
 
 		expect(wrapper).toEqual('')
+	});
+});
+endsnippet
+
+snippet tmd "test module (js)"
+import { $1 } from './${2:$1}';
+
+describe('${3:$1}', () => {
+	it('$4', () => {
+		const args = {};
+
+		const result = ${5:$1}(args)
+
+		expect(result).toEqual('')
 	});
 });
 endsnippet

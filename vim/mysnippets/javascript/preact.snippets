@@ -1,0 +1,47 @@
+priority 1
+snippet pcc "Preact Class Component" b
+import h, { Component } from 'preact';
+
+class ${1:`!v expand('%:t:r')`} extends Component {
+	constructor(props) {
+		super(props);
+	}
+
+	render() {
+		return (
+			<${3:div}>
+				$0
+			</$3>
+		);
+	}
+}
+
+export default $1;
+endsnippet
+
+snippet pfc "Preact Functional Component" b
+// import h from 'preact';
+// import { useState } from 'preact/hooks';
+
+function ${1:`!v expand('%:t:r')`}({ $3 }) {
+	return (
+		<${5:div}>
+			$0
+		</$5>
+	);
+}
+
+export default $1;
+endsnippet
+
+snippet rsci "Preact Styled Component Interpolation" b
+import styled, { css } from 'styled-components';
+
+const ${1:`!v expand('%:t:r')`} = styled.${2:div}\`${props => css\`
+	${3:${props.$4 && \`
+		$5
+	\`}}
+\`}\`;
+
+endsnippet
+
