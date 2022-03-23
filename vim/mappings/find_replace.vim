@@ -51,8 +51,13 @@ nmap <leader>rfd :cfdo %s/<C-r>//<C-r>"/gc | update
 vmap <leader>rft "ty
 " replace
 vmap <leader>rfr "ry
+" Find instances of target
+nmap <leader>rff :Ack! <C-r>t<CR>
 " Refactoring apply
 nmap <leader>rfa :cfdo %s/<C-r>t/<C-r>r/gc | update
+
+" Refactoring searched word
+nmap <leader>rfs :cfdo %s/<C-r>//<C-r>r/gc | update
 
 " REPLACE SEARCH IN CURRENT FILE
 " [R]eplace [R]egister
