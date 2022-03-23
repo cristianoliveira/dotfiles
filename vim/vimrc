@@ -87,5 +87,6 @@ so ~/.vim/plugins.vim
 so ~/.vim/functions.vim
 so ~/.vim/commands.vim
 so ~/.vim/settings.vim
+so ~/.vim/mappings.vim
 
 colorscheme solarized
