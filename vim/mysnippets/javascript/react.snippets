@@ -69,3 +69,19 @@ if props:
 
 export default $1;
 endsnippet
+
+snippet rctx "React context" b
+import { createContext, useContext } from 'react'
+
+export const $1Context = createContext()
+
+export function $1Provider({ children }) {
+return <$1Context.Provider>
+	{children}
+</$1Context.Provider>
+}
+
+export default () => useContext($1Context)
+endsnippet
+
+
