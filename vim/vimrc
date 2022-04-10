@@ -64,12 +64,14 @@ set lazyredraw
 
 set synmaxcol=512
 syntax sync minlines=256
+" Performance fix for Typescript
+" https://jameschambers.co.uk/vim-typescript-slow
+set re=0
 
-set regexpengine=1
+" set regexpengine=1
 set noshowcmd
 set conceallevel=0
 let g:vim_json_conceal=0
-
 
 let g:netrw_dirhistmax = 0
 
