@@ -1,6 +1,6 @@
 echo "Add all symbolic links..."
+
 NVIM_CONFIG_PATH=~/.config/nvim
-mkdir -p $NVIM_CONFIG_PATH
 
 mv ~/.tmux.conf  ~/old-tmux.conf
 mv ~/.vimrc ~/old-vimrc
@@ -8,16 +8,16 @@ mv ~/.zshrc ~/old-zshrc
 mv ~/.vim ~/old-vim
 mv ~/.gitignore ~/old-gitignore
 mv ~/.ctags ~/old-ctags
-mv $NVIM_CONFIG_PATH/init.vim $NVIM_CONFIG_PATH/old-init.vim
+mv $NVIM_CONFIG_PATH old-$NVIM_CONFIG_PATH
 
-ln -s ~/.dotfiles/tmux/tmux.conf ~/.tmux.conf
+ln -s ~/.dotfiles/vim $NVIM_CONFIG_PATH
 ln -s ~/.dotfiles/vim/vimrc ~/.vimrc
-ln -s ~/.dotfiles/zsh/zshrc ~/.zshrc
 ln -s ~/.dotfiles/vim ~/.vim
+ln -s ~/.dotfiles/tmux/tmux.conf ~/.tmux.conf
+ln -s ~/.dotfiles/zsh/zshrc ~/.zshrc
 ln -s ~/.dotfiles/git/gitconfig ~/.gitconfig
 ln -s ~/.dotfiles/git/gitignore ~/.gitignore
 ln -s ~/.dotfiles/ctags ~/.ctags
-ln -s ~/.dotfiles/vim/init.vim $NVIM_CONFIG_PATH/init.vim
 
 echo "Istalling tmux-setup helper"
 ln -s ~/tmux/tmux-setup /usr/local/bin/tmux-setup
