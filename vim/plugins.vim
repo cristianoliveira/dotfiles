@@ -2,6 +2,8 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'gmarik/vundle'
 
+Plugin 'neovim/nvim-lspconfig'
+Plugin 'williamboman/nvim-lsp-installer'
 
 Plugin 'MarcWeber/vim-addon-mw-utils'
 Plugin 'Yggdroot/indentLine'
