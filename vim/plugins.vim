@@ -2,11 +2,8 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'gmarik/vundle'
 
+
 Plugin 'MarcWeber/vim-addon-mw-utils'
-" Plugin 'romtom/tlib_vim'
-" Plugin 'wesQ3/vim-windowswap'
-" Plugin 'ervandew/supertab'
-" Plugin 'gcmt/wildfire.vim'
 Plugin 'Yggdroot/indentLine'
 
 " Appearance
@@ -23,14 +20,8 @@ Plugin 'jiangmiao/auto-pairs'
 Plugin 'sirver/UltiSnips'
 Plugin 'honza/vim-snippets'
 Plugin 'epilande/vim-es2015-snippets'
-" Plugin 'epilande/vim-react-snippets'
 Plugin 'cristianoliveira/vim-react-html-snippets'
 Plugin 'cristianoliveira/vim-circuit-ui-snippets'
-
-" Ctags integration
-" Plugin 'craigemery/vim-autotag'
-" Plugin 'xolox/vim-easytags'
-" Plugin 'xolox/vim-misc'
 
 " Edition plugins
 Plugin 'kristijanhusak/vim-multiple-cursors'
@@ -39,8 +30,6 @@ Plugin 'kristijanhusak/vim-multiple-cursors'
 Plugin 'w0rp/ale' " Plugin 'vim-syntastic/syntastic'
 Plugin 'joom/vim-commentary'
 Plugin 'tpope/vim-surround'
-" Plugin 'valloric/MatchTagAlways'
-" Plugin 'prettier/vim-prettier', { 'do': 'yarn install' }
 
 " Git integration
 Plugin 'tpope/vim-fugitive'
