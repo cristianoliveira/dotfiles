@@ -2,6 +2,7 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'gmarik/vundle'
 
+" LSP
 Plugin 'neovim/nvim-lspconfig'
 Plugin 'williamboman/nvim-lsp-installer'
 
