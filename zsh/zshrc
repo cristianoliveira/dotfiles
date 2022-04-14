@@ -141,4 +141,7 @@ export PATH="$PATH:$HOME/.rvm/bin"
 # enable autocomplete for commands
 autoload -Uz compinit && compinit
 
+alias vim="nvim"
+alias vi="nvim"
+
 echo "Everything is ready."
