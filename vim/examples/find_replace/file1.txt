@@ -1,8 +1,0 @@
- foo  foo foo
- Bar  Bar Bar
- Foo Bar Bar
-foo foo foo
-foo foo foo
-foo foo foo
-foo foo foo
-foo
