@@ -4,18 +4,21 @@ My dotfiles for setting up a new dev environment. :package: :sunglasses: :sungla
 # What do I use?
 
   - ZSH (oh-my-zsh)
-  - Vim 8
+  - Nvim 0.5
   - Tmux 2.5
 
   And a lot of pre installed apps. See in: `osx/Brewfile` or `linux/packages.txt`
 
-  I work with:
+  I work mostly with:
 
   - Javascript and Reactjs
   - Rust
+  - Golang
+
+  And a bit of
+
   - Ruby
   - Python
-  - Golang
 
 # Installing
 
