@@ -88,5 +88,5 @@ brew 'fd'
 brew 'openjdk'
 
 # Install neovim
-# tap 'neovim/neovim'
-# brew 'neovim'
+tap 'neovim/neovim'
+brew 'neovim'
