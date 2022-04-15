@@ -123,3 +123,5 @@ alias grad='git remote add'
 alias gs='git status'
 
 alias gmt="git mergetool"
+alias gamd='git commit --amend'
+alias gamd!='git commit --amend --no-edit'
