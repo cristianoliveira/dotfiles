@@ -5,6 +5,7 @@ mv ~/.zshrc ~/old-zshrc
 mv ~/.vim ~/old-vim
 mv ~/.gitignore ~/old-gitignore
 mv ~/.ctags ~/old-ctags
+mv ~/.config/karabiner ~/.config/old-karabiner
 
 ln -s ~/.dotfiles/tmux/tmux.conf ~/.tmux.conf
 ln -s ~/.dotfiles/vim/vimrc ~/.vimrc
@@ -13,6 +14,7 @@ ln -s ~/.dotfiles/vim ~/.vim
 ln -s ~/.dotfiles/git/gitconfig ~/.gitconfig
 ln -s ~/.dotfiles/git/gitignore ~/.gitignore
 ln -s ~/.dotfiles/ctags ~/.ctags
+ln -s ~/.dotfiles/resources/karabiner ~/.config/karabiner
 
 echo "Istalling tmux-setup helper"
 ln -s ~/tmux/tmux-setup /usr/local/bin/tmux-setup
