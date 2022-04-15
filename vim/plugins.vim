@@ -39,6 +39,7 @@ Plugin 'ruanyl/vim-gh-line' " Open github with line you are in vim
 " Navigation open file directs on line by `:e ./spec/test_spec.rb:16`
 Plugin 'kopischke/vim-fetch'
 Plugin 'juanibiapina/vim-lighttree' " Plugin 'scrooloose/nerdtree'
+Plugin 'tpope/vim-projectionist' "Jump between related files
 
 " Search plugins
 Plugin 'mileszs/ack.vim'
@@ -59,5 +60,4 @@ Plugin 'rust-lang/rust.vim'
 " Golang
 Plugin 'fatih/vim-go'
 
-call vundle#end()            " required
-filetype plugin indent on
+call vundle#end()
