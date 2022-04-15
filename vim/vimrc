@@ -86,7 +86,6 @@ set hidden
 au FocusLost * silent! wa
 
 so ~/.vim/plugins.vim
-so ~/.vim/functions.vim
 so ~/.vim/settings.vim
 so ~/.vim/mappings.vim
 
