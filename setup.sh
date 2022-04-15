@@ -1,32 +1,54 @@
+#!/usr/bin/env sh
+
+set -e  # fail on error
+set -u # do not allow unset variables
+
+export DOTFILES_BKP_PATH="$HOME"/.bkpdotfiles/"$(date +%s)"
+export HOME_PATH=${HOME_PATH:-$HOME}
+
+echo "HOME_PATH: $HOME_PATH"
+echo "DOTFILES_BKP_PATH: $DOTFILES_BKP_PATH"
+
+bkpmv() {
+  if [ -x "$1" ]; then
+    mv "$1" "$2"
+  else
+    echo "$1 does not exist or is not executable"
+  fi
+  if [ -e "$1" ]; then
+    mv "$1" "$2"
+  else
+    echo "$1 does not exist or is not executable"
+  fi
+}
+
+echo "Creating backup of your current configurations."
+echo "They can be found at: $DOTFILES_BKP_PATH"
+mkdir -p "$DOTFILES_BKP_PATH"
+bkpmv "$HOME_PATH"/.tmux.conf "$DOTFILES_BKP_PATH"/old-tmux.conf
+bkpmv "$HOME_PATH"/.zshrc "$DOTFILES_BKP_PATH"/old-zshrc
+bkpmv "$HOME_PATH"/.gitconfig "$DOTFILES_BKP_PATH"/old-gitconfig
+bkpmv "$HOME_PATH"/.gitignore "$DOTFILES_BKP_PATH"/old-gitignore
+bkpmv "$HOME_PATH"/.ctags "$DOTFILES_BKP_PATH"/old-ctags
+bkpmv "$HOME_PATH"/.config/karabiner "$DOTFILES_BKP_PATH"/old-karabiner
+
 echo "Add all symbolic links..."
-
-NVIM_CONFIG_PATH=~/.config/nvim
-
-mv ~/.tmux.conf  ~/old-tmux.conf
-mv ~/.vimrc ~/old-vimrc
-mv ~/.zshrc ~/old-zshrc
-mv ~/.vim ~/old-vim
-mv ~/.gitignore ~/old-gitignore
-mv ~/.ctags ~/old-ctags
-mv $NVIM_CONFIG_PATH old-$NVIM_CONFIG_PATH
-
-ln -s ~/.dotfiles/vim $NVIM_CONFIG_PATH
-ln -s ~/.dotfiles/vim/vimrc ~/.vimrc
-ln -s ~/.dotfiles/vim ~/.vim
-ln -s ~/.dotfiles/tmux/tmux.conf ~/.tmux.conf
-ln -s ~/.dotfiles/zsh/zshrc ~/.zshrc
-ln -s ~/.dotfiles/git/gitconfig ~/.gitconfig
-ln -s ~/.dotfiles/git/gitignore ~/.gitignore
-ln -s ~/.dotfiles/ctags ~/.ctags
+ln -s "$HOME_PATH"/.dotfiles/tmux/tmux.conf "$HOME_PATH"/.tmux.conf
+ln -s "$HOME_PATH"/.dotfiles/zsh/zshrc "$HOME_PATH"/.zshrc
+ln -s "$HOME_PATH"/.dotfiles/git/gitconfig "$HOME_PATH"/.gitconfig
+ln -s "$HOME_PATH"/.dotfiles/git/gitignore "$HOME_PATH"/.gitignore
+ln -s "$HOME_PATH"/.dotfiles/ctags "$HOME_PATH"/.ctags
+ln -s "$HOME_PATH"/.dotfiles/resources/karabiner "$HOME_PATH"/.config/karabiner
 
 echo "Istalling tmux-setup helper"
-ln -s ~/tmux/tmux-setup /usr/local/bin/tmux-setup
+rm /usr/local/bin/tmux-setup
+ln -s "$HOME_PATH"/tmux/tmux-setup /usr/local/bin/tmux-setup
 
 echo "Installing zsh"
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" &
 
-git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-vim +PluginInstall +qall
+echo "Setup Vim and installing plugins"
+sh "$HOME_PATH"/.dotfiles/vim/setup.sh
 
 chsh -s /bin/zsh
 
