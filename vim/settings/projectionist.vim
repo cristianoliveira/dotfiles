@@ -5,6 +5,12 @@ let g:projectionist_heuristics = {
         \    },
         \    "*.spec.js": {
         \      "alternate": "{}.js"
+        \    },
+        \    "*.ts": {
+        \      "alternate": "{}.spec.ts"
+        \    },
+        \    "*.spec.ts": {
+        \      "alternate": "{}.ts"
         \    }
         \  }
       \}
