@@ -2,6 +2,9 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'gmarik/vundle'
 
+" LSP
+Plugin 'neovim/nvim-lspconfig'
+Plugin 'williamboman/nvim-lsp-installer'
 
 Plugin 'MarcWeber/vim-addon-mw-utils'
 Plugin 'Yggdroot/indentLine'
@@ -30,6 +33,9 @@ Plugin 'kristijanhusak/vim-multiple-cursors'
 Plugin 'w0rp/ale' " Plugin 'vim-syntastic/syntastic'
 Plugin 'joom/vim-commentary'
 Plugin 'tpope/vim-surround'
+Plugin 'prettier/vim-prettier', {
+      \'do': 'yarn install --frozen-lockfile --production'
+      \}
 
 " Git integration
 Plugin 'tpope/vim-fugitive'
