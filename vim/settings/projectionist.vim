@@ -11,6 +11,12 @@ let g:projectionist_heuristics = {
         \    },
         \    "*.spec.ts": {
         \      "alternate": "{}.ts"
+        \    },
+        \    "*.tsx": {
+        \      "alternate": "{}.spec.tsx"
+        \    },
+        \    "*.spec.tsx": {
+        \      "alternate": "{}.tsx"
         \    }
         \  }
       \}

@@ -37,3 +37,5 @@ nnoremap <Leader>bn :bnext<CR>
 nnoremap <Leader>bp :bprevious<CR>
 
 noremap <silent> <leader>nf :set nofoldenable<CR>
+
+noremap <silent> <leader>cm :let @+ = v:statusmsg<CR>
