@@ -90,6 +90,7 @@ alias gnb='git nb' # new branch aka checkout -b
 alias gb='git b'
 alias gbh='git branch --sort=-committerdate | head -n'
 alias gclb='git branch --sort=-committerdate | head -n 1 | pbcopy'
+alias gbsync="~/.dotfiles/zsh/scripts/git-branch-sync"
 
 # git helpers
 alias gwip='git add . && git commit -m "WIP" --no-verify'
@@ -125,3 +126,4 @@ alias gs='git status'
 alias gmt="git mergetool"
 alias gamd='git commit --amend'
 alias gamd!='git commit --amend --no-edit'
+

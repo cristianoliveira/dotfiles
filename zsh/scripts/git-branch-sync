@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# set the name of your remote repository
+REMOTE_NAME="origin"
+CURRENT_BRANCH="$(git branch --show-current)"
+
+# fetch the latest changes from the remote repository
+git fetch $REMOTE_NAME
+
+# loop through all local branches that are not the current branch
+for branch in $(git branch | grep -v "^\*" | tr -d ' '); do
+
+  # check if the branch has been removed from the remote repository
+  if ! git ls-remote --heads $REMOTE_NAME $branch | grep -q $branch; then
+
+    # if the branch has been removed, delete the local branch
+    git branch -D $branch
+    echo "🔴 $branch has been deleted"
+
+  else
+
+    # if the branch still exists in the remote repository, update the local branch
+    git checkout $branch
+    git merge --ff-only $REMOTE_NAME/$branch
+    echo "🟢 $branch has been updated"
+
+  fi
+done
+
+git checkout $CURRENT_BRANCH
