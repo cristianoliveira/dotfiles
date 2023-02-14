@@ -33,9 +33,9 @@ Plugin 'kristijanhusak/vim-multiple-cursors'
 Plugin 'w0rp/ale' " Plugin 'vim-syntastic/syntastic'
 Plugin 'joom/vim-commentary'
 Plugin 'tpope/vim-surround'
-Plugin 'prettier/vim-prettier', {
-      \'do': 'yarn install --frozen-lockfile --production'
-      \}
+" Plugin 'prettier/vim-prettier', {
+"       \'do': 'yarn install --frozen-lockfile --production'
+"       \}
 
 " Git integration
 Plugin 'tpope/vim-fugitive'
