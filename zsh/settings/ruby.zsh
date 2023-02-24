@@ -1,7 +1,8 @@
-echo "Setting ruby environment..."
+# echo "Setting ruby environment..."
 
 # RVM load
-[[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
+# [[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
 
 # Rbenv
-eval "$(rbenv init -)"
+# eval "$(rbenv init -)"
+# ruby -v

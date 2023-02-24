@@ -1,5 +1,11 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
+#
+# debug-slow-startup-time
+# zmodload zsh/zprof
+STARTTIME=$(gdate "+%s%3N")
+
+DISABLE_AUTO_UPDATE=true
 
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
@@ -98,13 +104,6 @@ export VISUAL=nvim
 # Colors
 export GREP_COLOR='1;33'
 
-# added by travis gem
-[ -f /Users/cristian.oliveira/.travis/travis.sh ] && source /Users/cristian.oliveira/.travis/travis.sh
-
-for alias_file ($HOME/.dotfiles/zsh/aliases/*.zsh) source $alias_file
-for settings_file ($HOME/.dotfiles/zsh/settings/*.zsh) source $settings_file
-for func_files ($HOME/.dotfiles/zsh/func/*.zsh) source $func_files
-
 ENV_FILE="$HOME/.env"
 if [[ -f "$ENV_FILE" ]]; then
     echo "$ENV_FILE exists. Loading..."
@@ -121,14 +120,14 @@ else
     echo "No custom $CUSTOM_ZSHRC file found"
 fi
 
-# tabtab source for yarn package
-# uninstall by removing these lines or running `tabtab uninstall yarn`
-[[ -f /usr/local/lib/node_modules/yarn-completions/node_modules/tabtab/.completions/yarn.zsh ]] && . /usr/local/lib/node_modules/yarn-completions/node_modules/tabtab/.completions/yarn.zsh
-
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
+for alias_file ($HOME/.dotfiles/zsh/aliases/*.zsh) source $alias_file
+for func_files ($HOME/.dotfiles/zsh/func/*.zsh) source $func_files
+for settings_file ($HOME/.dotfiles/zsh/settings/*.zsh) source $settings_file
 
 # enable autocomplete for commands
 autoload -Uz compinit && compinit
 
-echo "Everything is ready."
+CURRTIME=$(gdate "+%s%3N")
+echo "Everything is ready. ($(echo "$CURRTIME - $STARTTIME" | bc -l) ms)"
+
+# debug-slow-startup-time
