@@ -26,3 +26,5 @@ dump.rdb
 _scripts/
 
 .watch.yaml
+
+*.nix
