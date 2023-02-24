@@ -1,3 +1,7 @@
+# This is default, but may vary by project.
+# See '../settings/git.zsh' how to configure a different $LOCAL_MAIN_BRANCH
+MAIN_BRANCH='main'
+
 # git show
 alias gsh='git show'
 alias gshw='git show'
@@ -19,7 +23,7 @@ alias gr='git rebase'
 alias gra='git rebase --abort'
 alias ggrc='git rebase --continue'
 alias grbi='git rebase --interactive'
-alias grbom='git rebase origin/master'
+alias grbom='git rebase origin/"$MAIN_BRANCH"'
 
 # git log
 alias gl='git l'
@@ -59,10 +63,10 @@ alias gp!!='git push --no-verify --force-with-lease' # avoid prehooks and force
 alias grs='git reset'
 alias grsh='git reset --hard'
 alias grsth='git reset --hard'
-alias grsom='git reset --hard origin/master'
-alias grshom='git reset --hard origin/master'
-alias grsthom='git reset --hard origin/master'
-alias grst!='git reset --hard origin/master'
+alias grsom='git reset --hard origin/"$MAIN_BRANCH"'
+alias grshom='git reset --hard origin/"$MAIN_BRANCH"'
+alias grsthom='git reset --hard origin/"$MAIN_BRANCH"'
+alias grst!='git reset --hard origin/"$MAIN_BRANCH"'
 
 # git clean
 alias gcln='git clean'
@@ -78,7 +82,7 @@ alias gsmu='git submodule update'
 alias gch='git checkout'
 alias gchb='git checkout -b'
 alias gch='git checkout'
-alias gchm='git checkout master'
+alias gchm='git checkout "$MAIN_BRANCH"'
 alias gchd='git checkout develop'
 
 # git branch
@@ -98,7 +102,7 @@ alias goverride='git push origin +$(git branch | grep \* | cut -d ' ' -f2)'
 alias gdfb="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
 alias gclnb='git branch --merged | grep -v "\*" | xargs -n 1 git branch -d'
 alias gmlb='git merge `git branch --sort=-committerdate| head -n 1`'
-alias gdm='git diff origin/master'
+alias gdm='git diff origin/"$MAIN_BRANCH"'
 alias gllc='git log --format="%H" -n 1'
 alias gpub='grb publish'
 alias gtr='grb track'
