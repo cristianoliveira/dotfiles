@@ -78,10 +78,10 @@ set autoread
 set hidden
 au FocusLost * silent! wa
 
-luafile ~/.vim/lua/init.lua
-
 so ~/.vim/plugins.vim
 so ~/.vim/settings.vim
 so ~/.vim/mappings.vim
+
+luafile ~/.vim/lua/init.lua
 
 colorscheme solarized
