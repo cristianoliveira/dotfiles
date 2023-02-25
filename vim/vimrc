@@ -58,15 +58,8 @@ set backspace=indent,eol,start
 
 set colorcolumn=80
 
-" Performance tricks
-set ttyfast
-set lazyredraw
-
 set synmaxcol=512
 syntax sync minlines=256
-" Performance fix for Typescript
-" https://jameschambers.co.uk/vim-typescript-slow
-set re=0
 
 " set regexpengine=1
 set noshowcmd
