@@ -12,3 +12,5 @@ nvm install $NODE_VERSION
 nvm alias default $NODE_VERSION
 
 npm install -g yarn
+
+git clone git@github.com:lukechilds/zsh-nvm.git $HOME/.zsh-nvm
