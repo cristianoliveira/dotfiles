@@ -131,3 +131,4 @@ CURRTIME=$(gdate "+%s%3N")
 echo "Everything is ready. ($(echo "$CURRTIME - $STARTTIME" | bc -l) ms)"
 
 # debug-slow-startup-time
+# zprof
