@@ -1,1 +1,1 @@
-vim.api.timeoutlen = 1300
+vim.opt.timeoutlen = 1300
