@@ -1,5 +1,6 @@
 require('functions/vimscript_to_lua')
 
+require('settings/vim')
 require('settings/lsp')
 require('settings/performance')
 
