@@ -34,6 +34,7 @@
   ammend = commit --amend           # ammend your last commit
 
   # checkout
+  ch = checkout                     # checkout
   co = checkout                     # checkout
   nb = checkout -b                  # create and switch to a new branch (mnemonic: "git new branch branchname...")
 
@@ -62,12 +63,13 @@
   # rebase
   rb = rebase
   rc = rebase --continue            # continue rebase
-  rs = rebase --skip                # skip rebase
+  rbs = rebase --skip                # skip rebase
 
   # remote
   r = remote -v                     # show remotes (verbose)
 
   # reset
+  rs = reset
   unstage = reset HEAD              # remove files from index (tracking)
   uncommit = reset --soft HEAD^     # go back before last commit, with files in uncommitted state
   filelog = log -u                  # show changes to a file
@@ -93,6 +95,8 @@
   svnr = svn rebase
   svnd = svn dcommit
   svnl = svn log --oneline --show-commit
+
+  wip = !git add . && git commit -m WIP
 [format]
   pretty = format:%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(blue)%s %C(magenta) [%an]%Creset
 [merge]

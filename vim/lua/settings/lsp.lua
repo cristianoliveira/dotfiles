@@ -45,7 +45,7 @@ lsp_installer.on_server_ready(function(server)
     }
 
 
-    if server.name == 'sumneko_lua' then
+    if server.name == 'lua_ls' then
       server_opts.settings = {
         Lua = {
           diagnostics = { globals = {  'vim' } }
