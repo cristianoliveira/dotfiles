@@ -4,7 +4,8 @@ Plugin 'gmarik/vundle'
 
 " LSP
 Plugin 'neovim/nvim-lspconfig'
-Plugin 'williamboman/nvim-lsp-installer'
+Plugin 'williamboman/mason.nvim'
+Plugin 'williamboman/mason-lspconfig.nvim'
 
 Plugin 'MarcWeber/vim-addon-mw-utils'
 Plugin 'Yggdroot/indentLine'
