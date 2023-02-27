@@ -14,3 +14,6 @@ nnoremap('<leader>gsa', ':G sa <CR>')
 
 nnoremap('<leader>gl', ':G log<CR>')
 nnoremap('<leader>gbm', ':G blame <CR>')
+
+nnoremap('<leader>gcm', ':G cm<CR>')
+nnoremap('<leader>gamd', ':G amd<CR>')
