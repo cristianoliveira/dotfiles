@@ -30,6 +30,7 @@
   c = commit -m                     # commit with message
   ca = commit -am                   # commit all with message
   ci = commit                       # commit
+  cm = commit                       # commit
   amend = commit --amend            # ammend your last commit
   ammend = commit --amend           # ammend your last commit
 
@@ -61,9 +62,10 @@
   ps = push                         # push
 
   # rebase
-  rb = rebase
-  rc = rebase --continue            # continue rebase
-  rbs = rebase --skip                # skip rebase
+  rbs = rebase
+  rbsc = rebase --continue            # continue rebase
+  rbss = rebase --skip                # skip rebase
+  rbsa = rebase --abort
 
   # remote
   r = remote -v                     # show remotes (verbose)
