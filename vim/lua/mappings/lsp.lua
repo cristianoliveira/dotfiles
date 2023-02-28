@@ -4,6 +4,8 @@ vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
 vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
 
+nmap("<C-]>", "<C-]>zz")
+
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 Lsp_on_attach = function(_, bufnr)
