@@ -1,3 +1,4 @@
+-- Keep view on the middle of screen to each search
 nmap("n", "nzzzv")
 nmap("N", "Nzzzv")
 
