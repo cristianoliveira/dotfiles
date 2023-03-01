@@ -39,7 +39,6 @@ set undolevels=1000
 set noswapfile
 set nobackup
 " set autochdir
-
 set number
 " set relativenumber
 set cursorline
