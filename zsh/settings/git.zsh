@@ -4,13 +4,13 @@ setup_main_branch() {
     # To configure a custom $LOCAL_MAIN_BRANCH
     if [[ -f ".git/env.zsh" ]]; then
       source ".git/env.zsh"
-    fi
-
-    local has_main_branch="$(git branch --list main)"
-    if [ -n "$has_main_branch" ]; then
-        LOCAL_MAIN_BRANCH='main'
     else
-        LOCAL_MAIN_BRANCH='master'
+      local has_main_branch="$(git branch --list main)"
+      if [ -n "$has_main_branch" ]; then
+          LOCAL_MAIN_BRANCH='main'
+      else
+          LOCAL_MAIN_BRANCH='master'
+      fi
     fi
 
     MAIN_BRANCH="$LOCAL_MAIN_BRANCH"
