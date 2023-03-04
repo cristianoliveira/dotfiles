@@ -7,6 +7,7 @@ require('mappings/fugitive')
 require('mappings/panels')
 require('mappings/defaults')
 require('mappings/lsp')
+require('mappings/buffers')
 
 require('settings/vim')
 require('settings/lsp')
