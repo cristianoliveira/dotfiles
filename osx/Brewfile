@@ -89,6 +89,7 @@ brew 'entr' # watch files and execute a cmd
 brew 'fd'
 brew 'openjdk'
 brew 'bitwarden-cli'
+brew 'fzf' # fuzzy finder cli. Pipe options to it and select!
 
 # Install neovim
 tap 'neovim/neovim'

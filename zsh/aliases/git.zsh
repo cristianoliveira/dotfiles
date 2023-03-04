@@ -95,6 +95,7 @@ alias gb='git b'
 alias gbh='git branch --sort=-committerdate | head -n'
 alias gclb='git branch --sort=-committerdate | head -n 1 | pbcopy'
 alias gbsync="~/.dotfiles/zsh/scripts/git-branch-sync"
+alias gbls="git branch --list --format='%(refname:short)'"
 
 # git helpers
 alias gwip='git add . && git commit -m "WIP" --no-verify'
@@ -132,3 +133,6 @@ alias gamd='git commit --amend'
 alias gamd!='git commit --amend --no-edit'
 
 alias gchbm="git checkout origin/\$MAIN_BRANCH && git checkout -b"
+
+# git [ch]eckout [p]ick branch
+alias gchp='git checkout $(g bls | fzf)'

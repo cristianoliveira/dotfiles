@@ -25,6 +25,7 @@
 
   # branch
   b = branch -v                     # branch (verbose)
+  bls = branch --list --format='%(refname:short)'
 
   # commit
   c = commit -m                     # commit with message

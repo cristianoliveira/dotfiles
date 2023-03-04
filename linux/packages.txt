@@ -1455,3 +1455,4 @@ zenity-common
 zip
 zlib1g
 zsh
+fzf
