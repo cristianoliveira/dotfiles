@@ -11,7 +11,3 @@ nnoremap("<C-H>","<C-W><C-H>")
 
 -- Close quickfix panel
 nnoremap("<C-w>w", ":ccl<CR>")
-
--- Move half page (d)own or (u)p centralizing the window
-nnoremap("<C-d>", "<C-d>zz")
-nnoremap("<C-u>", "<C-u>zz")
