@@ -28,7 +28,7 @@ Plugin 'cristianoliveira/vim-react-html-snippets'
 Plugin 'cristianoliveira/vim-circuit-ui-snippets'
 
 " Edition plugins
-Plugin 'kristijanhusak/vim-multiple-cursors'
+Plugin 'mg979/vim-visual-multi'
 
 " Syntatic and Linter
 Plugin 'w0rp/ale' " Plugin 'vim-syntastic/syntastic'
