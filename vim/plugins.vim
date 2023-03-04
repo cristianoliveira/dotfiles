@@ -31,12 +31,9 @@ Plugin 'cristianoliveira/vim-circuit-ui-snippets'
 Plugin 'mg979/vim-visual-multi'
 
 " Syntatic and Linter
-Plugin 'w0rp/ale' " Plugin 'vim-syntastic/syntastic'
+Plugin 'w0rp/ale'
 Plugin 'joom/vim-commentary'
 Plugin 'tpope/vim-surround'
-" Plugin 'prettier/vim-prettier', {
-"       \'do': 'yarn install --frozen-lockfile --production'
-"       \}
 
 " Git integration
 Plugin 'tpope/vim-fugitive'
