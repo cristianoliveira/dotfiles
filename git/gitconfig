@@ -38,6 +38,7 @@
   # checkout
   ch = checkout                     # checkout
   co = checkout                     # checkout
+  chb = checkout -b
   nb = checkout -b                  # create and switch to a new branch (mnemonic: "git new branch branchname...")
 
   # cherry-pick

@@ -122,8 +122,8 @@ alias gap='git add -p'
 alias guns='git unstage'
 alias gunc='git uncommit'
 alias gam='git amen --reset-author'
-alias grv='git remote -v'
-alias grr='git remote rm'
+alias grmv='git remote -v'
+alias grmr='git remote rm'
 alias grad='git remote add'
 alias gs='git status'
 
@@ -131,3 +131,4 @@ alias gmt="git mergetool"
 alias gamd='git commit --amend'
 alias gamd!='git commit --amend --no-edit'
 
+alias gchbm="git checkout origin/\$MAIN_BRANCH && git checkout -b"
