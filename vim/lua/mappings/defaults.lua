@@ -1,6 +1,8 @@
 -- Keep view on the middle of screen to each search
 nmap("n", "nzzzv")
 nmap("N", "Nzzzv")
+nmap("<C-o>", "<C-o>zzzv")
+nmap("<C-i>", "<C-i>zzzv")
 
 -- Keep the cursor in the same place after yank
 vmap("y", "ygv<Esc>")
