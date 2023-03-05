@@ -34,7 +34,7 @@ alias fglt20="$fzf_git_log_formatted | head -n 20 | fzf | $pick_first_column"
 
 # fzf git checkout (pick branch)
 local git_branch_formatted="git branch -a --sort=committerdate --format='%(refname:short) [%(committerdate:relative)]'"
-local fzf_git_branch="$git_branch_formatted | fzf --multi | $pick_first_column"
+local fzf_git_branch="$git_branch_formatted | fzf | $pick_first_column"
 
 alias fgb=$fzf_git_branch
 alias fgch="git checkout \$($fzf_git_branch)"
@@ -59,9 +59,11 @@ alias fgs=$fzf_git_unstaged_files
 
 # fzf git rebase
 alias fgrb="git rebase \$($fzf_git_branch)"
+alias fgrbi="git rebase --interactive \$($fzf_git_commit_from_log)"
 
 # fzf git add
 alias fga="git add \$($fzf_git_unstaged_files)"
 
 # fzf git merge
 alias fgm="git merge \$($fzf_git_branch)"
+
