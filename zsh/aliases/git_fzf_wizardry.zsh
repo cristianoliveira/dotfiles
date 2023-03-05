@@ -23,7 +23,7 @@ function git_log_formatted () {
   fi
 }
 
-local fzfmultiple="fzf -m --bind 'ctrl-e:toggle-all'"
+local fzfmultiple="fzf -m --bind 'ctrl-e:toggle-all' --header 'CTRL-E: Select/Unselect all.'"
 alias fzfm=$fzfmultiple
 
 # fzf git log (return commit hash)
@@ -47,6 +47,7 @@ alias fgcp="git cherry-pick \$($fzf_git_commit_from_log)"
 
 # [f]zf (fuzzy find) [g]it [ch]eckout [p]ick branch
 alias fgch="git checkout \$($fzf_git_branch)"
+alias fgchf="git checkout \$($fzf_git_unstaged_files)"
 alias fgchb="git checkout \$($fzf_git_branch) && git checkout -b" # arg: new_branch_name
 
 # fzf git [ch]eckout [p]ick from [t]op N
