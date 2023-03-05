@@ -134,5 +134,3 @@ alias gamd!='git commit --amend --no-edit'
 
 alias gchbm="git checkout origin/\$MAIN_BRANCH && git checkout -b"
 
-# git [ch]eckout [p]ick branch
-alias gchp='git checkout $(g bls | fzf)'
