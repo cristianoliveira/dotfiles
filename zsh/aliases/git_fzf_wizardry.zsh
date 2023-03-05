@@ -23,6 +23,9 @@ function git_log_formatted () {
   fi
 }
 
+local fzfmultiple="fzf -m --bind 'ctrl-e:toggle-all'"
+alias fzfm=$fzfmultiple
+
 # fzf git log (return commit hash)
 local fzf_git_log_formatted="git_log_formatted | fzf"
 alias fgl="$fzf_git_log_formatted | $pick_first_column"
@@ -50,7 +53,7 @@ alias fgcht10='git checkout $(g bls --sort=-committerdate | head -n 10 | fzf)'
 alias fgcht20='git checkout $(g bls --sort=-committerdate | head -n 20 | fzf)'
 
 # fzf git status
-local fzf_git_unstaged_files="git status --porcelain | fzf -m --no-height | awk '{print \$2}'"
+local fzf_git_unstaged_files="git status --porcelain | $fzfmultiple | awk '{print \$2}'"
 alias fgs=$fzf_git_unstaged_files
 
 # fzf git rebase
