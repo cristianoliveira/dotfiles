@@ -1,4 +1,4 @@
-### GIT + FZF wizardry
+### fzf git + FZF wizardry
 #
 # The aliases defined here has the same pattern as ./git.zsh but starting
 # with [f]git_alias so if you use the standard alias and change your mind
@@ -45,13 +45,16 @@ alias fgcp="git cherry-pick \$($fzf_git_commit_from_log)"
 # [f]zf (fuzzy find) [g]it [ch]eckout [p]ick branch
 alias fgch="git checkout \$($fzf_git_branch)"
 
-# git [ch]eckout [p]ick from [t]op N
+# fzf git [ch]eckout [p]ick from [t]op N
 alias fgcht10='git checkout $(g bls --sort=-committerdate | head -n 10 | fzf)'
 alias fgcht20='git checkout $(g bls --sort=-committerdate | head -n 20 | fzf)'
 
-alias fgrb="git rebase \$($fzf_git_branch)"
-alias fgrbo="git rebase origin/\$($fzf_git_branch)"
+# fzf git status
+local fzf_git_unstaged_files="git status --porcelain | fzf -m --no-height | awk '{print \$2}'"
+alias fgs=$fzf_git_unstaged_files
 
-local fzf_git_unstaged_files="git status --porcelain | fzf -m --no-height | awk '{print \$2}' | xargs"
+# fzf git rebase
+alias fgrb="git rebase \$($fzf_git_branch)"
+
+# fzf git add
 alias fga="git add \$($fzf_git_unstaged_files)"
-# alias fga="git add \$($fzf_git_unstaged_files)"
