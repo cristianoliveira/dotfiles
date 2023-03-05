@@ -33,7 +33,7 @@ alias fglt10="$fzf_git_log_formatted | head -n 10 | fzf | $pick_first_column"
 alias fglt20="$fzf_git_log_formatted | head -n 20 | fzf | $pick_first_column"
 
 # fzf git checkout (pick branch)
-local git_branch_formatted="git branch -a --sort=committerdate --format='%(refname:short) [%(committerdate:relative)]'"
+local git_branch_formatted="git branch -a --sort=-committerdate --format='%(refname:short) [%(committerdate:relative)]'"
 local fzf_git_branch="$git_branch_formatted | fzf | $pick_first_column"
 
 alias fgb=$fzf_git_branch
