@@ -47,6 +47,7 @@ alias fgcp="git cherry-pick \$($fzf_git_commit_from_log)"
 
 # [f]zf (fuzzy find) [g]it [ch]eckout [p]ick branch
 alias fgch="git checkout \$($fzf_git_branch)"
+alias fgchb="git checkout \$($fzf_git_branch) && git checkout -b" # arg: new_branch_name
 
 # fzf git [ch]eckout [p]ick from [t]op N
 alias fgcht10='git checkout $(g bls --sort=-committerdate | head -n 10 | fzf)'
@@ -61,3 +62,6 @@ alias fgrb="git rebase \$($fzf_git_branch)"
 
 # fzf git add
 alias fga="git add \$($fzf_git_unstaged_files)"
+
+# fzf git merge
+alias fgm="git merge \$($fzf_git_branch)"
