@@ -9,12 +9,22 @@
 #
 # I'm tellying you this is another level wizardry
 #
+# WARNING: Arguments are not allowed! It will simply fail.
+# Fzf is used to pick the arguments.
+#
 
 local pick_first_column="awk '{print \$1}'"
 
+function git_log_formatted () {
+  if [[ -z "$1" ]]; then
+    git log $1 --no-merges --pretty=format:"%h %s [%cn - %cr]"
+  else
+    git log --no-merges --pretty=format:"%h %s [%cn - %cr]"
+  fi
+}
+
 # fzf git log (return commit hash)
-local git_log_formatted="git log --no-merges --pretty=format:\"%h %s [%cn - %cr]\""
-local fzf_git_log_formatted="$git_log_formatted | fzf"
+local fzf_git_log_formatted="git_log_formatted | fzf"
 alias fgl="$fzf_git_log_formatted | $pick_first_column"
 alias fglt10="$fzf_git_log_formatted | head -n 10 | fzf | $pick_first_column"
 alias fglt20="$fzf_git_log_formatted | head -n 20 | fzf | $pick_first_column"
@@ -27,7 +37,7 @@ alias fgb=$fzf_git_branch
 alias fgch="git checkout \$($fzf_git_branch)"
 
 # fzf cherry-pick commit from branch
-local fzf_git_log_from_branch="git log \$($fzf_git_branch) --no-merges --pretty=format:\"%h %s [%cn - %cr]\""
+local fzf_git_log_from_branch="git_log_formatted \$($fzf_git_branch)"
 local fzf_git_commit_from_log="$fzf_git_log_from_branch | fzf --sync | $pick_first_column"
 
 alias fgcp="git cherry-pick \$($fzf_git_commit_from_log)"
@@ -38,3 +48,10 @@ alias fgch="git checkout \$($fzf_git_branch)"
 # git [ch]eckout [p]ick from [t]op N
 alias fgcht10='git checkout $(g bls --sort=-committerdate | head -n 10 | fzf)'
 alias fgcht20='git checkout $(g bls --sort=-committerdate | head -n 20 | fzf)'
+
+alias fgrb="git rebase \$($fzf_git_branch)"
+alias fgrbo="git rebase origin/\$($fzf_git_branch)"
+
+local fzf_git_unstaged_files="git status --porcelain | fzf -m --no-height | awk '{print \$2}' | xargs"
+alias fga="git add \$($fzf_git_unstaged_files)"
+# alias fga="git add \$($fzf_git_unstaged_files)"
