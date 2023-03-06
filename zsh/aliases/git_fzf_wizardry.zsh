@@ -23,7 +23,7 @@ function git_log_formatted () {
   fi
 }
 
-local fzfmultiple="fzf -m --bind 'ctrl-e:toggle-all' --header 'CTRL-E: Select/Unselect all.'"
+local fzfmultiple="fzf -m --bind 'ctrl-e:toggle-all' --header 'CTRL-44E: Select/Unselect all.'"
 alias fzfm=$fzfmultiple
 
 # fzf git log (return commit hash)
@@ -67,4 +67,3 @@ alias fga="git add \$($fzf_git_unstaged_files)"
 
 # fzf git merge
 alias fgm="git merge \$($fzf_git_branch)"
-

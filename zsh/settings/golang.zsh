@@ -1,5 +1,3 @@
-echo "Setting go environment..."
-
 # Golang
 export GOPATH="$HOME/golang/"
 export PATH=$PATH:$GOPATH/bin
@@ -8,7 +6,6 @@ export PATH=$PATH:$GOPATH/bin
 lazy_load_gvm() {
   GVM="$HOME/.gvm/scripts/gvm"
   if [[ -f "$GVM" ]]; then
-      echo "$GVM exists. Loading..."
       source "$GVM"
   else
       echo "No custom $CUSTOM_ZSHRC file found"
@@ -20,5 +17,3 @@ gvm() {
 
   gvm $@
 }
-
-go version
