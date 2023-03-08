@@ -12,7 +12,7 @@ nnoremap('<leader>grs', ':G reset % <CR>')
 nnoremap('<leader>gst', ':G ss <CR>')
 nnoremap('<leader>gsa', ':G sa <CR>')
 
-nnoremap('<leader>gl', ':G log<CR>')
+nnoremap('<leader>glg', ':G l --pretty=short<CR>')
 nnoremap('<leader>gbm', ':G blame <CR>')
 
 nnoremap('<leader>gcm', ':G cm<CR>')

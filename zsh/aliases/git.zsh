@@ -27,7 +27,7 @@ alias grbom='git rebase origin/"$MAIN_BRANCH"'
 
 # git log
 alias gl='git l'
-alias glg='git l --grep'
+alias glg='git log'
 alias glog='git l'
 
 # git fetch
