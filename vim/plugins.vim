@@ -37,7 +37,6 @@ Plugin 'tpope/vim-surround'
 
 " Git integration
 Plugin 'tpope/vim-fugitive'
-Plugin 'airblade/vim-gitgutter'
 Plugin 'ruanyl/vim-gh-line' " Open github with line you are in vim
 
 " Navigation open file directs on line by `:e ./spec/test_spec.rb:16`

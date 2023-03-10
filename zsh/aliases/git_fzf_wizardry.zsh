@@ -33,22 +33,24 @@ alias fglt10="$fzf_git_log_formatted | head -n 10 | fzf | $pick_first_column"
 alias fglt20="$fzf_git_log_formatted | head -n 20 | fzf | $pick_first_column"
 
 # fzf git checkout (pick branch)
-local git_branch_formatted="git branch -a --sort=-committerdate --format='%(refname:short) [%(committerdate:relative)]'"
-local fzf_git_branch="$git_branch_formatted | fzf | $pick_first_column"
+local git_branch_formatted="git branch --sort=-committerdate --format='%(refname:short) [%(committerdate:relative)]'"
+local git_branch_all_formatted="git branch -a --sort=-committerdate --format='%(refname:short) [%(committerdate:relative)]'"
+local fzf_git_branch_local="$git_branch_formatted | fzf | $pick_first_column"
 
-alias fgb=$fzf_git_branch
-alias fgch="git checkout \$($fzf_git_branch)"
+alias fgb=$fzf_git_branch_local
+alias fgba="$git_branch_all_formatted | fzf | $pick_first_column"
+alias fgch="git checkout \$($fzf_git_branch_local)"
 
 # fzf cherry-pick commit from branch
-local fzf_git_log_from_branch="git_log_formatted \$($fzf_git_branch)"
+local fzf_git_log_from_branch="git_log_formatted \$($fzf_git_branch_local)"
 local fzf_git_commit_from_log="$fzf_git_log_from_branch | fzf --sync | $pick_first_column"
 
 alias fgcp="git cherry-pick \$($fzf_git_commit_from_log)"
 
 # [f]zf (fuzzy find) [g]it [ch]eckout [p]ick branch
-alias fgch="git checkout \$($fzf_git_branch)"
+alias fgch="git checkout \$($fzf_git_branch_local)"
 alias fgchf="git checkout \$($fzf_git_unstaged_files)"
-alias fgchb="git checkout \$($fzf_git_branch) && git checkout -b" # arg: new_branch_name
+alias fgchb="git checkout \$($fzf_git_branch_local) && git checkout -b" # arg: new_branch_name
 
 # fzf git [ch]eckout [p]ick from [t]op N
 alias fgcht10='git checkout $(g bls --sort=-committerdate | head -n 10 | fzf)'
@@ -59,11 +61,11 @@ local fzf_git_unstaged_files="git status --porcelain | $fzfmultiple | awk '{prin
 alias fgs=$fzf_git_unstaged_files
 
 # fzf git rebase
-alias fgrb="git rebase \$($fzf_git_branch)"
+alias fgrb="git rebase \$($fzf_git_branch_local)"
 alias fgrbi="git rebase --interactive \$($fzf_git_commit_from_log)"
 
 # fzf git add
 alias fga="git add \$($fzf_git_unstaged_files)"
 
 # fzf git merge
-alias fgm="git merge \$($fzf_git_branch)"
+alias fgm="git merge \$($fzf_git_branch_local)"
