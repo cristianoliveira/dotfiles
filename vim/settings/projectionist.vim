@@ -18,5 +18,13 @@ let g:projectionist_heuristics = {
         \    "*.spec.tsx": {
         \      "alternate": "{}.tsx"
         \    }
+        \  },
+      \ "go.mod": {
+        \    "*.go": {
+        \      "alternate": "{}_test.go"
+        \    },
+        \    "*_test.go": {
+        \      "alternate": "{}.go"
+        \    }
         \  }
       \}
