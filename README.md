@@ -5,14 +5,14 @@ My dotfiles for setting up a new dev environment. :package: :sunglasses: :sungla
 # What do I use?
 
   - ZSH (oh-my-zsh)
-  - Neovim v0.6.1
-  - Tmux 2.5
+  - Neovim 
+  - Tmux
 
   And a lot of pre installed apps. See in: `osx/Brewfile` or `linux/packages.txt`
 
   I work mostly with:
 
-  - Javascript and Reactjs
+  - Javascript (Reactjs & nodejs, et all)
   - Rust
   - Golang
 
