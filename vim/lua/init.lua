@@ -9,6 +9,7 @@ require('mappings/defaults')
 require('mappings/lsp')
 require('mappings/buffers')
 require('mappings/tabs')
+require('mappings/macros')
 
 require('settings/vim')
 require('settings/lsp')
