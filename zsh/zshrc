@@ -57,7 +57,7 @@ ZSH_THEME="clean"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git rvm z vi-mode tmux web-search history-substring-search fasd)
+plugins=(git z vi-mode history-substring-search)
 
 source $ZSH/oh-my-zsh.sh
 
