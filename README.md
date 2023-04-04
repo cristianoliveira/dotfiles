@@ -26,6 +26,8 @@ My dotfiles for setting up a new dev environment. :package: :sunglasses: :sungla
 ```bash
 git clone git@github.com:cristianoliveira/dotfiles.git ~/.dotfiles
 
+cd ~/.dotfiles
+
 # For linux users
 make linux
 # or
