@@ -11,13 +11,11 @@ if [[ -z $folder ]]; then
   exit 0
 fi
 
-echo "Enter the name of the new project in $folder:"
-read project
+read -p "$folder/" project
 
 selected="$folder/$project"
 
 if [[ -n "$project" ]]; then
-  echo "creating folder $selected"
   mkdir -p "$selected"
 fi
 
