@@ -3,26 +3,46 @@
 WORKSPACE_FOLDERS="$HOME/work $HOME/other"
 OTHER_FOLDERS="$HOME/.dotfiles"
 
+if [ "$1" = "list-sessions" ]; then
+  tmux switch-client -t "$(\
+    tmux list-sessions |
+    sed -E 's/^(.*): (.*)$/\1/g' |
+    fzf --height 50% --layout=reverse --border --header 'FZF open sessions to attach'\
+  )"
+  exit 0
+fi
+
 if [[ $# -eq 1 ]]; then
   selected=$1
 else
-  selected=$(printf "$(find $WORKSPACE_FOLDERS -mindepth 1 -maxdepth 1 -type d) \n $OTHER_FOLDERS"  | fzf)
+  selected=$(\
+    printf "$(find $WORKSPACE_FOLDERS -mindepth 1 -maxdepth 1 -type d)\n$OTHER_FOLDERS" |
+    fzf --height 50% --layout=reverse --border --header 'FZF workspaces to create or attach if session exists'
+  )
 fi
+
+base_name=$(echo "$selected" | tr . _)
+
+# Name the session using the worskspace's first letter as separator
+# Eg.
+# /user/name/work/myproject => w/myproject
+# /user/name/other/oproject => o/oproject
+#
+selected_name=$(echo "$base_name" | sed -E 's/(.*)\/(.).*\/([^\/]+)$/\2\/\3/g')
 
 if [[ -z $selected ]]; then
   exit 0
 fi
 
-selected_name=$(basename "$selected" | tr . _)
 tmux_running=$(pgrep tmux)
 
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-  tmux new-session -s $selected_name -c $selected
+  tmux new-session -s "$selected_name" -c "$selected"
   exit 0
 fi
 
-if ! tmux has-session -t=$selected_name 2> /dev/null; then
-  tmux new-session -ds $selected_name -c $selected
+if ! tmux has-session -t="$selected_name" 2> /dev/null; then
+  tmux new-session -ds "$selected_name" -c "$selected"
 fi
 
-tmux switch-client -t $selected_name
+tmux switch-client -t "$selected_name"
