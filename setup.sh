@@ -40,9 +40,9 @@ ln -s "$HOME_PATH"/.dotfiles/git/gitignore "$HOME_PATH"/.gitignore
 ln -s "$HOME_PATH"/.dotfiles/ctags "$HOME_PATH"/.ctags
 ln -s "$HOME_PATH"/.dotfiles/resources/karabiner "$HOME_PATH"/.config/karabiner
 
-echo "Istalling tmux-setup helper"
-rm /usr/local/bin/tmux-setup
-ln -s "$HOME_PATH"/tmux/tmux-setup /usr/local/bin/tmux-setup
+echo "Istalling tmux-s helper"
+rm "$HOME_PATH/.dotfiles/bin/tmux-s"
+ln -s "$HOME_PATH/.dotfiles/tmux/bin/tmux-s" "$HOME_PATH/.dotfiles/bin/tmux-s"
 
 echo "Installing zsh"
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" &
