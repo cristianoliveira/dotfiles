@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+WORKSPACE_FOLDERS="$HOME $HOME/work $HOME/other"
+
+folder=$(\
+  echo "$WORKSPACE_FOLDERS" |
+  tr ' ' '\n' |
+  fzf --height 50% --layout=reverse --border --header 'Select workspace: ' \
+)
+
+if [[ -z $folder ]]; then
+  exit 0
+fi
+
+echo "Enter the name of the new project in $folder:"
+read project
+
+selected="$folder/$project"
+
+if [[ -n "$project" ]]; then
+  echo "creating folder $selected"
+  mkdir -p "$selected"
+fi
+
+
+selected_name=$(echo "$selected" | sed -E 's/(.*)\/(.).*\/([^\/]+)$/\2\/\3/g')
+
+tmux_running=$(pgrep tmux)
+
+if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
+  tmux new-session -s "$selected_name" -c "$selected"
+  exit 0
+fi
+
+if ! tmux has-session -t="$selected_name" 2> /dev/null; then
+  tmux new-session -ds "$selected_name" -c "$selected"
+fi
+
+tmux switch-client -t "$selected_name"
