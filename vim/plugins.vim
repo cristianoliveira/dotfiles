@@ -63,4 +63,6 @@ Plugin 'rust-lang/rust.vim'
 " Golang
 Plugin 'fatih/vim-go'
 
+Plugin 'cristianoliveira/snipgpt.nvim', { 'do': 'npm i snipgpt -g' }
+
 call vundle#end()
