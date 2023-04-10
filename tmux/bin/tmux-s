@@ -18,7 +18,11 @@ else
   selected="$HOME/$(\
     printf "$(find $WORKSPACE_FOLDERS -mindepth 1 -maxdepth 1 -type d)\n$OTHER_FOLDERS" |
     sed -E 's/(.*)\/(.*)\/([^\/]+)$/\2\/\3/g' |
-    fzf --height 50% --layout=reverse --border --header 'FZF projects in workspaces:'
+    fzf --height 50% \
+    --layout=reverse \
+    --border \
+    --header 'FZF projects in workspaces:' \
+    --preview "ls -la $HOME/{}"
   )"
 fi
 
