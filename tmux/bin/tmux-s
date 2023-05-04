@@ -3,10 +3,9 @@
 WORKSPACE_FOLDERS="$HOME/work $HOME/other"
 OTHER_FOLDERS="$HOME/.dotfiles"
 
-if [ "$1" = "list-sessions" ]; then
+if [ -n "$1" ]; then
   tmux switch-client -t "$(\
-    tmux list-sessions |
-    sed -E 's/^(.*): (.*)$/\1/g' |
+    echo "$@" | tr ' ' '\n' |
     fzf --height 50% --layout=reverse --border --header 'FZF open sessions to attach'\
   )"
   exit 0
@@ -24,6 +23,10 @@ else
     --header 'FZF projects in workspaces:' \
     --preview "ls -la $HOME/{}"
   )"
+fi
+
+if [[ -z $selected ]]; then
+  exit 0
 fi
 
 base_name=$(echo "$selected" | tr . _)
