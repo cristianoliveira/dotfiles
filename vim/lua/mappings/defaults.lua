@@ -17,3 +17,11 @@ vnoremap("<", "<<CR>gv")
 -- Move half page (d)own or (u)p centralizing the window
 nnoremap("<C-d>", "<C-d>zz")
 nnoremap("<C-u>", "<C-u>zz")
+
+nnoremap("<C-p>", ":FZF<CR>")
+
+-- Folder navigation
+nnoremap("<C-e>", ":e . <CR>")
+nmap('<leader>e', ':e <C-R>=expand("%:p:h") . "/" <CR>')
+nmap('<leader>s', ':split <C-R>=expand("%:p:h") . "/" <CR>')
+
