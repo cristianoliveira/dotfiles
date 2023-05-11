@@ -14,6 +14,7 @@ require('mappings/macros')
 require('mappings/codeium')
 -- require('mappings/copilot')
 
+require('mappings/ultisnips')
 require('settings/vim')
 require('settings/lsp')
 require('settings/performance')
