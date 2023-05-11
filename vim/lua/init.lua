@@ -11,6 +11,9 @@ require('mappings/buffers')
 require('mappings/tabs')
 require('mappings/macros')
 
+require('mappings/codeium')
+-- require('mappings/copilot')
+
 require('settings/vim')
 require('settings/lsp')
 require('settings/performance')

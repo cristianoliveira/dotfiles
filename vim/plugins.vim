@@ -7,6 +7,9 @@ Plugin 'neovim/nvim-lspconfig'
 Plugin 'williamboman/mason.nvim'
 Plugin 'williamboman/mason-lspconfig.nvim'
 
+Plugin 'Exafunction/codeium.vim'
+" Plugin 'github/copilot.vim'
+
 Plugin 'MarcWeber/vim-addon-mw-utils'
 Plugin 'Yggdroot/indentLine'
 
@@ -18,7 +21,7 @@ Plugin 'bling/vim-airline'
 " Autocomplete
 Plugin 'ConradIrwin/vim-bracketed-paste'
 Plugin 'tpope/vim-repeat.git'
-Plugin 'jiangmiao/auto-pairs'
+" Plugin 'jiangmiao/auto-pairs'
 
 " Snippets
 Plugin 'sirver/UltiSnips'
@@ -41,12 +44,12 @@ Plugin 'ruanyl/vim-gh-line' " Open github with line you are in vim
 
 " Navigation open file directs on line by `:e ./spec/test_spec.rb:16`
 Plugin 'kopischke/vim-fetch'
-Plugin 'juanibiapina/vim-lighttree' " Plugin 'scrooloose/nerdtree'
 Plugin 'tpope/vim-projectionist' "Jump between related files
 
 " Search plugins
 Plugin 'mileszs/ack.vim'
 Plugin 'ctrlpvim/ctrlp.vim'
+" Plugin 'junegunn/fzf'
 
 " Documentation
 Plugin 'rizzatti/dash.vim'
