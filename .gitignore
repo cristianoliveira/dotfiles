@@ -1,2 +1,4 @@
 vim/bundle/
 resources/karabiner/automatic_backups
+
+*.log
