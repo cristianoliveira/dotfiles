@@ -1,1 +1,29 @@
 extends typescript
+
+snippet <> "- Place a custom tag and cursors" b
+	<${1:}></$1>
+endsnippet
+
+snippet <div "- Plain div" b
+<div></div>
+endsnippet
+
+snippet <divc "Place a div using class" b
+<div className="$1"></div>
+endsnippet
+
+snippet <div# "<div> with ID & class" w
+<div`!p snip.rv=' id="' if t[1] else ""`${1:name}`!p snip.rv = '"' if t[1] else ""``!p snip.rv=' className="' if t[2] else ""`${2:name}`!p snip.rv = '"' if t[2] else ""`>
+	${0:${VISUAL}}
+</div>
+endsnippet
+
+snippet <div. "<div> with class" w
+<div`!p snip.rv=' className="' if t[1] else ""`${1:name}`!p snip.rv = '"' if t[1] else ""`>
+	${0:${VISUAL}}
+</div>
+endsnippet
+
+snippet <a "Link" w
+<a href="${1:http://www.${2:url.com}}"${3: target="_blank"}>${4:Anchor Text}</a>
+endsnippet

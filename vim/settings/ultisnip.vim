@@ -1,1 +1,1 @@
-let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
+let g:UltiSnipsSnippetDirectories=["~/.vim/mysnippets"]
