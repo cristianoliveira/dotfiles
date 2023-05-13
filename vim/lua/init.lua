@@ -11,6 +11,7 @@ require('mappings/lsp')
 require('mappings/buffers')
 require('mappings/tabs')
 require('mappings/macros')
+require('mappings/netrw')
 
 -- require('mappings/codeium')
 require('mappings/copilot')

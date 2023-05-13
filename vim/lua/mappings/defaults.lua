@@ -20,8 +20,3 @@ nnoremap("<C-u>", "<C-u>zz")
 
 nnoremap("<C-p>", ":FZF<CR>")
 
--- Folder navigation
-nnoremap("<C-e>", ":e . <CR>")
-nmap('<leader>e', ':e <C-R>=expand("%:p:h") . "/" <CR>')
-nmap('<leader>s', ':split <C-R>=expand("%:p:h") . "/" <CR>')
-
