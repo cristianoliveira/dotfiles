@@ -20,4 +20,3 @@ require('mappings/ultisnips')
 require('settings/vim')
 require('settings/lsp')
 require('settings/performance')
-
