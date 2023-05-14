@@ -1,4 +1,6 @@
 require('plugins')
+
+require('functions/selected_content')
 require('functions/vimscript_to_lua')
 
 require('mappings/copy_paste')
@@ -12,11 +14,10 @@ require('mappings/buffers')
 require('mappings/tabs')
 require('mappings/macros')
 require('mappings/netrw')
-
 -- require('mappings/codeium')
 require('mappings/copilot')
-
 require('mappings/ultisnips')
+
 require('settings/vim')
 require('settings/lsp')
 require('settings/performance')
