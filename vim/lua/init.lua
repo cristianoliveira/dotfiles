@@ -17,6 +17,7 @@ require('mappings/netrw')
 -- require('mappings/codeium')
 require('mappings/copilot')
 require('mappings/ultisnips')
+require('mappings/grep')
 
 require('settings/vim')
 require('settings/lsp')
