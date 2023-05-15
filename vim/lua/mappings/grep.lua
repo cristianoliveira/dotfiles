@@ -6,8 +6,8 @@ vim.keymap.set('v', '<leader>k', function()
     return
   end
 
-  vim.cmd("Ack " .. content .. " .")
+  vim.cmd("Ack '" .. content .. "'")
 end, { silent = true })
 
-vim.keymap.set('n', '<leader>gg', ':Ack! ""<Left>', { silent = true })
-vim.keymap.set('n', '<leader>k', ':Ack! <CR>', { silent = true })
+vim.keymap.set('n', '<leader>gg', ':Ack! ""<Left>', { script = true })
+vim.keymap.set('n', '<leader>k', ':Ack! <CR>', { script = true })

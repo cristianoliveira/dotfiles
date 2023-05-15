@@ -1,7 +1,5 @@
 -- UltiSnips
-
 vim.g.UltiSnipsExpandTrigger="<c-l>"
-vim.g.UltiSnipsListSnippets="<leader>l"
-
+vim.g.UltiSnipsListSnippets="" -- <C-/>
 -- let g:UltiSnipsSnippetDirectories=["~/.vim/mysnippets"]
-vim.g.UltiSnipsSnippetsDir="~/.vim/mysnippets"
+vim.g.UltiSnipsSnippetDirectories={ "~/.vim/mysnippets" }
