@@ -1,2 +1,2 @@
 vim.opt.relativenumber = true
-vim.g.netrw_liststyle= 1
+vim.g.netrw_liststyle= 0
