@@ -43,33 +43,6 @@ class ${1:`!v expand('%:t:r')`} extends Component {
 export default $1;
 endsnippet
 
-snippet rfc "React Functional Component" b
-import React from 'react';
-import PropTypes from 'prop-types';
-
-function ${1:`!v expand('%:t:r')`}({ $3 }) {
-	return (
-		<${5:div}>
-			$0
-		</$5>
-	);
-}
-
-$1.defaultProps = {$4};
-
-$1.propTypes = {`!p
-props = t[3]
-
-if props:
-  snip >> 1
-  for prop in props.split(', '):
-    snip += prop + ': PropTypes.any,'
-`
-};
-
-export default $1;
-endsnippet
-
 snippet rctx "React context" b
 import { createContext, useContext } from 'react'
 
