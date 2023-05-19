@@ -14,7 +14,7 @@ fi
 if [[ $# -eq 1 ]]; then
   selected=$1
 else
-  selected="$HOME/$(\
+  selected="$(\
     printf "$(find $WORKSPACE_FOLDERS -mindepth 1 -maxdepth 1 -type d)\n$OTHER_FOLDERS" |
     sed -E 's/(.*)\/(.*)\/([^\/]+)$/\2\/\3/g' |
     fzf --height 50% \
@@ -25,9 +25,11 @@ else
   )"
 fi
 
-if [[ -z $selected ]]; then
+if [[ -z "$selected" ]]; then
   exit 0
 fi
+
+selected="$HOME/$selected"
 
 base_name=$(echo "$selected" | tr . _)
 

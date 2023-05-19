@@ -7,7 +7,7 @@ folder=$(\
   fzf --height 50% --layout=reverse --border --header 'Select workspace: ' \
 )
 
-if [[ -z $folder ]]; then
+if [[ -z "$folder" ]]; then
   exit 0
 fi
 
