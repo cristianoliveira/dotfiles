@@ -5,6 +5,7 @@ vim.api.nvim_create_autocmd('FileType', {
   callback = function()
     local buffer = vim.api.nvim_get_current_buf()
     vim.keymap.set('n', '<C-u>', '-^', { buffer = buffer, remap = true })
+    vim.keymap.set('n', '<C-r>', '<C-l>', { buffer = buffer, remap = true })
   end,
 })
 
@@ -12,7 +13,7 @@ vim.api.nvim_create_autocmd('FileType', {
 -- Open Ex in the current file dir
 nmap('<C-e>', ':e <C-R>=expand("%:p:h") . "/" <CR>')
 -- Open Ex in the project root folder
-nnoremap("<C-e>~", ":e . <CR>")
+nmap("<C-e>~", ":e . <CR>")
 nmap('<leader>e', ':e <C-R>=expand("%:p:h") . "/" <CR>')
 
 -- Fd specific filders
