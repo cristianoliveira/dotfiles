@@ -7,8 +7,8 @@ Plugin 'neovim/nvim-lspconfig'
 Plugin 'williamboman/mason.nvim'
 Plugin 'williamboman/mason-lspconfig.nvim'
 
-Plugin 'Exafunction/codeium.vim'
-" Plugin 'github/copilot.vim'
+" Plugin 'Exafunction/codeium.vim'
+Plugin 'github/copilot.vim'
 
 Plugin 'MarcWeber/vim-addon-mw-utils'
 Plugin 'Yggdroot/indentLine'
@@ -49,7 +49,7 @@ Plugin 'tpope/vim-projectionist' "Jump between related files
 " Search plugins
 Plugin 'mileszs/ack.vim'
 Plugin 'ctrlpvim/ctrlp.vim'
-" Plugin 'junegunn/fzf'
+Plugin 'junegunn/fzf'
 
 " Documentation
 Plugin 'rizzatti/dash.vim'
