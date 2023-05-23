@@ -1,6 +1,6 @@
 # Golang
-export GOPATH="$HOME/golang/"
-export PATH=$PATH:$GOPATH/bin
+export GOPATH="$HOME/golang"
+export PATH=$GOPATH/bin:$PATH
 
 # Add GVM to the PATH. So go versions are managed by GVM
 lazy_load_gvm() {
