@@ -16,7 +16,7 @@ let g:ale_fixers = {
       \}
 let g:ale_linters_explicit = 1
 let g:ale_linters = {
-      \  'typescript': ['tslint'],
+      \  'typescript': ['tsserver', 'tslint'],
       \  'javascript': ['eslint'],
       \  'typescriptreact': ['tslint'],
       \  'javascriptreact': ['eslint'],

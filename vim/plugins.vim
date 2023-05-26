@@ -27,14 +27,14 @@ Plugin 'tpope/vim-repeat.git'
 Plugin 'sirver/UltiSnips'
 Plugin 'honza/vim-snippets'
 Plugin 'epilande/vim-es2015-snippets'
-Plugin 'cristianoliveira/vim-react-html-snippets'
 Plugin 'cristianoliveira/vim-circuit-ui-snippets'
 
 " Edition plugins
 Plugin 'mg979/vim-visual-multi'
 
 " Syntatic and Linter
-Plugin 'w0rp/ale'
+" Plugin 'w0rp/ale'
+Plugin 'dense-analysis/ale'
 Plugin 'joom/vim-commentary'
 Plugin 'tpope/vim-surround'
 
@@ -67,5 +67,7 @@ Plugin 'rust-lang/rust.vim'
 Plugin 'fatih/vim-go'
 
 Plugin 'cristianoliveira/snipgpt.nvim', { 'do': 'npm i snipgpt -g' }
+
+Plugin 'vim-test/vim-test'
 
 call vundle#end()
