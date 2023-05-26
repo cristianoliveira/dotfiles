@@ -144,18 +144,6 @@ describe("$1", () => {
 })
 endsnippet
 
-snippet it "create a test block" b
-it("should $1", () => {
-	$0
-})
-endsnippet
-
-snippet ait "create an async test block" b
-it('should $1', async () => {
-	$0
-})
-endsnippet
-
 snippet todo "it.todo()" b
 it.todo("should $1")
 endsnippet
@@ -667,133 +655,53 @@ reduce<$1>((${2:result}, ${3:value}) => {
 }, ${4:{}})
 endsnippet
 
-snippet /** "jsdoc comment" b
+snippet /** "jsdoc comment with params, return and example" b
 /**
  * $0
+ *
+ * @param ${1:arg} ${2:description}
+ * @returns ${3:description}
+ *
+ * @example
+ * $4
  */
 endsnippet
 
-# ==========================================
-# Prop Types Section (only for legacy)
-#
-
-# Inline prop types
-snippet pt.a "PropTypes.array" w
-PropTypes.array
+snippet /**! "jsdoc comment with params, return and example and throw" b
+/**
+ * $0
+ *
+ * @param ${1:arg} ${2:description}
+ * @returns ${3:description}
+ * @throws ${4:description}
+ *
+ * @example
+ * $5
+ */
 endsnippet
 
-snippet pt.ar "PropTypes.array.isRequired" w
-PropTypes.array.isRequired
+
+## Jest
+snippet ee "expect to equal (js)"
+expect(${1:target}).toEqual(${2:value});
 endsnippet
 
-snippet pt.b "PropTypes.bool" w
-PropTypes.bool
+snippet et "expect to be truthy (js)"
+expect(${1:target}).toBeTruthy();
 endsnippet
 
-snippet pt.br "PropTypes.bool.isRequired" w
-PropTypes.bool.isRequired
+snippet ef "expect to be falsy (js)"
+expect(${1:target}).toBeFalsy();
 endsnippet
 
-snippet pt.f "PropTypes.func" w
-PropTypes.func
+snippet eth "expect to throw (js)"
+expect(${1:target}).toThrow(${2:value});
 endsnippet
 
-snippet pt.fr "PropTypes.func.isRequired" w
-PropTypes.func.isRequired
+snippet etbd "expect to be in the document (js-dom)"
+expect(${1:target}).toBeInTheDocument();
 endsnippet
 
-snippet pt.nu "PropTypes.number" w
-PropTypes.number
-endsnippet
-
-snippet pt.nur "PropTypes.number.isRequired" w
-PropTypes.number.isRequired
-endsnippet
-
-snippet pt.o "PropTypes.object" w
-PropTypes.object
-endsnippet
-
-snippet pt.or "PropTypes.object.isRequired" w
-PropTypes.object.isRequired
-endsnippet
-
-snippet pt.s "PropTyes.string" w
-PropTypes.string
-endsnippet
-
-snippet pt.sr "PropTyes.string.isRequired" w
-PropTypes.string.isRequired
-endsnippet
-
-snippet pt.no "PropTypes.node" w
-PropTypes.node
-endsnippet
-
-snippet pt.nor "PropTypes.node.isRequired" w
-PropTypes.node.isRequired
-endsnippet
-
-snippet pt.e "PropTypes.element" w
-PropTypes.element
-endsnippet
-
-snippet pt.er "PropTypes.element.isRequired" w
-PropTypes.element.isRequired
-endsnippet
-
-snippet pt.ao "PropTypes.arrayOf()" w
-PropTypes.arrayOf(${1:PropTypes.string})
-endsnippet
-
-snippet pt.aor "PropTypes.arrayOf().isRequired" w
-PropTypes.arrayOf(${1:PropTypes.string}).isRequired
-endsnippet
-
-snippet pt.io "PropTypes.instanceOf()" w
-PropTypes.instanceOf(${1:PropTypes.string})
-endsnippet
-
-snippet pt.ior "PropTypes.instanceOf().isRequired" w
-PropTypes.instanceOf(${1:PropTypes.string}).isRequired
-endsnippet
-
-snippet pt.oo "PropTypes.objectOf()" w
-PropTypes.objectOf(${1:PropTypes.string})
-endsnippet
-
-snippet pt.oor "PropTypes.objectOf().isRequired" w
-PropTypes.objectOf(${1:PropTypes.string}).isRequired
-endsnippet
-
-snippet pt.one "PropTypes.oneOf([])" w
-PropTypes.oneOf(["$1"$2])
-endsnippet
-
-snippet pt.oner "PropTypes.oneOf([]).isRequired" w
-PropTypes.oneOf(["$1"$2]).isRequired
-endsnippet
-
-snippet pt.onet "PropTYpes.oneOfType([])" w
-PropTypes.oneOfType([
-	$1
-])
-endsnippet
-
-snippet pt.onetr "PropTYpes.oneOfType([]).isRequired" w
-PropTypes.oneOfType([
-	$1
-]).isRequired
-endsnippet
-
-snippet pt.sh "PropTypes.shape" w
-PropTypes.shape({
-	$1
-})
-endsnippet
-
-snippet pt.shr "PropTypes.shape.isRequired" w
-PropTypes.shape({
-	$1
-}).isRequired
+snippet eobjc "expect to be in the document (js-dom)"
+expect.objectContaining(${1:target})
 endsnippet
