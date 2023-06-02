@@ -1,25 +1,50 @@
-function Funzzy_newtab(target)
-  vim.cmd("tabnew")
-  if target ~= "" then
-    vim.cmd(":ter funzzy --non-block --target \"" .. target .. "\"")
+local function running_panel(opts)
+  if opts.tab then
+    vim.cmd("tabnew")
+    return
+  end
+
+  if opts.split == "v" then
+    vim.cmd("vsplit")
+    return
+  end
+
+  if opts.split == "s" then
+    vim.cmd("split")
+    return
+  end
+
+end
+
+function Funzzy(opts)
+  running_panel(opts)
+
+  if opts.target ~= "" then
+    vim.cmd(":ter funzzy --non-block --target \"" .. opts.target .. "\"")
     return
   end
 
   vim.cmd(":ter funzzy --non-block")
 end
 
-vim.cmd("command! -nargs=1 FunzzyTab lua Funzzy_newtab(<f-args>)")
+function FunzzyCmd(opts)
+  running_panel(opts)
 
-function Funzzy(target)
-  if target ~= "" then
-    vim.cmd(":ter funzzy --non-block --target \"" .. target .. "\"")
-    return
-  end
-
-  vim.cmd(":ter funzzy --non-block")
+  local current_pwd = vim.fn.getcwd()
+  local find_in_dir = "find -d ".. current_pwd .." -depth 1"
+  -- :h Bar
+  -- vim.cmd(":ter ".. find_in_dir)
+  vim.cmd(":ter ".. find_in_dir .." | funzzy " .. opts.command .. " --non-block")
 end
-vim.cmd("command! -nargs=1 Funzzy lua Funzzy(<f-args>)")
 
+vim.cmd("command! -nargs=* Funzzy lua Funzzy({ target = '<f-args>', tab = false })")
+vim.cmd("command! -nargs=1 FunzzyCmd lua FunzzyCmd({ command = '<f-args>', tab = false })")
 
-vim.keymap.set("n", "<leader>fnz", 'Funzzy ', { script = true, silent = false })
-vim.keymap.set("n", "<leader>fnt", 'FunzzyTab ', { script = true, silent = false })
+vim.cmd("command! -nargs=* FunzzyTab lua Funzzy({ target = '<f-args>', tab = true })")
+vim.cmd("command! -nargs=1 FunzzyTabCmd lua FunzzyCmd({ command = '<f-args>', tab = true })")
+
+vim.cmd("command! -nargs=* FunzzySplit lua Funzzy({ target = '<f-args>', split = 's' })")
+vim.cmd("command! -nargs=1 FunzzySplitCmd lua FunzzyCmd({ command = '<f-args>', split = 's' })")
+
+vim.cmd("command! -nargs=* FunzzyVplit lua Funzzy({ target = '<f-args>', split = 'v' })")
+vim.cmd("command! -nargs=1 FunzzyVplitCmd lua FunzzyCmd({ command = '<f-args>', split = 'v' })")
