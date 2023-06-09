@@ -62,5 +62,6 @@ Plugin 'rust-lang/rust.vim'
 Plugin 'fatih/vim-go'
 
 Plugin 'cristianoliveira/snipgpt.nvim', { 'do': 'npm i snipgpt -g' }
+Plugin 'cristianoliveira/funzzy.nvim', { 'do': 'cargo install funzzy' }
 
 call vundle#end()
