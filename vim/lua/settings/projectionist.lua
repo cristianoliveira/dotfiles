@@ -25,12 +25,22 @@ vim.g.projectionist_heuristics = {
       ['alternate'] = { '{}.jsx' }
     }
   },
+
   ['go.mod'] = {
     ['*.go'] = {
       ['alternate'] = { '{}_test.go' }
     },
     ['*_test.go'] = {
       ['alternate'] = { '{}.go' }
+    }
+  },
+
+  ['init.lua'] = {
+    ['*.lua'] = {
+      ['alternate'] = { '{}_spec.lua' }
+    },
+    ['*_spec.lua'] = {
+      ['alternate'] = { '{}.lua' }
     }
   }
 }

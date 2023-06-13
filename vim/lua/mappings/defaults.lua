@@ -20,3 +20,5 @@ nnoremap("<C-u>", "<C-u>zz")
 
 nnoremap("<C-p>", ":FZF<CR>")
 
+
+nnoremap("<leader>R", ":source ~/.vimrc<CR>")

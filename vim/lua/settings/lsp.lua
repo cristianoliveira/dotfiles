@@ -20,7 +20,7 @@ local servers = {
       workspace = { checkThirdParty = false },
       telemetry = { enable = false },
       diagnostics = {
-        globals = { 'vim' }
+        globals = { 'vim', 'describe', 'it', 'before_each', 'after_each', 'spy', 'use' },
       }
     },
   },
