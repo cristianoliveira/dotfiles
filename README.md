@@ -8,13 +8,17 @@ My dotfiles for setting up a new dev environment. :package: :sunglasses: :sungla
   - Neovim 
   - Tmux
 
-  And a lot of pre installed apps. See in: `osx/Brewfile` or `linux/packages.txt`
+  And a lot of pre-installed apps. See in: `osx/Brewfile` or `linux/packages.txt`
 
   I work mostly with:
 
-  - Javascript (Reactjs & nodejs, et all)
+  - Typescript & Javascript (React & Node, et all)
   - Rust
   - Golang
+
+  A bunch of 
+
+  - Bash
 
   And a bit of
 
