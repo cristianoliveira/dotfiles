@@ -2,6 +2,7 @@ require("mason").setup()
 
 local lspconfig = require('lspconfig')
 local mason_lspconfig = require("mason-lspconfig")
+local capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
 local lsp_flags = {
   -- This is the default in Nvim 0.7+
@@ -30,9 +31,11 @@ mason_lspconfig.setup {
   ensure_installed = vim.tbl_keys(servers)
 }
 
+
 mason_lspconfig.setup_handlers {
   function(server_name)
     lspconfig[server_name].setup {
+      capabilities = capabilities,
       on_attach = Lsp_on_attach, -- see ../mappings/lsp.lua
       settings = servers[server_name],
       flags = lsp_flags,

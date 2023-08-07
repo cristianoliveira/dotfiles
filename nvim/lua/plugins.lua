@@ -77,7 +77,14 @@ require('lazy').setup({
 
       -- Adds a number of user-friendly snippets
       'rafamadriz/friendly-snippets',
+
+      'quangnguyen30192/cmp-nvim-ultisnips',
     },
+
+    config = function()
+      -- optional call to setup (see customization section)
+      require("cmp_nvim_ultisnips").setup{}
+    end,
   },
 
   -- Useful plugin to show you pending keybinds.
