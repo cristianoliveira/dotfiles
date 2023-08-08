@@ -68,15 +68,8 @@ require('lazy').setup({
     -- Autocompletion
     'hrsh7th/nvim-cmp',
     dependencies = {
-      -- Snippet Engine & its associated nvim-cmp source
-      'L3MON4D3/LuaSnip',
-      'saadparwaiz1/cmp_luasnip',
-
       -- Adds LSP completion capabilities
       'hrsh7th/cmp-nvim-lsp',
-
-      -- Adds a number of user-friendly snippets
-      'rafamadriz/friendly-snippets',
 
       'quangnguyen30192/cmp-nvim-ultisnips',
     },
@@ -174,7 +167,14 @@ require('lazy').setup({
 
   'tpope/vim-projectionist',
 
-  'sirver/UltiSnips',
+  { 
+    'sirver/UltiSnips',
+    config = function()
+      vim.g.UltiSnipsExpandTrigger = "<C-l>"
+      vim.g.UltiSnipsJumpForwardTrigger = "<C-l>"
+    end,
+  },
+
   'honza/vim-snippets',
 
   {

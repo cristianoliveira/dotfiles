@@ -28,17 +28,3 @@ require('customization/settings/navigation')
 require('customization/settings/projectionist')
 require('customization/settings/ale')
 require('customization/settings/intellisense')
---
--- js specific
--- const foo = require('customization/foo')
--- to
--- import foo from 'foo'
--- vim.keymap.set("v", "<leader>jsi", ':s/const\\(.*\\)=.*require(\\(.*\\))/import\\1from \\2', { noremap = true, silent = false })
-
--- create a command :FormatFromSnakeCaseToCamelCase that apply
--- '<,'>s#\C\(\<\u[a-z0-9]\+\|[a-z0-9]\+\)\(\u\)#\l\1_\l\2#g
--- to the selected lines
--- vim.keymap.set('customization/v', '<leader>fmsc', "'<,'>s#\\C\\(\\<\\u[a-z0-9]\\+\\|[a-z0-9]\\+\\)\\(\\u\\)#\\l\\1_\\l\\2#g", { noremap = true, silent = false })
-
--- test from_to
-

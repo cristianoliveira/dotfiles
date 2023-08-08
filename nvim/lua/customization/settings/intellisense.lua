@@ -24,15 +24,15 @@ cmp.setup {
     ['<Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
-      else 
-        cmp_ultisnips_mappings.expand_or_jump_forwards(fallback)
+      else
+        fallback()
       end
     end, { 'i', 's' }),
     ['<S-Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
       else
-        cmp_ultisnips_mappings.jump_backwards(fallback)
+        fallback()
       end
     end, { 'i', 's' }),
   },
