@@ -1,5 +1,4 @@
 local cmp = require('cmp')
-local cmp_ultisnips_mappings = require("cmp_nvim_ultisnips.mappings")
 
 cmp.setup {
   preselect = cmp.PreselectMode.None,
@@ -17,7 +16,7 @@ cmp.setup {
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete {},
-    ['<CR>'] = cmp.mapping.confirm {
+    ['<C-CR>'] = cmp.mapping.confirm {
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     },
@@ -56,5 +55,7 @@ end, { noremap = true })
 vim.keymap.set('i', '<C-j>', function()
   if cmp.visible() then
     cmp.select_next_item()
+  else
+    cmp.complete();
   end
 end, { noremap = true })
