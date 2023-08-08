@@ -20,5 +20,10 @@ nnoremap("<C-u>", "<C-u>zz")
 
 nnoremap("<C-p>", ":FZF<CR>")
 
-
 nnoremap("<leader>R", ":source ~/.vimrc<CR>")
+
+-- Remap only for command mode to navigate with hjkl
+cnoremap("<C-h>", "<Left>")
+cnoremap("<C-j>", "<Down>")
+cnoremap("<C-k>", "<Up>")
+cnoremap("<C-l>", "<Right>")
