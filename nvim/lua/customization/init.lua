@@ -1,6 +1,5 @@
 require('customization/plugins')
 
-require('customization/functions/selected_content')
 require('customization/functions/vimscript_to_lua')
 --
 require('customization/mappings/ultisnips')
