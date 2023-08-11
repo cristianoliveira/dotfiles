@@ -19,6 +19,7 @@ require('customization/mappings/grep')
 require('customization/mappings/ale')
 require('customization/mappings/marks')
 require('customization/mappings/find_replace')
+require('customization/mappings/telescope')
 --
 require('customization/settings/vim')
 require('customization/settings/lsp')
