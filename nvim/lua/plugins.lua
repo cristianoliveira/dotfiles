@@ -190,6 +190,8 @@ require('lazy').setup({
   },
 
   'mg979/vim-visual-multi',
+
+  'ruanyl/vim-gh-line',
 }, {})
 
 require('solarized').setup({
