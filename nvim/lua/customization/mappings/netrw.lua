@@ -8,11 +8,7 @@ vim.api.nvim_create_autocmd('FileType', {
     vim.keymap.set('n', 'mm', 'R', { buffer = buffer, remap = true })
     vim.keymap.set('n', 'md', 'D', { buffer = buffer, remap = true })
     vim.keymap.set('n', '<C-r>', '<C-l>', { buffer = buffer, noremap = true })
-    vim.keymap.set('n', '<C-l>', '<C-W><C-l>', { buffer = buffer, noremap = true })
-    vim.keymap.set('n', 'dd', 'D', { buffer = buffer, remap = true })
-    vim.keymap.set('n', '<leader>dd', function()
-      vim.cmd('silent! call netrw#NetrwDelete()')
-    end, { buffer = buffer, remap = true })
+    vim.keymap.set('n', '<leader>dd', 'D', { buffer = buffer, remap = true })
   end,
 })
 
