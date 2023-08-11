@@ -1,3 +1,27 @@
+-- [[ Configure Telescope ]]
+-- See `:help telescope` and `:help telescope.setup()`
+require('telescope').setup {
+  defaults = {
+    mappings = {
+      i = {
+        ['<C-u>'] = false,
+        ['<C-d>'] = false,
+        ["<C-i>"] = require('telescope.actions').select_default,
+        ["<C-n>"] = require('telescope.actions').cycle_history_next,
+        ["<C-p>"] = require('telescope.actions').cycle_history_prev,
+        ["<C-k>"] = {
+          require('telescope.actions').move_selection_previous, type = "action",
+          opts = { nowait = true, silent = true }
+        },
+        ["<C-j>"] = {
+          require('telescope.actions').move_selection_next, type = "action",
+          opts = { nowait = true, silent = true }
+        },
+      },
+    },
+  },
+}
+
 -- See `:help telescope.builtin`
 vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
 vim.keymap.set('n', '<C-b>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
