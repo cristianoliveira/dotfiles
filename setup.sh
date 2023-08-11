@@ -45,7 +45,7 @@ ln -s "$HOME"/.dotfiles/resources/karabiner "$HOME"/.config/karabiner
 
 
 echo "Setup Vim and installing plugins"
-sh "$HOME"/.dotfiles/vim/setup.sh
+sh "$HOME"/.dotfiles/nvim/setup.sh
 
 chsh -s /bin/zsh
 
