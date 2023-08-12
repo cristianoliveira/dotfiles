@@ -1,0 +1,36 @@
+priority 1
+snippet uses "useState" w
+// import { useState } from 'react'
+// import { useState } from 'preact/hooks'
+const [$1, set${1/\w+\s*/\u$0/g}] = useState(${3:''})${0:;}
+endsnippet
+
+snippet usee "useEffect" w
+// import { useEffect } from 'react'
+// import { useEffect } from 'preact/hooks'
+useEffect(() => {
+  $1
+}, [])${0:;}
+endsnippet
+
+snippet usem "useMemo" w
+// import { useMemo } from 'react'
+// import { useMemo } from 'preact/hooks'
+const $1 = useMemo(() => {
+	$2
+}, [$3])${0:;}
+endsnippet
+
+snippet userf "useRef" w
+// import { useRef } from 'react'
+// import { useRef } from 'preact/hooks'
+const $1 = useRef($2)${0:;}
+endsnippet
+
+snippet usectx "useContext" w
+// import { useContext } from 'react'
+// import { useContext } from 'preact/hooks'
+useContext(() => {
+  $1
+}, [])${0:;}
+endsnippet

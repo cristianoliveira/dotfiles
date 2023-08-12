@@ -1,0 +1,16 @@
+priority -49
+extends typescript
+
+snippet rfc "react functional component"
+import React, { FC } from "react"
+
+type ${1:function_name}Props = {}
+
+export const $1: FC<$1Props> = (${2:props}) => {
+return (
+	<div>
+		${3:${VISUAL}}
+	</div>
+)
+}
+endsnippet
