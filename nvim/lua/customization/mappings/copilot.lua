@@ -1,4 +1,4 @@
-vim.keymap.set('i', '<C-q>', function(arg, arg2) 
+vim.keymap.set('i', '<C-q>', function() 
   require("copilot.suggestion").next()
 end, { expr = true, script = true })
 
