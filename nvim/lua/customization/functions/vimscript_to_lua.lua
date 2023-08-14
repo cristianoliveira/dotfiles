@@ -8,8 +8,8 @@ function vnoremap(map_keys, command)
   vim.api.nvim_set_keymap('v', map_keys, command, opts)
 end
 
-function nmap(map_keys, command)
-  local opts = { noremap=false, silent=true }
+function nmap(map_keys, command, desc)
+  local opts = { noremap=false, silent=true, desc = desc }
   vim.api.nvim_set_keymap('n', map_keys, command, opts)
 end
 

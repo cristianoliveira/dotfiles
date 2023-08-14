@@ -1,3 +1,4 @@
+alias docker-daemon='colima'
 alias dk=docker
 
 alias dk-clean-containers='docker rm -f $(docker ps -a -q)'
