@@ -39,7 +39,7 @@ Lsp_on_attach = function(_, bufnr)
 
   -- See `:help K` for why this keymap
   lspnmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-  lspnmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
+  lspnmap('<C-K>', vim.lsp.buf.signature_help, 'Signature Documentation')
 
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
   vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)

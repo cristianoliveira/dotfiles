@@ -19,7 +19,6 @@ require('lazy').setup({
 
   -- Git related plugins
   'tpope/vim-fugitive',
-  'tpope/vim-rhubarb',
 
   'tpope/vim-surround',
 
@@ -57,7 +56,7 @@ require('lazy').setup({
 
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim', tag = 'legacy', opts = {} },
+      { 'j-hui/fidget.nvim',       tag = 'legacy', opts = {} },
 
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
@@ -76,12 +75,13 @@ require('lazy').setup({
 
     config = function()
       -- optional call to setup (see customization section)
-      require("cmp_nvim_ultisnips").setup{}
+      require("cmp_nvim_ultisnips").setup {}
     end,
   },
 
   -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim',
+  {
+    'folke/which-key.nvim',
     opts = {},
     event = "VeryLazy",
     init = function()
@@ -102,7 +102,8 @@ require('lazy').setup({
         changedelete = { text = '~' },
       },
       on_attach = function(bufnr)
-        vim.keymap.set('n', '<leader>gp', require('gitsigns').prev_hunk, { buffer = bufnr, desc = '[G]o to [P]revious Hunk' })
+        vim.keymap.set('n', '<leader>gp', require('gitsigns').prev_hunk,
+          { buffer = bufnr, desc = '[G]o to [P]revious Hunk' })
         vim.keymap.set('n', '<leader>gn', require('gitsigns').next_hunk, { buffer = bufnr, desc = '[G]o to [N]ext Hunk' })
         vim.keymap.set('n', '<leader>ph', require('gitsigns').preview_hunk, { buffer = bufnr, desc = '[P]review [H]unk' })
       end,
@@ -138,7 +139,7 @@ require('lazy').setup({
   },
 
   -- "gc" to comment visual regions/lines
-  { 'numToStr/Comment.nvim', opts = {} },
+  { 'numToStr/Comment.nvim',         opts = {} },
 
   -- Fuzzy Finder (files, lsp, etc)
   { 'nvim-telescope/telescope.nvim', branch = '0.1.x', dependencies = { 'nvim-lua/plenary.nvim' } },
@@ -167,7 +168,7 @@ require('lazy').setup({
 
   'tpope/vim-projectionist',
 
-  { 
+  {
     'sirver/UltiSnips',
     config = function()
       vim.g.UltiSnipsExpandTrigger = "<C-l>"
@@ -196,7 +197,7 @@ require('lazy').setup({
 
 require('solarized').setup({
   theme = 'neo',
-  styles = function (colors, colorhelper)
+  styles = function(colors, colorhelper)
     local c = colorhelper.darken
 
     return {
