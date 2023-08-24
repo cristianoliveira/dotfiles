@@ -25,9 +25,6 @@ echo "Istalling tmux-s helper"
 rm -f "$HOME/.dotfiles/bin/tmux-s"
 ln -s "$HOME/.dotfiles/tmux/bin/tmux-s" "$HOME/.dotfiles/bin/tmux-s"
 
-echo "Installing zsh"
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" &
-
 echo "Creating backup of your current configurations."
 echo "They can be found at: $DOTFILES_BKP_PATH"
 mkdir -p "$DOTFILES_BKP_PATH"
