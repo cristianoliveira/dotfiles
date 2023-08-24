@@ -1,6 +1,11 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 #
+j
+# Adds custom bins from dotfiles
+export PATH=$HOME/.dotfiles/bin:/opt/homebrew/bin:$PATH
+
+#
 # debug-slow-startup-time
 # zmodload zsh/zprof
 STARTTIME=$(gdate "+%s%3N")
@@ -129,10 +134,6 @@ autoload -Uz compinit && compinit
 
 CURRTIME=$(gdate "+%s%3N")
 echo "Everything is ready. ($(echo "$CURRTIME - $STARTTIME" | bc -l) ms)"
-
-# Adds custom bins from dotfiles
-export PATH=$HOME/.dotfiles/bin:/opt/homebrew/bin:$PATH
-
 
 # debug-slow-startup-time
 # zprof
