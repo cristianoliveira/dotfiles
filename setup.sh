@@ -4,7 +4,7 @@ set -e  # fail on error
 set -u # do not allow unset variables
 
 export DOTFILES_BKP_PATH="$HOME"/.bkpdotfiles/"$(date +%s)"
-kj
+
 echo "HOME: $HOME"
 echo "DOTFILES_BKP_PATH: $DOTFILES_BKP_PATH"
 
