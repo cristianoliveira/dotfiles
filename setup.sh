@@ -35,6 +35,8 @@ bkpmv "$HOME"/.gitignore "$DOTFILES_BKP_PATH"/old-gitignore
 bkpmv "$HOME"/.ctags "$DOTFILES_BKP_PATH"/old-ctags
 bkpmv "$HOME"/.config/karabiner "$DOTFILES_BKP_PATH"/old-karabiner
 
+mkdir -p $HOME/.config
+
 echo "Add all symbolic links..."
 ln -s "$HOME"/.dotfiles/tmux/tmux.conf "$HOME"/.tmux.conf
 ln -s "$HOME"/.dotfiles/zsh/zshrc "$HOME"/.zshrc
