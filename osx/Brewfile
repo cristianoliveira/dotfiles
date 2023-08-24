@@ -33,6 +33,7 @@ cask 'discord'
 cask 'zoom'
 cask 'izip'
 cask 'veracrypt'
+cask 'alacritty'
 
 # Install fonts
 tap 'homebrew/cask-fonts'
