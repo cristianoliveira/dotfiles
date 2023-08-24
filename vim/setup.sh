@@ -10,5 +10,7 @@ mv "$HOME"/.vim $DOTFILES_BKP_PATH/old-vim
 ln -s "$HOME"/.dotfiles/vim "$HOME"/.vim
 ln -s "$HOME"/.dotfiles/vim/vimrc "$HOME"/.vimrc
 
+python3 -m pip install --user --upgrade pynvim
+
 git clone https://github.com/gmarik/Vundle.vim.git "$HOME"/.dotfiles/vim/bundle/Vundle.vim
 vim +PluginInstall +qall
