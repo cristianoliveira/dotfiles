@@ -186,7 +186,7 @@ require('lazy').setup({
   'mileszs/ack.vim',
 
   {
-    dir = '/Users/cristianoliveira/other/funzzy.nvim',
+    dir = 'cristianoliveira/funzzy.nvim',
     build = 'cargo install funzzy'
   },
 
