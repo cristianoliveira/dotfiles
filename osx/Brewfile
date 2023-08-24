@@ -34,6 +34,7 @@ cask 'zoom'
 cask 'izip'
 cask 'veracrypt'
 cask 'alacritty'
+cask 'apptivator'
 
 # Install fonts
 tap 'homebrew/cask-fonts'
