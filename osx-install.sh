@@ -13,7 +13,7 @@ echo "\n\n\n\n\n----------------------Running scripts-------------------\n\n\n\n
 echo "Scripts path $HOME/.dotfiles/scripts-install"
 bash $HOME/.dotfiles/scripts-install.sh
 
-"Configuring machine as 'squall'"
+echo "Configuring machine as 'squall'"
 sh $HOME/.dotfiles/osx/configure-osx.sh squall
 
 echo "\n\n\n\n\n----------------------Setup-------------------\n\n\n\n\n"
