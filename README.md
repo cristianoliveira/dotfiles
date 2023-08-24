@@ -32,6 +32,15 @@ My dotfiles for setting up a new dev environment. :package: :sunglasses: :sungla
  - Generate your [ssh key and add to your github](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
  - In short `ssh-keygen -t ed25519 -C "your_email@example.com"` and add the key to your github account.
 
+One liner:
+```bash
+curl https://raw.githubusercontent.com/cristianoliveira/dotfiles/main/install.sh | bash -s - osx
+# or
+curl https://raw.githubusercontent.com/cristianoliveira/dotfiles/main/install.sh | bash -s - linux
+```
+
+Or step by step
+
 ```bash
 git clone git@github.com:cristianoliveira/dotfiles.git ~/.dotfiles
 
