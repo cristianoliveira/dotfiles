@@ -12,6 +12,3 @@ brew link gdbm xz pcre
 
 echo; echo ">> Installing Apps"
 brew bundle --verbose --file=$HOME/.dotfiles/osx/Brewfile
-
-echo; echo ">> Installing Basher"
-git clone https://github.com/basherpm/basher.git ~/.basher
