@@ -22,3 +22,5 @@ sh $HOME/.dotfiles/setup.sh
 echo "\n\n\n\n\n----------------------Installing CLIs-------------------\n\n\n\n\n"
 rm -f /usr/local/bin/notifyme
 ln -s $HOME/.dotfiles/osx/bin/notifyme /usr/local/bin/notifyme
+
+sh $HOME/.dotfiles/setup/iterm.sh
