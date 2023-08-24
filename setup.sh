@@ -51,5 +51,8 @@ sh "$HOME"/.dotfiles/vim/setup.sh
 
 chsh -s /bin/zsh
 
+mkdir -p $HOME/work
+mkdir -p $HOME/other
+      
 echo "Dotfiles has been executed."
 echo "Installed: zsh, vim and tmux"
