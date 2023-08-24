@@ -1,7 +1,6 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
-#
-j
+
 # Adds custom bins from dotfiles
 export PATH=$HOME/.dotfiles/bin:/opt/homebrew/bin:$PATH
 
