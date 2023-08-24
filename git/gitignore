@@ -28,3 +28,5 @@ _scripts/
 .watch.yaml
 
 *.nix
+
+.gitconfig.user
