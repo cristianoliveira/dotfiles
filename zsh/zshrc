@@ -131,7 +131,8 @@ CURRTIME=$(gdate "+%s%3N")
 echo "Everything is ready. ($(echo "$CURRTIME - $STARTTIME" | bc -l) ms)"
 
 # Adds custom bins from dotfiles
-export PATH=$HOME/.dotfiles/bin:$PATH
+export PATH=$HOME/.dotfiles/bin:/opt/homebrew/bin:$PATH
+
 
 # debug-slow-startup-time
 # zprof
