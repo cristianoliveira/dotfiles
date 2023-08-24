@@ -4,9 +4,8 @@ set -e  # fail on error
 set -u # do not allow unset variables
 
 export DOTFILES_BKP_PATH="$HOME"/.bkpdotfiles/"$(date +%s)"
-export HOME_PATH=${HOME_PATH:-$HOME}
-
-echo "HOME_PATH: $HOME_PATH"
+kj
+echo "HOME: $HOME"
 echo "DOTFILES_BKP_PATH: $DOTFILES_BKP_PATH"
 
 bkpmv() {
@@ -23,8 +22,8 @@ bkpmv() {
 }
 
 echo "Istalling tmux-s helper"
-rm -f "$HOME_PATH/.dotfiles/bin/tmux-s"
-ln -s "$HOME_PATH/.dotfiles/tmux/bin/tmux-s" "$HOME_PATH/.dotfiles/bin/tmux-s"
+rm -f "$HOME/.dotfiles/bin/tmux-s"
+ln -s "$HOME/.dotfiles/tmux/bin/tmux-s" "$HOME/.dotfiles/bin/tmux-s"
 
 echo "Installing zsh"
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" &
@@ -32,24 +31,24 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/mas
 echo "Creating backup of your current configurations."
 echo "They can be found at: $DOTFILES_BKP_PATH"
 mkdir -p "$DOTFILES_BKP_PATH"
-bkpmv "$HOME_PATH"/.tmux.conf "$DOTFILES_BKP_PATH"/old-tmux.conf
-bkpmv "$HOME_PATH"/.zshrc "$DOTFILES_BKP_PATH"/old-zshrc
-bkpmv "$HOME_PATH"/.gitconfig "$DOTFILES_BKP_PATH"/old-gitconfig
-bkpmv "$HOME_PATH"/.gitignore "$DOTFILES_BKP_PATH"/old-gitignore
-bkpmv "$HOME_PATH"/.ctags "$DOTFILES_BKP_PATH"/old-ctags
-bkpmv "$HOME_PATH"/.config/karabiner "$DOTFILES_BKP_PATH"/old-karabiner
+bkpmv "$HOME"/.tmux.conf "$DOTFILES_BKP_PATH"/old-tmux.conf
+bkpmv "$HOME"/.zshrc "$DOTFILES_BKP_PATH"/old-zshrc
+bkpmv "$HOME"/.gitconfig "$DOTFILES_BKP_PATH"/old-gitconfig
+bkpmv "$HOME"/.gitignore "$DOTFILES_BKP_PATH"/old-gitignore
+bkpmv "$HOME"/.ctags "$DOTFILES_BKP_PATH"/old-ctags
+bkpmv "$HOME"/.config/karabiner "$DOTFILES_BKP_PATH"/old-karabiner
 
 echo "Add all symbolic links..."
-ln -s "$HOME_PATH"/.dotfiles/tmux/tmux.conf "$HOME_PATH"/.tmux.conf
-ln -s "$HOME_PATH"/.dotfiles/zsh/zshrc "$HOME_PATH"/.zshrc
-ln -s "$HOME_PATH"/.dotfiles/git/gitconfig "$HOME_PATH"/.gitconfig
-ln -s "$HOME_PATH"/.dotfiles/git/gitignore "$HOME_PATH"/.gitignore
-ln -s "$HOME_PATH"/.dotfiles/ctags "$HOME_PATH"/.ctags
-ln -s "$HOME_PATH"/.dotfiles/resources/karabiner "$HOME_PATH"/.config/karabiner
+ln -s "$HOME"/.dotfiles/tmux/tmux.conf "$HOME"/.tmux.conf
+ln -s "$HOME"/.dotfiles/zsh/zshrc "$HOME"/.zshrc
+ln -s "$HOME"/.dotfiles/git/gitconfig "$HOME"/.gitconfig
+ln -s "$HOME"/.dotfiles/git/gitignore "$HOME"/.gitignore
+ln -s "$HOME"/.dotfiles/ctags "$HOME"/.ctags
+ln -s "$HOME"/.dotfiles/resources/karabiner "$HOME"/.config/karabiner
 
 
 echo "Setup Vim and installing plugins"
-sh "$HOME_PATH"/.dotfiles/vim/setup.sh
+sh "$HOME"/.dotfiles/vim/setup.sh
 
 chsh -s /bin/zsh
 
