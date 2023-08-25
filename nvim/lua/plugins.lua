@@ -184,10 +184,8 @@ require('lazy').setup({
     build = 'npm i snipgpt -g',
   },
 
-  'mileszs/ack.vim',
-
   {
-    dir = 'cristianoliveira/funzzy.nvim',
+    'cristianoliveira/funzzy.nvim',
     build = 'cargo install funzzy'
   },
 
