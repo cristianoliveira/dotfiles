@@ -15,12 +15,81 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
-  -- NOTE: First, some plugins that don't require any configuration
-
+  ----------------------------------------------------------------------------
   -- Git related plugins
+
   'tpope/vim-fugitive',
+  'ruanyl/vim-gh-line',
+
+  {
+    -- Adds git related signs to the gutter, as well as utilities for managing changes
+    'lewis6991/gitsigns.nvim',
+    opts = {
+      -- See `:help gitsigns.txt`
+      signs = {
+        add = { text = '+' },
+        change = { text = '~' },
+        delete = { text = '_' },
+        topdelete = { text = '‾' },
+        changedelete = { text = '~' },
+      },
+      on_attach = function(bufnr)
+        vim.keymap.set('n', '<leader>gp', require('gitsigns').prev_hunk,
+          { buffer = bufnr, desc = '[G]o to [P]revious Hunk' })
+        vim.keymap.set('n', '<leader>gn', require('gitsigns').next_hunk, { buffer = bufnr, desc = '[G]o to [N]ext Hunk' })
+        vim.keymap.set('n', '<leader>ph', require('gitsigns').preview_hunk, { buffer = bufnr, desc = '[P]review [H]unk' })
+      end,
+    },
+  },
+
+  ----------------------------------------------------------------------------
+  -- Vim motions enhance plugins and code editing
 
   'tpope/vim-surround',
+
+  -- Multiple cursors with Ctrl-n
+  'mg979/vim-visual-multi',
+
+  -- "gc" to comment visual regions/lines
+  { 'numToStr/Comment.nvim',                    opts = {} },
+
+
+  {
+    -- Highlight, edit, and navigate code
+    'nvim-treesitter/nvim-treesitter',
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter-textobjects',
+    },
+    build = ':TSUpdate',
+  },
+
+
+  ----------------------------------------------------------------------------
+  -- Vim project navigation
+
+  -- Fuzzy Finder (files, lsp, etc)
+  'tpope/vim-projectionist',
+  {
+    'nvim-telescope/telescope.nvim',
+    branch = '0.1.x',
+    dependencies = { 'nvim-lua/plenary.nvim' }
+  },
+  { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+
+  ----------------------------------------------------------------------------
+  -- Auto completion and intellisense
+
+  {
+    'sirver/UltiSnips',
+    config = function()
+      vim.g.UltiSnipsExpandTrigger = "<C-l>"
+      vim.g.UltiSnipsJumpForwardTrigger = "<C-l>"
+    end,
+    build = 'python3 -m pip install --user --upgrade pynvim',
+    dependencies = {
+      'honza/vim-snippets',
+    },
+  },
 
   {
     "zbirenbaum/copilot.lua",
@@ -41,11 +110,6 @@ require('lazy').setup({
     end,
   },
 
-  -- Detect tabstop and shiftwidth automatically
-  'tpope/vim-sleuth',
-
-  -- NOTE: This is where your plugins related to LSP can be installed.
-  --  The configuration is done below. Search for lspconfig to find it below.
   {
     -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
@@ -89,26 +153,18 @@ require('lazy').setup({
       vim.o.timeoutlen = 1000
     end,
   },
+
   {
-    -- Adds git related signs to the gutter, as well as utilities for managing changes
-    'lewis6991/gitsigns.nvim',
-    opts = {
-      -- See `:help gitsigns.txt`
-      signs = {
-        add = { text = '+' },
-        change = { text = '~' },
-        delete = { text = '_' },
-        topdelete = { text = '‾' },
-        changedelete = { text = '~' },
-      },
-      on_attach = function(bufnr)
-        vim.keymap.set('n', '<leader>gp', require('gitsigns').prev_hunk,
-          { buffer = bufnr, desc = '[G]o to [P]revious Hunk' })
-        vim.keymap.set('n', '<leader>gn', require('gitsigns').next_hunk, { buffer = bufnr, desc = '[G]o to [N]ext Hunk' })
-        vim.keymap.set('n', '<leader>ph', require('gitsigns').preview_hunk, { buffer = bufnr, desc = '[P]review [H]unk' })
-      end,
-    },
+    'cristianoliveira/snipgpt.nvim',
+    build = 'npm i snipgpt -g',
   },
+
+  ----------------------------------------------------------------------------
+  -- Vim visual enhancements
+
+  -- Detect tabstop and shiftwidth automatically
+  'tpope/vim-sleuth',
+  'bling/vim-airline',
 
   {
     'maxmx03/solarized.nvim',
@@ -125,8 +181,6 @@ require('lazy').setup({
     end,
   },
 
-  'bling/vim-airline',
-
   {
     -- Add indentation guides even on blank lines
     'lukas-reineke/indent-blankline.nvim',
@@ -138,60 +192,16 @@ require('lazy').setup({
     },
   },
 
-  -- "gc" to comment visual regions/lines
-  { 'numToStr/Comment.nvim',         opts = {} },
 
-  -- Fuzzy Finder (files, lsp, etc)
-  { 'nvim-telescope/telescope.nvim', branch = '0.1.x', dependencies = { 'nvim-lua/plenary.nvim' } },
-
-  -- Fuzzy Finder Algorithm which requires local dependencies to be built.
-  -- Only load if `make` is available. Make sure you have the system
-  -- requirements installed.
-  {
-    'nvim-telescope/telescope-fzf-native.nvim',
-    -- NOTE: If you are having trouble with this installation,
-    --       refer to the README for telescope-fzf-native for more instructions.
-    build = 'make',
-    cond = function()
-      return vim.fn.executable 'make' == 1
-    end,
-  },
-
-  {
-    -- Highlight, edit, and navigate code
-    'nvim-treesitter/nvim-treesitter',
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter-textobjects',
-    },
-    build = ':TSUpdate',
-  },
-
-  'tpope/vim-projectionist',
-
-  {
-    'sirver/UltiSnips',
-    config = function()
-      vim.g.UltiSnipsExpandTrigger = "<C-l>"
-      vim.g.UltiSnipsJumpForwardTrigger = "<C-l>"
-    end,
-    build = 'python3 -m pip install --user --upgrade pynvim',
-  },
-
-  'honza/vim-snippets',
-
-  {
-    'cristianoliveira/snipgpt.nvim',
-    build = 'npm i snipgpt -g',
-  },
+  ----------------------------------------------------------------------------
+  -- Code runners and watchers
 
   {
     'cristianoliveira/funzzy.nvim',
     build = 'cargo install funzzy'
   },
 
-  'mg979/vim-visual-multi',
 
-  'ruanyl/vim-gh-line',
 }, {})
 
 require('solarized').setup({
