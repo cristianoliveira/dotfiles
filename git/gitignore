@@ -29,4 +29,6 @@ _scripts/
 
 *.nix
 
+.gitconfig.user
+
 .tool-versions

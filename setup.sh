@@ -44,10 +44,10 @@ ln -s "$HOME"/.dotfiles/git/gitconfig "$HOME"/.gitconfig
 ln -s "$HOME"/.dotfiles/git/gitignore "$HOME"/.gitignore
 ln -s "$HOME"/.dotfiles/ctags "$HOME"/.ctags
 ln -s "$HOME"/.dotfiles/resources/karabiner "$HOME"/.config/karabiner
-
+ln -s $HOME/.dotfiles/resources/alacritty "$HOME"/.config/alacritty
 
 echo "Setup Vim and installing plugins"
-sh "$HOME"/.dotfiles/vim/setup.sh
+sh $HOME/.dotfiles/nvim/setup.sh
 
 chsh -s /bin/zsh
 
