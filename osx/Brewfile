@@ -84,6 +84,7 @@ brew 'fd'
 brew 'openjdk'
 brew 'bitwarden-cli'
 brew 'fzf' # fuzzy finder cli. Pipe options to it and select!
+brew 'luarocks'
 
 # Install neovim
 tap 'neovim/neovim'
