@@ -34,3 +34,5 @@ _scripts/
 .tool-versions
 
 *.log
+
+nvim-macos/
