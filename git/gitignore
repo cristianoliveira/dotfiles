@@ -32,3 +32,5 @@ _scripts/
 .gitconfig.user
 
 .tool-versions
+
+*.log
