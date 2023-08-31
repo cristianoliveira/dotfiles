@@ -78,6 +78,8 @@ brew 'vim'
 brew 'jq'
 brew 'ripgrep'
 brew 'colima'
+brew 'docker'
+brew 'docker-compose'
 brew 'diff-so-fancy'
 brew 'entr' # watch files and execute a cmd
 brew 'fd'
