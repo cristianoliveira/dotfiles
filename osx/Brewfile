@@ -34,7 +34,7 @@ cask 'zoom'
 cask 'izip'
 cask 'veracrypt'
 cask 'alacritty'
-cask 'apptivator'
+cask 'dbeaver-community'
 
 # Install fonts
 tap 'homebrew/cask-fonts'
