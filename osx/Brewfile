@@ -35,6 +35,8 @@ cask 'izip'
 cask 'veracrypt'
 cask 'alacritty'
 cask 'dbeaver-community'
+# vsc*** pairing :P
+cask 'visual-studio-code'
 
 # Install fonts
 tap 'homebrew/cask-fonts'
