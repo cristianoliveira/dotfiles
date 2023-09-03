@@ -38,3 +38,8 @@ vim.keymap.set({ 'c' }, "<C-l>", "<Right>")
 -- Remap for dealing with word wrap
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+
+-- :W does the same as :w I keep messing up the shift key
+vim.cmd("command! -nargs=0 W w")
+vim.cmd("command! -nargs=0 WQ wq")
+vim.cmd("command! -nargs=0 Wq wq")
