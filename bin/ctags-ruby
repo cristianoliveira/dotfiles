@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+echo "Generating ctags for Ruby..."
+ctags -R --languages=ruby --exclude=.git --exclude=log --exclude=tmp . $(bundle list --paths)
+echo "Done!"
