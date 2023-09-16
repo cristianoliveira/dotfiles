@@ -11,10 +11,14 @@ local lsp_flags = {
 
 local servers = {
   dockerls = {},
+
   gopls = {},
-  -- pyright = {},
   rust_analyzer = {},
   tsserver = {},
+
+  bashls = {},
+
+  pyright = {},
 
   lua_ls = {
     Lua = {
