@@ -1,16 +1,13 @@
 .PHONY: setup osx linux
 
 setup:
-	sh ./setup.sh
+	@bash ./setup.sh
 
 ssh:
-	sh ./ssh-key.sh
+	@bash ./ssh-key.sh
 
 linux:
-	sh ./linux-install.sh
+	@bash ./linux-install.sh
 
 osx:
-	sh ./osx-install.sh
-
-osx-karabiner:
-	cp -rf ~/.dotfiles/resources/karabiner ~/.config/
+	@bash ./osx-install.sh

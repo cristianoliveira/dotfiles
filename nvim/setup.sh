@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 NVIM_CONFIG_PATH=~/.config/nvim
 mv $NVIM_CONFIG_PATH $DOTFILES_BKP_PATH

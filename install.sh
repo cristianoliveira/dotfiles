@@ -1,3 +1,6 @@
+set -e # fail on error
+set -u # do not allow unset variables
+
 OS=$1
 if [ "$OS" = "" ]
 then

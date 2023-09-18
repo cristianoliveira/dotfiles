@@ -1,5 +1,3 @@
-#!/usr/bin/env sh
-
 set -e  # fail on error
 set -u # do not allow unset variables
 
