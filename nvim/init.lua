@@ -1,7 +1,3 @@
-require('customization/settings/vim')
+require('vim')
 require('plugins')
-
--- Setup neovim lua configuration
-require('neodev').setup()
-
 require('customization')

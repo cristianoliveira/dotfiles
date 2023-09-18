@@ -204,13 +204,7 @@ require('lazy').setup({
 
 }, {})
 
-require('solarized').setup({
-  theme = 'neo',
-  styles = function(colors, colorhelper)
-    local c = colorhelper.darken
+require('solarized').setup({ theme = 'neo' })
 
-    return {
-      variables = { fg = colors.green, bold = true },
-    }
-  end
-})
+-- Setup neovim lua configuration
+require('neodev').setup()

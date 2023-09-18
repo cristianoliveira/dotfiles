@@ -21,7 +21,6 @@ require('customization/mappings/marks')
 require('customization/mappings/find_replace')
 require('customization/mappings/telescope')
 --
-require('customization/settings/vim')
 require('customization/settings/lsp')
 require('customization/settings/performance')
 require('customization/settings/navigation')
