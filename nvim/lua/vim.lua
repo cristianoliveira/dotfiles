@@ -1,11 +1,8 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+-- Set timeoutlen for commands
 vim.opt.timeoutlen = 1300
-
--- Working on a monorepop is fun!
--- See: https://github.com/vim/vim/issues/2049
-vim.opt.mmp = 5000
 
 -- Set vim backup off
 vim.opt.backup = false
@@ -16,9 +13,6 @@ vim.opt.writebackup = false
 
 -- Set highlight on search
 vim.o.hlsearch = true
-
--- Make line numbers default
-vim.wo.number = true
 
 -- Enable mouse mode
 vim.o.mouse = 'a'
@@ -82,3 +76,23 @@ vim.cmd [[syntax sync minlines=256]]
 
 vim.o.cursorline = true
 vim.o.linespace = 3
+
+--> Navigation settings
+vim.opt.relativenumber = true
+vim.g.netrw_liststyle = 0
+
+-- Make line numbers default
+vim.wo.number = true
+
+--> Performance settings
+vim.o.ttyfast = true
+vim.o.lazyredraw = true
+
+-- Performance fix for Typescript
+-- https://jameschambers.co.uk/vim-typescript-slow
+-- Avoid using old regex implementation for code highlight which is slooow
+vim.o.re = 0
+
+-- Working on a monorepop is fun!
+-- See: https://github.com/vim/vim/issues/2049
+vim.opt.mmp = 5000

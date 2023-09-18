@@ -1,14 +1,11 @@
-function Grepapp(args)
-  io.popen("open https://grep.app/search?q=".. args)
-end
+local s = require('customization.functions.selection')
 
-function selected_text()
-  vim.cmd.normal('"gy')
-  return vim.fn.getreg('g')
+function Grepapp(args)
+  io.popen("open https://grep.app/search?q=" .. args)
 end
 
 vim.keymap.set('v', '<leader>ga', function()
-  Grepapp(selected_text())
+  Grepapp(s.selected_text())
 end, { noremap = true, silent = true, desc = 'Search [G]rep [A]pp for selected text' })
 
 vim.cmd("command! -nargs=1 Grepapp lua Grepapp(<f-args>)")

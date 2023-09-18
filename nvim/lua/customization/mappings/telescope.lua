@@ -1,3 +1,5 @@
+local s = require('customization.functions.selection')
+
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
 require('telescope').setup {
@@ -46,11 +48,11 @@ vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { de
 vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader>sk', require('telescope.builtin').keymaps, { desc = '[S]earch [K]Keymaps' })
-vim.keymap.set('n', '<leader>st', ":lua require('telescope.builtin')", { desc = 'Prepare [S]earch command for [T]elescope' })
+vim.keymap.set('n', '<leader>st', ":lua require('telescope.builtin')",
+  { desc = 'Prepare [S]earch command for [T]elescope' })
 
 vim.keymap.set('v', '<leader>k', function()
-  vim.cmd.normal('"ky')
-  require('telescope.builtin').grep_string({ search = vim.fn.getreg('k') })
+  require('telescope.builtin').grep_string({ search = s.selected_text() })
 end, { script = true, desc = 'Mimic "Ac[K]" behaviour by searching the selected text' })
 
 vim.keymap.set('n', '<leader>k', function()

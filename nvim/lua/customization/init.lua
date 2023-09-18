@@ -1,7 +1,12 @@
+--> Plugins custom settings
+
+--> Local plugins
 require('customization/plugins')
 
+--> Helper functions
 require('customization/functions/vimscript_to_lua')
---
+
+--> Mappings
 require('customization/mappings/ultisnips')
 require('customization/mappings/copy_paste')
 require('customization/mappings/visual_code_editing')
@@ -20,10 +25,9 @@ require('customization/mappings/ale')
 require('customization/mappings/marks')
 require('customization/mappings/find_replace')
 require('customization/mappings/telescope')
---
+
+--> Settings
 require('customization/settings/lsp')
-require('customization/settings/performance')
-require('customization/settings/navigation')
 require('customization/settings/projectionist')
 require('customization/settings/ale')
 require('customization/settings/intellisense')
