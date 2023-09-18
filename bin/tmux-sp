@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+#
+#  TMUX [S]ELECT [P]ROJECT
 
 WORKSPACE_FOLDERS="$HOME/work $HOME/other"
 OTHER_FOLDERS="$HOME/.dotfiles"
@@ -20,7 +22,7 @@ else
     fzf --height 50% \
     --layout=reverse \
     --border \
-    --header 'FZF projects in workspaces:' \
+    --header 'TMUX - SELECT PROJECT:' \
     --preview "ls -la $HOME/{}"
   )"
 fi
@@ -33,12 +35,12 @@ selected="$HOME/$selected"
 
 base_name=$(echo "$selected" | tr . _)
 
-# Name the session using the worskspace's first letter as separator
+# Name the session using the worskspace + folder
 # Eg.
-# /user/name/work/myproject => w/myproject
-# /user/name/other/oproject => o/oproject
+# /user/name/work/myproject => work/myproject
+# /user/name/other/oproject => other/oproject
 #
-selected_name=$(echo "$base_name" | sed -E 's/(.*)\/(.).*\/([^\/]+)$/\2\/\3/g')
+selected_name=$(echo "$base_name" | sed -E 's/(.*)\/(.*)\/([^\/]+)$/\2\/\3/g')
 
 if [[ -z $selected ]]; then
   exit 0

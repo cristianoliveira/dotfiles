@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+#
+#  TMUX [N]EW [P]ROJECT
+#
 WORKSPACE_FOLDERS="$HOME $HOME/work $HOME/other"
 
 folder=$(\
@@ -20,7 +23,11 @@ if [[ -n "$project" ]]; then
 fi
 
 
-selected_name=$(echo "$selected" | sed -E 's/(.*)\/(.).*\/([^\/]+)$/\2\/\3/g')
+# Name the session using the worskspace + folder
+# Eg.
+# /user/name/work/myproject => work/myproject
+# /user/name/other/oproject => other/oproject
+selected_name=$(echo "$selected" | sed -E 's/(.*)\/(.*)\/([^\/]+)$/\2\/\3/g')
 
 tmux_running=$(pgrep tmux)
 
