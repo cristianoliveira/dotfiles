@@ -1,5 +1,5 @@
-ls $HOME/.dotfiles/scripts-install/
-for script in $HOME/.dotfiles/scripts-install/*; do
+ls $HOME/.dotfiles/setup/
+for script in $HOME/.dotfiles/setup/*; do
   echo "running $script"
   bash "$script"
 done
