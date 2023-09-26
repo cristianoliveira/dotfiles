@@ -10,3 +10,6 @@ alias habits='\history -1000 -1 | sed "s/^[[:space:]]*[0-9]*[[:space:]]*//" | so
 alias running-on='lsof -i'
 
 alias cmdf='\history | grep'
+
+# Helper aliases
+alias dups='grep -v "^\s*$" | sort | uniq -d'
