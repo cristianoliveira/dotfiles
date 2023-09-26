@@ -55,10 +55,7 @@ alias gp='git push -u'
 alias gps='git push'
 alias gpush='git push'
 alias gpushu='git push -u' # it sets the upstream for the given remote/branch
-alias gpn='git push --no-verify' # avoid prehooks
 alias gpf='git push --force-with-lease'
-alias gp!='git push --no-verify' # avoid prehooks
-alias gp!!='git push --no-verify --force-with-lease' # avoid prehooks and force
 
 # git reset
 alias grs='git reset'
@@ -82,7 +79,6 @@ alias gsmu='git submodule update'
 # git checkout
 alias gch='git checkout'
 alias gchb='git checkout -b'
-alias gch='git checkout'
 alias gchm='git checkout "$MAIN_BRANCH"'
 alias gchd='git checkout develop'
 
@@ -115,7 +111,6 @@ alias gbg='git bisect good'
 alias gbb='git bisect bad'
 alias gi='vim .gitignore'
 alias gcm='git ci -m'
-alias gcm!='git ci --no-verify -m'
 alias gcim='git ci -m'
 alias gci='git ci'
 alias gco='git co'
@@ -132,7 +127,11 @@ alias gs='git status'
 
 alias gmt="git mergetool"
 alias gamd='git commit --amend'
-alias gamd!='git commit --amend --no-edit'
 
 alias gchbm="git checkout origin/\$MAIN_BRANCH && git checkout -b"
 
+# Just do it! (ignore prehooks)
+alias gp!='git push --no-verify'
+alias gpf!='git push --no-verify --force-with-lease'
+alias gcm!='git ci --no-verify -m'
+alias gamd!='git commit --no-verify --amend --no-edit'
