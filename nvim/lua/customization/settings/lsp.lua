@@ -7,35 +7,40 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 local util = require("lspconfig.util")
 local configs = require("lspconfig.configs")
 
-configs.htmx_lsp = {
-  default_config = {
-    -- Paste here the path to the lsp bin
-    cmd = {
-      "/Users/cristianoliveira/other/htmx-lsp/target/release/htmx-lsp",
-      "--file",
-      "/Users/cristianoliveira/other/htmx-lsp/log.log",
-      "--level",
-      "DEBUG",
-    },
-    filetypes = { "html" },
-    root_dir = util.path.dirname,
-    autostart = true,
-  },
-
-  docs = {
-    description = [[
-    Language Server Protocol for Conventional Commits.
-    ]],
+-- Check if file "/Users/cristianoliveira/other/htmx-lsp/target/release/htmx-lsp" 
+-- is present otherwise don't set up htmx_lsp
+local htmx_lsp_bin = "/Users/cristianoliveira/other/htmx-lsp/target/release/htmx-lsp"
+if vim.fn.filereadable(htmx_lsp_bin) ~= 0 then
+  configs.htmx_lsp = {
     default_config = {
-      root_dir = [[root_pattern(".git")]],
+      -- Paste here the path to the lsp bin
+      cmd = {
+        "/Users/cristianoliveira/other/htmx-lsp/target/release/htmx-lsp",
+        "--file",
+        "/Users/cristianoliveira/other/htmx-lsp/log.log",
+        "--level",
+        "DEBUG",
+      },
+      filetypes = { "html" },
+      root_dir = util.path.dirname,
+      autostart = true,
     },
-  },
-}
 
-lspconfig.htmx_lsp.setup {
-  on_attach = Lsp_on_attach, -- see ../mappings/lsp.lua
-  flags = lsp_flags,
-}
+    docs = {
+      description = [[
+      Language Server Protocol for Conventional Commits.
+      ]],
+      default_config = {
+        root_dir = [[root_pattern(".git")]],
+      },
+    },
+  }
+
+  lspconfig.htmx_lsp.setup {
+    on_attach = Lsp_on_attach, -- see ../mappings/lsp.lua
+    flags = lsp_flags,
+  }
+end
 
 
 local lsp_flags = {
