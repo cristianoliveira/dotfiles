@@ -8,13 +8,13 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 -- format on save using vim.lsp.buf.format()
-local format_group = vim.api.nvim_create_augroup('FormatOnSave', { clear = true })
-vim.api.nvim_create_autocmd('BufWritePre', {
-  callback = function()
-    vim.lsp.buf.format()
-  end,
-  group = format_group,
-})
+-- local format_group = vim.api.nvim_create_augroup('FormatOnSave', { clear = true })
+-- vim.api.nvim_create_autocmd('BufWritePre', {
+--   callback = function()
+--     vim.lsp.buf.format()
+--   end,
+--   group = format_group,
+-- })
 
 -- --- trim empty lines at the end of the file
 -- local trim_group = vim.api.nvim_create_augroup('TrimEmptyLines', { clear = true })

@@ -11,7 +11,7 @@ configs.htmx_lsp = {
   default_config = {
     -- Paste here the path to the lsp bin
     cmd = {
-      "/Users/cristianoliveira/other/htmx-lsp/target/debug/htmx-lsp",
+      "/Users/cristianoliveira/other/htmx-lsp/target/release/htmx-lsp",
       "--file",
       "/Users/cristianoliveira/other/htmx-lsp/log.log",
       "--level",

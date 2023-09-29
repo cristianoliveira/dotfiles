@@ -3,6 +3,9 @@
 --> Local plugins
 require('customization/plugins')
 
+--> Custom Commands
+require('customization/commands')
+
 --> Helper functions
 require('customization/functions/vimscript_to_lua')
 
