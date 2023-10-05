@@ -8,7 +8,7 @@ OTHER_FOLDERS="$HOME/.dotfiles"
 if [ -n "$1" ]; then
   tmux switch-client -t "$(\
     echo "$@" | tr ' ' '\n' |
-    fzf --height 80% \
+    fzf --height 50% \
         --layout=reverse \
         --border \
         --header '---------------TMUX - SELECT SESSION---------------' \
@@ -20,7 +20,11 @@ if [[ $# -eq 1 ]]; then
   selected=$1
 else
   selected="$(\
-    printf "$(find $WORKSPACE_FOLDERS -mindepth 1 -maxdepth 1 -type d)\n$OTHER_FOLDERS" |
+    printf "$(find $WORKSPACE_FOLDERS \
+      -mindepth 1 \
+      -maxdepth 1 \
+      -type d \
+      -follow)\n$OTHER_FOLDERS" |
     sed -E 's/(.*)\/(.*)\/([^\/]+)$/\2\/\3/g' |
     fzf --height 80% \
         --layout=reverse \

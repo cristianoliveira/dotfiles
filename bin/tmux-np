@@ -23,7 +23,7 @@ if [[ -n "$project" ]]; then
 fi
 
 
-# Name the session using the worskspace + folder
+# Name the session using the worskspace + separator
 # Eg.
 # /user/name/work/myproject => work/myproject
 # /user/name/other/oproject => other/oproject

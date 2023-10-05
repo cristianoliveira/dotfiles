@@ -4,3 +4,5 @@ nmap("<leader>rfc", ":cfdo %s/<C-r>///gc<left><left><left> | update", "Refactor 
 
 nmap("<leader>rr", ":%s/<C-r>///g<left><left>")
 vmap("<leader>rr", ":s/<C-r>///g<left><left>")
+
+nmap("<leader>rcm", ":g/<C-r>/normal ", "Refactor [f]ind [c]hange")
