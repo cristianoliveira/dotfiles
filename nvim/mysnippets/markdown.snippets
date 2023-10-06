@@ -1,0 +1,42 @@
+##################################
+# Snippets for Markdown/Obsidian #
+##################################
+priority 1
+
+snippet --- "Expand file metadata" b
+
+---
+title: ${1:`!v expand('%:t:r')`}
+tags: ${2:tag1, tag2}
+date: ${3:`!v strftime('%d-%m-%Y')`}
+---
+
+endsnippet
+
+snippet link "link expands standard links"
+(${1:https://example.com})[${2:link text}]
+endsnippet
+
+snippet a "link expands standard links"
+(${1:https://example.com})[${2:link text}]
+endsnippet
+
+snippet ( "( expands standard links" 
+(${1:https://example.com})[${2:link text}]
+endsnippet
+
+snippet ** "Expand links" b
+**${1:MyFile}**
+endsnippet
+
+snippet [[ "Expand file links"
+[[${1:MyFile}|${2:$1.md}]]
+endsnippet
+
+snippet chk "Expand to checkbox"
+- [ ] ${1:My task}
+endsnippet
+
+snippet check "Expand to checkbox"
+- [ ] ${1:My task}
+endsnippet
