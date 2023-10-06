@@ -1,0 +1,42 @@
+#!/usr/bin/env python3
+
+import smtplib
+import os, sys
+from email.mime.text import MIMEText
+
+required_env_vars = ['GOOGLE_APP_EMAIL', 'GOOGLE_APP_PASSWORD', 'GOOGLE_APP_RECIPIENT_EMAIL']
+if not all(evar in os.environ for evar in required_env_vars):
+   print("Missing one or more required environment variables")
+   print("Required variables:", required_env_vars)
+   sys.exit(1)
+
+# receive one argument from the command line
+reminder = sys.argv[1]
+if len(reminder) == 0:
+   print("Usage: emailme <message>")
+   sys.exit(1)
+
+subject = "Reminder: " + reminder
+body = "Reminder: " + reminder
+recipients = [os.environ['GOOGLE_APP_RECIPIENT_EMAIL']]
+sender = os.environ['GOOGLE_APP_EMAIL']
+
+# This is the password for the email account that will be used to send the email
+# So the same as GOOGLE_APP_EMAIL.
+#  - Go to https://myaccount.google.com/apppasswords
+#  - Select "Mail" from the dropdown menu and "Other" from the dropdown menu
+#  - Enter "emailme" as the name of the app and click "Generate"
+
+password = os.environ['GOOGLE_APP_PASSWORD']
+
+def send_email(subject, body, sender, recipients, password):
+    msg = MIMEText(body)
+    msg['Subject'] = subject
+    msg['From'] = sender
+    msg['To'] = ', '.join(recipients)
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp_server:
+       smtp_server.login(sender, password)
+       smtp_server.sendmail(sender, recipients, msg.as_string())
+    print("Message sent!")
+
+send_email(subject, body, sender, recipients, password)
