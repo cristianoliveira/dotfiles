@@ -40,3 +40,26 @@ endsnippet
 snippet check "Expand to checkbox"
 - [ ] ${1:My task}
 endsnippet
+
+# Obsidian specific snippets
+snippet daily "Daily note"
+---
+title: ${1:`!v expand('%:t:r')`}
+tags: '#daily-notes'
+date: ${2:`!v strftime('%d-%m-%Y')`}
+---
+
+# Today $2
+
+[[`date -v-1d +%d-%m-%Y`|yesterday]]|[[`date -v+1d +%d-%m-%Y`|tomorrow]]
+
+## Tasks 
+
+- [] Task 1 
+
+## Thoughts
+
+## Related
+
+[[TODO|TODO.md]]
+endsnippet
