@@ -4,13 +4,11 @@
 priority 1
 
 snippet --- "Expand file metadata" b
-
 ---
 title: ${1:`!v expand('%:t:r')`}
 tags: ${2:tag1, tag2}
 date: ${3:`!v strftime('%d-%m-%Y')`}
 ---
-
 endsnippet
 
 snippet link "link expands standard links"
@@ -33,6 +31,14 @@ snippet [[ "Expand file links"
 [[${1:MyFile}|${2:$1.md}]]
 endsnippet
 
+snippet tdo "Expand to checkbox"
+- [ ] ${1:My task}
+endsnippet
+
+snippet todo "Expand to checkbox"
+- [ ] ${1:My task}
+endsnippet
+
 snippet chk "Expand to checkbox"
 - [ ] ${1:My task}
 endsnippet
@@ -51,15 +57,17 @@ date: ${2:`!v strftime('%d-%m-%Y')`}
 
 # Today $2
 
-[[`date -v-1d +%d-%m-%Y`|yesterday]]|[[`date -v+1d +%d-%m-%Y`|tomorrow]]
+[[daily/`date -v-1d +%d-%m-%Y`|yesterday]]
+[[daily/`date -v+1d +%d-%m-%Y`|tomorrow]]
 
 ## Tasks 
 
-- [] Task 1 
+- [ ] Task 1 
 
 ## Thoughts
 
 ## Related
 
-[[TODO|TODO.md]]
+[[todos]]
+[[ideas]]
 endsnippet
