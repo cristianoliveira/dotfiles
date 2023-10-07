@@ -36,3 +36,5 @@ _scripts/
 *.log
 
 nvim-macos/
+
+.env
