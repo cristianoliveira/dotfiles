@@ -24,6 +24,13 @@ vim.api.nvim_create_autocmd('FileType', {
       end
     end, { noremap = true, desc = '[o]bsidian [l]ink' })
 
+    -- Open daily note at $PWD/daily/dd-mm-yyyy.md
+    vim.keymap.set('n', '<leader>odn', function()
+      local date = os.date('%d-%m-%Y')
+
+      vim.cmd('e daily/' .. date .. '.md')
+    end, { noremap = true, desc = '[t]o [t]o[d]o' })
+
     -- mark a todo as done
     -- [ ] foobar -> [x] foobar
     vim.keymap.set('n', '<leader>ttc', function()
@@ -40,6 +47,7 @@ vim.api.nvim_create_autocmd('FileType', {
       vim.fn.setline(current_line_number, line)
     end, { noremap = true, desc = '[t]o [t]odo [c]hange' })
 
+    -- Create a todo from a plain text
     vim.keymap.set('n', '<leader>ttd', function()
       local current_line_number = vim.fn.line('.')
       local line = vim.fn.getline(current_line_number)
