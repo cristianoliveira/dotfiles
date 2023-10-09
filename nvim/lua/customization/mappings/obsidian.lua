@@ -2,23 +2,26 @@
 -- [[example1]] -> example1.md
 -- [[example2|text]] -> example2.md
 -- [[2023-10-05|yesterday]] -> 2023-10-05.md
-local obsmd = vim.api.nvim_create_augroup('ObsMarkdown', { clear = true })
--- When current folder contain .obsidian folder, open the daily note of the day
 
+local is_vault = function () 
+  return vim.fn.isdirectory('.obsidian') == 1
+end
+
+local obsmd = vim.api.nvim_create_augroup('ObsMarkdown', { clear = true })
 vim.api.nvim_create_autocmd('VimEnter', {
   callback = function()
+    if not is_vault() then return end
+
     local date = os.date('%d-%m-%Y')
     local daily_note = 'daily/' .. date .. '.md'
 
-    if vim.fn.isdirectory('.obsidian') == 1 then
-      -- if current buffer is the daily note, do nothing
-      local current_buffer = vim.fn.expand('%:p')
-      print(current_buffer)
-      if vim.fn.expand('%:p') == daily_note then
-        return
-      end
-      vim.cmd('e ' .. daily_note)
+    -- if current buffer is the daily note, do nothing
+    local current_buffer = vim.fn.expand('%:p')
+    print(current_buffer)
+    if vim.fn.expand('%:p') == daily_note then
+      return
     end
+    vim.cmd('e ' .. daily_note)
   end,
   group = obsmd,
   pattern = '*',
@@ -26,9 +29,7 @@ vim.api.nvim_create_autocmd('VimEnter', {
 
 vim.api.nvim_create_autocmd('FileType', {
   callback = function()
-    if vim.fn.isdirectory('.obsidian') == 0 then
-      return
-    end
+    if not is_vault() then return end
 
     vim.keymap.set('n', 'gf', function()
       local line = vim.fn.getline('.')

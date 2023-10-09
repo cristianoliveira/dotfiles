@@ -1,0 +1,83 @@
+#######################################################################
+#                           Bash Snippets                             #
+#######################################################################
+
+priority -50
+
+# Define a simple function
+snippet fn "function name() {}"
+function ${1:function_name}() {
+    ${VISUAL}$0
+}
+endsnippet
+
+# Define a function with parameters
+snippet fnp "function name(param1, param2, ...) {}"
+function ${1:function_name}() {
+    local ${2:param1}=$1
+    local ${3:param2}=$2
+    ${VISUAL}$0
+}
+endsnippet
+
+# If statement
+snippet if "if [ condition ]; then ... fi"
+if [ ${1:condition} ]; then
+    ${VISUAL}$0
+fi
+endsnippet
+
+# For loop
+snippet for "for i in {start..end}; do ... done"
+for i in {${1:start}..${2:end}}; do
+    ${VISUAL}$0
+done
+endsnippet
+
+# While loop
+snippet while "while [ condition ]; do ... done"
+while [ ${1:condition} ]; do
+    ${VISUAL}$0
+done
+endsnippet
+
+# Case statement
+snippet case "case variable in ... esac"
+case ${1:variable} in
+    ${2:pattern1})
+        ${VISUAL}$0
+        ;;
+    ${3:pattern2})
+        ${4:action}
+        ;;
+    *)
+        ${5:default_action}
+        ;;
+esac
+endsnippet
+
+# If not (negation)
+snippet ifnot "if ! [ condition ]; then ... fi"
+if ! [ ${1:condition} ]; then
+    ${VISUAL}$0
+fi
+endsnippet
+
+# If variable is not empty
+snippet ifne "if [ -n \"\$variable\" ]; then ... fi"
+if [ -n "${1:variable}" ]; then
+    ${VISUAL}$0
+fi
+endsnippet
+
+# If file is not present
+snippet ifnp "if [ ! -f \"filename\" ]; then ... fi"
+if [ ! -f "${1:filename}" ]; then
+    ${VISUAL}$0
+fi
+endsnippet
+
+# Echo with a message
+snippet echo "echo 'message'"
+echo "${1:message}"
+endsnippet
