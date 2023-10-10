@@ -71,3 +71,28 @@ date: ${2:`!v strftime('%d-%m-%Y')`}
 [[todos]]
 [[ideas]]
 endsnippet
+
+# Obsidian generic snippets
+snippet ogeneric "Generic note"
+---
+title: ${1:`!v expand('%:t:r')`}
+tags: '#$1'
+date: ${2:`!v strftime('%d-%m-%Y')`}
+---
+
+# $1
+
+## Section
+
+## Related
+
+[[todos]]
+[[ideas]]
+endsnippet
+
+# task in this format
+snippet devtask "A generic dev task"
+- [ ] ${1:Task}
+	- [ ] Dev 
+	- [ ] PR
+endsnippet
