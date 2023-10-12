@@ -60,16 +60,10 @@ date: ${2:`!v strftime('%d-%m-%Y')`}
 [[daily/`date -v-1d +%d-%m-%Y`|yesterday]]
 [[daily/`date -v+1d +%d-%m-%Y`|tomorrow]]
 
-## Tasks 
+## Inbox 
 
 - [ ] Task 1 
 
-## Thoughts
-
-## Related
-
-[[todos]]
-[[ideas]]
 endsnippet
 
 # Obsidian generic snippets
@@ -83,11 +77,6 @@ date: ${2:`!v strftime('%d-%m-%Y')`}
 # $1
 
 ## Section
-
-## Related
-
-[[todos]]
-[[ideas]]
 endsnippet
 
 # task in this format
@@ -95,4 +84,16 @@ snippet devtask "A generic dev task"
 - [ ] ${1:Task}
 	- [ ] Dev 
 	- [ ] PR
+endsnippet
+
+# Expand to current folder of the current file
+snippet [[pwd "Expand to current folder"
+[[${1:`!v expand('%:p:h:t')`}/$2]]
+endsnippet
+
+# Collect use shell script to collect all instances #todos and expand them
+snippet todos "Collect all references of #todos"
+`#!/bin/bash
+ grep -r '#todo' . | sed 's/#todo//' | sed -E 's/^(.*\.md):(.*)$/-\2/'
+`
 endsnippet

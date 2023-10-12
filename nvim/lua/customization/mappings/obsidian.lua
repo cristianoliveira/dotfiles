@@ -45,6 +45,11 @@ vim.api.nvim_create_autocmd('FileType', {
           file = string.match(file, '(.*)|.*')
         end
 
+        -- If file is a directory, open it index.md instead
+        if vim.fn.isdirectory(file) == 1 then
+          file = file .. '/index'
+        end
+
         vim.cmd('e ' .. file .. '.md')
       end
     end, { noremap = true, desc = '[o]bsidian [l]ink' })
