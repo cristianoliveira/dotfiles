@@ -12,15 +12,19 @@ date: ${3:`!v strftime('%d-%m-%Y')`}
 endsnippet
 
 snippet link "link expands standard links"
-(${1:https://example.com})[${2:link text}]
+[${1:link text}](${2:https://example.com})
+endsnippet
+
+snippet img "image expands standard images with alt text"
+![${1:link text}](${2:https://example.com})
 endsnippet
 
 snippet a "link expands standard links"
-(${1:https://example.com})[${2:link text}]
+[${1:link text}](${2:https://example.com})
 endsnippet
 
 snippet ( "( expands standard links" 
-(${1:https://example.com})[${2:link text}]
+[${1:link text}](${2:https://example.com})
 endsnippet
 
 snippet ** "Expand links" b
@@ -60,14 +64,35 @@ date: ${2:`!v strftime('%d-%m-%Y')`}
 [[daily/`date -v-1d +%d-%m-%Y`|yesterday]]
 [[daily/`date -v+1d +%d-%m-%Y`|tomorrow]]
 
-## Inbox 
+## Inbox
 
-- [ ] Task 1 
+`#!/bin/bash
+cat "./daily/$(date -v -1d '+%d-%m-%Y').md" \
+	| rg --multiline --multiline-dotall '# Inbox.*(\s#)' \
+	| sed 's/# Inbox//'
+`
 
+## Todos
+
+`#!/bin/bash
+grep -r '#todo' . | sed 's/#todo//' | sed -E 's/^(.*\.md):(.*)$/-\2/'
+`
 endsnippet
 
 # Obsidian generic snippets
 snippet ogeneric "Generic note"
+---
+title: ${1:`!v expand('%:t:r')`}
+tags: '#$1'
+date: ${2:`!v strftime('%d-%m-%Y')`}
+---
+
+# $1
+
+## Section
+endsnippet
+
+snippet gn "Generic note"
 ---
 title: ${1:`!v expand('%:t:r')`}
 tags: '#$1'
@@ -88,12 +113,18 @@ endsnippet
 
 # Expand to current folder of the current file
 snippet [[pwd "Expand to current folder"
-[[${1:`!v expand('%:p:h:t')`}/$2]]
+[[${1:`!v @%`}$2]]
 endsnippet
 
 # Collect use shell script to collect all instances #todos and expand them
 snippet todos "Collect all references of #todos"
 `#!/bin/bash
- grep -r '#todo' . | sed 's/#todo//' | sed -E 's/^(.*\.md):(.*)$/-\2/'
+ grep -r '#todo' . | sed 's/#todo//' | sed -E 's/^(.*\.md):(.*)$/-\2 \n\[ref](\1\)/'
+`
+endsnippet
+
+snippet assumptions "Collect all references of #assumptions"
+`#!/bin/bash
+ grep -r '#assumption' . | sed 's/#assumption//' | sed -E 's/^(.*\.md):(.*)$/-\2 \n\[ref](\1\)/'
 `
 endsnippet
