@@ -2,15 +2,12 @@
 -- [[example1]] -> example1.md
 -- [[example2|text]] -> example2.md
 -- [[2023-10-05|yesterday]] -> 2023-10-05.md
-
-local is_vault = function () 
-  return vim.fn.isdirectory('.obsidian') == 1
-end
+local obn = require('customization/commands/obsidian')
 
 local obsmd = vim.api.nvim_create_augroup('ObsMarkdown', { clear = true })
 vim.api.nvim_create_autocmd('VimEnter', {
   callback = function()
-    if not is_vault() then return end
+    if not obn.is_vault() then return end
 
     local date = os.date('%d-%m-%Y')
     local daily_note = 'daily/' .. date .. '.md'
@@ -29,56 +26,14 @@ vim.api.nvim_create_autocmd('VimEnter', {
 
 vim.api.nvim_create_autocmd('FileType', {
   callback = function()
-    if not is_vault() then return end
+    if not obn.is_vault() then return end
 
-    vim.keymap.set('n', 'gf', function()
-      local line = vim.fn.getline('.')
-      -- fallback to default gf if not obsidian link
-      if line.find(line, '%[%[') == nil then
-        vim.cmd('normal! gf')
-        return
-      end
-
-      local file = string.match(line, '%[%[(.*)%]%]')
-      if file then
-        if file.find(file, '|') then
-          file = string.match(file, '(.*)|.*')
-        end
-
-        -- If file is a directory, open it index.md instead
-        if vim.fn.isdirectory(file) == 1 then
-          file = file .. '/index'
-        end
-
-        vim.cmd('e ' .. file .. '.md')
-      end
-    end, { noremap = true, desc = '[o]bsidian [l]ink' })
-
-    -- Open daily note at $PWD/daily/dd-mm-yyyy.md
-    vim.keymap.set('n', '<leader>odn', function()
-      local date = os.date('%d-%m-%Y')
-
-      vim.cmd('e daily/' .. date .. '.md')
-    end, { noremap = true, desc = '[t]o [t]o[d]o' })
-
-    -- mark a todo as done
-    -- [ ] foobar -> [x] foobar
-    vim.keymap.set('n', '<leader>ttc', function()
-      local current_line_number = vim.fn.line('.')
-      local line = vim.fn.getline(current_line_number)
-
-      local done = string.match(line, '%[x%]')
-      if done then
-        line = string.gsub(line, '%[x%]', '[ ]', 1)
-      else
-        line = string.gsub(line, '%[ %]', '[x]', 1)
-      end
-
-      vim.fn.setline(current_line_number, line)
-    end, { noremap = true, desc = '[t]o [t]odo [c]hange' })
+    vim.keymap.set('n', 'gf', ':ObnGotoFile <CR>', { noremap = true, desc = 'Obsidian [G]oto[F]ile' })
+    vim.keymap.set('n', '<leader>odn', ':ObnOpenDaily', { noremap = true, desc = '[O]sidian [d]aily [n]ote' })
+    vim.keymap.set('n', '<leader>ott', ':ObnTodoToggle', { noremap = true, desc = '[O]sidian [t]oggle [t]odo' })
 
     -- Create a todo from a plain text
-    vim.keymap.set('n', '<leader>ttd', function()
+    vim.keymap.set('n', '<leader>oct', function()
       local current_line_number = vim.fn.line('.')
       local line = vim.fn.getline(current_line_number)
 
@@ -89,7 +44,7 @@ vim.api.nvim_create_autocmd('FileType', {
         line = '- [ ]' .. line
       end
       vim.fn.setline(current_line_number, line)
-    end, { noremap = true, desc = '[t]o [t]o[d]o' })
+    end, { noremap = true, desc = '[O]bsidian [c]reate [t]odo' })
 
   end,
   group = obsmd,
