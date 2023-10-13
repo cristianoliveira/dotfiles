@@ -74,12 +74,17 @@ cat "./daily/$(date -v -1d '+%d-%m-%Y').md" \
 ## Todos
 
 `#!/bin/bash
- grep -r '#todo' . | sed 's/#todo//' | sed -E 's/^(.*\.md):(.*)$/-\2 \n\[ref](\1\)/'`
+ grep -r '#todo' . | sed 's/#todo//' | sed -E 's/^(.*\.md):(.*)$/-\2 \n  \[ref](\1\)/'`
 
 ## Assumptions
 
 `#!/bin/bash
  grep -r '#assumption' . | sed 's/#assumption//' | sed -E 's/^(.*\.md):(.*)$/-\2 \n\[ref](\1\)/'`
+
+## Reminders
+
+`#!/bin/bash
+ grep -r '#reminder' . | sed 's/#reminder//' | sed -E 's/^(.*\.md):(.*)$/-\2 \n\[ref](\1\)/'`
 
 ## Notes
 endsnippet
@@ -121,15 +126,25 @@ snippet [[pwd "Expand to current folder"
 [[${1:`!v @%`}$2]]
 endsnippet
 
-# Collect use shell script to collect all instances #todos and expand them
+# Collect all instances #{tag} and expand them
+# to a list of checkboxes with links to the files
+# Example:
+# - [ ] My task marked as #{tag}
+#   [ref](./path/to/file-where-the-{tag}-is-from.md)
 snippet todos "Collect all references of #todos"
 `#!/bin/bash
- grep -r '#todo' . | sed 's/#todo//' | sed -E 's/^(.*\.md):(.*)$/-\2 \n\[ref](\1\)/'
+ grep -r '#todo' . | sed 's/#todo//' | sed -E 's/^(.*\.md):(.*)$/-\2 \n  \[ref](\1\)/'
 `
 endsnippet
 
 snippet assumptions "Collect all references of #assumptions"
 `#!/bin/bash
  grep -r '#assumption' . | sed 's/#assumption//' | sed -E 's/^(.*\.md):(.*)$/-\2 \n\[ref](\1\)/'
+`
+endsnippet
+
+snippet reminders "Collect all references of #reminders"
+`#!/bin/bash
+ grep -r '#reminder' . | sed 's/#reminder//' | sed -E 's/^(.*\.md):(.*)$/-\2 \n\[ref](\1\)/'
 `
 endsnippet
