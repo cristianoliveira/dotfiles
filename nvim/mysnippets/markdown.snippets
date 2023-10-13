@@ -6,7 +6,6 @@ priority 1
 snippet --- "Expand file metadata" b
 ---
 title: ${1:`!v expand('%:t:r')`}
-tags: ${2:tag1, tag2}
 date: ${3:`!v strftime('%d-%m-%Y')`}
 ---
 endsnippet
@@ -55,7 +54,6 @@ endsnippet
 snippet daily "Daily note"
 ---
 title: ${1:`!v expand('%:t:r')`}
-tags: '#daily-notes'
 date: ${2:`!v strftime('%d-%m-%Y')`}
 ---
 
@@ -74,17 +72,15 @@ obsh tag todo`
 `#!/bin/bash
 obsh tag assumption`
 
-## Reminders
+## Today reminders
 
 `#!/bin/bash
 obsh reminder`
 
-## Inbox
-
 `#!/bin/bash
 cat "./daily/$(date -v -1d '+%d-%m-%Y').md" \
-	| rg --multiline --multiline-dotall '# Inbox.*(\s#)' \
-	| sed 's/# Inbox//'`
+	| rg --multiline --multiline-dotall '# Inbox.*(^#)' \
+	| sed 's/##? Inbox//'`
 
 endsnippet
 
@@ -92,7 +88,6 @@ endsnippet
 snippet ogeneric "Generic note"
 ---
 title: ${1:`!v expand('%:t:r')`}
-tags: '#$1'
 date: ${2:`!v strftime('%d-%m-%Y')`}
 ---
 
@@ -104,7 +99,6 @@ endsnippet
 snippet gn "Generic note"
 ---
 title: ${1:`!v expand('%:t:r')`}
-tags: '#$1'
 date: ${2:`!v strftime('%d-%m-%Y')`}
 ---
 
@@ -152,7 +146,12 @@ snippet reminders "Collect all references of #reminder:DD-MM-YYYY"
 obsh tag reminder`
 endsnippet
 
-snippet duetotoday "Collect all references of #reminder:DD-MM-YYYY of today"
+snippet remindme "Collect all references of #reminder:DD-MM-YYYY of today"
 `#!/bin/bash
-obsh tag reminder`
+obsh reminder`
+endsnippet
+
+snippet someday "Collect all references of #someday"
+`#!/bin/bash
+obsh tag someday`
 endsnippet
