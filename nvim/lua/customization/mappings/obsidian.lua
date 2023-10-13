@@ -28,9 +28,9 @@ vim.api.nvim_create_autocmd('FileType', {
   callback = function()
     if not obn.is_vault() then return end
 
-    vim.keymap.set('n', 'gf', ':ObnGotoFile <CR>', { noremap = true, desc = 'Obsidian [G]oto[F]ile' })
-    vim.keymap.set('n', '<leader>odn', ':ObnOpenDaily', { noremap = true, desc = '[O]sidian [d]aily [n]ote' })
-    vim.keymap.set('n', '<leader>ott', ':ObnTodoToggle', { noremap = true, desc = '[O]sidian [t]oggle [t]odo' })
+    vim.keymap.set('n', 'gf', ':ObsGotoFile <CR>', { noremap = true, desc = 'Obsidian [G]oto[F]ile' })
+    vim.keymap.set('n', '<leader>odn', ':ObsOpenDaily', { noremap = true, desc = '[O]sidian [d]aily [n]ote' })
+    vim.keymap.set('n', '<leader>ott', ':ObsTodoToggle', { noremap = true, desc = '[O]sidian [t]oggle [t]odo' })
 
     -- Create a todo from a plain text
     vim.keymap.set('n', '<leader>oct', function()

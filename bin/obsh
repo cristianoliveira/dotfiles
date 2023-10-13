@@ -1,0 +1,37 @@
+#!/bin/bash
+
+set -e
+
+USAGE="
+Obsidian shell cli
+
+Query data from obsidian vault for analysis and automation direct from the command line.
+
+USAGE:
+${0} <cmd> <args>
+"
+
+CMD=${1?"${USAGE}"}
+if [[ "${CMD}" == "tag" ]]; then
+  shift
+  TAG="#${1?"${USAGE}"}"
+
+  # Grep all files in current dir but ignoring hidden files/dirs
+  grep -r --exclude="*/\.*" "${TAG}" . | sed "s/${TAG}//" | sed -E "s/^\.\/(.*\.md):(.*)$/-\2 \n  \[ref](\1\) \n/"
+  exit 0
+fi
+
+# Reminder cmd
+# Check if a reminder is due
+# This is the reminder format #reminder:DD-MM-YYYY
+if [[ "${CMD}" == "reminder" ]]; then
+  shift
+  DATE=${1-"$(date +%d-%m-%Y)"}
+  echo "Reminders for ${DATE}"
+  grep -r --exclude="*/\.*" "reminder:${DATE}" . | sed -E "s/^\.\/(.*\.md):(.*)$/-\2 \n  \[ref](\1\) \n/"
+  exit 0
+fi
+ 
+echo "ERROR: ${0} unknown command ${CMD}"
+echo "${USAGE}"
+exit 1
