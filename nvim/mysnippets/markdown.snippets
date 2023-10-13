@@ -69,14 +69,19 @@ date: ${2:`!v strftime('%d-%m-%Y')`}
 `#!/bin/bash
 cat "./daily/$(date -v -1d '+%d-%m-%Y').md" \
 	| rg --multiline --multiline-dotall '# Inbox.*(\s#)' \
-	| sed 's/# Inbox//'
-`
+	| sed 's/# Inbox//'`
 
 ## Todos
 
 `#!/bin/bash
-grep -r '#todo' . | sed 's/#todo//' | sed -E 's/^(.*\.md):(.*)$/-\2/'
-`
+ grep -r '#todo' . | sed 's/#todo//' | sed -E 's/^(.*\.md):(.*)$/-\2 \n\[ref](\1\)/'`
+
+## Assumptions
+
+`#!/bin/bash
+ grep -r '#assumption' . | sed 's/#assumption//' | sed -E 's/^(.*\.md):(.*)$/-\2 \n\[ref](\1\)/'`
+
+## Notes
 endsnippet
 
 # Obsidian generic snippets
