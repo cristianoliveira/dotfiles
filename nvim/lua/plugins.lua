@@ -97,6 +97,9 @@ require('lazy').setup({
     event = "InsertEnter",
     config = function()
       require("copilot").setup({
+        filetypes = {
+          markdown = true,
+        },
         suggestion = {
           enabled = true,
           auto_trigger = true,
@@ -186,12 +189,12 @@ require('lazy').setup({
     'lukas-reineke/indent-blankline.nvim',
     -- Enable `lukas-reineke/indent-blankline.nvim`
     -- See `:help indent_blankline.txt`
+    version = '2',
     opts = {
       char = '┊',
       show_trailing_blankline_indent = false,
     },
   },
-
 
   ----------------------------------------------------------------------------
   -- Code runners and watchers
