@@ -32,6 +32,13 @@ M.jump_to_link = function()
         file = string.match(file, '(.*)|.*')
       end
 
+      -- Try to create the folder if it doesn't exist 
+      -- Ex: [[folder/missing/file]] will create folder/missing if it doesn't exist
+      local folder = string.match(file, '(.*)/')
+      if folder and vim.fn.isdirectory(folder) == 0 then
+        vim.fn.mkdir(folder, 'p')
+      end
+
       -- If file is a directory, open it index.md instead
       if vim.fn.isdirectory(file) == 1 then
         file = file .. '/index'
