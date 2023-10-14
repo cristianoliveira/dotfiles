@@ -31,6 +31,22 @@ if [[ "${CMD}" == "reminder" ]]; then
   grep -r --exclude="*/\.*" "reminder:${DATE}" . | sed -E "s/^\.\/(.*\.md):(.*)$/-\2 \n  \[ref](\1\) \n/"
   exit 0
 fi
+
+# Collect blocks of content from the vault
+# This is the block format: 
+#<!-- ini:<block_name> -->
+#   content
+#<!-- end:<block_name> -->
+if [[ "${CMD}" == "block" ]]; then
+  shift
+  BLOCK=${1?"${USAGE}"}
+
+  echo "-- ${BLOCK} --"
+  grep -rl "<!-- ini:$BLOCK -->" . | \
+    xargs -I{} awk "/<!-- ini:$BLOCK -->/{f=1;next} /<!-- end:$BLOCK -->/{f=0} f" {} 
+
+  exit 0
+fi
  
 echo "ERROR: ${0} unknown command ${CMD}"
 echo "${USAGE}"

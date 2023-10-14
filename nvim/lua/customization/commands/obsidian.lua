@@ -70,11 +70,16 @@ M.collect_tags = function(tag)
   vim.cmd("read !obsh tag " .. tag)
 end
 
+M.collect_block = function(block)
+  vim.cmd("read !obsh block " .. block)
+end
+
 vim.cmd("command! -nargs=0 ObsOpenDaily lua require('customization/commands/obsidian').open_daily_note()")
 vim.cmd("command! -nargs=0 ObsTodoToggle lua require('customization/commands/obsidian').toggle_todo_item()")
 vim.cmd("command! -nargs=0 ObsGotoFile lua require('customization/commands/obsidian').jump_to_link()")
 vim.cmd("command! -nargs=0 ObsLink lua require('customization/commands/obsidian').jump_to_link()")
 vim.cmd("command! -nargs=0 ObsSearchTags lua require('customization/commands/obsidian').search_tags()")
 vim.cmd("command! -nargs=1 ObsCollectTags lua require('customization/commands/obsidian').collect_tags(<f-args>)")
+vim.cmd("command! -nargs=1 ObsCollectBlock lua require('customization/commands/obsidian').collect_block(<f-args>)")
 
 return M

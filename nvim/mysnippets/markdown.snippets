@@ -50,10 +50,14 @@ snippet check "Expand to checkbox"
 - [ ] ${1:My task}
 endsnippet
 
+snippet date "Expand to date"
+${1:`!v strftime('%d-%m-%Y')`}
+endsnippet
+
 # Obsidian specific snippets
 snippet daily "Daily note"
 ---
-title: ${1:`!v expand('%:t:r')`}
+title: $1
 date: ${2:`!v strftime('%d-%m-%Y')`}
 ---
 
