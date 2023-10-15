@@ -47,6 +47,41 @@ if [[ "${CMD}" == "block" ]]; then
 
   exit 0
 fi
+
+if [[ "${CMD}" == "daily" ]]; then
+  shift
+  # multiline string
+  echo "
+---
+title: Daily
+date: $(date +%d-%m-%Y)
+---
+
+[[daily/$(date -v-1d +%d-%m-%Y)|yesterday]]
+[[daily/$(date -v+1d +%d-%m-%Y)|tomorrow]]
+
+## Todos
+
+$(obsh tag todo)
+
+## Assumptions
+
+$(obsh tag assumption)
+
+## Today reminders
+
+$(obsh reminder)
+
+## Waiting
+
+$(obsh tag waiting)
+
+$(cat "./daily/$(date -v -1d '+%d-%m-%Y').md" \
+	| rg --multiline --multiline-dotall '# Inbox.*(^#)' \
+  | sed 's/##? Inbox//')
+"
+  exit 0
+fi
  
 echo "ERROR: ${0} unknown command ${CMD}"
 echo "${USAGE}"
