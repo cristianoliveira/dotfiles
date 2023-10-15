@@ -81,6 +81,11 @@ obsh tag assumption`
 `#!/bin/bash
 obsh reminder`
 
+## Waiting
+
+`#!/bin/bash
+obsh tag waiting`
+
 `#!/bin/bash
 cat "./daily/$(date -v -1d '+%d-%m-%Y').md" \
 	| rg --multiline --multiline-dotall '# Inbox.*(^#)' \
@@ -158,4 +163,9 @@ endsnippet
 snippet someday "Collect all references of #someday"
 `#!/bin/bash
 obsh tag someday`
+endsnippet
+
+snippet waiting "Collect all references of #waiting"
+`#!/bin/bash
+obsh tag waiting`
 endsnippet
