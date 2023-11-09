@@ -2,87 +2,12 @@
 
 set -e
 
-USAGE="
-Obsidian shell cli
-
-Query data from obsidian vault for analysis and automation direct from the command line.
-
-USAGE:
-${0} <cmd> <args>
-"
-
-CMD=${1?"${USAGE}"}
-if [[ "${CMD}" == "tag" ]]; then
-  shift
-  TAG="#${1?"${USAGE}"}"
-
-  # Grep all files in current dir but ignoring hidden files/dirs
-  grep -r --exclude="*/\.*" "${TAG}" . | sed "s/${TAG}//" | sed -E "s/^\.\/(.*\.md):(.*)$/-\2 \n  \[ref](\1\) \n/"
-  exit 0
+## check if obsh is installed
+if ! command -v obsh-cli &> /dev/null
+then
+    echo "The 'obsh-cli' could not be found. Check if it is installed and in your PATH."
+    echo "For details on how to install obsh, see https://github.com/cristianoliveira/obsh"
+    exit
 fi
 
-# Reminder cmd
-# Check if a reminder is due
-# This is the reminder format #reminder:DD-MM-YYYY
-if [[ "${CMD}" == "reminder" ]]; then
-  shift
-  DATE=${1-"$(date +%d-%m-%Y)"}
-  echo "Reminders for ${DATE}"
-  grep -r --exclude="*/\.*" "reminder:${DATE}" . | sed -E "s/^\.\/(.*\.md):(.*)$/-\2 \n  \[ref](\1\) \n/"
-  exit 0
-fi
-
-# Collect blocks of content from the vault
-# This is the block format: 
-#<!-- ini:<block_name> -->
-#   content
-#<!-- end:<block_name> -->
-if [[ "${CMD}" == "block" ]]; then
-  shift
-  BLOCK=${1?"${USAGE}"}
-
-  echo "-- ${BLOCK} --"
-  grep -rl "<!-- ini:$BLOCK -->" . | \
-    xargs -I{} awk "/<!-- ini:$BLOCK -->/{f=1;next} /<!-- end:$BLOCK -->/{f=0} f" {} 
-
-  exit 0
-fi
-
-if [[ "${CMD}" == "daily" ]]; then
-  shift
-  # multiline string
-  echo "
----
-title: Daily
-date: $(date +%d-%m-%Y)
----
-
-[[daily/$(date -v-1d +%d-%m-%Y)|yesterday]]
-[[daily/$(date -v+1d +%d-%m-%Y)|tomorrow]]
-
-## Todos
-
-$(obsh tag todo)
-
-## Assumptions
-
-$(obsh tag assumption)
-
-## Today reminders
-
-$(obsh reminder)
-
-## Waiting
-
-$(obsh tag waiting)
-
-$(cat "./daily/$(date -v -1d '+%d-%m-%Y').md" \
-	| rg --multiline --multiline-dotall '# Inbox.*(^#)' \
-  | sed 's/##? Inbox//')
-"
-  exit 0
-fi
- 
-echo "ERROR: ${0} unknown command ${CMD}"
-echo "${USAGE}"
-exit 1
+obsh-cli "$@"

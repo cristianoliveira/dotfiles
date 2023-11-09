@@ -56,41 +56,8 @@ endsnippet
 
 # Obsidian specific snippets
 snippet daily "Daily note"
----
-title: $1
-date: ${2:`!v strftime('%d-%m-%Y')`}
----
-
-# Today $2
-
-[[daily/`date -v-1d +%d-%m-%Y`|yesterday]]
-[[daily/`date -v+1d +%d-%m-%Y`|tomorrow]]
-
-## Todos
-
 `#!/bin/bash
-obsh tag todo`
-
-## Assumptions
-
-`#!/bin/bash
-obsh tag assumption`
-
-## Today reminders
-
-`#!/bin/bash
-obsh reminder`
-
-## Waiting
-
-`#!/bin/bash
-obsh tag waiting`
-
-`#!/bin/bash
-cat "./daily/$(date -v -1d '+%d-%m-%Y').md" \
-	| rg --multiline --multiline-dotall '# Inbox.*(^#)' \
-	| sed 's/##? Inbox//'`
-
+obsh daily`
 endsnippet
 
 # Obsidian generic snippets
@@ -169,3 +136,18 @@ snippet waiting "Collect all references of #waiting"
 `#!/bin/bash
 obsh tag waiting`
 endsnippet
+
+snippet yesterday "expand to yesterday's date"
+`#!/bin/bash
+gdate -d "yesterday" +%d-%m-%Y`
+endsnippet
+
+snippet tomorrow "expand to tomorrow's date"
+`#!/bin/bash
+gdate -d "tomorrow" +%d-%m-%Y`
+endsnippet  
+
+snippet nextweek "expand to next week's date"
+`#!/bin/bash
+gdate -d "nextweek" +%d-%m-%Y`
+`
