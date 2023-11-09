@@ -32,7 +32,7 @@
   ca = commit -am                   # commit all with message
   ci = commit                       # commit
   cm = commit                       # commit
-  amd = commit --amend            # ammend your last commit
+  amd = commit --amend              # ammend your last commit
   amend = commit --amend            # ammend your last commit
   ammend = commit --amend           # ammend your last commit
 
@@ -65,6 +65,7 @@
 
   # push
   ps = push                         # push
+  psf = push --force-with-lease     # push with force-with-lease
 
   # rebase
   rbs = rebase
@@ -149,3 +150,8 @@
 	required = true
 [init]
 	defaultBranch = main
+
+[url "ssh://git@github.com/"]
+	insteadOf = https://github.com/
+[url "git@github.com:"]
+	insteadOf = https://github.com/
