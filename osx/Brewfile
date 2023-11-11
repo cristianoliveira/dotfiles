@@ -13,8 +13,7 @@ tap 'homebrew/homebrew-core'
 cask 'alfred'
 cask 'appcleaner'
 cask 'docker'
-cask 'firefox'
-cask 'google-chrome-canary'
+
 cask 'iterm2'
 cask 'karabiner-elements'
 cask 'messenger'
@@ -35,8 +34,15 @@ cask 'izip'
 cask 'veracrypt'
 cask 'alacritty'
 cask 'dbeaver-community'
-# vsc*** pairing :P
+
+# vsc*** for pairing :P
 cask 'visual-studio-code'
+
+# Browsers
+cask 'firefox'
+cask 'google-chrome-canary'
+cask 'brave-browser'
+cask 'finicky'
 
 # Install fonts
 tap 'homebrew/cask-fonts'

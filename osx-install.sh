@@ -21,4 +21,6 @@ echo "\n\n\n\n\n----------------------Installing CLIs-------------------\n\n\n\n
 rm -f /usr/local/bin/notifyme
 ln -s $HOME/.dotfiles/osx/bin/notifyme /usr/local/bin/notifyme
 
+ln -s $HOME/.dotfiles/osx/.finicky.js $HOME/.finicky.js
+
 sh $HOME/.dotfiles/setup/iterm.sh
