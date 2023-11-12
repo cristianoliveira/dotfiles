@@ -5,6 +5,7 @@ require('customization/plugins')
 
 --> Custom Commands
 require('customization/commands')
+require('customization/commands/obsidian')
 
 --> Helper functions
 require('customization/functions/vimscript_to_lua')

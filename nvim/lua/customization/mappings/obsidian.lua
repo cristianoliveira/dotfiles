@@ -9,6 +9,10 @@ vim.api.nvim_create_autocmd('VimEnter', {
   callback = function()
     if not obn.is_vault() then return end
 
+    -- Set wrap true and textwidth 80
+    vim.o.wrap = true
+    vim.o.textwidth = 80
+
     local date = os.date('%d-%m-%Y')
     local daily_note = 'daily/' .. date .. '.md'
 

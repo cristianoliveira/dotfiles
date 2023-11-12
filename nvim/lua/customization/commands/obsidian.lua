@@ -14,41 +14,41 @@ M.open_daily_note = function()
 end
 
 M.jump_to_link = function()
-    if not M.is_vault() then return end
+  if not M.is_vault() then return end
 
-    local line = vim.fn.getline('.')
+  local line = vim.fn.getline('.')
 
-    -- follow markdown links like [link](./foo bar/file.md) with vi(gf
-    if line.find(line, '%[.*%]%(.*%)') then
-      print('found markdown link', line)
-      vim.cmd('normal! vi(gf')
-      return
+  -- follow markdown links like [link](./foo bar/file.md) with vi(gf
+  if line.find(line, '%[.*%]%(.*%)') then
+    print('found markdown link', line)
+    vim.cmd('normal! vi(gf')
+    return
+  end
+
+  -- follow obsidian links like [[file]] or [[file|description]]
+  local file = string.match(line, '%[%[(.*)%]%]')
+  if file then
+    if file.find(file, '|') then
+      file = string.match(file, '(.*)|.*')
     end
 
-    -- follow obsidian links like [[file]] or [[file|description]]
-    local file = string.match(line, '%[%[(.*)%]%]')
-    if file then
-      if file.find(file, '|') then
-        file = string.match(file, '(.*)|.*')
-      end
-
-      -- Try to create the folder if it doesn't exist 
-      -- Ex: [[folder/missing/file]] will create folder/missing if it doesn't exist
-      local folder = string.match(file, '(.*)/')
-      if folder and vim.fn.isdirectory(folder) == 0 then
-        vim.fn.mkdir(folder, 'p')
-      end
-
-      -- If file is a directory, open it index.md instead
-      if vim.fn.isdirectory(file) == 1 then
-        file = file .. '/index'
-      end
-
-      vim.cmd('e ' .. file .. '.md')
-      return
+    -- Try to create the folder if it doesn't exist 
+    -- Ex: [[folder/missing/file]] will create folder/missing if it doesn't exist
+    local folder = string.match(file, '(.*)/')
+    if folder and vim.fn.isdirectory(folder) == 0 then
+      vim.fn.mkdir(folder, 'p')
     end
 
-    vim.cmd('normal! gf')
+    -- If file is a directory, open it index.md instead
+    if vim.fn.isdirectory(file) == 1 then
+      file = file .. '/index'
+    end
+
+    vim.cmd('e ' .. file .. '.md')
+    return
+  end
+
+  vim.cmd('normal! gf')
 end
 
 -- A todo item is
@@ -81,7 +81,7 @@ M.collect_block = function(block)
   vim.cmd("read !obsh block " .. block)
 end
 
-vim.cmd("command! -nargs=0 ObsOpenDaily lua require('customization/commands/obsidian').open_daily_note()")
+vim.cmd("command! -nargs=0 ObsDaily lua require('customization/commands/obsidian').open_daily_note()")
 vim.cmd("command! -nargs=0 ObsTodoToggle lua require('customization/commands/obsidian').toggle_todo_item()")
 vim.cmd("command! -nargs=0 ObsGotoFile lua require('customization/commands/obsidian').jump_to_link()")
 vim.cmd("command! -nargs=0 ObsLink lua require('customization/commands/obsidian').jump_to_link()")
