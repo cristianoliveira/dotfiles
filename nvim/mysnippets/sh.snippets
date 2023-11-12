@@ -57,21 +57,21 @@ esac
 endsnippet
 
 # If not (negation)
-snippet ifnot "if ! [ condition ]; then ... fi"
+snippet ifnot "if not conditioon"
 if ! [ ${1:condition} ]; then
     ${VISUAL}$0
 fi
 endsnippet
 
 # If variable is not empty
-snippet ifne "if [ -n \"\$variable\" ]; then ... fi"
+snippet ifne "if not empty"
 if [ -n "${1:variable}" ]; then
     ${VISUAL}$0
 fi
 endsnippet
 
 # If file is not present
-snippet ifnp "if [ ! -f \"filename\" ]; then ... fi"
+snippet ifnp "if file not present"
 if [ ! -f "${1:filename}" ]; then
     ${VISUAL}$0
 fi

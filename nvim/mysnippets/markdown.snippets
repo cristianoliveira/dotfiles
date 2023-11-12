@@ -137,6 +137,11 @@ snippet waiting "Collect all references of #waiting"
 obsh tag waiting`
 endsnippet
 
+snippet today "expand to today's date"
+`#!/bin/bash
+gdate -d "today" +%d-%m-%Y`
+endsnippet
+
 snippet yesterday "expand to yesterday's date"
 `#!/bin/bash
 gdate -d "yesterday" +%d-%m-%Y`
@@ -147,7 +152,17 @@ snippet tomorrow "expand to tomorrow's date"
 gdate -d "tomorrow" +%d-%m-%Y`
 endsnippet  
 
-snippet nextweek "expand to next week's date"
+snippet nextw "expand to next week's date"
 `#!/bin/bash
-gdate -d "nextweek" +%d-%m-%Y`
-`
+gdate -d "next week" +%d-%m-%Y`
+endsnippet
+
+snippet nextm "expand to next month's date"
+`#!/bin/bash
+gdate -d "next month" +%d-%m-%Y`
+endsnippet
+
+snippet dayoftheweek "expand to day of week"
+`#!/bin/bash
+gdate -d "today" +%A | tr '[:upper:]' '[:lower:]'`
+endsnippet
