@@ -19,7 +19,8 @@ require('lazy').setup({
   -- Git related plugins
 
   'tpope/vim-fugitive',
-  'ruanyl/vim-gh-line',
+  'tpope/vim-rhubarb',
+  -- 'ruanyl/vim-gh-line',
 
   {
     -- Adds git related signs to the gutter, as well as utilities for managing changes

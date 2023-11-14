@@ -17,3 +17,6 @@ nnoremap('<leader>gaf', ':G add % <CR>')
 nnoremap('<leader>gap', ':G add % -p <CR>')
 nnoremap('<leader>gch', ':G checkout % <CR>')
 nnoremap('<leader>grs', ':G reset % <CR>')
+
+nnoremap('<leader>gh', ':GBrowse :1<CR>')
+vnoremap('<leader>gh', ':GBrowse :1<CR>')
