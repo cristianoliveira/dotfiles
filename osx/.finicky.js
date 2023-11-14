@@ -9,15 +9,22 @@
 //
 // Installing:
 //
-//  brew install finicky
+//  brew install --cask finicky
 //
 //  see more in https://github.com/johnste/finicky
 module.exports = {
   handlers: [
     {
       // Open work related urls open in Google Chrome
-      match: /(sumup|sam-app|meet\.google)/,
-      browser: "Google Chrome"
+      match: [
+        /(sumup|sam-app|meet\.google)/,
+        "atlassian.net",
+        /ngrok-free/
+      ],
+      browser: {
+        name: "Google Chrome",
+        profile: "work",
+      }
     },
     {
       // Open code related urls in Google Chrome Canary
