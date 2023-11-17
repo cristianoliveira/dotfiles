@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Set the duration of the pomodoro in minutes
+USAGE="Usage: pomodoro [task] [duration]"
+
+task=${1? $USAGE}
+duration=${2:-25}
+
+echo "Starting Pomodoro for $duration minutes"
+
+# Start the timer
+start=$(gdate +%s)
+end=$((start + duration*60))
+
+# Create a log for the working session
+echo "-- $(gdate) - $task" >> ./pomodoro.log
+
+while [ $(gdate +%s) -lt $end ]; do
+    clear
+    echo "Current: $task"
+    ## Show current countdown timer
+    echo "Time remaining: $(( ($end - $(gdate +%s)) / 60 )) minutes and $(( ($end - $(gdate +%s)) % 60 )) seconds"
+    sleep 5
+    clear
+done
+
+echo "Pomodoro finished!"
