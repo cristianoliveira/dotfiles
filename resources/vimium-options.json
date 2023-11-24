@@ -1,0 +1,4 @@
+{
+  "keyMappings": "# Insert your preferred key mappings here.\nmap <C-h> goBack\nmap <C-l> goForward\nmap <C-j> previousTab\nmap <C-k> nextTab\nmap <C-r> reload\nmap <C-w> removeTab\nmap <C-u> scrollPageUp\nmap <C-d> scrollPageDown",
+  "settingsVersion": "2.0.5"
+}
