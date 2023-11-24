@@ -1,0 +1,39 @@
+{
+  "timeStamp": 1700828884628,
+  "version": "1.53.0",
+  "userSettings": {
+    "firewallPaneMinimized": false,
+    "importedLists": [],
+    "popupPanelSections": 63
+  },
+  "selectedFilterLists": [
+    "user-filters",
+    "assets.json",
+    "public_suffix_list.dat",
+    "ublock-badlists",
+    "ublock-filters",
+    "ublock-badware",
+    "ublock-privacy",
+    "ublock-unbreak",
+    "ublock-quick-fixes",
+    "easylist",
+    "easyprivacy",
+    "urlhaus-1",
+    "plowe-0"
+  ],
+  "hiddenSettings": {},
+  "whitelist": [
+    "about-scheme",
+    "app.taxfix.de",
+    "chrome-extension-scheme",
+    "edge-scheme",
+    "moz-extension-scheme",
+    "opera-scheme",
+    "vivaldi-scheme",
+    "wyciwyg-scheme"
+  ],
+  "dynamicFilteringString": "behind-the-scene * * noop\nbehind-the-scene * inline-script noop\nbehind-the-scene * 1p-script noop\nbehind-the-scene * 3p-script noop\nbehind-the-scene * 3p-frame noop\nbehind-the-scene * image noop\nbehind-the-scene * 3p noop",
+  "urlFilteringString": "",
+  "hostnameSwitchesString": "no-large-media: behind-the-scene false",
+  "userFilters": "! Hides all the internet points from me. For my mental health! :D\n\n! 2023-09-03 https://github.com\ngithub.com##.mt-md-0.mt-2.flex-md-order-none.flex-order-1 > .mb-3\ngithub.com##a.Link--muted.pinned-item-meta:nth-of-type(1)\ngithub.com##.js-deferred-toggler-target.flex-auto.BtnGroup-parent.js-social-form > .BtnGroup-item.btn.btn-sm.rounded-left-2 > .js-social-count.Counter\ngithub.com##.Link--muted.Link > strong\n\n! 2023-09-23 https://www.reddit.com\nwww.reddit.com##.Rz5N3cHNgTGZsIQJqBfgk > span\n\n! 2023-11-24 https://www.reddit.com\nwww.reddit.com##.FOioVk_DUTmZIKKa82Mm1\nwww.reddit.com##div:has(>[aria-label=\"upvote\"]) > div\n\n! 2023-11-24 https://github.com\ngithub.com##a.Link--muted.pinned-item-meta:nth-of-type(2)\n\n! 2023-11-24 https://www.youtube.com\nwww.youtube.com###metadata-line\n\n! 2023-11-24 https://twitter.com\ntwitter.com##[role=\"group\"] span\n"
+}
