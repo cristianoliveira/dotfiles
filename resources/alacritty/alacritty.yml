@@ -2,13 +2,24 @@ env:
   TERM: xterm-256color
 
 window:
+  startup_mode: Fullscreen
+
   dimensions:
-    columns: 0
-    lines: 0
+    columns: 133
+    lines: 40
 
   padding:
     x: 4
     y: 4
+
+shell:
+  program: /usr/bin/tmux 
+  args:
+    - new-session
+    - -A
+    - -D
+    - -s
+    - a-term
 
 # Base16 Solarized Dark 256 - alacritty color config
 # Ethan Schoonover (modified by aramisgithub)
@@ -53,9 +64,9 @@ colors:
     - { index: 20, color: '0x839496' }
     - { index: 21, color: '0xeee8d5' }
 font:
-  # Normal (roman):
-  normal:
-    family: Monaco
-    style: Regular
+  Normal (roman):
+  # normal:
+  #   family: Monaco
+  #   style: Regular
 
   size: 12
