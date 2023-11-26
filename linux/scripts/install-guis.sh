@@ -22,4 +22,7 @@ sudo apt update
 sudo apt install ulauncher
 
 # Bitwarden
-sudo snap install bitwarden
+snap install bitwarden
+
+# Spotify
+snap install spt
