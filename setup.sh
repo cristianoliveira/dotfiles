@@ -19,10 +19,6 @@ bkpmv() {
   fi
 }
 
-echo "Istalling tmux-s helper"
-rm -f "$HOME/.dotfiles/bin/tmux-s"
-ln -s "$HOME/.dotfiles/tmux/bin/tmux-s" "$HOME/.dotfiles/bin/tmux-s"
-
 echo "Creating backup of your current configurations."
 echo "They can be found at: $DOTFILES_BKP_PATH"
 mkdir -p "$DOTFILES_BKP_PATH"
@@ -32,6 +28,7 @@ bkpmv "$HOME"/.gitconfig "$DOTFILES_BKP_PATH"/old-gitconfig
 bkpmv "$HOME"/.gitignore "$DOTFILES_BKP_PATH"/old-gitignore
 bkpmv "$HOME"/.ctags "$DOTFILES_BKP_PATH"/old-ctags
 bkpmv "$HOME"/.config/karabiner "$DOTFILES_BKP_PATH"/old-karabiner
+bkpmv "$HOME"/.config/alacritty "$DOTFILES_BKP_PATH"/old-alacritty
 
 mkdir -p $HOME/.config
 
@@ -43,6 +40,12 @@ ln -s "$HOME"/.dotfiles/git/gitignore "$HOME"/.gitignore
 ln -s "$HOME"/.dotfiles/ctags "$HOME"/.ctags
 ln -s "$HOME"/.dotfiles/resources/karabiner "$HOME"/.config/karabiner
 ln -s $HOME/.dotfiles/resources/alacritty "$HOME"/.config/alacritty
+
+## if linux 
+if [ "$(uname)" == "Linux" ]; then
+  echo "Installing linux apps"
+  bash $HOME/.dotfiles/linux/setup.sh
+fi
 
 echo "Setup Vim and installing plugins"
 sh $HOME/.dotfiles/nvim/setup.sh

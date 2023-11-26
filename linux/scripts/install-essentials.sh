@@ -15,6 +15,8 @@ echo "installing windows manager"
 if ! which i3 &> /dev/null; then
   sudo apt install xorg lightdm lightdm-gtk-greeter i3-wm \
     i3lock i3status i3blocks dmenu
+
+  sudo systemctl enable lightdm.service
 fi
 
 ## laucher (alfred)
@@ -67,7 +69,7 @@ if ! command -v asdf &> /dev/null; then
 fi
 
 echo "fzf"
-if ! command -v fzf &> /dev/null; then
+if [ ! -d "$HOME/.fzf" ]; then
   git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
   ~/.fzf/install
 fi

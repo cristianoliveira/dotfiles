@@ -1,8 +1,0 @@
-[Desktop Entry]
-Name=Script
-Type=Application
-Exec=/usr/local/share/onlogin.sh
-Terminal=true
-StartupNotify=true
-Icon=gnome-do
-Hidden=false

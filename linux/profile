@@ -1,6 +1,0 @@
-xmodmap ~/.xmodmap
-setxkbmap -option 'caps:ctrl_modifier'⏎
-xcape -e 'Caps_Lock=Escape' -t 300
-
-export PATH="$HOME/.cargo/bin:$PATH"
-

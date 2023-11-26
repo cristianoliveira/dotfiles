@@ -1,12 +1,6 @@
 # Link an shared script to be used with ./autostart/MyDotfiles.desktop
-sudo ln -s $HOME/.dotfiles/linux/onlogin.sh /usr/local/share/onlogin.sh
-ln -s $HOME/.dotfiles/linux/autostart/MyDotfiles.desktop ~/.config/autostart/MyDotfiles.desktop
+echo "Configuring autostart"
+bash $HOME/.dotfiles/linux/autostart/setup.sh
 
-mv $HOME/.profile $HOME/.profile-old
-ln -s $HOME/.dotfiles/linux/profile $HOME/.profile
-
-sh $HOME/.dotfiles/linux/install-packages.sh
-
-# Change key delay rate and repeat
-xset r rate 180 40
-
+echo "Configuring i3 config"
+ln -s $HOME/.dotfiles/linux/i3 $HOME/.config/i3
