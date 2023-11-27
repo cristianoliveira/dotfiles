@@ -10,8 +10,10 @@
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
 set $terminal alacritty
-set $mod Mod1 # for pc layout 
-# set $mod Mod4 # for osx layout
+# for pc layout 
+set $mod Mod1
+# for osx layout
+# set $mod Mod4 
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
