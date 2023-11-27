@@ -101,3 +101,8 @@ if ! command -v docker-compose &> /dev/null; then
   sudo apt update
   sudo apt -qq install docker-compose
 fi
+
+echo "diff-so-fancy"
+if ! command -v diff-so-fancy &> /dev/null; then
+  sudo snap install diff-so-fancy
+fi
