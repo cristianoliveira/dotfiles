@@ -239,6 +239,8 @@ exec --no-startup-id nitrogen --restore
 ## Transparent terminal
 exec --no-startup-id picom -b
 
-for_window [class=".*"] border none
+for_window [class=".*"] border pixel 1
+for_window [class="Ulauncher"] border none
+for_window [class="Alacritty"] border none
 
 exec_always bash /usr/bin/onstart
