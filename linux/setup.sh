@@ -3,4 +3,6 @@ echo "Configuring autostart"
 bash $HOME/.dotfiles/linux/autostart/setup.sh
 
 echo "Configuring i3 config"
-ln -s $HOME/.dotfiles/linux/i3 $HOME/.config/i3
+if [ ! -d "$HOME/.config/i3" ]; then
+  ln -s $HOME/.dotfiles/linux/i3 $HOME/.config/
+fi

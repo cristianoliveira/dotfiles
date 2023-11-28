@@ -10,14 +10,14 @@
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
 set $terminal alacritty
-# for pc layout 
-set $mod Mod1
-# for osx layout
-# set $mod Mod4 
+# set Super/Win as the default modifier
+# for pc we swap Alt and Super to avoid having to change this
+set $mod Mod4 
+# set $mod Mod1 <- Alt
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:monospace 8
+font pango:Monaco 8
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -206,10 +206,39 @@ bindsym $mod+Shift+e mode "exit: [l]ogout, [r]eboot, [s]hutdown"
 bindsym $mod+Tab workspace next
 bindsym $mod+Shift+Tab workspace prev
 
-exec_always bash /usr/bin/onstart
-
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
+# class                 border  bground text    indicator child_border
+client.focused          #4C7899 #285577 #FFFFFF #2E9EF4   #285577
+client.focused_inactive #333333 #5F676A #FFFFFF #484E50   #5F676A
+client.unfocused        #333333 #222222 #888888 #292D2E   #222222
+client.urgent           #2F343A #900000 #FFFFFF #900000   #900000
+client.placeholder      #000000 #0C0C0C #FFFFFF #000000   #0C0C0C
+
+client.background       #FFFFFF
+
 bar {
-        status_command i3status
+  status_command i3status
+  position top
+  colors {
+    background #000000
+    statusline #FFFFFF
+    separator  #666666
+
+    focused_workspace  #4C7899 #285577 #FFFFFF
+    active_workspace   #333333 #222222 #FFFFFF
+    inactive_workspace #333333 #222222 #888888
+    urgent_workspace   #2F343A #900000 #FFFFFF
+    binding_mode       #2F343A #900000 #FFFFFF
+  }
 }
+
+## Wallpaper with nitrogen
+exec --no-startup-id nitrogen --restore
+
+## Transparent terminal
+exec --no-startup-id picom -b
+
+for_window [class=".*"] border none
+
+exec_always bash /usr/bin/onstart
