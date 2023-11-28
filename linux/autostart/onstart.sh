@@ -15,6 +15,3 @@ setxkbmap -option caps:ctrl_modifier -option grp:shifts_toggle &
 # killall xcape
 
 xcape -e 'Caps_Lock=Escape'
-
-# Increase keyboard repeat rate
-kbdrate -d 200 -r 10.0
