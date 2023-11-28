@@ -96,3 +96,14 @@ vim.o.re = 0
 -- Working on a monorepop is fun!
 -- See: https://github.com/vim/vim/issues/2049
 vim.opt.mmp = 5000
+
+-- Enable transparent background on startup
+vim.api.nvim_create_autocmd('VimEnter', {
+  callback = function()
+    vim.cmd [[highlight Normal guibg=none
+    highlight NonText guibg=none
+    highlight Normal ctermbg=none
+    highlight NonText ctermbg=none]]
+  end,
+  pattern = '*',
+})
