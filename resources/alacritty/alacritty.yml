@@ -3,6 +3,7 @@ env:
 
 window:
   startup_mode: Fullscreen
+  opacity: 0.8
 
   dimensions:
     columns: 133
@@ -63,10 +64,14 @@ colors:
     - { index: 19, color: '0x586e75' }
     - { index: 20, color: '0x839496' }
     - { index: 21, color: '0xeee8d5' }
-font:
-  Normal (roman):
-  # normal:
-  #   family: Monaco
-  #   style: Regular
 
-  size: 12
+font:
+  size: 11
+
+  normal:
+    family: Monaco
+    style: Regular
+
+  bold:
+    family: Monaco 
+    style: Bold
