@@ -41,10 +41,16 @@ ln -s "$HOME"/.dotfiles/ctags "$HOME"/.ctags
 ln -s "$HOME"/.dotfiles/resources/karabiner "$HOME"/.config/karabiner
 ln -s $HOME/.dotfiles/resources/alacritty "$HOME"/.config/alacritty
 
+echo "Create local bin folder if it does not exist"
+mkdir -p "$HOME"/.local/bin
+
 ## if linux 
 if [ "$(uname)" == "Linux" ]; then
-  echo "Installing linux apps"
+  echo "Setting up linux"
   bash $HOME/.dotfiles/linux/setup.sh
+elif [ "$(uname)" == "Darwin" ]; then
+  echo "Setting up OSX"
+  bash $HOME/.dotfiles/osx/setup.sh
 fi
 
 echo "Setup Vim and installing plugins"

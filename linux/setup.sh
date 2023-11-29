@@ -6,3 +6,7 @@ echo "Configuring i3 config"
 if [ ! -d "$HOME/.config/i3" ]; then
   ln -s $HOME/.dotfiles/linux/i3 $HOME/.config/
 fi
+
+echo "tmux system-wide installed"
+# To keep consistency between linux and osx for alacritty configs
+sudo ln -s /usr/bin/tmux /usr/local/bin/
