@@ -26,3 +26,6 @@ snap install bitwarden
 
 # Spotify
 snap install spt
+
+# Wallpapers
+sudo apt install nitrogen -y

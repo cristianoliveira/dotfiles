@@ -9,4 +9,6 @@ fi
 
 echo "tmux system-wide installed"
 # To keep consistency between linux and osx for alacritty configs
-sudo ln -s /usr/bin/tmux /usr/local/bin/
+if [ ! -f "/usr/bin/tmux" ]; then
+  sudo ln -s /usr/bin/tmux /usr/local/bin/
+fi
