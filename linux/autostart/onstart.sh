@@ -9,12 +9,11 @@
 
 echo "Remapping capsolock"
 
-setxkbmap -option caps:ctrl_modifier -option grp:shifts_toggle
+setxkbmap -option caps:ctrl_modifier # Make capslock behave like ctrl
+setxkbmap -option grp:shifts_toggle # Make shift switch between us and ru
+setxkbmap -option altwin:swap_alt_win # Swap Alt and Win keys for pc behave like mac
 
 # Remove previously running instances
 # killall xcape
 
 xcape -e 'Caps_Lock=Escape'
-
-# Swap Alt and Win keys for pc behave like mac
-setxkbmap -option altwin:swap_alt_win
