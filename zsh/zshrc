@@ -1,6 +1,11 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
+# OSX doesn't have date so we use gdate instead and alias when in linux
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    alias gdate=date
+fi
+
 # Adds custom bins from dotfiles
 export PATH=$HOME/.dotfiles/bin:$HOME/bin:/opt/homebrew/bin:$PATH
 
