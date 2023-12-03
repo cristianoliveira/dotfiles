@@ -16,4 +16,8 @@ setxkbmap -option altwin:swap_alt_win # Swap Alt and Win keys for pc behave like
 # Remove previously running instances
 # killall xcape
 
+# if file ~/.custom-remap.sh exists, run it
+if [ -f ~/.custom-remap.sh ]; then
+  ~/.custom-remap.sh
+fi
 xcape -e 'Caps_Lock=Escape'
