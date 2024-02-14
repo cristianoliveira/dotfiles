@@ -18,7 +18,6 @@ shell:
   args:
     - new-session
     - -A
-    - -D
     - -s
     - a-term
 
