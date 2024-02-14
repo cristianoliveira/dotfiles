@@ -2,6 +2,7 @@ env:
   TERM: xterm-256color
 
 window:
+  decorations: none
   startup_mode: Fullscreen
   opacity: 0.96
 
