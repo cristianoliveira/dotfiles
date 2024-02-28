@@ -19,7 +19,9 @@ module.exports = {
       match: [
         /(sumup|sam-app|meet\.google)/,
         "atlassian.net",
-        /ngrok-free/
+        /ngrok-free/,
+        /tuple/,
+        /figma/,
       ],
       browser: {
         name: "Google Chrome",
