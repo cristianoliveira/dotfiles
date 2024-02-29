@@ -139,5 +139,14 @@ autoload -Uz compinit && compinit
 CURRTIME=$(gdate "+%s%3N")
 echo "Everything is ready. ($(echo "$CURRTIME - $STARTTIME" | bc -l) ms)"
 
+# Automatically start ssh-agent and add keys
+if [ -z "$SSH_AUTH_SOCK" ] ; then
+  eval `ssh-agent -s`
+
+  for key in ~/.ssh/*; do
+    ssh-add $key
+  done
+fi
+
 # debug-slow-startup-time
 # zprof
