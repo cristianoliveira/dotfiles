@@ -9,6 +9,8 @@ then
   exit
 fi
 
+# Check if .dotfiles already is present then ignore cloning
+
 git clone git@github.com:cristianoliveira/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 
