@@ -31,6 +31,11 @@ fi
 ## keyboard mappings (karabiner-elements)
 sudo apt install xcape -y
 
+echo "installing zsh"
+if ! which zsh &> /dev/null; then
+  sudo apt install zsh -y
+fi
+
 ## Terminal 
 echo "installing terminal"
 if ! command -v alacritty &> /dev/null; then
@@ -47,6 +52,12 @@ if [ ! -f "$HOME/Applications/Bitwarden.AppImage" ]; then
 fi
 
 # sudo snap install bitwarden
+
+echo "installing neovim deps"
+echo "python3 pip"
+if ! command -v pip &> /dev/null; then
+  sudo apt install python3-pip -y
+fi
 
 # neovim
 echo "installing neovim"
