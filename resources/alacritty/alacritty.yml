@@ -4,7 +4,7 @@ env:
 window:
   decorations: none
   startup_mode: Fullscreen
-  opacity: 0.96
+  opacity: 0.94
 
   dimensions:
     columns: 133
@@ -14,13 +14,13 @@ window:
     x: 4
     y: 4
 
+
 shell:
-  program: /usr/local/bin/tmux 
+  program: /bin/sh
   args:
-    - new-session
-    - -A
-    - -s
-    - a-term
+    - -l
+    - -c
+    - "tmux new-session -A -s a-session" # starts with 'a' to appear at the first position
 
 # Base16 Solarized Dark 256 - alacritty color config
 # Ethan Schoonover (modified by aramisgithub)
