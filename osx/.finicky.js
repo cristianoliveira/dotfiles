@@ -22,6 +22,7 @@ module.exports = {
         /ngrok-free/,
         /tuple/,
         /figma/,
+        /smartling/,
       ],
       browser: {
         name: "Google Chrome",
