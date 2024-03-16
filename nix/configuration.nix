@@ -98,7 +98,13 @@
     git
     curl
     wget
+
+    # Keyboard setup
+    xcape # Use to remap keys
+    
+    # GUIs
     alacritty
+    bitwarden
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
