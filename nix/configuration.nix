@@ -103,6 +103,7 @@
     oh-my-zsh
     zsh-completions
     zsh-syntax-highlighting
+    diff-so-fancy
 
     # Essential pkgs
     curl
