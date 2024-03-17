@@ -7,7 +7,7 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+      /etc/nixos/hardware-configuration.nix
     ];
 
   # Bootloader.
@@ -100,6 +100,7 @@
     wget
 
     # Keyboard setup
+    gnome.gnome-tweaks
     xcape # Use to remap keys
     
     # GUIs
