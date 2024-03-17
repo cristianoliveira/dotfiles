@@ -54,6 +54,7 @@
   services.xserver = {
     layout = "us";
     xkbVariant = "";
+    xkbOptions = "ctrl:swapcaps";
   };
 
   # Enable CUPS to print documents.
@@ -99,8 +100,10 @@
     curl
     wget
 
+    # Windows manager
+    sway
+
     # Keyboard setup
-    gnome.gnome-tweaks
     xcape # Use to remap keys
     
     # GUIs
