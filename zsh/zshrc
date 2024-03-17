@@ -17,7 +17,15 @@ STARTTIME=$(gdate "+%s%3N")
 DISABLE_AUTO_UPDATE=true
 
 # Path to your oh-my-zsh installation.
-export ZSH=$HOME/.oh-my-zsh
+# 
+# This avoids conflict with ZSH set in nix config
+if [ -z "$ZSH" ]; then
+   export ZSH=$HOME/.oh-my-zsh
+else
+   echo "zsh defined elsewhere"
+   echo "$ZSH"
+fi
+
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -69,6 +77,7 @@ ZSH_THEME="clean"
 plugins=(git vi-mode history-substring-search)
 
 source $ZSH/oh-my-zsh.sh
+
 
 # User configuration
 

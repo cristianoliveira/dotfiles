@@ -99,6 +99,10 @@
     neovim 
     git
     tmux
+    zsh
+    oh-my-zsh
+    zsh-completions
+    zsh-syntax-highlighting
 
     # Essential pkgs
     curl
@@ -122,6 +126,17 @@
   #   enable = true;
   #   enableSSHSupport = true;
   # };
+
+  programs.zsh = {
+    enable = true;
+    ohMyZsh = {
+        enable = true;
+	theme = "clean";
+        plugins = ["git"];
+    };    
+  };
+
+  users.users.cristianoliveira.shell = pkgs.zsh;
 
   # List services that you want to enable:
 
