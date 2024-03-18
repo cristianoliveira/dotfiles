@@ -110,6 +110,7 @@
     # Essential pkgs
     curl
     wget
+    bc
 
     # Windows manager
     sway
