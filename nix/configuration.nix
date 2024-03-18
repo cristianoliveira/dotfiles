@@ -105,6 +105,8 @@
     zsh-syntax-highlighting
     diff-so-fancy
 
+    asdf-vm
+
     # Essential pkgs
     curl
     wget
@@ -135,6 +137,10 @@
 	theme = "clean";
         plugins = ["git"];
     };    
+    shellInit = ''
+      . "${pkgs.asdf-vm}/share/asdf-vm/asdf.sh"
+      . "${pkgs.asdf-vm}/share/asdf-vm/completions/asdf.bash"
+    '';
   };
 
   users.users.cristianoliveira.shell = pkgs.zsh;
