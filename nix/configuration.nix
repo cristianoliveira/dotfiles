@@ -137,7 +137,10 @@
 	theme = "clean";
         plugins = ["git"];
     };    
-    shellInit = ''
+    interactiveShellInit = ''
+      autoload -U +X bashcompinit && bashcompinit
+      autoload -U +X compinit && compinit
+      export ASDF_INIT=1
       . "${pkgs.asdf-vm}/share/asdf-vm/asdf.sh"
       . "${pkgs.asdf-vm}/share/asdf-vm/completions/asdf.bash"
     '';

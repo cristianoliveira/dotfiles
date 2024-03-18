@@ -1,11 +1,14 @@
-if [ -d "$HOME/.asdf" ]; then
+#!/bin/sh
+
+if command -v asdf &> /dev/null; then
   echo "asdf already installed"
   exit 0
+
+else
+  git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.12.0
+
+  . $HOME/.dotfiles/zsh/settings/asdf.zsh
 fi
-
-git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.12.0
-
-. $HOME/.dotfiles/zsh/settings/asdf.zsh
 
 asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
 asdf plugin add golang https://github.com/asdf-community/asdf-golang.git
