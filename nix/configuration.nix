@@ -130,6 +130,36 @@
   #   enable = true;
   #   enableSSHSupport = true;
   # };
+  
+
+
+  # Enable the gnome-keyring secrets vault. 
+  # Will be exposed through DBus to programs willing to store secrets.
+  services.gnome.gnome-keyring.enable = true;
+  programs.sway = {
+    enable = true;
+    wrapperFeatures.gtk = true; # so that gtk works properly
+    extraPackages = with pkgs; [
+      swaylock
+      swayidle
+      wf-recorder
+      mako # notification daemon
+      grim # screenshot functionality
+      slurp # screenshot functionality
+      dmenu # Dmenu is the default in the config but i recommend wofi since its wayland native
+      wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
+      mako # notification system developed by swaywm maintainer
+      ulauncher
+      wmctrl #https://github.com/Ulauncher/Ulauncher/wiki/Hotkey-In-Wayland
+    ];
+    extraSessionCommands = ''
+      export SDL_VIDEODRIVER=wayland
+      export QT_QPA_PLATFORM=wayland
+      export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
+      export _JAVA_AWT_WM_NONREPARENTING=1
+      export MOZ_ENABLE_WAYLAND=1
+    '';
+  };
 
   programs.zsh = {
     enable = true;
