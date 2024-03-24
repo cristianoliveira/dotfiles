@@ -119,6 +119,8 @@
     zsh-syntax-highlighting
     diff-so-fancy
 
+    nodejs_20
+
     # Essential pkgs
     curl
     wget
@@ -182,9 +184,6 @@
     };    
     interactiveShellInit = ''
       autoload -U +X compinit && compinit
-      export ASDF_INIT=1
-      . "${pkgs.asdf-vm}/share/asdf-vm/asdf.sh"
-      . "${pkgs.asdf-vm}/share/asdf-vm/completions/asdf.bash"
     '';
   };
 
