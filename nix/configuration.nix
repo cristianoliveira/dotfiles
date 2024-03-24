@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   imports =
@@ -102,8 +102,17 @@
     packages = with pkgs; [
       firefox
       brave
+
+      whatsapp-for-linux
+      telegram-desktop
     ];
   };
+
+  nixpkgs.config.allowUnfreePredicate = pkg:
+     builtins.elem (lib.getName pkg) [
+      # Add additional package names here
+      "spotify"
+  ];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
