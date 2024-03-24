@@ -128,6 +128,7 @@
     nodejs_20
     python3
     go
+    cargo #
 
     # Windows manager
     sway
