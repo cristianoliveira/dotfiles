@@ -127,6 +127,7 @@
     fzf
     ripgrep
     jq
+    funzzy
 
     # Essential pkgs
     curl
