@@ -51,10 +51,24 @@
   services.xserver.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
+  # Maps capslock to esc & ctrl
   services.xserver = {
     layout = "us";
     xkbVariant = "";
     xkbOptions = "ctrl:swapcaps";
+  };
+
+  services.interception-tools = {
+    enable = true;
+    plugins = with pkgs; [
+      interception-tools-plugins.caps2esc
+    ];
+    udevmonConfig = ''
+      - JOB: "${pkgs.interception-tools}/bin/intercept -g $DEVNODE | ${pkgs.interception-tools-plugins.caps2esc}/bin/caps2esc -m 1 | ${pkgs.interception-tools}/bin/uinput -d $DEVNODE"
+        DEVICE:
+          EVENTS:
+            EV_KEY: [KEY_CAPSLOCK, KEY_ESC]
+    '';
   };
 
   # Enable CUPS to print documents.
