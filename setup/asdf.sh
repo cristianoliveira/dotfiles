@@ -1,5 +1,7 @@
 #!/bin/sh
 
+ln -s $HOME/.dotfiles/resources/.tool-versions $HOME/
+
 if command -v asdf &> /dev/null; then
   echo "asdf already installed"
   exit 0
