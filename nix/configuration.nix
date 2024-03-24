@@ -101,7 +101,7 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
       firefox
-    #  thunderbird
+      brave
     ];
   };
 
