@@ -133,6 +133,7 @@
     wget
     bc
     htop
+    gcc
 
     # Languages
     nodejs_20
