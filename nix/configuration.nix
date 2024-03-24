@@ -98,7 +98,7 @@
   users.users.cristianoliveira = {
     isNormalUser = true;
     description = "cristianoliveira";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
       firefox
       brave
@@ -108,6 +108,8 @@
       telegram-desktop
     ];
   };
+
+  virtualisation.docker.enable = true;
 
   nixpkgs.config.allowUnfree = true;
 
