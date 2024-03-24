@@ -140,7 +140,7 @@
     gnumake
 
     # Languages
-    nodejs_20
+    nodejs_20 # npm set prefix ~/.npm-global
     python3
     go
     cargo #
@@ -200,6 +200,7 @@
     };    
     interactiveShellInit = ''
       autoload -U +X compinit && compinit
+      export PATH=$HOME/.npm-global/bin:/usr/local/bin:$PATH
     '';
   };
 
