@@ -29,7 +29,7 @@ bindswitch lid:off output eDP-1 enable
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in @datadir@/backgrounds/sway/)
-# output * bg @datadir@/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+output * bg ~/.config/os/wallpaper.jpeg fill 
 #
 # Example configuration:
 #
