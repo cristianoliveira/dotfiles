@@ -135,6 +135,7 @@
     bc
     htop
     gcc
+    gnumake
 
     # Languages
     nodejs_20
