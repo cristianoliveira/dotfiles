@@ -118,11 +118,15 @@
     zsh-completions
     zsh-syntax-highlighting
     diff-so-fancy
+    fzf
+    ripgrep
+    jq
 
     # Essential pkgs
     curl
     wget
     bc
+    htop
 
     # Languages
     nodejs_20
