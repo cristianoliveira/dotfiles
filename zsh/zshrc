@@ -143,7 +143,7 @@ for func_files ($HOME/.dotfiles/zsh/func/*.zsh) source $func_files
 for settings_file ($HOME/.dotfiles/zsh/settings/*.zsh) source $settings_file
 
 # enable autocomplete for commands
-if [ -n "$ASDF_INIT" ] ; then
+if [ -z "$NIX_ENV" ] ; then
   autoload -Uz compinit && compinit
 fi
 
