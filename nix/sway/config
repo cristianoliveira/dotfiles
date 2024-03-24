@@ -20,6 +20,10 @@ set $term alacritty
 # on the original workspace that the command was run on.
 set $menu ulauncher | wmenu | xargs swaymsg exec --
 
+# For notebook disable monitor when lid is closed
+bindswitch lid:on output eDP-1 disable
+bindswitch lid:off output eDP-1 enable
+
 # font pango:Monaco 8
 
 ### Output configuration
