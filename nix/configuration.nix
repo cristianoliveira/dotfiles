@@ -129,9 +129,6 @@
 
     # Windows manager
     sway
-
-    # Keyboard setup
-    xcape # Use to remap keys
     
     # GUIs
     alacritty
