@@ -105,12 +105,13 @@
     zsh-syntax-highlighting
     diff-so-fancy
 
-    asdf-vm
-
     # Essential pkgs
     curl
     wget
     bc
+
+    # Languages
+    go
 
     # Windows manager
     sway
@@ -169,7 +170,6 @@
         plugins = ["git"];
     };    
     interactiveShellInit = ''
-      autoload -U +X bashcompinit && bashcompinit
       autoload -U +X compinit && compinit
       export ASDF_INIT=1
       . "${pkgs.asdf-vm}/share/asdf-vm/asdf.sh"

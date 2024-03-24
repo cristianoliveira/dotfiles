@@ -143,7 +143,9 @@ for func_files ($HOME/.dotfiles/zsh/func/*.zsh) source $func_files
 for settings_file ($HOME/.dotfiles/zsh/settings/*.zsh) source $settings_file
 
 # enable autocomplete for commands
-autoload -Uz compinit && compinit
+if [ -n "$ASDF_INIT" ] ; then
+  autoload -Uz compinit && compinit
+fi
 
 CURRTIME=$(gdate "+%s%3N")
 echo "Everything is ready. ($(echo "$CURRTIME - $STARTTIME" | bc -l) ms)"
