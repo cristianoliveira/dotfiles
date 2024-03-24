@@ -103,16 +103,13 @@
       firefox
       brave
 
+      spotify
       whatsapp-for-linux
       telegram-desktop
     ];
   };
 
-  nixpkgs.config.allowUnfreePredicate = pkg:
-     builtins.elem (lib.getName pkg) [
-      # Add additional package names here
-      "spotify"
-  ];
+  nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
