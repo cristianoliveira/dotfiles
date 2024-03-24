@@ -119,14 +119,14 @@
     zsh-syntax-highlighting
     diff-so-fancy
 
-    nodejs_20
-
     # Essential pkgs
     curl
     wget
     bc
 
     # Languages
+    nodejs_20
+    python3
     go
 
     # Windows manager
