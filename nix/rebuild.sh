@@ -2,8 +2,7 @@
 #
 set -e
 
-git diff ~/.dotfiles/nix
-sudo nixos-rebuild switch
+sudo nixos-rebuild switch --flake $HOME/.dotfiles/nix#nixos
 
 git add nix/ -p
 git commit
