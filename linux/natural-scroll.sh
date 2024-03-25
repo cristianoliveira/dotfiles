@@ -1,1 +1,0 @@
-synclient VertScrollDelta=-58
