@@ -79,6 +79,7 @@ input "type:keyboard" {
 
     # Kill focused window
     bindsym $mod+Shift+q kill
+    bindsym $mod+Ctrl+w kill
 
     # Start your launcher
     bindsym Ctrl+Space exec $menu
@@ -252,9 +253,7 @@ bar {
     }
 }
 
-for_window [class=".*"] border pixel 1
-for_window [class="Ulauncher"] border none
-for_window [class="Alacritty"] border none
+for_window [class=".*"] border none
 for_window [class="Alacritty"] move container to workspace $ws2
 for_window [class="Alacritty"] opacity 0.9
 
