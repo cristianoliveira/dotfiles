@@ -142,6 +142,7 @@
     # Languages
     nodejs_20 # npm set prefix ~/.npm-global
     python3
+    python311Packages.pip
     go
     cargo #
 
