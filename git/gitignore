@@ -27,8 +27,6 @@ _scripts/
 
 .watch.yaml
 
-*.nix
-
 .gitconfig.user
 
 .tool-versions
