@@ -51,13 +51,18 @@
   services.xserver.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
-  # Maps capslock to esc & ctrl
   services.xserver = {
     layout = "us";
     xkbVariant = "";
+    # Maps capslock ctrl when hold
     xkbOptions = "ctrl:swapcaps";
+
+    # Keyboard repeat rate
+    autoRepeatDelay = 100;
+    autoRepeatInterval = 5;
   };
 
+  # Maps esc when pressed 
   services.interception-tools = {
     enable = true;
     plugins = with pkgs; [
