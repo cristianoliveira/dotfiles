@@ -171,6 +171,7 @@
     wrapperFeatures.gtk = true; # so that gtk works properly
     extraPackages = with pkgs; [
       swaylock
+      i3status
       swayidle
       wf-recorder
       mako # notification daemon
