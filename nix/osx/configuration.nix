@@ -53,7 +53,7 @@
       #
       # "bitwarden"
       #
-      # "karabiner-elements"
+      "karabiner-elements"
       # "alacritty"
       # "dbeaver-community"
       #
@@ -71,6 +71,21 @@
   system = {
     keyboard.enableKeyMapping = true;
     keyboard.remapCapsLockToControl = true;
+
+    defaults = {
+      # Keyboard settings
+      # Enable full keyboard access for all controls
+      # (e.g. enable Tab in modal dialogs)
+      NSGlobalDomain.AppleKeyboardUIMode = 3;
+
+      # define delays, keyrepeat and press and hold
+      NSGlobalDomain.InitialKeyRepeat = 10;
+      NSGlobalDomain.KeyRepeat = 1;
+      NSGlobalDomain.ApplePressAndHoldEnabled = false;
+
+      # set fn properly
+      NSGlobalDomain."com.apple.keyboard.fnState" = true;
+    };
   };
 
   # Auto upgrade nix package and the daemon service.
