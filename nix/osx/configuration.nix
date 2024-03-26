@@ -3,12 +3,75 @@
 {
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
-  environment.systemPackages = [
-    pkgs.vim
-    pkgs.neovim
-    pkgs.git
-    pkgs.funzzy
+  environment.systemPackages = with pkgs; [
+    # Development environment
+    vim
+    neovim 
+    git
+    tmux
+    zsh
+    oh-my-zsh
+    zsh-completions
+    zsh-syntax-highlighting
+    diff-so-fancy
+    fzf
+    ripgrep
+    jq
+    funzzy
+    docker
+    docker-compose
+
+    # Essential pkgs
+    curl
+    wget
+    htop
+    coreutils
+
+    # Languages
+    nodejs_20 # npm set prefix ~/.npm-global
+    python3
+    go
+    cargo # rust
+    luarocks
   ];
+
+  # GUI applications via homebrew
+  homebrew = {
+    enable = true;
+
+    casks = [
+      "alfred"
+
+      "firefox"
+      # "brave-browser"
+      "finicky"
+
+      # "spotify"
+      # "slack"
+      # "whatsapp"
+      # "telegram"
+      #
+      # "bitwarden"
+      #
+      # "karabiner-elements"
+      # "alacritty"
+      # "dbeaver-community"
+      #
+      # "visual-studio-code"
+      # "tunnelblick"
+    ];
+  };
+
+  # Create /etc/zshrc that loads the nix-darwin environment.
+  programs = {
+    gnupg.agent.enable = true;
+    zsh.enable = true;  # default shell on catalina
+  };
+
+  system = {
+    keyboard.enableKeyMapping = true;
+    keyboard.remapCapsLockToControl = true;
+  };
 
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;
@@ -19,28 +82,7 @@
     };
   };
 
-  # Create /etc/zshrc that loads the nix-darwin environment.
-  programs = {
-    gnupg.agent.enable = true;
-    zsh.enable = true;  # default shell on catalina
-  };
-
-  system.keyboard.enableKeyMapping = true;
-  system.keyboard.remapCapsLockToControl = true;
-
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog
   system.stateVersion = 4;
-
-  homebrew = {
-    enable = true;
-
-    casks = [
-      "firefox"
-      # "bitwarden"
-      # "brave-browser"
-      # "karabiner-elements"
-      # "alacritty"
-    ];
-  };
 }
