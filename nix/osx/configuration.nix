@@ -65,7 +65,14 @@
   # Create /etc/zshrc that loads the nix-darwin environment.
   programs = {
     gnupg.agent.enable = true;
-    zsh.enable = true;  # default shell on catalina
+    zsh = {
+      enable = true;
+      interactiveShellInit = ''
+        autoload -U +X compinit && compinit
+        export NIX_ENV=1
+        export PATH=$HOME/.npm-global/bin:/usr/local/bin:$PATH
+        '';
+    };
   };
 
   system = {
