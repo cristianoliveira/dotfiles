@@ -29,6 +29,7 @@
 
     # Languages
     nodejs_20 # npm set prefix ~/.npm-global
+    yarn
     python3
     go
     cargo # rust
