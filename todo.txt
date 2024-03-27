@@ -1,0 +1,3 @@
+# TODO remove the asdf dependency in favor of nixpkgs
+# TODO delete linux folder
+# TODO move linux specific configs from nix/* to nix/nixos/*
