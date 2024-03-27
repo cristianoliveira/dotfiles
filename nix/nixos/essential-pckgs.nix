@@ -18,6 +18,7 @@
     jq
     funzzy
     mypkgs.ergo
+    ngrok
 
     # Essential pkgs
     curl

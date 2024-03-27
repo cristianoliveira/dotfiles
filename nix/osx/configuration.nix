@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 
 {
+  # Allow proprietary pkgs for apps like ngrok
+  nixpkgs.config.allowUnfree = true;
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
@@ -20,6 +22,7 @@
     funzzy
     docker
     docker-compose
+    ngrok
 
     # Essential pkgs
     curl
