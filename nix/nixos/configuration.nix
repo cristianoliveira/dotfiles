@@ -135,6 +135,7 @@
     ripgrep
     jq
     funzzy
+    ngrok
 
     # Essential pkgs
     curl
