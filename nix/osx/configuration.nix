@@ -37,6 +37,10 @@
     go
     cargo # rust
     luarocks
+
+    # OSX tiling window manager
+    yabai
+    skhd
   ];
 
   # GUI applications via homebrew
