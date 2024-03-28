@@ -10,7 +10,7 @@
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, ... }:
+  outputs = { self, nixpkgs, nix-darwin, ... }:
   {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
@@ -18,7 +18,7 @@
         ./nixos/configuration.nix
       ];
     };
-    nixosConfigurations.darwin = nixpkgs.lib.nixosSystem {
+    darwinConfigurations.darwin = nix-darwin.lib.darwinSystem {
       system = "aarch64-darwin";
       modules = [
         ./osx/configuration.nix

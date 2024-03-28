@@ -49,7 +49,7 @@
       "firefox"
       "google-chrome"
       "google-chrome-canary"
-      # "brave-browser"
+      "brave-browser"
       "finicky" # Ensure to open links in a browser/profile based on rules
 
       # "spotify"
