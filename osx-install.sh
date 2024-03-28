@@ -4,14 +4,18 @@ set -u # do not allow unset variables
 echo "Installing apps for osx"
 sudo chown -R $(whoami) /usr/local/lib/pkgconfig
 
-echo "\n\n\n\n\n----------------------Installing apps-------------------\n\n\n\n\n"
-sh $HOME/.dotfiles/osx/install-apps.sh
+printf "\n\n\n\n\n"
+echo "-------------Installing deps-------------------"
+printf "\n\n\n\n\n"
+$HOME/.dotfiles/nix/osx/setup.sh
 
-echo "Configuring machine as 'squall'"
 # FIXME Quarantine till I figure if it's needed
+# echo "Configuring machine as 'squall'"
 # sh $HOME/.dotfiles/osx/configure-osx.sh squall
 
-echo "\n\n\n\n\n----------------------Setup-------------------\n\n\n\n\n"
-sh $HOME/.dotfiles/setup.sh
+printf "\n\n\n\n\n"
+echo "-------------Setup-------------------"
+printf "\n\n\n\n\n"
+sh "$HOME"/.dotfiles/setup.sh
 
-ln -s $HOME/.dotfiles/osx/.finicky.js $HOME/.finicky.js
+ln -s "$HOME"/.dotfiles/osx/.finicky.js "$HOME"/.finicky.js

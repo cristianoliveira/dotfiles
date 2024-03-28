@@ -22,10 +22,10 @@ mkdir -p "$HOME/.nixpkgs"
 rm -f "$HOME/.nixpkgs/darwin-configuration.nix"
 ln -s "$HOME/.dotfiles/nix/osx/configuration.nix" "$HOME/.nixpkgs/darwin-configuration.nix"
 
-# So darwin-rebuild is available in the new shell
-sh -c "$HOME/.dotfiles/nix/rebuild.sh"
-
 $HOME/.dotfiles/nix/osx/yabai/setup.sh
 $HOME/.dotfiles/nix/osx/finicky/setup.sh
+
+# So darwin-rebuild is available in the new shell
+sh -c "$HOME/.dotfiles/nix/rebuild.sh"
 
 echo "System is ready to be built with ~/.dotfiles/nix/rebuild.sh"
