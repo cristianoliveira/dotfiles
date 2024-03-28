@@ -43,6 +43,10 @@
     skhd
   ];
 
+  # Enable yabai and skhd services
+  services.yabai.enable = true;
+  services.skhd.enable = true;
+
   # GUI applications via homebrew
   homebrew = {
     enable = true;

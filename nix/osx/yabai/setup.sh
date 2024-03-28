@@ -9,4 +9,5 @@ ln -sf $HOME/.dotfiles/nix/osx/yabai/yabairc $HOME/.yabairc
 ln -sf $HOME/.dotfiles/nix/osx/yabai/skhdrc $HOME/.skhdrc
 
 yabai --install-service
+skhd --install-service
 echo "yabai setup complete"
