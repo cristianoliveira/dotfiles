@@ -38,12 +38,10 @@
     cargo # rust
     luarocks
 
-    # OSX tiling window manager
-    yabai
-    skhd
   ];
 
   # Enable yabai and skhd services
+  # OSX tiling window manager
   services.yabai.enable = true;
   services.skhd.enable = true;
 
