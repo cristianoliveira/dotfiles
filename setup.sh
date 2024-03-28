@@ -42,10 +42,10 @@ mkdir -p "$HOME"/.local/bin
 ## if linux 
 if [ "$(uname)" == "Linux" ]; then
   echo "Setting up linux"
-  bash $HOME/.dotfiles/nix/setup.sh
+  bash $HOME/.dotfiles/nix/nixos/setup.sh
 elif [ "$(uname)" == "Darwin" ]; then
   echo "Setting up OSX"
-  bash $HOME/.dotfiles/osx/setup.sh
+  bash $HOME/.dotfiles/nix/osx/setup.sh
 fi
 
 echo "setup: nvim"
