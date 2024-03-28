@@ -30,6 +30,9 @@
     htop
     coreutils
 
+    # Helper cli tools
+    bitwarden-cli
+
     # Languages
     nodejs_20 # npm set prefix ~/.npm-global
     yarn
@@ -41,6 +44,7 @@
     # OSX tiling window manager
     yabai
     skhd
+
   ];
 
   # Enable yabai and skhd services
