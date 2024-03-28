@@ -37,7 +37,7 @@ cask 'visual-studio-code'
 
 # Browsers
 cask 'firefox'
-cask 'google-chrome-canary'
+# cask 'google-chrome-canary'
 cask 'brave-browser'
 cask 'finicky'
 

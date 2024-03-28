@@ -47,6 +47,8 @@
       "alfred"
 
       "firefox"
+      # "google-chrome"
+      "google-chrome-canary"
       # "brave-browser"
       "finicky"
 
