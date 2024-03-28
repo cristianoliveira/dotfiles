@@ -60,7 +60,7 @@
       # "bitwarden"
       #
       "karabiner-elements"
-      # "alacritty"
+      "alacritty"
       # "dbeaver-community"
       #
       # "visual-studio-code"
