@@ -88,6 +88,7 @@
 
       # Others
       "bitwarden"
+      "veracrypt"
     ];
   };
 
