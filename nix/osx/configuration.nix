@@ -27,6 +27,7 @@
     docker
     docker-compose
     ngrok
+    ctags
 
     # Essential pkgs
     curl
@@ -61,6 +62,8 @@
   # GUI applications via homebrew
   homebrew = {
     enable = true;
+
+    taps = [];
 
     casks = [
       "alfred" # Launcher
