@@ -78,6 +78,9 @@
       "visual-studio-code" # For pairing
       "dbeaver-community"
       # "tunnelblick"
+
+      # Others
+      "bitwarden"
     ];
   };
 
