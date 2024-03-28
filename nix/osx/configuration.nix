@@ -47,18 +47,16 @@
       "alfred"
 
       "firefox"
-      # "google-chrome"
+      "google-chrome"
       "google-chrome-canary"
       # "brave-browser"
-      "finicky"
+      "finicky" # Ensure to open links in a browser/profile based on rules
 
       # "spotify"
       # "slack"
       # "whatsapp"
       # "telegram"
-      #
-      # "bitwarden"
-      #
+
       "karabiner-elements"
       "alacritty"
       # "dbeaver-community"
