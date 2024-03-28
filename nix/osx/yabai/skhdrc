@@ -143,31 +143,38 @@
 
 # toggle sticky(+float), picture-in-picture
 # alt - p : yabai -m window --toggle sticky --toggle pip
+# shift - cmd - return : alacritty
 
-# Close windows
-ctrl - q : yabai -m window --close
+# Terminal
+cmd + shift - return : /Applications/Alacritty.app/Contents/MacOS/alacritty
+# Launcher alfred
+ctrl - space : /usr/bin/open -a "/Applications/Alfred 5.app"
 
-# Vim like window focus
 cmd - h : yabai -m window --focus west
 cmd - j : yabai -m window --focus south
 cmd - k : yabai -m window --focus north
 cmd - l : yabai -m window --focus east
 
-# Vim like window move
-shift - cmd - h : yabai -m window --warp west
-shift - cmd - j : yabai -m window --warp south
-shift - cmd - k : yabai -m window --warp north
-shift - cmd - l : yabai -m window --warp east
+# Close window
+cmd + shift - q : yabai -m window --close
+cmd + shift - w : yabai -m window --close
 
-# moves focus between spaces 
+# Move window
+cmd + shift - h : yabai -m window --warp west
+cmd + shift - j : yabai -m window --warp south
+cmd + shift - k : yabai -m window --warp north
+cmd + shift - l : yabai -m window --warp east
+
+# Make window occupy full screen
+cmd + shift - f : yabai -m window --toggle zoom-fullscreen
+
+# Move window between spaces
+cmd + shift - 1 : yabai -m window --space 1
+cmd + shift - 2 : yabai -m window --space 2
+cmd + shift - 3 : yabai -m window --space 3
+cmd + shift - 4 : yabai -m window --space 4
+cmd + shift - 5 : yabai -m window --space 5
+
+# Workspace navigation
 cmd - 1 : yabai -m space --focus 1
 cmd - 2 : yabai -m space --focus 2
-cmd - 3 : yabai -m space --focus 3
-cmd - 4 : yabai -m space --focus 4
-cmd - 5 : yabai -m space --focus 5
-cmd - 6 : yabai -m space --focus 6
-# Do I need to add more spaces?
-# cmd - 7 : yabai -m space --focus 7
-# cmd - 8 : yabai -m space --focus 8
-# cmd - 9 : yabai -m space --focus 9
-# cmd - 0 : yabai -m space --focus 10
