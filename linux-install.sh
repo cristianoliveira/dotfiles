@@ -7,7 +7,7 @@ if ! command -v nix-env &> /dev/null; then
   echo "Nix is not installed. Make sure to install it."
 fi
 
-sudo nixos-rebuild switch --flake $HOME/.dotfiles/nix#nixos
+$HOME/.dotfiles/nix/nixos/setup.sh
 
 echo "Setup linux machine"
 bash $HOME/.dotfiles/setup.sh
