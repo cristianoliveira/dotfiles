@@ -38,11 +38,17 @@
     cargo # rust
     luarocks
 
+    # OSX tiling window manager
+    yabai
+    skhd
   ];
 
   # Enable yabai and skhd services
-  # OSX tiling window manager
-  services.yabai.enable = true;
+  # https://github.com/LnL7/nix-darwin/blob/f0dd0838c3558b59dc3b726d8ab89f5b5e35c297/modules/services/yabai/default.nix#L44
+  services.yabai = { 
+    enable = true;
+    enableScriptingAddition = true;
+  };
   services.skhd.enable = true;
 
   # GUI applications via homebrew

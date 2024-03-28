@@ -6,8 +6,10 @@ echo "Setting up yabai - tiling window manager"
 mv $HOME/.yabairc $HOME/.yabairc.bak
 mv $HOME/.skhdrc $HOME/.skhdrc.bak
 ln -sf $HOME/.dotfiles/nix/osx/yabai/yabairc $HOME/.yabairc
+
 ln -sf $HOME/.dotfiles/nix/osx/yabai/skhdrc $HOME/.skhdrc
 
-yabai --install-service
-skhd --install-service
+# Installing via nix doesn't allow changing the config file path
+sudo ln -sf $HOME/.dotfiles/nix/osx/yabai/skhdrc /etc/skhdrc
+
 echo "yabai setup complete"
