@@ -1,0 +1,49 @@
+# Snippets for nixos and nix in general
+
+priority -10
+
+# Generate a shell.nix boilerplate
+snippet shell "shell.nix boilerplate"
+{ pkgs ? import <nixpkgs> {} }:
+pkgs.mkShell {
+	# buildInputs is for dependencies you'd need "at run time",
+	# were you to to use nix-build not nix-shell and build whatever you were working on
+	buildInputs = [
+		pkgs.hello
+	];
+
+	shell = pkgs.zsh;
+}
+endsnippet
+
+# Generate a default.nix boilerplate
+snippet default "default.nix boilerplate"
+{ pkgs ? import <nixpkgs> {} }:
+pkgs.stdenv.mkDerivation rec {
+	name = "my-package";
+	src = ./.;
+	buildInputs = [ pkgs.hello ];
+}
+endsnippet
+
+# Generate a flake.nix boilerplate
+snippet flake "flake.nix boilerplate"
+{
+	description = "New flake";
+	inputs = {
+		nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+	};
+	outputs = { self, nixpkgs }: {
+		defaultPackage.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.mkShell {
+			buildInputs = [ nixpkgs.hello ];
+		};
+	};
+}
+endsnippet
+
+snippet node "nodejs package"
+	buildInputs = [ 
+		pkgs.nodejs
+		(pkgs.yarn.override { nodejs = pkgs.nodejs; })
+	];
+endsnippet

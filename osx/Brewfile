@@ -29,7 +29,6 @@ cask 'discord'
 cask 'zoom'
 cask 'izip'
 cask 'veracrypt'
-cask 'alacritty'
 cask 'dbeaver-community'
 
 # vsc*** for pairing :P
@@ -37,9 +36,6 @@ cask 'visual-studio-code'
 
 # Browsers
 cask 'firefox'
-cask 'google-chrome-canary'
-cask 'brave-browser'
-cask 'finicky'
 
 # Install fonts
 tap 'homebrew/cask-fonts'

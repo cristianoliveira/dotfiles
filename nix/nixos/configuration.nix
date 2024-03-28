@@ -135,6 +135,7 @@
     ripgrep
     jq
     funzzy
+    ngrok
 
     # Essential pkgs
     curl
@@ -146,6 +147,7 @@
 
     # Languages
     nodejs_20 # npm set prefix ~/.npm-global
+    yarn
     python3
     python311Packages.pip
     go
