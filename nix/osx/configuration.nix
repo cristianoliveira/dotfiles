@@ -44,8 +44,9 @@
     enable = true;
 
     casks = [
-      "alfred"
+      "alfred" # Launcher
 
+       # Browsers
       "firefox"
       "google-chrome"
       "google-chrome-canary"
@@ -60,9 +61,10 @@
 
       "karabiner-elements"
       "alacritty"
-      # "dbeaver-community"
-      #
-      # "visual-studio-code"
+
+      # More dev tools
+      "visual-studio-code" # For pairing
+      "dbeaver-community"
       # "tunnelblick"
     ];
   };
