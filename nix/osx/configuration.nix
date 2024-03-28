@@ -1,6 +1,9 @@
 { config, pkgs, ... }:
 
 {
+  # Referecence:
+  # https://github.com/LnL7/nix-darwin/tree/master
+
   # Allow proprietary pkgs for apps like ngrok
   nixpkgs.config.allowUnfree = true;
   # List packages installed in system profile. To search by name, run:
@@ -20,6 +23,7 @@
     ripgrep
     jq
     funzzy
+    colima # container runtimes on macOS (docker)
     docker
     docker-compose
     ngrok
@@ -44,7 +48,6 @@
     # OSX tiling window manager
     yabai
     skhd
-
   ];
 
   # Enable yabai and skhd services
