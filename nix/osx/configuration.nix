@@ -52,10 +52,11 @@
       "brave-browser"
       "finicky" # Ensure to open links in a browser/profile based on rules
 
-      # "spotify"
+      "spotify"
+
       # "slack"
-      # "whatsapp"
-      # "telegram"
+      "whatsapp"
+      "telegram"
 
       "karabiner-elements"
       "alacritty"
