@@ -1,2 +1,1 @@
-# TODO delete linux folder
 # TODO move linux specific configs from nix/* to nix/nixos/*
