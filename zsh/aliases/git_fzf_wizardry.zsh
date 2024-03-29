@@ -63,6 +63,8 @@ alias fgs=$fzf_git_unstaged_files
 # fzf git rebase
 alias fgrb="git rebase \$($fzf_git_branch_local)"
 alias fgrbi="git rebase --interactive \$($fzf_git_commit_from_log)"
+## Git rebase edit
+alias grbe="git rebase --interactive \$($fzf_git_commit_from_log)"
 
 # fzf git add
 alias fga="git add \$($fzf_git_unstaged_files)"
