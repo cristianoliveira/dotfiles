@@ -117,6 +117,7 @@
       # Enable full keyboard access for all controls
       # (e.g. enable Tab in modal dialogs)
       NSGlobalDomain.AppleKeyboardUIMode = 3;
+      universalaccess.reduceMotion = false; # Reducing motion makes switching workspaces slow
 
       # define delays, keyrepeat and press and hold
       NSGlobalDomain.InitialKeyRepeat = 10;
