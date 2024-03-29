@@ -12,3 +12,7 @@
   run: 'nix/rebuild.sh'
   change: 'nix/**'
   run_on_init: true
+
+- name: watch osx keyboard mappings
+  run: 'killall skhd' # Force restart service
+  change: 'nix/osx/yabai/**'
