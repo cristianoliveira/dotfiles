@@ -8,6 +8,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ../shared/direnv.nix
     ];
 
   # Bootloader.
@@ -166,7 +167,6 @@
   #   enable = true;
   #   enableSSHSupport = true;
   # };
-  
 
 
   # Enable the gnome-keyring secrets vault. 

@@ -38,3 +38,7 @@ nvim-macos/
 .env
 
 .local-ngnix.conf
+
+# nix related
+shell.nix
+.envrc
