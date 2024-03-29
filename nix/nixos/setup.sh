@@ -16,4 +16,13 @@ if ! command -v nix-env &> /dev/null; then
   exit 1
 fi
 
+if [ ! -f "$HOME/.config/nix/nix.conf" ]; then
+  echo "Configuring Nix..."
+  mkdir -p "$HOME/.config/nix"
+  ln -s "$HOME/.dotfiles/nix/nix.conf" "$HOME/.config/nix/nix.conf"
+fi
+
+# So environment is updated before running rebuild.sh
+sh -c "$HOME/.dotfiles/nix/rebuild.sh"
+
 echo "System is ready to be built with ~/.dotfiles/nix/rebuild.sh"
