@@ -125,17 +125,26 @@
 
       # set fn properly
       NSGlobalDomain."com.apple.keyboard.fnState" = true;
+
+      # Dock configs
+      dock.autohide = true;
+
+      # Finder and file managment
+      finder.AppleShowAllFiles = true;
+      NSGlobalDomain.AppleShowAllFiles = true;
+      finder._FXShowPosixPathInTitle = true;
     };
   };
 
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;
-  nix = {
-    package = pkgs.nix;
-    settings = {
-      "extra-experimental-features" = [ "nix-command" "flakes" ];
-    };
-  };
+  # To enable experimental features via configuration.nix
+  # nix = {
+  #   package = pkgs.nix;
+  #   settings = {
+  #     "extra-experimental-features" = [ "nix-command" "flakes" ];
+  #   };
+  # };
 
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog
