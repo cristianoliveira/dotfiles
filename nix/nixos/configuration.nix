@@ -203,7 +203,7 @@
     ohMyZsh = {
         enable = true;
 	theme = "clean";
-        plugins = ["git"];
+        plugins = ["git" "history-substring-search" "vi-mode"];
     };    
     interactiveShellInit = ''
       autoload -U +X compinit && compinit
