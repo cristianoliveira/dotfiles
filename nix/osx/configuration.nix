@@ -138,7 +138,9 @@
 
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;
-  # To enable experimental features via configuration.nix
+  # Experimental features
+  # If you used nix/osx/setup.sh to setup your system this feature is already enabled
+  # via the $HOME/.config/nix/nix.conf file
   # nix = {
   #   package = pkgs.nix;
   #   settings = {
