@@ -26,9 +26,9 @@ $HOME/.dotfiles/nix/osx/yabai/setup.sh
 $HOME/.dotfiles/nix/osx/finicky/setup.sh
 
 if [ ! -f "$HOME/.config/nix/nix.conf" ]; then
-  echo "Enabling experimental features"
+  echo "Configuring Nix (~/.dotfiles/nix/nix.conf)"
   mkdir -p "$HOME/.config/nix"
-  echo "experimental-features = nix-command flakes" > "$HOME/.config/nix/nix.conf"
+  ln -s "$HOME/.dotfiles/nix/nix.conf" "$HOME/.config/nix/nix.conf"
 fi
 
 # So darwin-rebuild is available in the new shell
