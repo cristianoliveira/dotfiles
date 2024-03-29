@@ -11,3 +11,6 @@ linux:
 
 osx:
 	@bash ./osx-install.sh
+
+watch: 
+	@fzz
