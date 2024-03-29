@@ -198,6 +198,10 @@
     '';
   };
 
+  programs.nix-ld = {
+    enable = true;
+  };
+
   programs.zsh = {
     enable = true;
     ohMyZsh = {
@@ -205,9 +209,15 @@
 	theme = "clean";
         plugins = ["git" "history-substring-search" "vi-mode"];
     };    
+
     interactiveShellInit = ''
       autoload -U +X compinit && compinit
       export NIX_ENV=1
+
+      // Enables running unpatched binaries from nix store
+      // this is necessary for Mason (nvim) to work
+      export NIX_LD=$(nix eval --extra-experimental-features nix-command --impure --raw --expr 'let pkgs = import <nixpkgs> {}; NIX_LD = pkgs.lib.fileContents "${pkgs.stdenv.cc}/nix-support/dynamic-linker"; in NIX_LD')
+
       export PATH=$HOME/.npm-global/bin:/usr/local/bin:$PATH
     '';
   };
