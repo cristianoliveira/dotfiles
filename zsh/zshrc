@@ -30,7 +30,9 @@ fi
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="clean"
+if [ -z "$NIX_ENV" ] ; then
+  ZSH_THEME="clean"
+fi
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -76,8 +78,9 @@ ZSH_THEME="clean"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git vi-mode history-substring-search)
 
-source $ZSH/oh-my-zsh.sh
-
+if [ -z "$NIX_ENV" ] ; then
+  source $ZSH/oh-my-zsh.sh
+fi
 
 # User configuration
 
@@ -151,12 +154,14 @@ CURRTIME=$(gdate "+%s%3N")
 echo "Everything is ready. ($(echo "$CURRTIME - $STARTTIME" | bc -l) ms)"
 
 # Automatically start ssh-agent and add keys
-if [ -z "$SSH_AUTH_SOCK" ] ; then
-  eval `ssh-agent -s`
+if [ -z "$NIX_ENV" ] ; then
+  if [ -z "$SSH_AUTH_SOCK" ] ; then
+    eval `ssh-agent -s`
 
-  for key in ~/.ssh/*; do
-    ssh-add $key
-  done
+    for key in ~/.ssh/*; do
+      ssh-add $key
+    done
+  fi
 fi
 
 # debug-slow-startup-time
