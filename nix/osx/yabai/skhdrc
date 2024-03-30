@@ -205,3 +205,9 @@ cmd + ctrl - e : yabai -m window --toggle split
 # (regardless of which window is focused at this point)
 cmd + ctrl - m : yabai -m window "$(yabai -m query --windows --window | jq -re '.id')" --toggle float --move abs:10000:10000
 cmd + ctrl - b : yabai -m window "$(yabai -m query --windows --window | jq -re '.id')" --toggle float
+
+# Focus on terminal
+cmd + ctrl - t : osascript -e 'tell application "System Events" to tell process "alacritty"' \
+            -e 'set frontmost to true' \
+            -e 'if windows is not {} then perform action "AXRaise" of item 1 of windows' \
+            -e 'end tell'
