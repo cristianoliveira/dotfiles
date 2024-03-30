@@ -256,5 +256,6 @@ bar {
 for_window [class=".*"] border pixel 1
 for_window [class="Alacritty"] move container to workspace $ws2
 for_window [class="Alacritty"] opacity 0.9
+for_window [app_id="ulauncher"] border pixel 0
 
 include @sysconfdir@/sway/config.d/*
