@@ -3,6 +3,10 @@
 {
   # Referecence:
   # https://github.com/LnL7/nix-darwin/tree/master
+  imports =
+    [ 
+      ../shared/direnv.nix
+    ];
 
   # Allow proprietary pkgs for apps like ngrok
   nixpkgs.config.allowUnfree = true;
@@ -100,11 +104,22 @@
     gnupg.agent.enable = true;
     zsh = {
       enable = true;
+      variables = {
+        ZSH = "${pkgs.oh-my-zsh}/share/oh-my-zsh";
+        ZSH_THEME = "clean";
+        DISABLE_AUTO_UPDATE = "true";
+      };
       interactiveShellInit = ''
         autoload -U +X compinit && compinit
         export NIX_ENV=1
         export PATH=$HOME/.npm-global/bin:/usr/local/bin:$PATH
-        '';
+      '';
+
+      # Oh-my-zsh configuration
+      promptInit = ''
+        plugins=(git vi-mode history-substring-search)
+        source $ZSH/oh-my-zsh.sh
+      '';
     };
   };
 
