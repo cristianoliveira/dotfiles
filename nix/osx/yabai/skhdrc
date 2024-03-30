@@ -166,7 +166,7 @@ cmd + shift - k : yabai -m window --warp north
 cmd + shift - l : yabai -m window --warp east
 
 # Make window occupy full screen
-cmd + shift - f : yabai -m window --toggle zoom-fullscreen
+cmd + ctrl - f : yabai -m window --toggle zoom-fullscreen
 
 # Move window between spaces
 cmd + shift - 1 : yabai -m window --space 1
