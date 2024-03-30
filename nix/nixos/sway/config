@@ -74,8 +74,10 @@ input "type:keyboard" {
 #
 # Basics:
 #
-    # Start a terminal
-    bindsym $mod+Return exec $term
+    # Terminal
+    # Set focus or open a new terminal
+    bindsym $mod+Ctrl+Return exec $term
+    bindsym $mod+Return exec swaymsg [app_id="Alacritty"] focus
 
     # Kill focused window
     bindsym $mod+Shift+q kill
@@ -85,7 +87,7 @@ input "type:keyboard" {
     bindsym Ctrl+Space exec $menu
 
     # Start browser
-    bindsym $mod+Shift+Return exec brave
+    bindsym $mod+Mod4+0 exec brave
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
