@@ -9,8 +9,5 @@ fi
 
 sudo nixos-rebuild switch --flake $HOME/.dotfiles/nix#nixos
 
-echo "Scripts path $HOME/.dotfiles/scripts-install"
-bash $HOME/.dotfiles/scripts-install.sh
-
 echo "Setup linux machine"
 bash $HOME/.dotfiles/setup.sh
