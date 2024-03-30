@@ -38,8 +38,8 @@ ln -s "$HOME"/.dotfiles/zsh/zshrc "$HOME"/.zshrc
 ln -s "$HOME"/.dotfiles/git/gitconfig "$HOME"/.gitconfig
 ln -s "$HOME"/.dotfiles/git/gitignore "$HOME"/.gitignore
 ln -s "$HOME"/.dotfiles/ctags "$HOME"/.ctags
-ln -s "$HOME"/.dotfiles/resources/karabiner "$HOME"/.config/karabiner
-ln -s $HOME/.dotfiles/resources/alacritty "$HOME"/.config/alacritty
+
+"$HOME"/.dotfiles/resources/alacritty/setup.sh
 
 echo "Create local bin folder if it does not exist"
 mkdir -p "$HOME"/.local/bin
@@ -55,6 +55,9 @@ fi
 
 echo "Setup Vim and installing plugins"
 sh $HOME/.dotfiles/nvim/setup.sh
+
+echo "Setup Tmux"
+"$HOME"/.dotfiles/tmux/setup.sh
 
 chsh -s /bin/zsh
 
