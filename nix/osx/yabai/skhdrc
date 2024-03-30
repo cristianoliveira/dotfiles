@@ -193,3 +193,10 @@ cmd + shift - p : yabai -m window --space prev
 # Or you can setup using OSX mission control
 # Settings -> Accessibility -> Keyboard -> Keyboard Shortcuts -> Mission Control
 
+# Toggle the current focus between tiling and floating mode
+cmd + ctrl - space : yabai -m window --toggle float
+
+# Switch the current container between different layout styles
+# bindsym $mod+s layout stacking
+# port the code above to yabai
+cmd + ctrl - e : yabai -m window --toggle split
