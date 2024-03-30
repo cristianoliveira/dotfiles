@@ -3,7 +3,6 @@ env:
 
 window:
   decorations: none
-  startup_mode: Fullscreen
   opacity: 0.94
 
   dimensions:
