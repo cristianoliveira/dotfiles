@@ -6,3 +6,4 @@
 - name: watch nix configs
   run: 'nix/rebuild.sh'
   change: 'nix/**'
+  run_on_init: true
