@@ -146,7 +146,7 @@
 # shift - cmd - return : alacritty
 
 # Terminal
-cmd - return : /Applications/Alacritty.app/Contents/MacOS/alacritty
+cmd - return : open ~/Applications/Alacritty.app
 # Launcher alfred
 ctrl - space : /usr/bin/open -a "/Applications/Alfred 5.app"
 
