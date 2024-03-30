@@ -1,0 +1,6 @@
+[user]
+	name = __git_username__
+	email = __git_email__
+
+[url "ssh://git@github.com/"]
+  insteadOf = https://github.com/

@@ -22,24 +22,19 @@ bkpmv() {
 echo "Creating backup of your current configurations."
 echo "They can be found at: $DOTFILES_BKP_PATH"
 mkdir -p "$DOTFILES_BKP_PATH"
-bkpmv "$HOME"/.tmux.conf "$DOTFILES_BKP_PATH"/old-tmux.conf
 bkpmv "$HOME"/.zshrc "$DOTFILES_BKP_PATH"/old-zshrc
-bkpmv "$HOME"/.gitconfig "$DOTFILES_BKP_PATH"/old-gitconfig
-bkpmv "$HOME"/.gitignore "$DOTFILES_BKP_PATH"/old-gitignore
 bkpmv "$HOME"/.ctags "$DOTFILES_BKP_PATH"/old-ctags
-bkpmv "$HOME"/.config/karabiner "$DOTFILES_BKP_PATH"/old-karabiner
-bkpmv "$HOME"/.config/alacritty "$DOTFILES_BKP_PATH"/old-alacritty
 
 mkdir -p $HOME/.config
 
 echo "Add all symbolic links..."
-ln -s "$HOME"/.dotfiles/tmux/tmux.conf "$HOME"/.tmux.conf
 ln -s "$HOME"/.dotfiles/zsh/zshrc "$HOME"/.zshrc
-ln -s "$HOME"/.dotfiles/git/gitconfig "$HOME"/.gitconfig
-ln -s "$HOME"/.dotfiles/git/gitignore "$HOME"/.gitignore
 ln -s "$HOME"/.dotfiles/ctags "$HOME"/.ctags
 
 "$HOME"/.dotfiles/resources/alacritty/setup.sh
+
+echo "setup: git"
+$HOME/.dotfiles/git/setup.sh
 
 echo "Create local bin folder if it does not exist"
 mkdir -p "$HOME"/.local/bin
@@ -53,11 +48,11 @@ elif [ "$(uname)" == "Darwin" ]; then
   bash $HOME/.dotfiles/osx/setup.sh
 fi
 
-echo "Setup Vim and installing plugins"
+echo "setup: nvim"
 sh $HOME/.dotfiles/nvim/setup.sh
 
-echo "Setup Tmux"
-"$HOME"/.dotfiles/tmux/setup.sh
+echo "setup: tmux"
+$HOME/.dotfiles/tmux/setup.sh
 
 chsh -s /bin/zsh
 
