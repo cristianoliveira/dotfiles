@@ -25,6 +25,9 @@ ln -s "$HOME/.dotfiles/nix/osx/configuration.nix" "$HOME/.nixpkgs/darwin-configu
 $HOME/.dotfiles/nix/osx/yabai/setup.sh
 $HOME/.dotfiles/nix/osx/finicky/setup.sh
 
+# TODO move karabiner to nix/osx folder
+$HOME/.dotfiles/resources/karabiner/setup.sh
+
 if [ ! -f "$HOME/.config/nix/nix.conf" ]; then
   echo "Configuring Nix (~/.dotfiles/nix/nix.conf)"
   mkdir -p "$HOME/.config/nix"
