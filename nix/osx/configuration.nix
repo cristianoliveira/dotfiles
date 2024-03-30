@@ -33,6 +33,8 @@
     ngrok
     ctags
 
+    alacritty 
+
     # Essential pkgs
     curl
     wget
@@ -86,7 +88,6 @@
       "telegram"
 
       "karabiner-elements"
-      "alacritty"
 
       # More dev tools
       "visual-studio-code" # For pairing
