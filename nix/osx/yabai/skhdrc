@@ -146,7 +146,13 @@
 # shift - cmd - return : alacritty
 
 # Terminal
-cmd - return : open ~/Applications/Alacritty.app
+# Set focus if open, else open
+cmd + ctrl - return : open ~/Applications/Alacritty.app
+cmd - return : osascript -e 'tell application "System Events" to tell process "alacritty"' \
+            -e 'set frontmost to true' \
+            -e 'if windows is not {} then perform action "AXRaise" of item 1 of windows' \
+            -e 'end tell' || open ~/Applications/Alacritty.app
+
 # Launcher alfred
 ctrl - space : /usr/bin/open -a "/Applications/Alfred 5.app"
 
@@ -206,8 +212,3 @@ cmd + ctrl - e : yabai -m window --toggle split
 cmd + ctrl - m : yabai -m window "$(yabai -m query --windows --window | jq -re '.id')" --toggle float --move abs:10000:10000
 cmd + ctrl - b : yabai -m window "$(yabai -m query --windows --window | jq -re '.id')" --toggle float
 
-# Focus on terminal
-cmd + ctrl - t : osascript -e 'tell application "System Events" to tell process "alacritty"' \
-            -e 'set frontmost to true' \
-            -e 'if windows is not {} then perform action "AXRaise" of item 1 of windows' \
-            -e 'end tell'
