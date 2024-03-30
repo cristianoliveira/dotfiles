@@ -11,3 +11,5 @@ fi
 
 mkdir ~/Applications/Alacritty.app
 ln -s "$(which alacritty)" ~/Applications/Alacritty.app
+
+# See also ~/.dotfiles/resources/alacritty/ for the configuration file.
