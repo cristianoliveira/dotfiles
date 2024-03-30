@@ -21,5 +21,12 @@ fi
 
 # replace placeholders in gitconfig
 cp $HOME/.dotfiles/git/gitconfig.user $HOME/.gitconfig.user
-sed -i '' "s/__git_username__/$git_user_name/g" $HOME/.gitconfig.user
-sed -i '' "s/__git_email__/$git_email/g" $HOME/.gitconfig.user
+
+# For Linux
+if [ "$(uname)" == "Linux" ]; then
+  sed -i "s/__git_username__/$git_user_name/g" $HOME/.gitconfig.user
+  sed -i "s/__git_email__/$git_email/g" $HOME/.gitconfig.user
+else
+  sed -i '' "s/__git_username__/$git_user_name/g" $HOME/.gitconfig.user
+  sed -i '' "s/__git_email__/$git_email/g" $HOME/.gitconfig.user
+fi
