@@ -11,6 +11,8 @@ $HOME/.dotfiles/nix/nixos/sway/setup.sh
 $HOME/.dotfiles/nix/nixos/i3status/setup.sh
 $HOME/.dotfiles/nix/nixos/fonts/setup.sh
 
+$HOME/.dotfiles/resources/alacritty/setup.sh
+
 if ! command -v nix-env &> /dev/null; then
   echo "Nix is not installed. Make sure to install it."
   exit 1
