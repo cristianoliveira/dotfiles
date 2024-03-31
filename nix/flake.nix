@@ -9,9 +9,8 @@
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
-    # Other pkgs
     co-pkgs = {
-      url = "github:cristianoliveira/nixpkgs/main";
+      url = "github:cristianoliveira/nixpkgs";
     };
   };
 
