@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "co-pkgs": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1711922114,
+        "narHash": "sha256-F5GiUGUBeYKlGShxtq1wIEKYw5Q/jUuKAq608RLRmYY=",
+        "owner": "cristianoliveira",
+        "repo": "nixpkgs",
+        "rev": "6e615a1f615853ac2c21aed806d0aa19be909bfe",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cristianoliveira",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1711124224,
@@ -18,6 +34,7 @@
     },
     "root": {
       "inputs": {
+        "co-pkgs": "co-pkgs",
         "nixpkgs": "nixpkgs"
       }
     }
