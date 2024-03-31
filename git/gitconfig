@@ -66,6 +66,7 @@
   # push
   ps = push                         # push
   psf = push --force-with-lease     # push with force-with-lease
+  pf = push --force-with-lease      # similar to my old alias
 
   # rebase
   rbs = rebase
