@@ -55,6 +55,8 @@
     # OSX tiling window manager
     yabai
     skhd
+
+    mypkgs.ergo
   ];
 
   # Enable yabai and skhd services

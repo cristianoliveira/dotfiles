@@ -14,7 +14,6 @@
       },
       "original": {
         "owner": "cristianoliveira",
-        "ref": "main",
         "repo": "nixpkgs",
         "type": "github"
       }
