@@ -33,6 +33,7 @@
   ci = commit                       # commit
   cm = commit                       # commit
   amd = commit --amend              # ammend your last commit
+  amdf = commit --amend --no-edit   # ammend your last commit without editing the message
   amend = commit --amend            # ammend your last commit
   ammend = commit --amend           # ammend your last commit
 
