@@ -9,13 +9,13 @@
     "\nmap <C-d> scrollPageDown ",
 
     "\nmap <C-w> removeTab ",
-    "\nmap <C-j> previousTab ",
-    "\nmap <C-k> nextTab ",
+    "\nmap <C-k> previousTab ",
+    "\nmap <C-j> nextTab ",
     "\nmap 0 firstTab ",
     "\nmap - firstTab ",
     "\nmap $ lastTab ",
     "\nmap 9 lastTab"
   ],
 
-  "settingsVersion": "2.0.5"
+  "settingsVersion": "2.0.6"
 }
