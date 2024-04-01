@@ -3,4 +3,6 @@
 	email = __git_email__
 
 [url "ssh://git@github.com/"]
-  insteadOf = https://github.com/
+	insteadOf = https://github.com/
+[url "git@github.com:"]
+	insteadOf = https://github.com/
