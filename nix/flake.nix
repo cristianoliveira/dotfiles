@@ -6,7 +6,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
 
     co-pkgs = {
-      url = "github:cristianoliveira/nixpkgs";
+      url = "github:cristianoliveira/nixpkgs/main";
       flake = false;
     };
   };

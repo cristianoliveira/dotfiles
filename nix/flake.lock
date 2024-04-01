@@ -3,15 +3,16 @@
     "co-pkgs": {
       "flake": false,
       "locked": {
-        "lastModified": 1711922114,
-        "narHash": "sha256-F5GiUGUBeYKlGShxtq1wIEKYw5Q/jUuKAq608RLRmYY=",
+        "lastModified": 1711957636,
+        "narHash": "sha256-J+Dx5vZnNg5X/U6IbFhyyzTHU8fIFZFCkbR/zfjFBXQ=",
         "owner": "cristianoliveira",
         "repo": "nixpkgs",
-        "rev": "6e615a1f615853ac2c21aed806d0aa19be909bfe",
+        "rev": "9c4da59d9ca9a2e2a42282287c5a367f6e82a5dd",
         "type": "github"
       },
       "original": {
         "owner": "cristianoliveira",
+        "ref": "main",
         "repo": "nixpkgs",
         "type": "github"
       }
