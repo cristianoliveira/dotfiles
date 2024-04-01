@@ -49,8 +49,6 @@
 
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-  services.xserver.libinput.touchpad.naturalScrolling = true;
 
   # Configure keymap in X11
   services.xserver = {
@@ -62,7 +60,17 @@
     # Keyboard repeat rate
     autoRepeatDelay = 100;
     autoRepeatInterval = 5;
+    # This wasn't working
+    # libinput.touchpad.naturalScrolling = true;
+    desktopManager.gnome = {
+      enable = true;
+      extraGSettingsOverrides = ''
+        [org/gnome/desktop/peripherals/touchpad]
+        natural-scroll=true
+      '';
+    };
   };
+
 
   # Maps esc when pressed 
   services.interception-tools = {
