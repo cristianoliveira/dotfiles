@@ -170,6 +170,7 @@
   ];
 
   # Enable the wakeup on USB feature
+  # TODO check if this is working properly, just committing to avoid losing the config
   powerManagement = {
     enable = true;
     powerDownCommands = ''
