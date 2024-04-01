@@ -7,7 +7,6 @@
 
     co-pkgs = {
       url = "github:cristianoliveira/nixpkgs/main";
-      flake = false;
     };
   };
 
@@ -17,7 +16,7 @@
       system = "x86_64-linux";
       modules = [
         ({ config, pkgs, ... }: { 
-          # Injects mypkgs into nixpkgs as custom
+          # Injects mypkgs into nixpkgs as pkgs.mypkgs
           nixpkgs.overlays = [ 
             (final: prev: { mypkgs = import co-pkgs { inherit pkgs; }; })
           ];

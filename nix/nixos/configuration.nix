@@ -145,6 +145,7 @@
     ripgrep
     jq
     funzzy
+    mypkgs.ergo
 
     # Essential pkgs
     curl
