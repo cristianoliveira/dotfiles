@@ -98,6 +98,10 @@ input "type:keyboard" {
 
     # Reload the configuration file
     bindsym $mod+Shift+c reload
+    
+    # Toggle between two most recently focused workspaces
+    bindsym $mod+grave workspace back_and_forth
+    bindsym $mod+Backslash workspace back_and_forth
 
     # Exit sway (logs you out of your Wayland session)
     mode "exit: [l]ogout, [r]eboot, [s]hutdown" {
