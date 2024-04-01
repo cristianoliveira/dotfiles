@@ -13,8 +13,7 @@ else
   # Linux
   NIXOS_CONFIG=$HOME/.dotfiles/nix#nixos
   echo "Rebuilding NixOS configuration..."
-  sudo nixos-rebuild switch --flake $HOME/.dotfiles/nix#nixos \
-    --show-trace
+  sudo nixos-rebuild switch --flake $HOME/.dotfiles/nix#nixos
 fi
 
 git commit

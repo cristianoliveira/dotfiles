@@ -44,7 +44,6 @@
     LC_TIME = "de_DE.UTF-8";
   };
 
-  # TODO merge all these configs declaring a set
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
