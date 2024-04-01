@@ -1,16 +1,15 @@
 {
   "keyMappings": [
     "",
-    "\nmap <C-h> goBack ",
-    "\nmap <C-l> goForward ",
     "\nmap <C-o> goBack ",
     "\nmap <C-i> goForward ",
+    "\nmap <C-j> goBack ",
     "\nmap <C-u> scrollPageUp ",
     "\nmap <C-d> scrollPageDown ",
 
     "\nmap <C-w> removeTab ",
-    "\nmap <C-k> previousTab ",
-    "\nmap <C-j> nextTab ",
+    "\nmap <C-h> previousTab ",
+    "\nmap <C-l> nextTab ",
     "\nmap 0 firstTab ",
     "\nmap - firstTab ",
     "\nmap $ lastTab ",

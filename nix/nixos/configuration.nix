@@ -169,6 +169,13 @@
     bitwarden
   ];
 
+  # Enable the wakeup on USB feature
+  powerManagement.powerDownCommands = ''
+    echo enabled > /sys/bus/usb/devices/usb1/power/wakeup
+    echo enabled > /sys/bus/usb/devices/usb2/power/wakeup
+    echo enabled > /sys/bus/usb/devices/usb3/power/wakeup
+    '';
+
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
