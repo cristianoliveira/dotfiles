@@ -170,11 +170,19 @@
   ];
 
   # Enable the wakeup on USB feature
-  powerManagement.powerDownCommands = ''
+  powerManagement = {
+    enable = true;
+    powerDownCommands = ''
     echo enabled > /sys/bus/usb/devices/usb1/power/wakeup
     echo enabled > /sys/bus/usb/devices/usb2/power/wakeup
     echo enabled > /sys/bus/usb/devices/usb3/power/wakeup
+    echo enabled > /sys/bus/usb/devices/usb4/power/wakeup
+    echo enabled > /sys/bus/usb/devices/usb5/power/wakeup
+    echo enabled > /sys/bus/usb/devices/usb6/power/wakeup
+    echo enabled > /sys/bus/usb/devices/usb7/power/wakeup
+    echo enabled > /sys/bus/usb/devices/usb8/power/wakeup
     '';
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
