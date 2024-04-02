@@ -16,4 +16,15 @@ else
   sudo nixos-rebuild switch --flake $HOME/.dotfiles/nix#nixos
 fi
 
-git commit
+## Ask if wants to commit, amend or discard changes
+echo "Do you want to commit the changes? [y/n]"
+read -r answer
+if [ "$answer" = "y" ]; then
+  echo "New commit? Otherwise amend to the last. [y/n]"
+  read -r answer
+  if [ "$answer" = "y" ]; then
+    git commit
+  else
+    git commit --amend
+  fi
+fi
