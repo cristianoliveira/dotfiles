@@ -4,6 +4,12 @@ set -e
 
 git add nix/ -p
 
+## if there is nothing to commit exit
+if [ -z "$(git status --porcelain)" ]; then
+  echo "No changes to commit."
+  exit 0
+fi
+
 if [ "$(uname)" = "Darwin" ]; then
   # OSX
   echo "Rebuilding Darwin configuration..."
