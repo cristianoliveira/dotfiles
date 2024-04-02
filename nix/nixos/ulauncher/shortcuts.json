@@ -1,0 +1,72 @@
+{
+    "d4afb845-2db9-415f-8e27-8a1b5d8b72fd": {
+        "id": "d4afb845-2db9-415f-8e27-8a1b5d8b72fd",
+        "name": "Google Search",
+        "keyword": "g",
+        "cmd": "https://google.com/search?q=%s",
+        "icon": "/nix/store/wbd27hsaidxyv5rgfqfrm1ibpyidqg1v-ulauncher-5.15.6/share/ulauncher/media/google-search-icon.png",
+        "is_default_search": true,
+        "run_without_argument": false,
+        "added": 1711204389.2216563
+    },
+    "d9628025-4b0f-4fc1-825c-cdc2b9857528": {
+        "id": "d9628025-4b0f-4fc1-825c-cdc2b9857528",
+        "name": "Stack Overflow",
+        "keyword": "so",
+        "cmd": "https://stackoverflow.com/search?q=%s",
+        "icon": "/nix/store/wbd27hsaidxyv5rgfqfrm1ibpyidqg1v-ulauncher-5.15.6/share/ulauncher/media/stackoverflow-icon.svg",
+        "is_default_search": true,
+        "run_without_argument": false,
+        "added": 1711204389.2216828
+    },
+    "a54ce177-7d9e-44f6-b1d3-082410dccd62": {
+        "id": "a54ce177-7d9e-44f6-b1d3-082410dccd62",
+        "name": "Wikipedia",
+        "keyword": "wiki",
+        "cmd": "https://en.wikipedia.org/wiki/%s",
+        "icon": "/nix/store/wbd27hsaidxyv5rgfqfrm1ibpyidqg1v-ulauncher-5.15.6/share/ulauncher/media/wikipedia-icon.png",
+        "is_default_search": true,
+        "run_without_argument": false,
+        "added": 1711204389.2217028
+    },
+    "8674be4c-de5d-43ca-8b93-a91e7076c758": {
+        "id": "8674be4c-de5d-43ca-8b93-a91e7076c758",
+        "name": "spotify",
+        "keyword": "spotify music",
+        "cmd": "/etc/profiles/per-user/cristianoliveira/bin/spotify\n",
+        "icon": null,
+        "is_default_search": false,
+        "run_without_argument": true,
+        "added": 1711289628.0024467
+    },
+    "bfc68ac6-fa4a-4c14-8441-19de63f5e205": {
+        "id": "bfc68ac6-fa4a-4c14-8441-19de63f5e205",
+        "name": "finder",
+        "keyword": "file",
+        "cmd": "xdg-open ~\n",
+        "icon": null,
+        "is_default_search": false,
+        "run_without_argument": true,
+        "added": 1711359901.1976807
+    },
+    "62b93c79-76bf-4ef3-9b0d-0edb5dbf881c": {
+        "id": "62b93c79-76bf-4ef3-9b0d-0edb5dbf881c",
+        "name": "bitwarden",
+        "keyword": "bitwarden password",
+        "cmd": "zsh -c \"bitwarden >> /dev/null\"",
+        "icon": null,
+        "is_default_search": false,
+        "run_without_argument": true,
+        "added": 1711814760.3343756
+    },
+    "48552abc-f9d4-4e65-9529-4172583cc3f5": {
+        "id": "48552abc-f9d4-4e65-9529-4172583cc3f5",
+        "name": "pulseaudio",
+        "keyword": "audio sound pulse",
+        "cmd": "pulseaudio",
+        "icon": null,
+        "is_default_search": false,
+        "run_without_argument": true,
+        "added": 1712037323.5273173
+    }
+}
