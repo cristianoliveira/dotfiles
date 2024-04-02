@@ -9,6 +9,7 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ../shared/direnv.nix
+      ./windows-manager.nix
     ];
 
   # Bootloader.
@@ -161,7 +162,6 @@
     python311Packages.pip
     go
     cargo #
-
     # GUIs
     alacritty
     bitwarden

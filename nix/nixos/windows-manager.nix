@@ -3,7 +3,7 @@
   environment.systemPackages = with pkgs; [
     # Windows manager
     sway
-  ]
+  ];
 
   programs.sway = {
     enable = true;
@@ -22,6 +22,10 @@
       mako # notification system developed by swaywm maintainer
       wmctrl #https://github.com/Ulauncher/Ulauncher/wiki/Hotkey-In-Wayland
 
+      # GUIs for common settings
+      blueman # bluetooth manager
+      pavucontrol # audio manager
+
       # Launcher
       dmenu # Dmenu is the default in the config but i recommend wofi since its wayland native
       ulauncher
@@ -34,5 +38,22 @@
       export _JAVA_AWT_WM_NONREPARENTING=1
       export MOZ_ENABLE_WAYLAND=1
     '';
+  };
+
+  services.blueman = {
+    enable = true;
+  };
+
+  # Run blueman-applet as a service
+  systemd.services.blueman-applet = {
+    description = "Bluetooth Manager";
+    after = [ "bluetooth.target" ];
+    wantedBy = [ "graphical-session.target" ];
+    serviceConfig = {
+      Type = "simple";
+      ExecStart = "${pkgs.blueman}/bin/blueman-applet";
+      Restart = "on-failure";
+      RestartSec = 5;
+    };
   };
 }

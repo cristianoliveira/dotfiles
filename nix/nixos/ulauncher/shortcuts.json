@@ -59,14 +59,14 @@
         "run_without_argument": true,
         "added": 1711814760.3343756
     },
-    "48552abc-f9d4-4e65-9529-4172583cc3f5": {
-        "id": "48552abc-f9d4-4e65-9529-4172583cc3f5",
+    "8deb14f1-2b1d-4bc9-9e98-e42099fad03e": {
+        "id": "8deb14f1-2b1d-4bc9-9e98-e42099fad03e",
         "name": "pulseaudio",
-        "keyword": "audio sound pulse",
-        "cmd": "pulseaudio",
+        "keyword": "sound audio",
+        "cmd": "pavucontrol",
         "icon": null,
         "is_default_search": false,
         "run_without_argument": true,
-        "added": 1712037323.5273173
+        "added": 1712041589.522722
     }
 }
