@@ -45,7 +45,7 @@ load {
 }
 
 volume master {
-  format = "VL %volume "
+  format = "🔉 %volume "
     format_muted = " %volume "
     device = "default"
     mixer = "Master"
@@ -53,7 +53,7 @@ volume master {
 }
 
 battery 0 {
-  format = "%status %percentage "
+  format = "🔋%status %percentage "
     format_down = " DOWN "
     status_chr = " CHARGING "
     status_bat = " BATTERY "
