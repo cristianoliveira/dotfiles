@@ -101,7 +101,7 @@ input "type:keyboard" {
     
     # Toggle between two most recently focused workspaces
     bindsym $mod+grave workspace back_and_forth
-    bindsym $mod+Backslash workspace back_and_forth
+    bindsym $mod+Ctrl+r workspace back_and_forth
 
     # Exit sway (logs you out of your Wayland session)
     mode "exit: [l]ogout, [r]eboot, [s]hutdown" {
@@ -260,7 +260,6 @@ bar {
         binding_mode       #2F343A #900000 #FFFFFF
     }
 
-    bindsym button1 exec pavucontrol
 }
 
 for_window [class=".*"] border pixel 1
