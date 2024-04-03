@@ -3,15 +3,15 @@
 #  TMUX [S]ELECT [P]ROJECT
 
 WORKSPACE_FOLDERS="$HOME/work $HOME/other"
-OTHER_FOLDERS="$HOME/.dotfiles"
 
 if [ -n "$1" ]; then
   tmux switch-client -t "$(\
-    echo "$@" | tr ' ' '\n' |
+    echo "$@" | tr ' ' '\n' | tr '_' '.' |
     fzf --height 50% \
         --layout=reverse \
         --border \
         --header '---------------TMUX - SELECT SESSION---------------' \
+        --preview "cat $HOME/{}/README.* || ls -la $HOME/{}"
   )"
   exit 0
 fi
@@ -24,13 +24,18 @@ else
       -mindepth 1 \
       -maxdepth 1 \
       -type d \
-      -follow)\n$OTHER_FOLDERS" |
+      -follow)" |
+    # Name the session using the worskspace + folder
+    # Eg.
+    # /user/name/work/myproject => work/myproject
+    # /user/name/other/oproject => other/oproject
+    #
     sed -E 's/(.*)\/(.*)\/([^\/]+)$/\2\/\3/g' |
     fzf --height 80% \
         --layout=reverse \
         --border \
         --header '---------------TMUX - SELECT PROJECT---------------' \
-        --preview "ls -la $HOME/{}"
+        --preview "cat $HOME/{}/README.* || ls -la $HOME/{}"
   )"
 fi
 
@@ -38,16 +43,7 @@ if [[ -z "$selected" ]]; then
   exit 0
 fi
 
-selected="$HOME/$selected"
-
-base_name=$(echo "$selected" | tr . _)
-
-# Name the session using the worskspace + folder
-# Eg.
-# /user/name/work/myproject => work/myproject
-# /user/name/other/oproject => other/oproject
-#
-selected_name=$(echo "$base_name" | sed -E 's/(.*)\/(.*)\/([^\/]+)$/\2\/\3/g')
+path_to_project="$HOME/$selected"
 
 if [[ -z $selected ]]; then
   exit 0
@@ -56,12 +52,12 @@ fi
 tmux_running=$(pgrep tmux)
 
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-  tmux new-session -s "$selected_name" -c "$selected"
+  tmux new-session -s "$selected" -c "$path_to_project"
   exit 0
 fi
 
-if ! tmux has-session -t="$selected_name" 2> /dev/null; then
-  tmux new-session -ds "$selected_name" -c "$selected"
+if ! tmux has-session -t="$selected" 2> /dev/null; then
+  tmux new-session -ds "$selected" -c "$path_to_project"
 fi
 
-tmux switch-client -t "$selected_name"
+tmux switch-client -t "$selected"
