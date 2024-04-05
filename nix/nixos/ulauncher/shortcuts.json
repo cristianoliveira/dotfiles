@@ -68,5 +68,15 @@
         "is_default_search": false,
         "run_without_argument": true,
         "added": 1712041589.522722
+    },
+    "59d49428-5407-47a8-baef-fbb085ee1be8": {
+        "id": "59d49428-5407-47a8-baef-fbb085ee1be8",
+        "name": "gimp",
+        "keyword": "gimp image editor",
+        "cmd": "gimp",
+        "icon": null,
+        "is_default_search": false,
+        "run_without_argument": true,
+        "added": 1712324844.6933632
     }
 }

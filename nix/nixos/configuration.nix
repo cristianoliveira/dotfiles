@@ -106,6 +106,7 @@
       spotify
       whatsapp-for-linux
       telegram-desktop
+
     ];
   };
 
@@ -146,9 +147,13 @@
     python311Packages.pip
     go
     cargo #
+
     # GUIs
     alacritty
     bitwarden
+
+    ## Media manipulation
+    gimp
   ];
 
   # Enable the wakeup on USB feature
