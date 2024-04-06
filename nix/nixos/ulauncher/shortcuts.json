@@ -33,7 +33,7 @@
         "id": "8674be4c-de5d-43ca-8b93-a91e7076c758",
         "name": "spotify",
         "keyword": "spotify music",
-        "cmd": "/etc/profiles/per-user/cristianoliveira/bin/spotify\n",
+        "cmd": "swaymsg [class='Spotify.*'] focus || spotify\n",
         "icon": null,
         "is_default_search": false,
         "run_without_argument": true,
@@ -73,10 +73,20 @@
         "id": "59d49428-5407-47a8-baef-fbb085ee1be8",
         "name": "gimp",
         "keyword": "gimp image editor",
-        "cmd": "gimp",
+        "cmd": "swaymsg [class='Gimp.*'] focus || gimp",
         "icon": null,
         "is_default_search": false,
         "run_without_argument": true,
         "added": 1712324844.6933632
+    },
+    "393bc251-6081-417a-9fe4-32a49bbf8f5d": {
+        "id": "393bc251-6081-417a-9fe4-32a49bbf8f5d",
+        "name": "alacritty",
+        "keyword": "terminal alacritty",
+        "cmd": "swaymsg [app_id=\"Alacritty\"] focus || alacritty",
+        "icon": null,
+        "is_default_search": false,
+        "run_without_argument": true,
+        "added": 1712386897.4835591
     }
 }

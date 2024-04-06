@@ -238,6 +238,9 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
+## To debug open windows/workspaces
+#bindsym $mod+z exec 'swaymsg -t get_tree > /tmp/sway_tree.json'
+
 #
 # Status Bar:
 #
