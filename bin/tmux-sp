@@ -11,7 +11,8 @@ if [ -n "$1" ]; then
         --layout=reverse \
         --border \
         --header '---------------TMUX - SELECT SESSION---------------' \
-        --preview "cat $HOME/{}/README.* || ls -la $HOME/{}"
+        --preview "cat $HOME/{}/README.* || ls -la $HOME/{}" | \
+        tr '.' '_'
   )"
   exit 0
 fi
@@ -51,13 +52,14 @@ fi
 
 tmux_running=$(pgrep tmux)
 
+selected_without_period=$(echo "$selected" | tr '.' '_')
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-  tmux new-session -s "$selected" -c "$path_to_project"
+  tmux new-session -s "$selected_without_period" -c "$path_to_project"
   exit 0
 fi
 
-if ! tmux has-session -t="$selected" 2> /dev/null; then
-  tmux new-session -ds "$selected" -c "$path_to_project"
+if ! tmux has-session -t="$selected_without_period" 2> /dev/null; then
+  tmux new-session -ds "$selected_without_period" -c "$path_to_project"
 fi
 
-tmux switch-client -t "$selected"
+tmux switch-client -t "$selected_without_period"
