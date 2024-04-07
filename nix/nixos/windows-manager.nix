@@ -43,17 +43,4 @@
   services.blueman = {
     enable = true;
   };
-
-  # Run blueman-applet as a service
-  systemd.services.blueman-applet = {
-    description = "Bluetooth Manager";
-    after = [ "bluetooth.target" ];
-    wantedBy = [ "graphical-session.target" ];
-    serviceConfig = {
-      Type = "simple";
-      ExecStart = "${pkgs.blueman}/bin/blueman-applet";
-      Restart = "on-failure";
-      RestartSec = 5;
-    };
-  };
 }
