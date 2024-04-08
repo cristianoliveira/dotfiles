@@ -78,5 +78,15 @@
         "is_default_search": false,
         "run_without_argument": true,
         "added": 1712386897.4835591
+    },
+    "44656781-6e4a-4a77-afad-5cde3c47c930": {
+        "id": "44656781-6e4a-4a77-afad-5cde3c47c930",
+        "name": "telegram",
+        "keyword": "telegram messenger",
+        "cmd": "telegram-desktop",
+        "icon": null,
+        "is_default_search": false,
+        "run_without_argument": true,
+        "added": 1712485512.884497
     }
 }
