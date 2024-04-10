@@ -190,7 +190,8 @@ input "type:keyboard" {
     bindsym $mod+Ctrl+e layout toggle split
 
     # Make the current focus fullscreen
-    bindsym $mod+Ctrl+f fullscreen
+    bindsym $mod+Ctrl+f layout toggle tabbed split
+    bindsym $mod+Ctrl+Shift+f fullscreen
 
     # Toggle the current focus between tiling and floating mode
     bindsym $mod+Shift+space floating toggle
