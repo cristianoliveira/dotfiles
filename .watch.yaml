@@ -3,6 +3,11 @@
 #
 # list here all the events and the commands that it should execute
 
+- name: validate sway
+  run: 'nix/nixos/sway/validate.sh'
+  change: 'nix/nixos/sway/**'
+  run_on_init: true
+
 - name: watch nix configs
   run: 'nix/rebuild.sh'
   change: 'nix/**'

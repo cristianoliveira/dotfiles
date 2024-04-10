@@ -1,0 +1,3 @@
+#!bash
+
+sway --validate
