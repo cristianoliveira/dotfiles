@@ -24,8 +24,6 @@ set $menu ulauncher | wmenu | xargs swaymsg exec --
 bindswitch lid:on output eDP-1 disable
 bindswitch lid:off output eDP-1 enable
 
-font pango:Monaco 8
-
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in @datadir@/backgrounds/sway/)
@@ -252,6 +250,7 @@ bar {
     # When the status_command prints a new line to stdout, swaybar updates.
     # The default just shows the current date and time.
     status_command i3status
+    mode hide
     tray_output primary
 
     colors {
@@ -265,6 +264,18 @@ bar {
     }
 
 }
+
+# default title & bar hidden
+font pango:Monaco 0
+default_border none 
+default_border normal 0
+default_floating_border normal 0
+titlebar_border_thickness 0                                                     
+titlebar_padding 0
+
+## Toggle title & bar visibility
+bindsym $mod+Ctrl+Shift+F11 exec swaymsg 'font pango:Monaco 8; default_border pixel 4; bar mode toggle'
+bindsym $mod+Ctrl+Shift+F12 exec swaymsg 'font pango:Monaco 0; default_border none; bar mode hide'
 
 for_window [class=".*"] border pixel 1
 for_window [class="Alacritty"] move container to workspace $ws2
