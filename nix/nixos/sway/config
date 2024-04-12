@@ -254,7 +254,7 @@ bar {
     tray_output primary
 
     colors {
-        statusline #ffffff
+        statusline #323232
         background #323232
         inactive_workspace #32323200 #32323200 #5c5c5c
         focused_workspace  #4C7899 #285577 #FFFFFF
@@ -265,17 +265,17 @@ bar {
 
 }
 
-# default title & bar hidden
-font pango:Monaco 0
-default_border none 
+# default title & bar aidden
+font pango:Monaco 7
 default_border normal 0
 default_floating_border normal 0
 titlebar_border_thickness 0                                                     
 titlebar_padding 0
 
 ## Toggle title & bar visibility
-bindsym $mod+Ctrl+Shift+F11 exec swaymsg 'font pango:Monaco 8; default_border pixel 4; bar mode toggle'
-bindsym $mod+Ctrl+Shift+F12 exec swaymsg 'font pango:Monaco 0; default_border none; bar mode hide'
+# This was crashing sway
+# bindsym $mod+Ctrl+Shift+F11 exec swaymsg bar mode hide
+# bindsym $mod+Ctrl+Shift+F12 exec swaymsg bar mode visible
 
 for_window [class=".*"] border pixel 1
 for_window [class="Alacritty"] move container to workspace $ws2
