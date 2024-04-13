@@ -11,6 +11,7 @@
       ../shared/direnv.nix
       ./windows-manager.nix
       ./mappings/dual-keys.nix
+      ./streaming.nix
     ];
 
   # Bootloader.
