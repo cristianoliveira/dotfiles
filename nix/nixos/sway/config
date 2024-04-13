@@ -82,7 +82,7 @@ input "type:keyboard" {
     bindsym $mod+w kill # OSX bad habit
 
     # Start your launcher
-    bindsym Ctrl+Space exec $menu
+    # bindsym Ctrl+Space exec $menu
 
     # Start browser
     bindsym $mod+Mod4+0 exec brave
