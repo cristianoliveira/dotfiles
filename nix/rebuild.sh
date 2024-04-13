@@ -2,6 +2,8 @@
 #
 set -e
 
+echo "Use SKIP_COMMIT if you want to skip git steps"
+
 # If SKIP_COMMIT is not set skip git steps
 if [ -z "$SKIP_COMMIT" ]; then
   git add nix/ -p
@@ -32,7 +34,7 @@ fi
 if [ -z "$SKIP_COMMIT" ]; then
   echo "Do you want to commit the changes? [y/n]"
   read -r answer
-  if [ "$answer" = "y" ]; then
+  rf [ "$answer" = "y" ]; then
     echo "New commit? Otherwise amend to the last. [y/n]"
     read -r answer
     if [ "$answer" = "y" ]; then
