@@ -88,5 +88,15 @@
         "is_default_search": false,
         "run_without_argument": true,
         "added": 1712485512.884497
+    },
+    "09d0c949-8851-43ef-9d52-d594730f30e0": {
+        "id": "09d0c949-8851-43ef-9d52-d594730f30e0",
+        "name": "gnome shell",
+        "keyword": "gnome shell config settings",
+        "cmd": "gnome-shell --nested",
+        "icon": null,
+        "is_default_search": false,
+        "run_without_argument": true,
+        "added": 1712999891.7264647
     }
 }
