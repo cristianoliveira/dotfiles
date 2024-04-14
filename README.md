@@ -1,12 +1,14 @@
 # dotfiles
 
-My dotfiles for setting up a new development environment. :package: :sunglasses: :sunglasses: :package:
+My "dotfiles" now configure my development environment entirely.
 
-![Screenshot 2023-09-15 at 09 13 35](https://github.com/cristianoliveira/dotfiles/assets/3959744/d7ad7fe0-6ce7-4825-aa95-eb5e6ee98b3d)
+![systemprint](https://github.com/cristianoliveira/dotfiles/assets/3959744/808ecffc-f4b3-426a-ab1c-fa589ee702fd)
 
 # My setup
 
-          ▗▄▄▄       ▗▄▄▄▄    ▄▄▄▖            cristianoliveira@nixos
+```bash
+
+          ▗▄▄▄       ▗▄▄▄▄    ▄▄▄▖            me@localhost
           ▜███▙       ▜███▙  ▟███▛            ----------------------
            ▜███▙       ▜███▙▟███▛             OS: NixOS 23.11.20240322.56528ee (Tapir) x86_64
             ▜███▙       ▜██████▛              Host: Dell Inc. 06YPRH
@@ -27,16 +29,37 @@ My dotfiles for setting up a new development environment. :package: :sunglasses:
          ▟███▛  ▜███▙       ▜███▙
          ▝▀▀▀    ▀▀▀▀▘       ▀▀▀▘
 
---- 
+--------------------
 
+                    c.'          me@localhost
+                 ,xNMM.          ---------------------------------
+               .OMMMMo           OS: macOS 14.3.1 23D60 arm64
+               lMM"              Host: Mac14,9
+     .;loddo:.  .olloddol;.      Kernel: 23.3.0
+   cKMMMMMMMMMMNWMMMMMMMMMM0:    Uptime: 4 days, 22 hours, 41 mins
+ .KMMMMMMMMMMMMMMMMMMMMMMMWd.    Packages: 256 (brew), 469 (nix-system)
+ XMMMMMMMMMMMMMMMMMMMMMMMX.      Shell: bash 5.2.26
+;MMMMMMMMMMMMMMMMMMMMMMMM:       Resolution: 1920x1080 @ FHDHz, 3024x1964
+:MMMMMMMMMMMMMMMMMMMMMMMM:       DE: Aqua
+.MMMMMMMMMMMMMMMMMMMMMMMMX.      WM: yabai
+ kMMMMMMMMMMMMMMMMMMMMMMMMWd.    Terminal: tmux
+ 'XMMMMMMMMMMMMMMMMMMMMMMMMMMk   CPU: Apple M2 Pro
+  'XMMMMMMMMMMMMMMMMMMMMMMMMK.   GPU: Apple M2 Pro
+    kMMMMMMMMMMMMMMMMMMMMMMd     Memory: 20678MiB / 32768MiB
+     ;KMMMMMMMWXXWMMMMMMMk.
+       "cooc*"    "*coo'"
+```
 
 # What do I use?
 
+  - NIX (for package and system management)
   - ZSH (oh-my-zsh)
   - Neovim
   - Tmux
-  - Allacrity 
-  - A lot of pre-installed apps. See in: `osx/Brewfile` or `linux/packages.txt`
+  - Alacrity
+  - WM: yabai (osx) / sway (linux)
+  - Launcher: alfred (osx) / ulauncher (linux)
+  - Check `nix/*` folder for other dependencies
 
 ### I work mostly with
 
