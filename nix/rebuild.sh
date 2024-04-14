@@ -34,7 +34,7 @@ fi
 if [ -z "$SKIP_COMMIT" ]; then
   echo "Do you want to commit the changes? [y/n]"
   read -r answer
-  rf [ "$answer" = "y" ]; then
+  if [ "$answer" = "y" ]; then
     echo "New commit? Otherwise amend to the last. [y/n]"
     read -r answer
     if [ "$answer" = "y" ]; then
