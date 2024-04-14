@@ -47,3 +47,12 @@ snippet node "nodejs package"
 		(pkgs.yarn.override { nodejs = pkgs.nodejs; })
 	];
 endsnippet
+
+# Generate a nix module boilerplate
+snippet module "nix module boilerplate"
+{ config, pkgs, lib, ... }:
+{
+	environment.systemPackages = [
+	];
+}
+endsnippet
