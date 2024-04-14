@@ -98,5 +98,15 @@
         "is_default_search": false,
         "run_without_argument": true,
         "added": 1712999891.7264647
+    },
+    "a7810ddb-ee94-47f4-b4b9-c8500afe33e6": {
+        "id": "a7810ddb-ee94-47f4-b4b9-c8500afe33e6",
+        "name": "screenshot",
+        "keyword": "screenshot printscreen",
+        "cmd": "grim -g \"$(slurp)\"",
+        "icon": null,
+        "is_default_search": false,
+        "run_without_argument": true,
+        "added": 1713069509.6818988
     }
 }
