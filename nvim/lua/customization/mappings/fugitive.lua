@@ -20,3 +20,5 @@ nnoremap('<leader>grs', ':G reset % <CR>')
 
 nnoremap('<leader>gh', ':GBrowse :1<CR>')
 vnoremap('<leader>gh', ':GBrowse :1<CR>')
+
+nnoremap('<leader>glf', ':G l -- % <CR>')
