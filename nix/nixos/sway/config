@@ -24,6 +24,12 @@ set $menu ulauncher | wmenu | xargs swaymsg exec --
 bindswitch lid:on output eDP-1 disable
 bindswitch lid:off output eDP-1 enable
 
+font pango:Monaco 8
+default_border normal 0
+default_floating_border normal 0
+titlebar_border_thickness 0                                                     
+titlebar_padding 0
+
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in @datadir@/backgrounds/sway/)
@@ -254,7 +260,7 @@ bar {
     tray_output primary
 
     colors {
-        statusline #323232
+        statusline #ffffff
         background #323232
         inactive_workspace #32323200 #32323200 #5c5c5c
         focused_workspace  #4C7899 #285577 #FFFFFF
@@ -264,18 +270,6 @@ bar {
     }
 
 }
-
-# default title & bar aidden
-font pango:Monaco 7
-default_border normal 0
-default_floating_border normal 0
-titlebar_border_thickness 0                                                     
-titlebar_padding 0
-
-## Toggle title & bar visibility
-# This was crashing sway
-# bindsym $mod+Ctrl+Shift+F11 exec swaymsg bar mode hide
-# bindsym $mod+Ctrl+Shift+F12 exec swaymsg bar mode visible
 
 for_window [class=".*"] border pixel 1
 for_window [class="Alacritty"] move container to workspace $ws2
