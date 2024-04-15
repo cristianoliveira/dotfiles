@@ -24,8 +24,6 @@ if [ "$(uname)" = "Darwin" ]; then
   # OSX (darwin)
   echo "Rebuilding Darwin configuration..."
   NIXOS_CONFIG=$HOME/.dotfiles/nix
-  echo "Darwin is not supported yet."
-  exit 0
   darwin-rebuild switch --flake $HOME/.dotfiles/nix#darwin
 else
   # NixOS (linux)
