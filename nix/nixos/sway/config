@@ -181,6 +181,9 @@ input "type:keyboard" {
     # Old habits
     bindsym $mod+Tab workspace next
     bindsym $mod+Shift+Tab workspace prev
+
+    # TODO adds a window next
+    # bindsym $mod+Ctrl+n window next
 #
 # Layout stuff:
 #
