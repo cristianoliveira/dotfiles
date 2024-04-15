@@ -161,10 +161,6 @@ cmd + ctrl - j : yabai -m window --focus south
 cmd + ctrl - k : yabai -m window --focus north
 cmd + ctrl - l : yabai -m window --focus east
 
-# Focus next window
-cmd + ctrl - n : yabai -m window --focus next
-cmd + ctrl - p : yabai -m window --focus next
-
 # Close window
 cmd + shift - q : yabai -m window --close
 cmd + shift - w : yabai -m window --close
@@ -189,7 +185,6 @@ cmd + shift - 5 : yabai -m window --space 5
 cmd + shift - n : yabai -m window --space next
 cmd + shift - p : yabai -m window --space prev
 
-
 # Focus space
 # In order to make it work,
 # you need to enable the 'sudo yabai --load-sa' command
@@ -203,6 +198,9 @@ cmd + shift - p : yabai -m window --space prev
 #
 # Or you can setup using OSX mission control
 # Settings -> Accessibility -> Keyboard -> Keyboard Shortcuts -> Mission Control
+
+# Focus recent space 
+cmd + ctrl - r : yabai -m space --focus recent
 
 # Toggle the current focus between tiling and floating mode
 cmd + ctrl - space : yabai -m window --toggle float
