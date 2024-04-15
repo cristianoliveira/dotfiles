@@ -252,6 +252,7 @@ mode "resize" {
     # center
     bindsym F11 move position center
 
+    bindsym F5 resize set height 100ppt; resize set width 100ppt; move position center
     bindsym F6 resize set height $heightLarge; resize set width $widthLarge; move position center
     # sway: move x y
     bindsym F7 resize set height $heightMedium; resize set width $widthMedium; move position 58ppt 53ppt
