@@ -161,6 +161,10 @@ cmd + ctrl - j : yabai -m window --focus south
 cmd + ctrl - k : yabai -m window --focus north
 cmd + ctrl - l : yabai -m window --focus east
 
+# Focus next window
+cmd + ctrl - n : yabai -m window --focus next
+cmd + ctrl - p : yabai -m window --focus next
+
 # Close window
 cmd + shift - q : yabai -m window --close
 cmd + shift - w : yabai -m window --close
@@ -184,6 +188,7 @@ cmd + shift - 5 : yabai -m window --space 5
 # Move window to next space
 cmd + shift - n : yabai -m window --space next
 cmd + shift - p : yabai -m window --space prev
+
 
 # Focus space
 # In order to make it work,
