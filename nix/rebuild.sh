@@ -4,6 +4,8 @@ set -e
 
 echo "Use SKIP_COMMIT if you want to skip git steps"
 
+# fail if dar
+
 # If SKIP_COMMIT is not set skip git steps
 if [ -z "$SKIP_COMMIT" ]; then
   git add nix/ -p
@@ -22,7 +24,9 @@ if [ "$(uname)" = "Darwin" ]; then
   # OSX
   echo "Rebuilding Darwin configuration..."
   NIXOS_CONFIG=$HOME/.dotfiles/nix#darwin
-  darwin-rebuild switch --flake $HOME/.dotfiles/nix#darwin
+  # darwin-rebuild switch --flake $HOME/.dotfiles/nix#darwin
+  echo "Darwin is not supported yet."
+  exit 0
 else
   # Linux
   NIXOS_CONFIG=$HOME/.dotfiles/nix#nixos
