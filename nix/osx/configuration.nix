@@ -26,7 +26,6 @@
     fzf
     ripgrep
     jq
-    funzzy
     colima # container runtimes on macOS (docker)
     docker
     docker-compose
@@ -57,6 +56,10 @@
     skhd
 
     mypkgs.ergo
+
+    # pkgs.funzzy
+    # This uses the nightly version of funzzy
+    mypkgs.funzzy
   ];
 
   # Enable yabai and skhd services
