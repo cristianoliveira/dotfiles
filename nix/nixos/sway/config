@@ -108,7 +108,6 @@ input "type:keyboard" {
     
     # Toggle between two most recently focused workspaces
     bindsym $mod+grave workspace back_and_forth
-    bindsym $mod+Ctrl+r workspace back_and_forth
 
     # Exit sway (logs you out of your Wayland session)
     mode "exit: [l]ogout, [r]eboot, [s]hutdown" {
@@ -197,7 +196,7 @@ input "type:keyboard" {
     bindsym $mod+Ctrl+e layout toggle split
 
     # Make the current focus fullscreen
-    bindsym $mod+Ctrl+f layout toggle tabbed split; resize set height 100ppt; resize set width 100ppt; move position center
+    bindsym $mod+Ctrl+f floating toggle; resize set height 100ppt; resize set width 100ppt; move position center
     bindsym $mod+Ctrl+Shift+f fullscreen
 
     # Toggle the current focus between tiling and floating mode
@@ -221,7 +220,7 @@ input "type:keyboard" {
     # Show the next scratchpad window or hide the focused scratchpad window.
     # If there are multiple scratchpad windows, this command cycles through them.
     # bindsym $mod+Ctrl+m scratchpad show
-    bindsym $mod+Ctrl+n scratchpad show
+    bindsym $mod+Ctrl+slash scratchpad show
 #
 # Resizing containers:
 #
