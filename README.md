@@ -6,6 +6,8 @@ My "dotfiles" now configure my development environment entirely.
 
 # My setup
 
+I try to keep the DX of both systems as close as possible. As well as the overal UI/UX. I'd say they are 90% similar.
+
 ```bash
 
           ▗▄▄▄       ▗▄▄▄▄    ▄▄▄▖            me@localhost
