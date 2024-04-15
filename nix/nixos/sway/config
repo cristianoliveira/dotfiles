@@ -197,7 +197,7 @@ input "type:keyboard" {
     bindsym $mod+Ctrl+e layout toggle split
 
     # Make the current focus fullscreen
-    bindsym $mod+Ctrl+f layout toggle tabbed split
+    bindsym $mod+Ctrl+f layout toggle tabbed split; resize set height 100ppt; resize set width 100ppt; move position center
     bindsym $mod+Ctrl+Shift+f fullscreen
 
     # Toggle the current focus between tiling and floating mode
@@ -220,7 +220,8 @@ input "type:keyboard" {
 
     # Show the next scratchpad window or hide the focused scratchpad window.
     # If there are multiple scratchpad windows, this command cycles through them.
-    bindsym $mod+Ctrl+m scratchpad show
+    # bindsym $mod+Ctrl+m scratchpad show
+    bindsym $mod+Ctrl+n scratchpad show
 #
 # Resizing containers:
 #
