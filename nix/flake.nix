@@ -10,7 +10,7 @@
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
     co-pkgs = {
-      url = "github:cristianoliveira/nixpkgs";
+      url = "github:cristianoliveira/nixpkgs/develop";
     };
   };
 

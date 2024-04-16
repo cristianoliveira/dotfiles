@@ -16,9 +16,12 @@
     fzf
     ripgrep
     jq
-    funzzy
-    mypkgs.ergo
     ngrok
+
+    # My custom pkgs
+    # pkgs.funzzy
+    mypkgs.funzzy
+    mypkgs.ergo
 
     # Essential pkgs
     curl
