@@ -196,7 +196,7 @@ input "type:keyboard" {
     bindsym $mod+Ctrl+e layout toggle split
 
     # Make the current focus fullscreen
-    bindsym $mod+Ctrl+f floating toggle; resize set height 100ppt; resize set width 100ppt; move position center
+    bindsym $mod+Ctrl+f floating toggle; resize set height 100ppt; resize set width 100ppt; move position center; focus mode_toggle
     bindsym $mod+Ctrl+Shift+f fullscreen
 
     # Toggle the current focus between tiling and floating mode
