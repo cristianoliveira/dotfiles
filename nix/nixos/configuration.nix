@@ -9,9 +9,9 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./essential-pckgs.nix
-      ./windows-manager.nix
       ./mappings/xserver.nix
       ./mappings/dual-keys.nix
+      ./windows-manager.nix
       ../shared/direnv.nix
     ];
 

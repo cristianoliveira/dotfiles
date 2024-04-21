@@ -303,6 +303,5 @@ for_window [title="^.icture-in-.icture$"] \
 # Start blueman-applet
 # Since it depends on $DISPLAY it must be started after sway
 exec zsh -c "blueman-applet &"
-exec zsh -c "setxkbmap -option altwin:swap_alt_win"
 
 include @sysconfdir@/sway/config.d/*
