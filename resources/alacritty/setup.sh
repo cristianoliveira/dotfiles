@@ -2,6 +2,6 @@
 
 echo "Setting up alacritty"
 
-mv -f "$HOME"/.config/alacritty "$HOME"/.config/alacritty.bak
-mkdir -p "$HOME"/.config/alacritty
+# Backup only when folder exist
+[ -d "$HOME"/.config/alacritty ] && mv -f "$HOME"/.config/alacritty "$HOME"/.config/alacritty.bak
 ln -sf "$HOME"/.dotfiles/resources/alacritty "$HOME"/.config/alacritty
