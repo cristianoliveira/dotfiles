@@ -1,17 +1,7 @@
 #!/bin/sh
-
-# This is probably not necessary
-# TODO test without this
-# sudo ln -s $HOME/.dotfiles/nix/nixos/configuration.nix /etc/nixos/
-# sudo ln -s $HOME/.dotfiles/nix/nixos/hardware-configuration.nix /etc/nixos/
-
-# link all configs in ~/.config
+echo "Creating .config/nix folder"
 mkdir -p $HOME/.config
-$HOME/.dotfiles/nix/nixos/sway/setup.sh
-$HOME/.dotfiles/nix/nixos/i3status/setup.sh
-$HOME/.dotfiles/nix/nixos/fonts/setup.sh
-
-$HOME/.dotfiles/resources/alacritty/setup.sh
+mkdir -p $HOME/.config/nix
 
 if ! command -v nix-env &> /dev/null; then
   echo "Nix is not installed. Make sure to install it."
@@ -23,6 +13,19 @@ if [ ! -f "$HOME/.config/nix/nix.conf" ]; then
   mkdir -p "$HOME/.config/nix"
   ln -s "$HOME/.dotfiles/nix/nix.conf" "$HOME/.config/nix/nix.conf"
 fi
+
+# This is probably not necessary
+# TODO test without this
+echo "Cleaning up /etc/nixos/*"
+sudo mv /etc/nixos /tmp/nixosbkp
+sudo ln -s $HOME/.dotfiles/nix/nixos /etc/nixos
+sudo nixos-generate-config
+
+# link all configs in ~/.config
+$HOME/.dotfiles/nix/nixos/sway/setup.sh
+$HOME/.dotfiles/nix/nixos/i3status/setup.sh
+$HOME/.dotfiles/nix/nixos/fonts/setup.sh
+$HOME/.dotfiles/resources/alacritty/setup.sh
 
 # So environment is updated before running rebuild.sh
 sh -c "$HOME/.dotfiles/nix/rebuild.sh"
