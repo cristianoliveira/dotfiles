@@ -10,7 +10,7 @@
     # Configure keymap in X11
     layout = "us";
     xkbVariant = "";
-    xkbOptions = "altwin:swap_lalt_lwin";
+    # xkbOptions = "altwin:swap_lalt_lwin";
 
     # Keyboard repeat rate
     # autoRepeatDelay = 100;
