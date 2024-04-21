@@ -21,7 +21,7 @@
     # My custom pkgs
     # pkgs.funzzy
     mypkgs.funzzy
-    mypkgs.ergo
+    # mypkgs.ergo
 
     # Essential pkgs
     curl

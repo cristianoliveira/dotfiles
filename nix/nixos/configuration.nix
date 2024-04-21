@@ -7,6 +7,7 @@
 {
   imports =
     [ # Include the results of the hardware scan.
+      ./hardware-configuration.nix
       ./essential-pckgs.nix
       ./mappings/xserver.nix
       ./mappings/dual-keys.nix
@@ -164,5 +165,5 @@
   # Experimental features
   # If you used nix/nixos/setup.sh to setup your system this feature is already enabled
   # via the $HOME/.config/nix/nix.conf file
-  # nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 }
