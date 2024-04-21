@@ -10,6 +10,7 @@
       ./hardware-configuration.nix
       ./essential-pckgs.nix
       ./windows-manager.nix
+      ./mappings/xserver.nix
       ./mappings/dual-keys.nix
       ../shared/direnv.nix
     ];
@@ -47,31 +48,6 @@
     LC_TIME = "de_DE.UTF-8";
   };
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-
-  # Configure keymap in X11
-  services.xserver = {
-    layout = "us";
-    xkbVariant = "";
-
-    # Keyboard repeat rate
-    autoRepeatDelay = 100;
-    autoRepeatInterval = 5;
-    # This wasn't working
-    # libinput.touchpad.naturalScrolling = true;
-    desktopManager.gnome = {
-      enable = true;
-      extraGSettingsOverrides = ''
-        [org/gnome/desktop/peripherals/touchpad]
-        natural-scroll=true
-      '';
-    };
-  };
-
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
@@ -91,9 +67,6 @@
     # no need to redefine it in your config for now)
     #media-session.enable = true;
   };
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.cristianoliveira = {

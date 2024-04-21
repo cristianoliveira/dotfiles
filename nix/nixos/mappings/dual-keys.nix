@@ -1,11 +1,8 @@
 { config, pkgs, ... }: 
 {
-  # Maps caps to ctrl
-  services.xserver.xkbOptions = "ctrl:swapcaps";
-
   # Maps esc when pressed 
   services.interception-tools = {
-    enable = true;
+    enable = false;
     plugins = with pkgs; [
       interception-tools-plugins.dual-function-keys
     ];

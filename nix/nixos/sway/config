@@ -93,9 +93,6 @@ input "type:keyboard" {
     # Start your launcher
     bindsym Ctrl+Space exec $menu
 
-    # Start browser
-    bindsym $mod+Mod4+0 exec brave
-
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
     # Despite the name, also works for non-floating windows.
@@ -306,5 +303,6 @@ for_window [title="^.icture-in-.icture$"] \
 # Start blueman-applet
 # Since it depends on $DISPLAY it must be started after sway
 exec zsh -c "blueman-applet &"
+exec zsh -c "setxkbmap -option altwin:swap_alt_win"
 
 include @sysconfdir@/sway/config.d/*
