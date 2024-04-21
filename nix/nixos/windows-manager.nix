@@ -4,6 +4,8 @@
     # Windows manager
     sway
   ];
+  
+  services.gnome.gnome-keyring.enable = true;
 
   programs.sway = {
     enable = true;

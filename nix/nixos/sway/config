@@ -36,7 +36,7 @@ font pango:Monaco 8
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in @datadir@/backgrounds/sway/)
-output * bg ~/.config/os/wallpaper.jpeg fill 
+output * bg $HOME/.dotfiles/resources/wallpaper.jpg fill 
 #
 # Example configuration:
 #

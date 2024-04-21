@@ -5,7 +5,7 @@
     # Enable the X11 windowing system.
     enable = true;
     # Enable the GNOME Desktop Environment.
-    # displayManager.gdm.enable = true;
+    displayManager.gdm.enable = true;
 
     # Configure keymap in X11
     layout = "us";

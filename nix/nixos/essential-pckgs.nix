@@ -4,8 +4,6 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     # Development environment
-    vim
-    neovim 
     git
     tmux
     zsh
@@ -17,6 +15,12 @@
     ripgrep
     jq
     ngrok
+
+    # Nvim stuff
+    vim
+    neovim 
+    python311Packages.pynvim
+    python311Packages.pip
 
     # My custom pkgs
     # pkgs.funzzy
