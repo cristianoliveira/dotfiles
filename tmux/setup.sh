@@ -10,3 +10,8 @@ if [ -f "$HOME"/.tmux.conf ]; then
 fi
 
 ln -s "$HOME"/.dotfiles/tmux/tmux.conf "$HOME"/.tmux.conf
+
+# Create work and other directories
+echo "Creating project directories: work/ and other/"
+mkdir -p "$HOME"/work
+mkdir -p "$HOME"/other

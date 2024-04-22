@@ -9,6 +9,16 @@ if [ -d "$HOME"/.config/nvim ]; then
   mv "$HOME"/.config/nvim /tmp/"$BACKUPNAME"
 fi
 
+if [ -d "$HOME"/.local/share/nvim ]; then
+  echo "Backing up your current state: mazon & lazy.nvim"
+  mv "$HOME"/.local/share/nvim /tmp/"$BACKUPNAME"/sharenvim
+fi
+
+mkdir -p "$HOME"/.local/share/nvim
+mkdir -p "$HOME"/.local/share/nvim/lazy
+git clone --filter=blob:none --branch=stable \
+  https://github.com/folke/lazy.nvim.git "$HOME"/.local/share/nvim/lazy
+
 ln -s "$HOME"/.dotfiles/nvim "$HOME"/.config/nvim
 
 # before nix
