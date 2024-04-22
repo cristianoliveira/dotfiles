@@ -72,9 +72,11 @@ output * bg $HOME/.dotfiles/resources/wallpaper.jpg fill
 # Read `man 5 sway-input` for more information about this section.
 
 input "type:keyboard" {
-    xkb_layout us,de
-    xkb_variant ,nodeadkeys
-    xkb_options caps:ctrl_modifier
+    xkb_layout us
+    xkb_variant altgr-intl
+    xkb_options caps:ctrl_modifier,altwin:swap_lalt_lwin
+    repeat_delay 200
+    repeat_rate 30
 }
 
 ### Key bindings
