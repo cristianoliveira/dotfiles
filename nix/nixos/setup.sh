@@ -41,6 +41,8 @@ echo "Setting up nixos applications"
 $HOME/.dotfiles/nix/nixos/sway/setup.sh
 $HOME/.dotfiles/nix/nixos/i3status/setup.sh
 $HOME/.dotfiles/nix/nixos/fonts/setup.sh
+$HOME/.dotfiles/nix/nixos/ulauncher/setup.sh
+$HOME/.dotfiles/nix/nixos/rclone/setup.sh
 
 echo "Setting up shared applications"
 $HOME/.dotfiles/nvim/setup.sh
