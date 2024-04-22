@@ -9,12 +9,12 @@
 
     # Configure keymap in X11
     layout = "us";
-    xkbVariant = "";
+    xkbVariant = "altgr-intl";
     xkbOptions = "altwin:swap_lalt_lwin";
 
     # Keyboard repeat rate
-    # autoRepeatDelay = 100;
-    # autoRepeatInterval = 5;
+    autoRepeatDelay = 200;
+    autoRepeatInterval = 10;
 
     # Enable touchpad support (enabled default in most desktopManager).
     libinput.enable = true;
