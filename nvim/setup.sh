@@ -1,8 +1,15 @@
 #!/usr/bin/env bash
 
-NVIM_CONFIG_PATH=~/.config/nvim
-mv $NVIM_CONFIG_PATH $DOTFILES_BKP_PATH
-ln -s "$HOME"/.dotfiles/nvim $NVIM_CONFIG_PATH
+set -e
+
+echo "Configuring nvim"
+
+if [ -d "$HOME"/.config/nvim ]; then
+  echo "Backing up your current configs: nvim"
+  mv "$HOME"/.config/nvim /tmp/"$BACKUPNAME"
+fi
+
+ln -s "$HOME"/.dotfiles/nvim "$HOME"/.config/nvim
 
 # before nix
 # pip install --user --upgrade pynvim

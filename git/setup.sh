@@ -1,17 +1,27 @@
-#!/bin/sh
+#!/usr/bin/env bash
+
+set -e
 
 echo "Setting up git configurations."
 
-mv -f "$HOME"/.gitconfig "$HOME/.gitconfig.bkp-$(date +%s)"
-mv -f "$HOME"/.gitignore "$HOME/.gitignore.bkp-$(date +%s)"
+if [ -f "$HOME"/.gitconfig ]; then
+  echo "Backing up your current configs: gitconfig"
+  mv -f "$HOME"/.gitconfig /tmp/"$BACKUPNAME"
+fi
+
+if [ -f "$HOME"/.gitignore ]; then
+  echo "Backing up your current configs: gitignore"
+  mv -f "$HOME"/.gitignore /tmp/"$BACKUPNAME"
+fi
 
 ln -s "$HOME"/.dotfiles/git/gitconfig "$HOME"/.gitconfig
 ln -s "$HOME"/.dotfiles/git/gitignore "$HOME"/.gitignore
 
 # ask for user name and email
-echo "Please enter your git user name:"
+echo "---- Setting up GIT ----"
+echo ">>> Please enter your git user name:"
 read git_user_name
-echo "Please enter your git email:"
+echo ">>> Please enter your git email:"
 read git_email
 
 if [ -z "$git_user_name" ] || [ -z "$git_email" ]; then

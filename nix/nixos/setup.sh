@@ -1,6 +1,17 @@
-#!/bin/sh
+#!/usr/bin/env bash
+
+set -e
+
 echo "Creating .config/nix folder"
-mkdir -p $HOME/.config
+
+BACKUPNAME="nixbkp-$(date +%s)"
+echo "Backup found in /tmp/$BACKUPNAME"
+
+if [ -d "$HOME"/.config ]; then
+  echo "Backing up your current configs: .config"
+  mv $HOME/.config /tmp/$BACKUPNAME
+fi;
+
 mkdir -p $HOME/.config/nix
 
 if ! command -v nix-env &> /dev/null; then
@@ -17,7 +28,7 @@ fi
 # This is probably not necessary
 # TODO test without this
 echo "Cleaning up /etc/nixos/*"
-sudo mv /etc/nixos /tmp/nixosbkp
+sudo mv /etc/nixos /tmp/"$BACKUPNAME"
 sudo ln -s $HOME/.dotfiles/nix/nixos /etc/nixos
 sudo nixos-generate-config
 
@@ -32,6 +43,7 @@ $HOME/.dotfiles/nix/shared/alacritty/setup.sh
 $HOME/.dotfiles/nvim/setup.sh
 $HOME/.dotfiles/tmux/setup.sh
 $HOME/.dotfiles/git/setup.sh
+$HOME/.dotfiles/zsh/setup.sh
 
 # So environment is updated before running rebuild.sh
 sh -c "$HOME/.dotfiles/nix/rebuild.sh"

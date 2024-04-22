@@ -1,8 +1,12 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-echo "Setting up tmux configurations."
-mkdir -p "$HOME"/.config
-#!/bin/sh
+set -e
 
-[ -d "$HOME"/.config/.tmux.conf ] && mv -f "$HOME"/.tmux.conf "$HOME/.tmux.conf.bkp-$(date +%s)"
+echo "Setting up tmux"
+
+if [ -f "$HOME"/.tmux.conf ]; then
+  echo "Backing up your current configs: tmux"
+  mv "$HOME"/.tmux.conf /tmp/"$BACKUPNAME"
+fi
+
 ln -s "$HOME"/.dotfiles/tmux/tmux.conf "$HOME"/.tmux.conf
