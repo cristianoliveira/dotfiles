@@ -1,7 +1,7 @@
 set -e # fail on error
 set -u # do not allow unset variables
 
-OS=$1
+OS=f$1
 if [ "$OS" = "" ]
 then
   echo "Missing OS "
@@ -9,10 +9,24 @@ then
   exit
 fi
 
-# Check if .dotfiles already is present then ignore cloning
+echo "Clonning dotfiles"
+nix-shell \
+  -p git vim \
+  --command "git clone https://github.com/cristianoliveira/dotfiles.git ~/.dotfiles"
 
-git clone git@github.com:cristianoliveira/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 
-make $OS
+## IF OS is osx
+if [ "$OS" = "osx" ]; then
+  echo "Installing for OSX"
+  ./nix/osx/setup.sh
+fi
 
+if [ "$OS" = "linux" ]; then
+  echo "Installing for OSX"
+  ./nix/nixos/setup.sh
+else
+  echo "OS not supported: $OS"
+  echo "Options: osx, linux"
+  exit
+fi

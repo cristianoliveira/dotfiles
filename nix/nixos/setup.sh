@@ -33,19 +33,20 @@ sudo ln -s $HOME/.dotfiles/nix/nixos /etc/nixos
 sudo nixos-generate-config
 
 # link all configs in ~/.config
+
+# So environment is updated before running rebuild.sh
+sh -c "$HOME/.dotfiles/nix/rebuild.sh"
+
 echo "Setting up nixos applications"
 $HOME/.dotfiles/nix/nixos/sway/setup.sh
 $HOME/.dotfiles/nix/nixos/i3status/setup.sh
 $HOME/.dotfiles/nix/nixos/fonts/setup.sh
 
 echo "Setting up shared applications"
-$HOME/.dotfiles/nix/shared/alacritty/setup.sh
 $HOME/.dotfiles/nvim/setup.sh
 $HOME/.dotfiles/tmux/setup.sh
-$HOME/.dotfiles/git/setup.sh
 $HOME/.dotfiles/zsh/setup.sh
-
-# So environment is updated before running rebuild.sh
-sh -c "$HOME/.dotfiles/nix/rebuild.sh"
+$HOME/.dotfiles/nix/shared/alacritty/setup.sh
+$HOME/.dotfiles/git/setup.sh
 
 echo "System is ready to be built with ~/.dotfiles/nix/rebuild.sh"
