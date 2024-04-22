@@ -2,7 +2,7 @@
 {
   # Maps esc when pressed 
   services.interception-tools = {
-    enable = false;
+    enable = true;
     plugins = with pkgs; [
       interception-tools-plugins.dual-function-keys
     ];
