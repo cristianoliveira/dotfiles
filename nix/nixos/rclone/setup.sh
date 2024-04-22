@@ -9,10 +9,10 @@ echo ""
 read -p "Press enter to continue"
 if [ ! -f $HOME/rclone.conf ]; then
   echo "rclone.conf not found in $HOME"
-  exit 1
+else
+  mv $HOME/rclone.conf $HOME/.config/rclone/rclone.conf
+
+  echo "rclone.conf moved to $HOME/.config/rclone/rclone.conf"
+  echo "try: 'rclone sync gdrive:/notes $HOME/notes'"
 fi
 
-mv $HOME/rclone.conf $HOME/.config/rclone/rclone.conf
-
-echo "rclone.conf moved to $HOME/.config/rclone/rclone.conf"
-echo "try: 'rclone sync gdrive:/notes $HOME/notes'"
