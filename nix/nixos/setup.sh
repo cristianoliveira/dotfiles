@@ -4,7 +4,7 @@ set -e
 
 echo "Creating .config/nix folder"
 
-BACKUPNAME="nixbkp-$(date +%s)"
+export BACKUPNAME="nixbkp-$(date +%s)"
 echo "Backup found in /tmp/$BACKUPNAME"
 
 if [ -d "$HOME"/.config ]; then

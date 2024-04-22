@@ -3,7 +3,14 @@
 set -e
 
 echo "Setting up Monaco font"
-mkdir -p "$HOME"/.local/share/fonts
-mv -f "$HOME"/.local/share/fonts /tmp/"$BACKUPNAME"
+## Makes a backup
+if [ -d "$HOME"/.local/share/fonts ]; then
+  echo "Backing up your current fonts"
+  mv -f "$HOME"/.local/share/fonts /tmp/"$BACKUPNAME"
+fi
+
+mkdir -p "$HOME"/.local/share
+
 ln -s "$HOME"/.dotfiles/nix/nixos/fonts "$HOME"/.local/share/fonts
+
 fc-cache -f -v
