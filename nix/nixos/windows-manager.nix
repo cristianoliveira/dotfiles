@@ -5,6 +5,8 @@
     sway
   ];
   
+  # Enable the gnome-keyring secrets vault. 
+  # Will be exposed through DBus to programs willing to store secrets.
   services.gnome.gnome-keyring.enable = true;
 
   programs.sway = {
@@ -17,7 +19,6 @@
 
       # Utilities
       wf-recorder
-      mako # notification daemon
       grim # screenshot functionality
       slurp # screenshot functionality
       wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
@@ -60,4 +61,36 @@
 
   # Allow applying the same settings to outside of X11
   console.useXkbConfig = true;
+
+  ## Other related GUIS for settings
+  # Bluetooth related 
+  hardware.bluetooth = {
+    enable = true;
+  };
+  services.blueman = {
+    enable = true;
+  };
+
+  # Enable sound with pipewire.
+  sound.enable = true;
+  security.rtkit.enable = true;
+
+  # Need to be false because of pipeware
+  hardware.pulseaudio.enable = false;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    #jack.enable = true;
+
+    # use the example session manager (no others are packaged yet so this is enabled by default,
+    # no need to redefine it in your config for now)
+    #media-session.enable = true;
+  };
+
+  # Enable CUPS to print documents.
+  services.printing.enable = true;
+
 }
