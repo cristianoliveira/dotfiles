@@ -15,7 +15,6 @@ if [ -d "$HOME"/.local/share/nvim ]; then
 fi
 
 mkdir -p "$HOME"/.local/share/nvim
-mkdir -p "$HOME"/.local/share/nvim/lazy
 git clone --filter=blob:none --branch=stable \
   https://github.com/folke/lazy.nvim.git "$HOME"/.local/share/nvim/lazy
 

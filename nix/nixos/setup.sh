@@ -38,6 +38,7 @@ sudo nixos-generate-config
 sh -c "$HOME/.dotfiles/nix/rebuild.sh"
 
 echo "Setting up nixos applications"
+$HOME/.dotfiles/nix/nixos/mappings/setup.sh
 $HOME/.dotfiles/nix/nixos/sway/setup.sh
 $HOME/.dotfiles/nix/nixos/i3status/setup.sh
 $HOME/.dotfiles/nix/nixos/fonts/setup.sh
