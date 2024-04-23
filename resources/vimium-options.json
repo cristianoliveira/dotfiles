@@ -8,8 +8,6 @@
     "\nmap <C-d> scrollPageDown ",
 
     "\nmap <C-w> removeTab ",
-    "\nmap <C-h> previousTab ",
-    "\nmap <C-l> nextTab ",
     "\nmap 0 firstTab ",
     "\nmap - firstTab ",
     "\nmap $ lastTab ",
