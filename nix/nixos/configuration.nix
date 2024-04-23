@@ -50,10 +50,20 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  # Bluetooth related 
+  hardware.bluetooth = {
+    enable = true;
+  };
+  services.blueman = {
+    enable = true;
+  };
+
   # Enable sound with pipewire.
   sound.enable = true;
-  hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
+
+  # Need to be false because of pipeware
+  hardware.pulseaudio.enable = false;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
