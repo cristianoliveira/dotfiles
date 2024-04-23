@@ -14,12 +14,12 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/ef8dea93-751d-483a-9974-b9a18a3b423b";
+    { device = "/dev/disk/by-uuid/8762325d-6ebe-432d-9159-5e7fb1960bcd";
       fsType = "ext4";
     };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/ece7bc3e-f15c-4a9a-b0a6-06f1330913e4"; }
+    [ { device = "/dev/disk/by-uuid/aa0303e6-9580-4b0e-8797-2a774bdf9c9f"; }
     ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
