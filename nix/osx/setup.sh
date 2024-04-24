@@ -39,6 +39,7 @@ echo "Setting up shared applications"
 "$HOME"/.dotfiles/tmux/setup.sh
 "$HOME"/.dotfiles/zsh/setup.sh
 "$HOME"/.dotfiles/nix/shared/alacritty/setup.sh
+"$HOME"/.dotfiles/nix/osx/alacritty/setup.sh
 "$HOME"/.dotfiles/git/setup.sh
 
 # So darwin-rebuild is available in the new shell
