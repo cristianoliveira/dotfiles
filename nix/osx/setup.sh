@@ -22,17 +22,24 @@ mkdir -p "$HOME/.nixpkgs"
 rm -f "$HOME/.nixpkgs/darwin-configuration.nix"
 ln -s "$HOME/.dotfiles/nix/osx/configuration.nix" "$HOME/.nixpkgs/darwin-configuration.nix"
 
-$HOME/.dotfiles/nix/osx/yabai/setup.sh
-$HOME/.dotfiles/nix/osx/finicky/setup.sh
-
-# TODO move karabiner to nix/osx folder
-$HOME/.dotfiles/resources/karabiner/setup.sh
 
 if [ ! -f "$HOME/.config/nix/nix.conf" ]; then
   echo "Configuring Nix (~/.dotfiles/nix/nix.conf)"
   mkdir -p "$HOME/.config/nix"
   ln -s "$HOME/.dotfiles/nix/nix.conf" "$HOME/.config/nix/nix.conf"
 fi
+
+echo "Setting up OSX applications"
+"$HOME"/.dotfiles/nix/osx/yabai/setup.sh
+"$HOME"/.dotfiles/nix/osx/finicky/setup.sh
+"$HOME"/.dotfiles/nix/osx/karabiner/setup.sh
+
+echo "Setting up shared applications"
+"$HOME"/.dotfiles/nvim/setup.sh
+"$HOME"/.dotfiles/tmux/setup.sh
+"$HOME"/.dotfiles/zsh/setup.sh
+"$HOME"/.dotfiles/nix/shared/alacritty/setup.sh
+"$HOME"/.dotfiles/git/setup.sh
 
 # So darwin-rebuild is available in the new shell
 sh -c "$HOME/.dotfiles/nix/rebuild.sh"
