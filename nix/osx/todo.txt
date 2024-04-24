@@ -1,0 +1,2 @@
+- yabai: a shortcut to minimize windows and show them back similar to mod ctrl m in sway
+https://github.com/cristianoliveira/dotfiles/blob/main/nix/nixos/sway/config
