@@ -47,7 +47,7 @@
   cp = cherry-pick -x               # grab a change from a branch
 
   # diff
-	d = difftool
+  d = difftool
   dc = diff --cached                # diff staged changes
   last = diff HEAD^                 # diff last committed change
 
@@ -115,9 +115,9 @@
   tool = vimdiff
 [mergetool]
   prompt = false
-	keepBackup = false
+  keepBackup = false
 [mergetool "vimdiff"]
-	cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+  cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 [apply]
   whitespace = nowarn
 [branch]
@@ -125,13 +125,13 @@
 [push]
   # 'git push' will push the current branch to its tracking branch
   # the usual default is to push all branches
-	default = current
-	autoSetupRemote = true
+  default = current
+  autoSetupRemote = true
 [core]
   autocrlf = false
-	editor = nvim
-	excludesfile = ~/.gitignore
-	pager = diff-so-fancy | less --tabs=4 -RFX
+  editor = nvim
+  excludesfile = ~/.gitignore
+  pager = diff-so-fancy | less --tabs=4 -RFX
 [advice]
   statusHints = false
 [diff]
@@ -143,13 +143,13 @@
 [include]
   path = ~/.gitconfig.user
 [pull]
-	rebase = true
+  rebase = true
 [difftool]
-	prompt = false
+  prompt = false
 [filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true
 [init]
-	defaultBranch = main
+  defaultBranch = main
