@@ -12,10 +12,3 @@ $HOME/.dotfiles/nix/osx/setup.sh
 # FIXME Quarantine till I figure if it's needed
 # echo "Configuring machine as 'squall'"
 # sh $HOME/.dotfiles/osx/configure-osx.sh squall
-
-printf "\n\n\n\n\n"
-echo "-------------Setup-------------------"
-printf "\n\n\n\n\n"
-sh "$HOME"/.dotfiles/setup.sh
-
-ln -s "$HOME"/.dotfiles/osx/.finicky.js "$HOME"/.finicky.js

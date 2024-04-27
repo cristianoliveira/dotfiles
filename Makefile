@@ -7,7 +7,7 @@ ssh:
 	@bash ./ssh-key.sh
 
 linux:
-	@bash ./linux-install.sh
+	@bash ./nix/nixos/setup.sh
 
 osx:
 	@bash ./osx-install.sh
