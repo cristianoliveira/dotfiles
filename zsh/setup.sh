@@ -10,3 +10,8 @@ if [ -f "$HOME"/.zshrc ]; then
 fi
 
 ln -s "$HOME"/.dotfiles/zsh/zshrc "$HOME"/.zshrc
+
+chsh -s /bin/zsh
+
+echo "Create local bin folder if it does not exist"
+mkdir -p "$HOME"/.local/bin

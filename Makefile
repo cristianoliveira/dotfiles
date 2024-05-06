@@ -10,7 +10,7 @@ linux:
 	@bash ./nix/nixos/setup.sh
 
 osx:
-	@bash ./osx-install.sh
+	@bash ./nix/osx/setup.sh
 
 watch: 
 	@fzz

@@ -22,3 +22,7 @@ ln -s "$HOME"/.dotfiles/nvim "$HOME"/.config/nvim
 
 # before nix
 # pip install --user --upgrade pynvim
+
+
+echo "Setting up ctags"
+ln -s "$HOME"/.dotfiles/ctags "$HOME"/.ctags
