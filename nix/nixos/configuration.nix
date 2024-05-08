@@ -8,7 +8,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ./essential-pckgs.nix
+      ./essential-pkgs.nix
       ./mappings/dual-keys.nix
       ./windows-manager.nix
       ../shared/direnv.nix
