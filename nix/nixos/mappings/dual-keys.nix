@@ -1,6 +1,6 @@
 { config, pkgs, ... }: 
 {
-  # Maps esc when pressed 
+  # Maps Capslock to ESC when pressed and CTRL when holding
   services.interception-tools = {
     enable = true;
     plugins = with pkgs; [
