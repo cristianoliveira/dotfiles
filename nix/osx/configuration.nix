@@ -102,6 +102,7 @@
       # Others
       "bitwarden"
       "veracrypt"
+      "mullvadvpn"
     ];
   };
 

@@ -45,6 +45,7 @@
     # GUIs
     alacritty
     bitwarden
+    mullvad-vpn
 
     ## Media manipulation
     gimp
