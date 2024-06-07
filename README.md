@@ -1,12 +1,12 @@
 # dotfiles
 
-My "dotfiles" now configure my development environment entirely.
+My "dotfiles" now fully set up my development environment for Nixos and OSX
 
 ![systemprint](https://github.com/cristianoliveira/dotfiles/assets/3959744/808ecffc-f4b3-426a-ab1c-fa589ee702fd)
 
-# My setup
+# Setup
 
-I try to keep the DX of both systems as close as possible. As well as the overal UI/UX. I'd say they are 90% similar.
+I try to keep the DX of both systems as close as possible. As well as the overall UI/UX. I'd say they are 90% similar.
 
 ```bash
 
@@ -55,13 +55,13 @@ I try to keep the DX of both systems as close as possible. As well as the overal
 # What do I use?
 
   - NIX (for package and system management)
-  - ZSH (oh-my-zsh)
   - Neovim
   - Tmux
-  - Alacrity
+  - ZSH (oh-my-zsh)
+  - Terminal: Alacritty
   - WM: yabai (osx) / sway (linux)
   - Launcher: alfred (osx) / ulauncher (linux)
-  - Check `nix/*` folder for other dependencies
+  - Others: Check `nix/*` folder
 
 ### I work mostly with
 
