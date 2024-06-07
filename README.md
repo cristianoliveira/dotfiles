@@ -109,9 +109,10 @@ make osx
 make setup
 ```
 
-### Operation System Workflow
+### OS change workflow
 
-Once you make a change in `nix/*` run `nix/rebuild.sh` and follow the steps
+Once you make a change in `nix/*` run `nix/rebuild.sh` and follow the steps.
+(Optional) Use the watcher with `fzz -t nix` which will auto-rebuild each time something changes.
 
 ### Mappings
 
