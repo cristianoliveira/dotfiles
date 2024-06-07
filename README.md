@@ -108,3 +108,19 @@ make osx
 # Updating and setup
 make setup
 ```
+
+### Operation System Workflow
+
+Once you make a change in `nix/*` run `nix/rebuild.sh` and follow the steps
+
+### Mappings
+
+Key modifier (MOD): `Command` (osx) and `Alt` (Nixos) 
+
+ - `ctrl + space`: open app launcher
+ - `MOD + number`: move to workspace
+ - `MOD + shift + number`: send the current window to a workspace
+ - `MOD + ctrl + f`: move the current window to fullscreen (over other windows).
+ - `MOD + ctrl + h/j/k/l`: move focus to a window depending on the current focused window.
+ - `MOD + shift + h/j/k/l`: move the window to a new position.
+ - `MOD + ctrl + enter`: Open terminal or, if there is a terminal opened, shift focus to.
