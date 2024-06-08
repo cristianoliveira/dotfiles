@@ -108,5 +108,15 @@
         "is_default_search": false,
         "run_without_argument": true,
         "added": 1713069509.6818988
+    },
+    "c7dd783b-79b3-4455-8452-45062c3d57c0": {
+        "id": "c7dd783b-79b3-4455-8452-45062c3d57c0",
+        "name": "mullvad",
+        "keyword": "vpn mullvad",
+        "cmd": "mullvad-gui ",
+        "icon": null,
+        "is_default_search": false,
+        "run_without_argument": true,
+        "added": 1717858483.9435337
     }
 }
