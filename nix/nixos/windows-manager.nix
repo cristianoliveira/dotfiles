@@ -36,10 +36,11 @@
     ];
   };
 
+  services.displayManager.sddm.enable = true;
+
   services.xserver = {
     # Enable the X11 windowing system.
     enable = true;
-    displayManager.sddm.enable = true;
 
     # Configure keymap in X11
     # Didn't manage to use nix to configure this
