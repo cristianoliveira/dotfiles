@@ -94,12 +94,11 @@
   # };
 
 
-  # Enables running unpatched binaries from Nix store
-  # This is necessary for Mason (nvim) to work
+  # This enables running unpatched binaries from Nix store
+  # which is necessary for Mason (nvim) to work
   # see also the environment variable NIX_LD below
   #
-  # Detailed explanation:
-  # https://web.archive.org/web/20240324024149/https://blog.thalheim.io/2022/12/31/nix-ld-a-clean-solution-for-issues-with-pre-compiled-executables-on-nixos/
+  # Detailed explanation: http://archive.today/WFxH7
   programs.nix-ld = {
     enable = true;
   };
