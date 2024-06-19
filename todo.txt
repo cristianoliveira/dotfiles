@@ -3,3 +3,7 @@
 # TODO make obsh-cli work on nixos
 
 # TODO adds rclone as a service to sync with google drive in nixos
+
+# TODO use tpm (tmux plugin manager) to manage tmux plugins
+
+# TODO Adds explaination of the workflow in nix/README.md
