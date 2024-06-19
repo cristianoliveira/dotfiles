@@ -99,10 +99,7 @@
   # see also the environment variable NIX_LD below
   #
   # Detailed explanation: http://archive.today/WFxH7
-  programs.nix-ld = {
-    enable = true;
-  };
-
+  programs.nix-ld.enable = true;
   programs.zsh = {
     enable = true;
     ohMyZsh = {
