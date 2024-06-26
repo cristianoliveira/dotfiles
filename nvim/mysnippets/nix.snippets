@@ -41,13 +41,6 @@ snippet flake "flake.nix boilerplate"
 }
 endsnippet
 
-snippet node "nodejs package"
-	buildInputs = [ 
-		pkgs.nodejs
-		(pkgs.yarn.override { nodejs = pkgs.nodejs; })
-	];
-endsnippet
-
 # Generate a nix module boilerplate
 snippet module "nix module boilerplate"
 { config, pkgs, lib, ... }:
@@ -55,4 +48,29 @@ snippet module "nix module boilerplate"
 	environment.systemPackages = [
 	];
 }
+endsnippet
+
+## LANGUAGE SPECIFIC SNIPPETS
+snippet nodesh "nodejs package shell"
+	buildInputs = [ 
+		pkgs.nodejs
+		(pkgs.yarn.override { nodejs = pkgs.nodejs; })
+	];
+endsnippet
+
+# Generate a shell.nix boilerplate
+snippet javash "java shell.nix boilerplate"
+{ pkgs ? import <nixpkgs> {} }:
+  pkgs.mkShell {
+    buildInputs = [
+      pkgs.jdk17
+    ];
+
+    shell = pkgs.zsh;
+
+    shellHook = ''
+      export JAVA_HOME=${pkgs.jdk17}
+      PATH="${pkgs.jdk17}/bin:$PATH"
+    '';
+  }
 endsnippet
