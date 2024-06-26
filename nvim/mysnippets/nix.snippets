@@ -64,6 +64,7 @@ snippet javash "java shell.nix boilerplate"
   pkgs.mkShell {
     buildInputs = [
       pkgs.jdk17
+      pkgs.maven
     ];
 
     shell = pkgs.zsh;
