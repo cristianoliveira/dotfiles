@@ -1,0 +1,81 @@
+[[colors.indexed_colors]]
+color = "0xcb4b16"
+index = 16
+
+[[colors.indexed_colors]]
+color = "0xd33682"
+index = 17
+
+[[colors.indexed_colors]]
+color = "0x073642"
+index = 18
+
+[[colors.indexed_colors]]
+color = "0x586e75"
+index = 19
+
+[[colors.indexed_colors]]
+color = "0x839496"
+index = 20
+
+[[colors.indexed_colors]]
+color = "0xeee8d5"
+index = 21
+
+[colors.bright]
+black = "0x657b83"
+blue = "0x268bd2"
+cyan = "0x2aa198"
+green = "0x859900"
+magenta = "0x6c71c4"
+red = "0xdc322f"
+white = "#ffffff"
+yellow = "0xb58900"
+
+[colors.cursor]
+cursor = "0x93a1a1"
+text = "0x002b36"
+
+[colors.normal]
+black = "0x002b36"
+blue = "0x268bd2"
+cyan = "0x2aa198"
+green = "0x859900"
+magenta = "0x6c71c4"
+red = "0xdc322f"
+white = "0x93a1a1"
+yellow = "0xb58900"
+
+[colors.primary]
+background = "0x002b36"
+foreground = "0x93a1a1"
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+size = 12
+
+[font.bold]
+family = "Monaco"
+style = "Bold"
+
+[font.normal]
+family = "Monaco"
+style = "Regular"
+
+[shell]
+args = ["-l", "-c", "tmux new-session -A -s a-session"]
+program = "/bin/sh"
+
+[window]
+decorations = "none"
+opacity = 0.94
+
+[window.dimensions]
+columns = 133
+lines = 40
+
+[window.padding]
+x = 4
+y = 4
