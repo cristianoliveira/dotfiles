@@ -133,6 +133,14 @@ else
     echo "No custom $ENV_FILE file found"
 fi
 
+ENV_PUBLIC_FILE="$HOME/.env.public"
+if [[ -f "$ENV_PUBLIC_FILE" ]]; then
+    echo "$ENV_PUBLIC_FILE exists. Loading..."
+    source "$ENV_PUBLIC_FILE"
+else
+    echo "No custom $ENV_PUBLIC_FILE file found"
+fi
+
 CUSTOM_ZSHRC="$HOME/.custom_zshrc"
 if [[ -f "$CUSTOM_ZSHRC" ]]; then
     echo "$CUSTOM_ZSHRC exists. Loading..."
