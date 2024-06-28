@@ -5,7 +5,7 @@
 priority -50
 
 # Define a simple function
-snippet #!b "bash shebang"
+snippet #! "bash shebang"
 #!/usr/bin/env bash
 endsnippet
 
@@ -90,4 +90,28 @@ endsnippet
 # Echo with a message
 snippet cll "bad habits"
 echo "@@@@ $1 - $${1:message}"
+endsnippet
+
+# Echo with a message
+snippet template "cli boilerplate"
+set -e # fail on error
+set -u # do not allow unset variables
+
+USAGE="
+This is a small script to simplify the way we create test checkouts
+
+USAGE:
+  ${0} [amount] [pay_to_email]
+  ex:
+  ${0} 50 myuser@sumup.com
+
+ARGUMENTS:
+  [amount]: The amount for creating the checkout (DEFAULT: 100,00)
+  [pay_to_email]: Required by the api. Use your account email on ze-dashboard
+
+ENV VARIABLE:
+  [API_URL] Set the api url (DEFAULT: https://api-theta.sam-app.ro)
+
+CMD = ${1:-$USAGE}
+"
 endsnippet
