@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+#
+set -e # fail on error
+
+USAGE="
+myterminal: Turn on or off the alacritty terminal transparency
+
+Usage: $(echo $0 | grep -o '[^/]*$') <commands>
+
+Options:
+  transparency-off  Turn off terminal transparency
+  transparency-on   Turn on terminal transparency
+"
+
+export TERMINAL_TRANSPARENCY=0.94
+
+COMMAND=${1:-$USAGE}
+
+if [ -z "$1" ]; then
+    echo "$USAGE"
+    exit 1
+fi
+
+if [ "$COMMAND" = "transparency-off" ]; then
+  echo "Turning off transparency"
+  sed -i "s/opacity = $TERMINAL_TRANSPARENCY/opacity = 1/g" ~/.config/alacritty/alacritty.toml
+  exit 0
+elif [ "$COMMAND" = "transparency-on" ]; then
+  echo "Turning on transparency"
+  sed -i "s/opacity = 1/opacity = $TERMINAL_TRANSPARENCY/g" ~/.config/alacritty/alacritty.toml
+  exit 0
+else
+  echo "$USAGE"
+  exit 1
+fi
