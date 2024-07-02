@@ -1,6 +1,6 @@
 # This is default, but may vary by project.
 # See '../settings/git.zsh' how to configure a different $LOCAL_MAIN_BRANCH
-MAIN_BRANCH='main'
+export MAIN_BRANCH='main'
 
 # git show
 alias gsh='git show'
