@@ -42,3 +42,4 @@ nvim-macos/
 # nix related
 shell.nix
 .envrc
+.direnv
