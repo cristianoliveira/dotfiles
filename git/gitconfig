@@ -69,6 +69,8 @@
   # pull
   pl = pull                         # pull
 
+  fa = fetch --all                  # fetch all remotes
+
   # push
   ps = push                         # push
   psf = push --force-with-lease     # push with force-with-lease
