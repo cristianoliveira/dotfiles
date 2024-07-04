@@ -7,3 +7,5 @@
 # TODO use tpm (tmux plugin manager) to manage tmux plugins
 
 # TODO Adds explaination of the workflow in nix/README.md
+
+# TODO WM: adds a shortcut to resize windows  
