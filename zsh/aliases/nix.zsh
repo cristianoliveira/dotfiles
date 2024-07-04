@@ -7,3 +7,6 @@ alias denvf="echo 'use flake' > .envrc && direnv allow"
 # Use nix-shell
 alias denvs="echo 'use nix' > .envrc && direnv allow"
 alias denvrm="rm .envrc"
+
+alias dallow="direnv allow"
+alias disallow="direnv disallow"
