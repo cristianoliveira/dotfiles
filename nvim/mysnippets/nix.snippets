@@ -75,3 +75,31 @@ snippet javash "java shell.nix boilerplate"
     '';
   }
 endsnippet
+
+
+# Generate a shell.nix boilerplate
+snippet flakeout "flake output"
+  outputs = { self, nixpkgs, ... }:
+    let
+      lib = nixpkgs.lib;
+      recursiveMergeAttrs = listOfAttrsets: lib.fold (attrset: acc: lib.recursiveUpdate attrset acc) {} listOfAttrsets;
+      systems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
+
+      systemPackages = map (system:
+        let
+          pkgs = import nixpkgs { inherit system; };
+        in
+        {
+          packages."${system}".funzzy = pkgs.callPackage ./nix/package.nix {};
+
+          devShells."${system}".default = pkgs.mkShell {
+            packages = with pkgs; [
+              hello
+            ];
+          };
+        }
+      ) systems;
+    in
+      # Reduce the list of packages of packages into a single attribute set
+      recursiveMergeAttrs(systemPackages);
+endsnippet
