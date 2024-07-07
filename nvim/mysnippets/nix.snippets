@@ -29,15 +29,33 @@ endsnippet
 # Generate a flake.nix boilerplate
 snippet flake "flake.nix boilerplate"
 {
-	description = "New flake";
-	inputs = {
-		nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-	};
-	outputs = { self, nixpkgs }: {
-		defaultPackage.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.mkShell {
-			buildInputs = [ nixpkgs.hello ];
-		};
-	};
+  description = "New flake";
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos";
+    utils.url = "github:numtide/flake-utils";
+  };
+  outputs = { self, nixpkgs, utils }: 
+    utils.lib.eachDefaultSystem (system:
+      let
+        pkgs = import nixpkgs { inherit system; };
+      in {
+        # checks = {
+        #   fmt = pkgs.runCommand "check-fmt" {} ''
+        #     ${lib.getExe formatter} --check ${./.}
+        #     touch $out
+        #   '';
+        # };
+
+        devShells.default = pkgs.mkShell {
+          packages = with pkgs; [
+            hello
+          ];
+        };
+
+        packages = {
+          default = pkgs.hello;
+        };
+    });
 }
 endsnippet
 

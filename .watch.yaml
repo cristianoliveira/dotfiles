@@ -17,6 +17,7 @@
 - name: watch nix configs
   run: 
     - nix flake check nix
+    - statix check # linter
     - nix/rebuild.sh
   change: 'nix/**'
   run_on_init: true
