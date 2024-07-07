@@ -16,6 +16,8 @@
     # Development environment
     vim
     neovim 
+    libiconv # VIM: Required to build lsp in Mason
+
     git
     tmux
     zsh
