@@ -1,15 +1,23 @@
 ## Funzzy events file
 # more details see: https://github.com/cristianoliveira/funzzy
 #
-# list here all the events and the commands that it should execute
+# Workflow:
+#
+# First start by watching the changes in nix with the watcher
+# ```bahs
+# fzz -t nix
+# ```
+# Proceed to make the changes in the .dotfiles
 
 - name: validate sway
   run: 'nix/nixos/sway/validate.sh'
   change: 'nix/nixos/sway/**'
-  run_on_init: true
 
+# Usage: `fzz -t nix`
 - name: watch nix configs
-  run: 'nix/rebuild.sh'
+  run: 
+    - nix flake check nix
+    - nix/rebuild.sh
   change: 'nix/**'
   run_on_init: true
 

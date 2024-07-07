@@ -18,6 +18,7 @@
     neovim 
     libiconv # VIM: Required to build lsp in Mason
     gcc # VIM: Required to build lsp in Mason
+    nil # nix LSP
 
     git
     tmux
