@@ -68,11 +68,13 @@
 
   # Enable yabai and skhd services
   # https://github.com/LnL7/nix-darwin/blob/f0dd0838c3558b59dc3b726d8ab89f5b5e35c297/modules/services/yabai/default.nix#L44
-  services.yabai = { 
-    enable = true;
-    enableScriptingAddition = true;
+  services = {
+    yabai = { 
+      enable = true;
+      enableScriptingAddition = true;
+    };
+    skhd.enable = true;
   };
-  services.skhd.enable = true;
 
   # GUI applications via homebrew
   homebrew = {
@@ -145,20 +147,25 @@
       NSGlobalDomain.AppleKeyboardUIMode = 3;
 
       # define delays, keyrepeat and press and hold
-      NSGlobalDomain.InitialKeyRepeat = 10;
-      NSGlobalDomain.KeyRepeat = 1;
-      NSGlobalDomain.ApplePressAndHoldEnabled = false;
+      NSGlobalDomain = {
+        InitialKeyRepeat = 10;
+        KeyRepeat = 1;
+        ApplePressAndHoldEnabled = false;
+        # set fn properly
+        "com.apple.keyboard.fnState" = true;
 
-      # set fn properly
-      NSGlobalDomain."com.apple.keyboard.fnState" = true;
+        # Finder default
+        AppleShowAllFiles = true;
+      };
 
       # Dock configs
       dock.autohide = true;
 
       # Finder and file managment
-      finder.AppleShowAllFiles = true;
-      NSGlobalDomain.AppleShowAllFiles = true;
-      finder._FXShowPosixPathInTitle = true;
+      finder = {
+        AppleShowAllFiles = true;
+        _FXShowPosixPathInTitle = true;
+      };
     };
   };
 
