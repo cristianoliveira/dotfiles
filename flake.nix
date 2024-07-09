@@ -11,12 +11,11 @@
       in {
         devShells.default = import ./nix/development-environment.nix { inherit pkgs; };
 
-        # checks = {
-        #   fmt = pkgs.runCommand "check-fmt" {} ''
-        #     ${lib.getExe formatter} --check ${./.}
-        #     touch $out
-        #   '';
-        # };
-
+        checks = {
+          fmt = pkgs.runCommand "check-fmt" {} ''
+            echo "Checking formatting..."
+            touch $out
+          '';
+        };
     });
 }

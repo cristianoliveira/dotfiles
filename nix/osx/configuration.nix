@@ -35,6 +35,7 @@
     docker-compose
     ngrok
     ctags
+    gnused # bye macOs annoying sed
 
     alacritty 
 
