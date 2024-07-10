@@ -25,7 +25,9 @@ dump.rdb
 
 _scripts/
 
+# fzz related
 .watch.yaml
+.fzz
 
 .gitconfig.user
 
