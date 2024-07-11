@@ -82,6 +82,7 @@
   rbss = rebase --skip                # skip rebase
   rbsa = rebase --abort
   rbom = !git rebase "origin/$MAIN_BRANCH"   # rebase on origin main branch
+  rbsom = !git rebase "origin/$MAIN_BRANCH"   # rebase on origin main branch
 
   # remote
   r = remote -v                     # show remotes (verbose)
