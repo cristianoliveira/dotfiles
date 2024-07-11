@@ -116,6 +116,12 @@
   svnl = svn log --oneline --show-commit
 
   wip = !git add . && git commit -m WIP
+
+  # worktree add branch
+  wab = worktree add
+  # delete branch
+  wrb = worktree remove
+  wdb = worktree remove
 [format]
   pretty = format:%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(blue)%s %C(magenta) [%an]%Creset
 [merge]

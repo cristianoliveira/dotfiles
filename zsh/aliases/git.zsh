@@ -135,3 +135,8 @@ alias gp!='git push --no-verify'
 alias gpf!='git push --no-verify --force-with-lease'
 alias gcm!='git ci --no-verify -m'
 alias gamd!='git commit --no-verify --amend --no-edit'
+
+# worktree add branch
+alias wab='git worktree add'
+alias wrb='git worktree remove'
+alias wdb='git worktree remove'
