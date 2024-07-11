@@ -81,6 +81,8 @@ I try to keep the DX of both systems as close as possible. As well as the overal
 
 ## Installing
 
+Check detailed explanation in `nix/README.md` doc, but you will need nix
+
 ### Prerequisites
 
  - Generate your [ssh key and add to your github](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)

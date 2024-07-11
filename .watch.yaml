@@ -15,7 +15,12 @@
     - git add {{relative_filepath}}
     - git add -p
     - git fetch && git rebase origin/main
-  change: '.fzz/git-task' # touch .fzz/git-task
+  change: 
+    - .fzz/git-task # touch .fzz/git-task
+    - '**/*' ## FIXME fzz issue with non strings
+  ignore:
+    - git/**/*
+    - result
 
 - name: validate sway
   run: 'nix/nixos/sway/validate.sh'
