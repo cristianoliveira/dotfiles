@@ -2,6 +2,10 @@ snippet cll "console.log(...) long"
 console.log('@@@@@@ ${2:$1: }', ${1});
 endsnippet
 
+snippet cdd "console.debug(...)"
+console.debug('@@@@@@ $1')
+endsnippet
+
 # Js Classes
 snippet cmbind "class method binding"
 	this.$1 = this.${2:$1}.bind(this)
