@@ -178,15 +178,5 @@ if command -v direnv &> /dev/null; then
   eval "$(direnv hook zsh)"
 fi
 
-# defines env variables with path to places in the dotfile
-# So I can edit them easily
-# Eg. `vim $_DF_NIX`
-export _DOTFILES=$HOME/.dotfiles
-export _DF_NIX=$HOME/.dotfiles/nix
-export _DF_VIM=$HOME/.dotfiles/nvim
-export _DF_ZSH=$HOME/.dotfiles/zsh
-export _DF_GIT=$HOME/.dotfiles/git
-export _DF_TMX=$HOME/.dotfiles/tmux
-
 # debug-slow-startup-time
 # zprof
