@@ -24,6 +24,7 @@
           ];
         })
         ./nixos/configuration.nix
+        ./shared/apps-home-config.nix
       ];
     };
     darwinConfigurations.darwin = nix-darwin.lib.darwinSystem {
@@ -37,6 +38,7 @@
         })
 
         ./osx/configuration.nix
+        ./shared/apps-home-config.nix
       ];
     };
 
