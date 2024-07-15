@@ -9,3 +9,5 @@
 # TODO Adds explaination of the workflow in nix/README.md
 
 # TODO WM: adds a shortcut to resize windows  
+
+# TODO tmux: adds a mapping to resize a 2nd pane to 10% / 90% 
