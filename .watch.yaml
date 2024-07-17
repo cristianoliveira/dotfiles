@@ -19,18 +19,26 @@
     - '**/*' ## FIXME fzz issue with non strings
   ignore:
     - '.git/**/*'
-    - result
+    - 'result/**/*'
+    - 'result.*'
 
 - name: validate sway
   run: 'nix/nixos/sway/validate.sh'
   change: 'nix/nixos/sway/**'
 
 # Usage: `fzz -t nix`
-- name: watch nix configs
+- name: watch nix checks
   run: 
+    - nix build nix/#makeHomeDir
     # linter
     - statix check -i nix/nixos/hardware-configuration.nix
     - nix flake check nix
+  change: 
+    - 'nix/**/*.nix'
+
+# Usage: `fzz -t @nixbuild`
+- name: watch nix configs @nixbuild
+  run: 
     - nix/rebuild.sh
   change: 
     - 'nix/**/*.nix'
@@ -50,4 +58,6 @@
     - '**/*' ## FIXME fzz issue with non strings
   ignore:
     - '.git/**/*'
-    - result
+    - 'result/**/*'
+    - 'result.*'
+    - '.direnv/*'

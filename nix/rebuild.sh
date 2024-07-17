@@ -20,16 +20,18 @@ if [ -z "$SKIP_COMMIT" ]; then
   fi
 fi
 
+nix flake check nix
+
 if [ "$(uname)" = "Darwin" ]; then
   # OSX (darwin)
   echo "Rebuilding Darwin configuration..."
   NIXOS_CONFIG=$HOME/.dotfiles/nix
-  darwin-rebuild switch --flake $HOME/.dotfiles/nix#darwin
+  darwin-rebuild switch --flake $HOME/.dotfiles/nix#darwin --show-trace
 else
   # NixOS (linux)
   NIXOS_CONFIG=$HOME/.dotfiles/nix
   echo "Rebuilding NixOS configuration..."
-  sudo nixos-rebuild switch --flake $HOME/.dotfiles/nix#nixos
+  sudo nixos-rebuild switch --flake $HOME/.dotfiles/nix#nixos --show-trace
 fi
 
 ## Ask if wants to commit, amend or discard changes

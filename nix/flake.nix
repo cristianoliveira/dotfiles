@@ -13,6 +13,9 @@
   };
 
   outputs = { self, nixpkgs, nix-darwin, co-pkgs, ... }:
+    let 
+      nixUpdateConfig = import ./nix-update-config.nix { pkgs = import nixpkgs { system = "aarch64-darwin"; }; };
+    in
   {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
@@ -22,8 +25,18 @@
           nixpkgs.overlays = [ 
             (final: prev: { mypkgs = import co-pkgs { inherit pkgs; }; })
           ];
+
+          # environment.systemPackages = [
+          #   nixUpdateConfig
+          # ];
         })
         ./nixos/configuration.nix
+
+        # {
+        #   environment.systemPackages = [
+        #     (import ./nix-update-config.nix { pkgs = import nixpkgs { system = "aarch64-darwin"; }; })
+        #   ];
+        # }
       ];
     };
     darwinConfigurations.darwin = nix-darwin.lib.darwinSystem {
@@ -34,20 +47,30 @@
           nixpkgs.overlays = [ 
             (final: prev: { mypkgs = import co-pkgs { inherit pkgs; }; })
           ];
+
+          # environment.systemPackages = [
+          #   nixUpdateConfig
+          # ];
         })
 
         ./osx/configuration.nix
-        (import ./shared/apps-home-config.nix {
-          pkgs = import nixpkgs { system = "aarch64-darwin"; };
-        })
+
+        # {
+        #   environment.systemPackages = [
+        #     (import ./nix-update-config.nix { pkgs = import nixpkgs { system = "aarch64-darwin"; }; })
+        #   ];
+        # }
       ];
     };
 
-    packages."aarch64-darwin".makeHomeDir = import ./shared/apps-home-config.nix {
+    packages."x86_64-linux".makeHomeDir = import ./nix-update-config.nix {
+      pkgs = import nixpkgs { system = "x86_64-linux"; };
+    };
+    packages."aarch64-darwin".makeHomeDir = import ./nix-update-config.nix {
       pkgs = import nixpkgs { system = "aarch64-darwin"; };
     };
 
-    devShells."x86_64-linux".default = import ./nix/development-environment.nix { inherit nixpkgs; };
-    devShells."aarch64-darwin".default = import ./nix/development-environment.nix { inherit nixpkgs; };
+    devShells."x86_64-linux".default = import ./development-environment.nix { inherit nixpkgs; };
+    devShells."aarch64-darwin".default = import ./development-environment.nix { inherit nixpkgs; };
   };
 }
