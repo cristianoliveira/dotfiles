@@ -13,9 +13,6 @@
   };
 
   outputs = { self, nixpkgs, nix-darwin, co-pkgs, ... }:
-    let 
-      nixUpdateConfig = import ./nix-update-config.nix { pkgs = import nixpkgs { system = "aarch64-darwin"; }; };
-    in
   {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
@@ -51,6 +48,9 @@
           # environment.systemPackages = [
           #   nixUpdateConfig
           # ];
+          environment.systemPackages = [
+            (import ./nix-update-config.nix { pkgs = import nixpkgs { system = "aarch64-darwin"; }; })
+          ];
         })
 
         ./osx/configuration.nix
