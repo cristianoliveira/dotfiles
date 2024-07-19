@@ -201,20 +201,26 @@ require('lazy').setup({
   -- Code runners and watchers
 
   -- Fzz watcher to run commands in parallel
-  {
-    'cristianoliveira/funzzy.nvim',
-    build = 'cargo install funzzy'
-  },
+  (function()
+    local funzzy_vim_plugin = {
+      'cristianoliveira/funzzy.nvim',
+      build = 'cargo install funzzy'
+    };
 
-  -- NOTE: for local development
-  -- {
-  --   dir = "~/other/funzzy.nvim",
-  --   config = function()
-  --     vim.g.funzzy_bin = '~/.cargo/bin/fzz'
-  --     vim.g.fzz_bin = '~/.cargo/bin/fzz'
-  --   end,
-  -- },
+    -- Check if there is a local development version of funzzy
+    -- in the `~/other/funzzy.nvim` directory then change the pl
+    if vim.loop.fs_stat(vim.fn.expand('~/other/funzzy.nvim')) then
+      funzzy_vim_plugin = {
+        dir = "~/other/funzzy.nvim",
+        config = function()
+          vim.g.funzzy_bin = '~/.cargo/bin/fzz'
+          vim.g.fzz_bin = '~/.cargo/bin/fzz'
+        end,
+      }
+    end
 
+    return funzzy_vim_plugin
+  end)(),
 
 }, {})
 
