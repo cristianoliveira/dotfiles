@@ -27,10 +27,12 @@ fi
 
 # This is probably not necessary
 # TODO test without this
-echo "Cleaning up /etc/nixos/*"
-sudo mv /etc/nixos /tmp/"$BACKUPNAME"
-sudo ln -s $HOME/.dotfiles/nix/nixos /etc/nixos
-sudo nixos-generate-config
+if [ -d /etc/nixos ]; then
+  echo "Cleaning up /etc/nixos/*"
+  sudo mv /etc/nixos /tmp/"$BACKUPNAME"
+  sudo ln -s $HOME/.dotfiles/nix/nixos /etc/nixos
+  sudo nixos-generate-config
+fi
 
 # link all configs in ~/.config
 
