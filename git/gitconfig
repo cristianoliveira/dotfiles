@@ -123,6 +123,21 @@
   # delete branch
   wrb = worktree remove
   wdb = worktree remove
+
+  # Bisec commands
+  #
+  # USAGE:
+  # Start the bisect with `g bss`
+  # Mark the commit as bad with `g bsb` (usually the HEAD)
+  # Then mark the commit as good with `g bsg`
+  # The bisect command is a binary search command that helps you find the commit that introduced a bug.
+  bss = bisect start
+
+  bsb = bisect bad
+  bsbad = bisect bad
+
+  bsg = bisect good
+  bsgood = bisect good
 [format]
   pretty = format:%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(blue)%s %C(magenta) [%an]%Creset
 [merge]

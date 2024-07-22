@@ -107,8 +107,6 @@ alias gtr='grb track'
 alias glf='git follow'
 alias co='git co'
 alias gt='git t'
-alias gbg='git bisect good'
-alias gbb='git bisect bad'
 alias gi='vim .gitignore'
 alias gcm='git ci -m'
 alias gcim='git ci -m'
@@ -140,3 +138,14 @@ alias gamd!='git commit --no-verify --amend --no-edit'
 alias wab='git worktree add'
 alias wrb='git worktree remove'
 alias wdb='git worktree remove'
+
+# Bisec commands
+#
+# USAGE:
+# Start the bisect with `g bss`
+# Mark the commit as bad with `g bsb` (usually the HEAD)
+# Then mark the commit as good with `g bsg`
+# The bisect command is a binary search command that helps you find the commit that introduced a bug.
+alias gbss='git bisect start'
+alias gbsb='git bisect bad'
+alias gbsg='git bisect good'
