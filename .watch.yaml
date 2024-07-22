@@ -30,7 +30,7 @@
   run: 
     # linter
     - statix check -i nix/nixos/hardware-configuration.nix
-    - nix flake check nix
+    - nix flake check nix --no-build
     - nix/rebuild.sh
   change: 
     - 'nix/**/*.nix'
