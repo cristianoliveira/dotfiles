@@ -41,14 +41,9 @@
   run: 'killall skhd' # Force restart service
   change: 'nix/osx/yabai/**'
     
-- name: adds to git
-  run_on_init: true
-  run:
-    - git fetch
-    - git rebase origin/main
+- name: after commit attempt to rebase
+  run: 
+    - git fetch --all
+    - git rebase origin/master
   change: 
-    - .fzz/git-task # touch .fzz/git-task
-    - '**/*' ## FIXME fzz issue with non strings
-  ignore:
-    - '.git/**/*'
-    - result
+    - ".git/COMMIT_EDITMSG"
