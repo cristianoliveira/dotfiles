@@ -24,6 +24,6 @@ osx: ## Run the osx setup to setup a new macos instance
 watch: ## Run the watch script to watch for changes in the dotfiles
 	@fzz
 
-.PHONY: bkp-bookmarks
+.PHONY: bookmarks-zip
 bookmarks-zip: ## Zip the bookmarks in resources/bookmarks/
 	./resources/bookmarks.sh zip
