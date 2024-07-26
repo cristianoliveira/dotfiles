@@ -105,7 +105,6 @@
       "visual-studio-code" # For pairing
       "dbeaver-community" # DB sql client
       "tunnelblick" # VPN
-      "dash" # Offline documentation
 
       # Others
       "bitwarden"
