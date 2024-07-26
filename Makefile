@@ -1,16 +1,25 @@
-.PHONY: setup osx linux
+.PHONY: help
+help: ## Lists the available commands. Add a comment with '##' to describe a command.
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST)\
+		| sort\
+		| awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-setup:
+.PHONY: setup
+setup: ## Run the setup script
 	@bash ./setup.sh
 
-ssh:
+.PHONY: ssh
+ssh: ## Run the ssh-key script to generate a new ssh key
 	@bash ./ssh-key.sh
 
-linux:
+.PHONY: linux
+linux: ## Run the linux setup to setup a new nixos instance
 	@bash ./nix/nixos/setup.sh
 
-osx:
+.PHONY: osx
+osx: ## Run the osx setup to setup a new macos instance
 	@bash ./nix/osx/setup.sh
 
-watch: 
+.PHONY: watch
+watch: ## Run the watch script to watch for changes in the dotfiles
 	@fzz
