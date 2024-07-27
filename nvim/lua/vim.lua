@@ -107,6 +107,3 @@ vim.api.nvim_create_autocmd('VimEnter', {
   end,
   pattern = '*',
 })
-
--- Hide the command line in normal mode
-vim.o.cmdheight = 0
