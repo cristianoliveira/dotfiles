@@ -9,3 +9,6 @@
 # TODO Adds explaination of the workflow in nix/README.md
 
 # TODO WM: adds a shortcut to resize windows  
+
+# TODO adds a way to manage aws credentials and terraform integration in nixos
+# or with a script to setup and validate the credentials
