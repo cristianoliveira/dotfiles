@@ -5,6 +5,7 @@
   # https://github.com/LnL7/nix-darwin/tree/master
   imports =
     [ 
+      ../shared/dev-tools.nix
       ../shared/direnv.nix
     ];
 
@@ -13,58 +14,13 @@
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
-    # Development environment
-    vim
-    neovim 
-    libiconv # VIM: Required to build lsp in Mason
-    gcc # VIM: Required to build lsp in Mason
-    nil # nix LSP
-
-    git
-    tmux
-    zsh
-    oh-my-zsh
-    zsh-completions
-    zsh-syntax-highlighting
-    diff-so-fancy
-    fzf
-    ripgrep
-    jq
-    colima # container runtimes on macOS (docker)
-    docker
-    docker-compose
-    ngrok
-    ctags
-    gnused # bye macOs annoying sed
-
+    # Other tools (GUI)
     alacritty 
-
-    # Essential pkgs
-    curl
-    wget
-    htop
-    coreutils
-
-    # Helper cli tools
     bitwarden-cli
-
-    # Languages
-    nodejs_20 # npm set prefix ~/.npm-global
-    yarn
-    python3
-    go
-    cargo # rust
-    luarocks
 
     # OSX tiling window manager
     yabai
     skhd
-
-    mypkgs.ergo
-
-    # pkgs.funzzy
-    # This uses the nightly version of funzzy
-    mypkgs.funzzy
   ];
 
   # Enable yabai and skhd services
@@ -89,7 +45,7 @@
        # Browsers
       "firefox"
       "google-chrome"
-      "google-chrome-canary"
+      # "google-chrome-canary"
       "brave-browser"
       "finicky" # Ensure to open links in a browser/profile based on rules
 
