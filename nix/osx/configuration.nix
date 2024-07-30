@@ -1,11 +1,11 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   # Referecence:
   # https://github.com/LnL7/nix-darwin/tree/master
   imports =
     [ 
-      ../shared/dev-tools.nix
+      ../shared/developer-tools.nix
       ../shared/direnv.nix
     ];
 
