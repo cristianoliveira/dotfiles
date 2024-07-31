@@ -85,6 +85,7 @@ Check detailed explanation in `nix/README.md` doc, but you will need nix
 
 ### Prerequisites
 
+ - [Nix for packaging](https://nixos.org/learn/)
  - Generate your [ssh key and add to your github](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
  - In short `ssh-keygen -t ed25519 -C "your_email@example.com"` and add the key to your github account.
 
