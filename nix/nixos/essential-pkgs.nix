@@ -49,7 +49,8 @@
     ## Media manipulation
     gimp
 
-    # Data storage and sync
+    # Data managment
     rclone
+    zip
   ];
 }

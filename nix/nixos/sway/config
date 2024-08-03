@@ -28,8 +28,8 @@ set $heightLarge 60ppt
 set $widthLarge 60ppt
 
 # For notebook disable monitor when lid is closed
-bindswitch lid:on output eDP-1 disable
-bindswitch lid:off output eDP-1 enable
+# bindswitch lid:on output eDP-1 disable
+# bindswitch lid:off output eDP-1 enable
 
 font pango:Monaco 8
 
