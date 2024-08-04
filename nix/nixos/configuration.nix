@@ -12,7 +12,10 @@
       ./mappings/dual-keys.nix
       ./windows-manager.nix
       ./vpn.nix
+
+      # Shared configurations
       ../shared/direnv.nix
+      ../shared/security.nix
     ];
 
   # Bootloader.
