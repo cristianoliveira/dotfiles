@@ -44,6 +44,6 @@
 - name: after commit attempt to rebase
   run: 
     - git fetch --all
-    - git rebase origin/master
+    - git rebase origin/$MAIN_BRANCH
   change: 
     - ".git/COMMIT_EDITMSG"
