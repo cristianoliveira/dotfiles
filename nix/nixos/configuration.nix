@@ -16,6 +16,7 @@
       # Shared configurations
       ../shared/direnv.nix
       ../shared/security.nix
+      ../shared/developer-tools.nix
     ];
 
   # Bootloader.
