@@ -1,1 +1,2 @@
-check: https://floccus.org
+check: https://www.xbrowsersync.org/
+Download and install the browser extension, once configured it starts to sync your bookmarks
