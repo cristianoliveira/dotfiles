@@ -52,5 +52,6 @@
     # Data managment
     rclone
     zip
+    unzip
   ];
 }
