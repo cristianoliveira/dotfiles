@@ -38,6 +38,7 @@
     - .fzz/git-task # touch .fzz/git-task
     - '**/*' ## FIXME fzz issue with non strings
   ignore:
+    - .direnv
     - '.git/**/*'
     - result
 
