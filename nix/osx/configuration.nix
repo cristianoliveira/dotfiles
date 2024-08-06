@@ -5,6 +5,9 @@
   # https://github.com/LnL7/nix-darwin/tree/master
   imports =
     [ 
+      ./developer-tools.nix
+
+      # Shared between linux and darwin
       ../shared/developer-tools.nix
       ../shared/direnv.nix
     ];
