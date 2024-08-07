@@ -60,15 +60,11 @@
 
       "karabiner-elements"
 
-      # More dev tools
-      "visual-studio-code" # For pairing
-      "dbeaver-community" # DB sql client
-      "tunnelblick" # VPN
-
       # Others
       "bitwarden"
       "veracrypt"
       "mullvadvpn"
+      "tunnelblick" # VPN
     ];
   };
 
