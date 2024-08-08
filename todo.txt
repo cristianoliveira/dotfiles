@@ -12,3 +12,6 @@
 
 # TODO adds a way to manage aws credentials and terraform integration in nixos
 # or with a script to setup and validate the credentials
+
+# TODO nix generation as git commit 
+https://github.com/knoc-off/nixos/blob/main/.githooks/post-commit
