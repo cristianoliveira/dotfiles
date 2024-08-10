@@ -1,0 +1,5 @@
+{ pkgs, ...}: {
+  homebrew.casks = [
+    "obs"
+  ];
+}

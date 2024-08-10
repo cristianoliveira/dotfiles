@@ -10,6 +10,7 @@
       # Shared between linux and darwin
       ../shared/developer-tools.nix
       ../shared/direnv.nix
+      ./streaming.nix
     ];
 
   # Allow proprietary pkgs for apps like ngrok
