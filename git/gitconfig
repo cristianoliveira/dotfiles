@@ -27,6 +27,10 @@
   b = branch -v                     # branch (verbose)
   bls = branch --list --format='%(refname:short)'
 
+  # branches that can be deleted
+  bmd = !git branch --merged | grep -v "\\*\\|$MAIN_BRANCH\\|dev"
+  bmdd = !git branch --merged | grep -v "\\*\\|$MAIN_BRANCH\\|dev" | xargs -n 1 git branch -d
+
   # commit
   c = commit -m                     # commit with message
   ca = commit -am                   # commit all with message
