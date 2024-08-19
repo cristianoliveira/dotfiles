@@ -45,3 +45,6 @@ nvim-macos/
 shell.nix
 .envrc
 .direnv
+
+## For projects that don't and won't use nix
+_nix/
