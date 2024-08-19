@@ -42,9 +42,5 @@ nvim-macos/
 .local-ngnix.conf
 
 # nix related
-shell.nix
 .envrc
 .direnv
-
-## For projects that don't and won't use nix
-_nix/
