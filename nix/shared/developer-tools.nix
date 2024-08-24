@@ -43,5 +43,9 @@
     python311Packages.pip
     go
     cargo #
+
+    (pkgs.writeScriptBin "snipgpt" ''#!${pkgs.stdenv.shell}
+      npx snipgpt "$@"
+    '')
   ];
 }
