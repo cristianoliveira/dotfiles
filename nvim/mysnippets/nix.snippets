@@ -121,3 +121,25 @@ snippet flakeout "flake output"
       # Reduce the list of packages of packages into a single attribute set
       recursiveMergeAttrs(systemPackages);
 endsnippet
+
+# Boiler plate for using npx in nix
+snippet npx "npx in nix"
+{ pkgs ? import <nixpkgs> {} }:
+  pkgs.mkShell {
+    buildInputs = [
+      (pkgs.writeScriptBin "spectral" ''#!${pkgs.stdenv.shell}
+        npx @stoplight/spectral-cli@v6.6.0 "$@"
+        '')
+    ];
+
+
+    # Makes npx install and use local cache
+    shellHook = ''
+      mkdir -p $PWD/.npx-local
+      mkdir -p $PWD/.npx-local/lib
+      export NODE_PATH=$PWD/.npx-local
+      export PATH=$NODE_PATH/bin:$PATH
+
+      npm config set prefix $NODE_PATH
+    '';
+  }
