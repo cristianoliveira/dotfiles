@@ -6,12 +6,13 @@ echo "Configuring nvim"
 
 if [ -d "$HOME"/.local/share/nvim ]; then
   echo "Backing up your current state: mazon & lazy.nvim"
-  mv "$HOME"/.local/share/nvim /tmp/"$BACKUPNAME"/sharenvim
+  mv "$HOME/.local/share/nvim" "/tmp/$BACKUPNAME/sharenvim"
+  mv "$HOME/.local/state/nvim" "/tmp/$BACKUPNAME/statenvim"
 fi
 
 mkdir -p "$HOME"/.local/share/nvim
 git clone --filter=blob:none --branch=stable \
-  https://github.com/folke/lazy.nvim.git "$HOME"/.local/share/nvim/lazy
+  https://"$GIT_USER_NAME"@github.com/folke/lazy.nvim.git "$HOME"/.local/share/nvim/lazy/lazy.nvim
 
 echo "Linking config to $HOME/.config/nvim"
 if [ -f "$HOME"/.config/nvim ]; then

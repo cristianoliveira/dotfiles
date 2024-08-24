@@ -48,10 +48,6 @@ $HOME/.dotfiles/nix/nixos/ulauncher/setup.sh
 $HOME/.dotfiles/nix/nixos/rclone/setup.sh
 
 echo "Setting up shared applications"
-$HOME/.dotfiles/nvim/setup.sh
-$HOME/.dotfiles/tmux/setup.sh
-$HOME/.dotfiles/zsh/setup.sh
-$HOME/.dotfiles/nix/shared/alacritty/setup.sh
-$HOME/.dotfiles/git/setup.sh
+"$HOME"/.dotfiles/nix/shared/setup.sh
 
 echo "System is ready to be built with ~/.dotfiles/nix/rebuild.sh"

@@ -24,6 +24,7 @@ read git_user_name
 echo ">>> Please enter your git email:"
 read git_email
 
+export $GIT_USER_NAME="$git_user_name"
 if [ -z "$git_user_name" ] || [ -z "$git_email" ]; then
   echo "Please provide a valid git user name and email."
   exit 1

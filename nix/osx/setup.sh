@@ -35,12 +35,8 @@ echo "Setting up OSX applications"
 "$HOME"/.dotfiles/nix/osx/karabiner/setup.sh
 
 echo "Setting up shared applications"
-"$HOME"/.dotfiles/nvim/setup.sh
-"$HOME"/.dotfiles/tmux/setup.sh
-"$HOME"/.dotfiles/zsh/setup.sh
-"$HOME"/.dotfiles/nix/shared/alacritty/setup.sh
+"$HOME"/.dotfiles/nix/shared/setup.sh
 "$HOME"/.dotfiles/nix/osx/alacritty/setup.sh
-"$HOME"/.dotfiles/git/setup.sh
 
 # So darwin-rebuild is available in the new shell
 sh -c "$HOME/.dotfiles/nix/rebuild.sh"
