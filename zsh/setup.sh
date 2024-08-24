@@ -11,7 +11,7 @@ fi
 
 ln -s "$HOME"/.dotfiles/zsh/zshrc "$HOME"/.zshrc
 
-chsh -s /bin/zsh
+chsh -s "$(which zsh)"
 
 echo "Create local bin folder if it does not exist"
 mkdir -p "$HOME"/.local/bin
