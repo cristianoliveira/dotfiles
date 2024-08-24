@@ -10,10 +10,6 @@ if [ -d "$HOME"/.local/share/nvim ]; then
   mv "$HOME/.local/state/nvim" "/tmp/$BACKUPNAME/statenvim"
 fi
 
-mkdir -p "$HOME"/.local/share/nvim
-git clone --filter=blob:none --branch=stable \
-  https://"$GIT_USER_NAME"@github.com/folke/lazy.nvim.git "$HOME"/.local/share/nvim/lazy/lazy.nvim
-
 echo "Linking config to $HOME/.config/nvim"
 if [ -f "$HOME"/.config/nvim ]; then
   echo "Backing up your current configs: nvim"

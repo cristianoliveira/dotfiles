@@ -4,6 +4,10 @@ set -u # do not allow unset variables
 echo "Create local bin folder if it does not exist"
 mkdir -p "$HOME"/.local/bin
 
+export BACKUPNAME="nixbkp-$(date +%s)"
+mkdir -p "/tmp/$BACKUPNAME"
+echo "Backing up your current setup to /tmp/$BACKUPNAME"
+
 ## if linux 
 if [ "$(uname)" == "Linux" ]; then
   echo "Setting up linux"
