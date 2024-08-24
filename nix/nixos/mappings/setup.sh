@@ -7,5 +7,4 @@ if [ -d /etc/mappings ]; then
   sudo mv /etc/mappings /tmp/mappings
 fi
 
-sudo mkdir -p /etc/mappings
-sudo ln -sf $HOME/.dotfiles/nix/nixos/mappings /etc/mappings
+sudo ln -sf $HOME/.dotfiles/nix/nixos/mappings /etc/
