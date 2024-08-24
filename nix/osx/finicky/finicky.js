@@ -31,7 +31,10 @@ module.exports = {
     },
     {
       // Open code related urls in Google Chrome Canary
-      match: /localhost/,
+      match: [
+        /localhost/,
+        /local.gd/,
+      ],
       browser: "Google Chrome Canary"
     },
   ],
