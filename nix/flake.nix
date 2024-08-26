@@ -19,25 +19,14 @@
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
-        ({ config, pkgs, ... }: { 
-          # Injects mypkgs into nixpkgs as pkgs.mypkgs
-          nixpkgs.overlays = [ 
-            (final: prev: { mypkgs = import co-pkgs { inherit pkgs; }; })
-          ];
-        })
+        ./shared/overlay.nix { pkgs = nixpkgs; co-pkgs = co-pkgs; }
         ./nixos/configuration.nix
       ];
     };
     darwinConfigurations.darwin = nix-darwin.lib.darwinSystem {
       system = "aarch64-darwin";
       modules = [
-        ({ config, pkgs, ... }: { 
-          # Injects mypkgs into nixpkgs as pkgs.mypkgs
-          nixpkgs.overlays = [ 
-            (final: prev: { mypkgs = import co-pkgs { inherit pkgs; }; })
-          ];
-        })
-
+        ./shared/overlay.nix { pkgs = nixpkgs; co-pkgs = co-pkgs; }
         ./osx/configuration.nix
       ];
     };
