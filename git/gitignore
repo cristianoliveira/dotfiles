@@ -24,6 +24,7 @@ dump.rdb
 .ergo
 
 _scripts/
+__/
 
 # fzz related
 .watch.yaml
