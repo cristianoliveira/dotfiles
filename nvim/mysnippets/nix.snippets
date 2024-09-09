@@ -143,3 +143,26 @@ snippet npx "npx in nix"
       npm config set prefix $NODE_PATH
     '';
   }
+endsnippet
+
+snippet build_nmpcknpx "build npm package"
+{ pkgs, fetchFromGitHub  }: 
+  pkgs.buildNpmPackage rec {
+
+    name = "snipgpt";
+    version = "0.2.1";
+
+    doBuild = false;
+
+    src = fetchFromGitHub {
+      owner = "cristianoliveira";
+      repo = "snipgpt";
+      rev = "v${version}";
+      sha256 = "sha256-3ViFO0drJ6PrEQZECKUIQiMCAEsq12ViTxV7jgPLhMo=";
+    };
+
+    npmDepsHash = "sha256-aYJLbGQeH9EthA3zq/olvP0xNZVzvwXtt0Tz7dMQS6U=";
+
+    npmFlags = ["--ignore-scripts"];
+  }
+endsnippet
