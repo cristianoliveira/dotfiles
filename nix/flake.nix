@@ -9,9 +9,7 @@
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
-    co-pkgs = {
-      url = "github:cristianoliveira/nixpkgs/develop";
-    };
+    co-pkgs.url = "github:cristianoliveira/nixpkgs";
   };
 
   outputs = { self, nixpkgs, nix-darwin, co-pkgs, ... }:
@@ -22,7 +20,7 @@
         ({ config, pkgs, ... }: { 
           # Injects mypkgs into nixpkgs as pkgs.mypkgs
           nixpkgs.overlays = [ 
-            (final: prev: { mypkgs = import co-pkgs { inherit pkgs; }; })
+            (final: prev: { copckgs = import co-pkgs { inherit pkgs; }; })
           ];
         })
         ./nixos/configuration.nix
@@ -34,7 +32,7 @@
         ({ config, pkgs, ... }: { 
           # Injects mypkgs into nixpkgs as pkgs.mypkgs
           nixpkgs.overlays = [ 
-            (final: prev: { mypkgs = import co-pkgs { inherit pkgs; }; })
+            (final: prev: { copckgs = import co-pkgs { inherit pkgs; }; })
           ];
         })
 
