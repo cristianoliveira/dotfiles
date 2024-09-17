@@ -45,3 +45,6 @@ nvim-macos/
 # nix related
 .envrc
 .direnv
+
+# Pono
+pono.toml
