@@ -141,7 +141,7 @@ else
     echo "No custom $ENV_PUBLIC_FILE file found"
 fi
 
-CUSTOM_ZSHRC="$HOME/.custom_zshrc"
+CUSTOM_ZSHRC="$HOME/.custom.zsh"
 if [[ -f "$CUSTOM_ZSHRC" ]]; then
     echo "$CUSTOM_ZSHRC exists. Loading..."
     source "$CUSTOM_ZSHRC"
