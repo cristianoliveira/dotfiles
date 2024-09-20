@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+set -e
+
+USAGE="
+Chrome Debug
+
+A helper command line for opening chrome with remote debugging enabled
+
+USAGE:
+${0} start (default: 9222 | CHROME_DEBUG_PORT) - start chrome with remote debugging enabled
+${0} stop - stop chrome with remote debugging enabled
+${0} open <url> - open a URL in chrome 
+"
+
+PORT=${CHROME_DEBUG_PORT:-9222}
+COMMAND=${1?"${USAGE}"}
+ARG1=${2}
+
+## If is OS X
+if [[ $(uname) != "Darwin" ]]; then
+  echo "TODO: Implement for other OS"
+  exit 1
+fi
+
+DEFAULT_CHROME_APP_PATH='/Applications/Google Chrome Canary.app'
+CHROME_APP=${CHROME_APP_PATH:-$DEFAULT_CHROME_APP_PATH}
+
+case $COMMAND in
+  start)
+    echo "Starting chrome canary in debug mode..."
+    open -a "$CHROME_APP" --args --remote-debugging-port=$PORT
+    ;;
+  stop)
+    killall "Google Chrome Canary"
+    ;;
+  open)
+    URL=${ARG1?"${USAGE}"}
+    echo "Opening ${URL} in chrome..."
+    curl -XPUT "http://localhost:$PORT/json/new?${URL}"
+    ;;
+  *)
+    echo "${USAGE}"
+    exit 1
+    ;;
+esac
