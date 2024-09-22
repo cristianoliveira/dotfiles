@@ -13,3 +13,7 @@ vim.cmd("command! -nargs=0 NvimEdit :e $MYVIMRC")
 --
 -- The folder `_scripts` is in the root of the project and ignore by git
 vim.cmd("command! -nargs=0 Do !bash _scripts/do.sh")
+
+
+-- Fugitive
+vim.cmd("command! -nargs=0 Gaf :G add %")
