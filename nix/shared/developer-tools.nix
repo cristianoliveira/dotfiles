@@ -37,6 +37,8 @@
     htop
     gnumake
 
+    universal-ctags
+
     # Languages
     nodejs_20 # npm set prefix ~/.npm-global
     python3

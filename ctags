@@ -123,3 +123,17 @@
 --exclude=test
 --exclude=tests
 
+--langdef=openapi
+--langmap=openapi:.yaml.yaml_openapi
+--langmap=openapi:.yml.yml_openapi
+--langmap=openapi:.json.json_openapi
+
+--regex-openapi=/^\s*paths:\s*\/([^:]+):/\1/p,Path/
+--regex-openapi=/^\s*operationId:\s*\"([^\"]+)\"/\1/o,Operation/
+--regex-openapi=/^\s*schemas:\s*([^\s]+):/\1/s,Schema/
+--regex-openapi=/^\s*parameters:\s*-\s*name:\s*([^\s]+):/\1/pa,Parameter/
+--regex-openapi=/^\s*responses:\s*([^\s]+):/\1/r,Response/
+--regex-openapi=/^\s*tags:\s*-\s*\"([^\"]+)\"/\1/t,Tag/
+
+--regex-openapi=/^\s*components:\s*securitySchemes:\s*([^\s]+):/\1/sec,SecurityScheme/
+--regex-openapi=/^\s*security:\s*-\s*([^\s]+):/\1/sec,SecurityRequirement/
