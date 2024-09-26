@@ -80,9 +80,8 @@
         DISABLE_AUTO_UPDATE = "true";
       };
       interactiveShellInit = ''
-        autoload -U +X compinit && compinit
         export NIX_ENV=1
-        export PATH=$HOME/.npm-global/bin:/usr/local/bin:$PATH
+        export PATH=$HOME/.npm-global/bin:$PATH
       '';
 
       # Oh-my-zsh configuration
