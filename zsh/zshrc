@@ -141,6 +141,10 @@ else
     echo "No custom $ENV_PUBLIC_FILE file found"
 fi
 
+for alias_file ($HOME/.dotfiles/zsh/aliases/*.zsh) source $alias_file
+for func_files ($HOME/.dotfiles/zsh/func/*.zsh) source $func_files
+for settings_file ($HOME/.dotfiles/zsh/settings/*.zsh) source $settings_file
+
 CUSTOM_ZSHRC="$HOME/.custom.zsh"
 if [[ -f "$CUSTOM_ZSHRC" ]]; then
     echo "$CUSTOM_ZSHRC exists. Loading..."
@@ -148,10 +152,6 @@ if [[ -f "$CUSTOM_ZSHRC" ]]; then
 else
     echo "No custom $CUSTOM_ZSHRC file found"
 fi
-
-for alias_file ($HOME/.dotfiles/zsh/aliases/*.zsh) source $alias_file
-for func_files ($HOME/.dotfiles/zsh/func/*.zsh) source $func_files
-for settings_file ($HOME/.dotfiles/zsh/settings/*.zsh) source $settings_file
 
 # enable autocomplete for commands
 if [ -z "$NIX_ENV" ] ; then
