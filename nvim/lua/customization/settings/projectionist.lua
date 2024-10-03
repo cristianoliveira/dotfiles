@@ -1,4 +1,4 @@
--- Vim Projectionist setting
+-- [[ Vim Projectionist setting ]]
 --
 -- This configuration allows one to quick create/jump to related files
 -- Common usage is use :A to alternate between the files in the pattern
@@ -9,6 +9,7 @@
 --
 -- See :help projectionist
 vim.g.projectionist_heuristics = {
+  -- [[ Typescript and javascript euristics for projectionist ]]
   ['package.json'] = {
     ['*.js'] = {
       ['alternate'] = { '{}.spec.js', '{}.test.js' },
@@ -55,6 +56,7 @@ vim.g.projectionist_heuristics = {
     }
   },
 
+  -- [[ Golang euristics for projectionist ]]
   ['go.mod'] = {
     ['*.go'] = {
       ['alternate'] = { '{}_test.go' }
@@ -64,6 +66,7 @@ vim.g.projectionist_heuristics = {
     }
   },
 
+  -- [[ Lua euristics for projectionist ]]
   ['init.lua'] = {
     ['*.lua'] = {
       ['alternate'] = { '{}_spec.lua' }
@@ -71,5 +74,25 @@ vim.g.projectionist_heuristics = {
     ['*_spec.lua'] = {
       ['alternate'] = { '{}.lua' }
     }
+  },
+
+  -- [[ Nix euristics for projectionist ]]
+  ['*.nix'] = {
+    ['flake.nix'] = {
+      ['alternate'] = { 'flake.lock', 'shell.nix', 'default.nix' },
+      ['type'] = "lock"
+    },
+    ['flake.lock'] = {
+      ['alternate'] = { 'flake.nix' },
+      ['type'] = "flake"
+    },
+    ['shell.nix'] = {
+      ['alternate'] = { 'flake.nix' },
+      ['type'] = "shell"
+    },
+    ['default.nix'] = {
+      ['alternate'] = { 'flake.nix' },
+      ['type'] = "default"
+    },
   }
 }
