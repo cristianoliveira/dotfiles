@@ -10,7 +10,7 @@ setup: ## Run the setup script
 
 .PHONY: ssh
 ssh: ## Run the ssh-key script to generate a new ssh key
-	@bash ./ssh-key.sh
+	@bash ./nix/shared/ssh-key.sh
 
 .PHONY: linux
 linux: ## Run the linux setup to setup a new nixos instance
@@ -23,7 +23,3 @@ osx: ## Run the osx setup to setup a new macos instance
 .PHONY: watch
 watch: ## Run the watch script to watch for changes in the dotfiles
 	@fzz
-
-.PHONY: bookmarks-zip
-bookmarks-zip: ## Zip the bookmarks in resources/bookmarks/
-	./resources/bookmarks.sh zip
