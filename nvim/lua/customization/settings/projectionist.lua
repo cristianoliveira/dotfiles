@@ -94,5 +94,9 @@ vim.g.projectionist_heuristics = {
       ['alternate'] = { 'flake.nix' },
       ['type'] = "default"
     },
+    ['packages.nix'] = {
+      ['alternate'] = { 'flake.nix' },
+      ['type'] = "pkgs"
+    },
   }
 }
