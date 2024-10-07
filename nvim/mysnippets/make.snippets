@@ -12,3 +12,11 @@ snippet task "task for Makefile"
 ${1:task}: ## $2
 	$3
 endsnippet
+
+snippet cirun "task ci run for Makefile"
+.PHONY: ci-run-$1
+ci-run-${1:on-push}: ## Run checks from .github/workflows/$1.yml
+	@cat .github/workflows/$1.yml \
+		| yq '.jobs | .[] | .steps | .[] | .run | select(. != null)' \
+		| xargs -I {} bash -c {}
+endsnippet

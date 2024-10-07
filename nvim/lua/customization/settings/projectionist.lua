@@ -79,7 +79,7 @@ vim.g.projectionist_heuristics = {
   -- [[ Nix euristics for projectionist ]]
   ['*.nix'] = {
     ['flake.nix'] = {
-      ['alternate'] = { 'flake.lock', 'shell.nix', 'default.nix' },
+      ['alternate'] = { 'flake.nix', 'shell.nix', 'default.nix' },
       ['type'] = "lock"
     },
     ['flake.lock'] = {
@@ -97,6 +97,20 @@ vim.g.projectionist_heuristics = {
     ['packages.nix'] = {
       ['alternate'] = { 'flake.nix' },
       ['type'] = "pkgs"
+    },
+  },
+  -- [[ Funzzy euristics for projectionist ]]
+  ['.watch.yaml'] = {
+    ['.watch.yaml'] = {
+      ['alternate'] = { '.watch.yaml' },
+      ['type'] = "Watch"
+    },
+  },
+
+  ['_scripts/'] = {
+    ['_scripts/*.sh'] = {
+      ['alternate'] = { '_scripts/do.sh', '{}.sh' },
+      ['type'] = "Do"
     },
   }
 }
