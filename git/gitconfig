@@ -47,6 +47,8 @@
   nb = checkout -b                   # create and switch to a new branch (mnemonic: "git new branch branchname...")
   chb = checkout -b                  # create and switch to a new branch
   chm = !git checkout "$MAIN_BRANCH" # checkout main branch
+  chd = !git checkout develop
+  chs = !git checkout stage
 
   # cherry-pick
   cp = cherry-pick -x               # grab a change from a branch

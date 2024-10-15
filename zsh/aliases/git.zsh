@@ -81,6 +81,7 @@ alias gch='git checkout'
 alias gchb='git checkout -b'
 alias gchm='git checkout "$MAIN_BRANCH"'
 alias gchd='git checkout develop'
+alias gchs='git checkout stage'
 
 # git branch
 alias gbo='git branch --sort=-committerdate'
