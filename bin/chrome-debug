@@ -13,7 +13,7 @@ ${0} stop - stop chrome with remote debugging enabled
 ${0} open <url> - open a URL in chrome 
 "
 
-PORT=${CHROME_DEBUG_PORT:-9222}
+CHROME_PORT=${CHROME_DEBUG_PORT:-9222}
 COMMAND=${1?"${USAGE}"}
 ARG1=${2}
 
@@ -28,8 +28,8 @@ CHROME_APP=${CHROME_APP_PATH:-$DEFAULT_CHROME_APP_PATH}
 
 case $COMMAND in
   start)
-    echo "Starting chrome canary in debug mode..."
-    open -a "$CHROME_APP" --args --remote-debugging-port=$PORT
+    echo "Starting chrome canary in debug mode... PORT:$CHROME_PORT"
+    open -a "$CHROME_APP" --args --remote-debugging-port="$CHROME_PORT"
     ;;
   stop)
     killall "Google Chrome Canary"
@@ -37,7 +37,7 @@ case $COMMAND in
   open)
     URL=${ARG1?"${USAGE}"}
     echo "Opening ${URL} in chrome..."
-    curl -XPUT "http://localhost:$PORT/json/new?${URL}"
+    curl -v -XPUT "http://localhost:$CHROME_PORT/json/new?${URL}"
     ;;
   *)
     echo "${USAGE}"
