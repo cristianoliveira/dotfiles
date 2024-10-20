@@ -27,7 +27,7 @@
     gcc # VIM: Required to build lsp in Mason
 
     # My custom pkgs
-    copckgs.funzzy
+    copckgs.funzzyNightly
     # (if mypkgs then mypkgs.ergo else null)
 
     # Essential pkgs
