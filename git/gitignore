@@ -23,8 +23,12 @@ dump.rdb
 
 .ergo
 
+# Local ignored files/folders
 _scripts/
 __/
+.scripts/
+.bin/
+.tmp/
 
 # fzz related
 .watch.yaml
