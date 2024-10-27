@@ -166,3 +166,12 @@ snippet build_nmpcknpx "build npm package"
     npmFlags = ["--ignore-scripts"];
   }
 endsnippet
+
+snippet mkshell "a default mkShell"
+  devShells.default = pkgs.mkShell {
+    packages = with pkgs; [
+      hello
+    ];
+  };
+endsnippet
+
