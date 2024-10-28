@@ -118,5 +118,15 @@
         "is_default_search": false,
         "run_without_argument": true,
         "added": 1730097764.3724236
+    },
+    "904dc04c-d8c3-4dbd-ae7d-05e409e2893e": {
+        "id": "904dc04c-d8c3-4dbd-ae7d-05e409e2893e",
+        "name": "sound",
+        "keyword": "sound volume",
+        "cmd": "#!/usr/bin/env bash\n\npavucontrol",
+        "icon": null,
+        "is_default_search": false,
+        "run_without_argument": true,
+        "added": 1730100011.0888097
     }
 }
