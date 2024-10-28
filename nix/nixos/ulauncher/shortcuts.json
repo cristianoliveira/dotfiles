@@ -89,16 +89,6 @@
         "run_without_argument": true,
         "added": 1712485512.884497
     },
-    "09d0c949-8851-43ef-9d52-d594730f30e0": {
-        "id": "09d0c949-8851-43ef-9d52-d594730f30e0",
-        "name": "gnome shell",
-        "keyword": "gnome shell config settings",
-        "cmd": "gnome-shell --nested",
-        "icon": null,
-        "is_default_search": false,
-        "run_without_argument": true,
-        "added": 1712999891.7264647
-    },
     "a7810ddb-ee94-47f4-b4b9-c8500afe33e6": {
         "id": "a7810ddb-ee94-47f4-b4b9-c8500afe33e6",
         "name": "screenshot",
@@ -118,5 +108,15 @@
         "is_default_search": false,
         "run_without_argument": true,
         "added": 1717858483.9435337
+    },
+    "3f468df3-4bf9-459e-aa56-393a64558074": {
+        "id": "3f468df3-4bf9-459e-aa56-393a64558074",
+        "name": "network",
+        "keyword": "wifi network connect",
+        "cmd": "#!/usr/bin/env bash\n\nalacritty --command nmtui-connect",
+        "icon": null,
+        "is_default_search": false,
+        "run_without_argument": true,
+        "added": 1730097764.3724236
     }
 }
