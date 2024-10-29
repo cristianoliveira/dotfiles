@@ -112,5 +112,30 @@ vim.g.projectionist_heuristics = {
       ['alternate'] = { '_scripts/do.sh', '{}.sh' },
       ['type'] = "Do"
     },
-  }
+  },
+
+  -- [[ Dotenv (Vercel like) euristics for projectionist ]]
+  ['.env.local'] = {
+    ['*.local'] = {
+      ['alternate'] = { '*.local', '.env.local' },
+      ['type'] = "EnvLocal"
+    },
+  },
+
+  -- [[ Dotenv (with example) euristics for projectionist ]]
+  ['.env-example'] = {
+    ['.env'] = {
+      ['alternate'] = { '.env-example' },
+      ['type'] = "EnvExample"
+    }
+  },
+
+  -- [[ Github actions euristics for projectionist ]]
+  -- USAGE: :ECI <workflow> to jump to the CI workflow (use TAB to autocomplete)
+  ['.github/workflows/'] = {
+    ['.github/workflows/*.yml'] = {
+      ['alternate'] = { '.github/workflows/*.yml' },
+      ['type'] = "CI"
+    },
+  },
 }
