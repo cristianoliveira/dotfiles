@@ -13,3 +13,6 @@ alias cmdf='\history | grep'
 
 # Helper aliases
 alias dups='grep -v "^\s*$" | sort | uniq -d'
+
+# Ripgrep aliases
+alias rgh='rg --hidden'
