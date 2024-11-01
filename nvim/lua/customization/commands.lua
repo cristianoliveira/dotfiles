@@ -11,8 +11,8 @@ vim.cmd("command! -nargs=0 NvimEdit :e $MYVIMRC")
 -- I take this and create a simple command to run it
 -- with :Do
 --
--- The folder `_scripts` is in the root of the project and ignore by git
-vim.cmd("command! -nargs=0 Do !bash _scripts/do.sh")
+-- The folder `.scripts/` is in the root of the project and ignore by git
+vim.cmd("command! -nargs=0 Do !bash .scripts/do.sh")
 
 -- Fugitive
 vim.cmd("command! -nargs=0 Gaf :G add %")

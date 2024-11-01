@@ -107,25 +107,17 @@ vim.g.projectionist_heuristics = {
     },
   },
 
-  ['_scripts/'] = {
-    ['_scripts/*.sh'] = {
-      ['alternate'] = { '_scripts/do.sh', '{}.sh' },
+  ['.scripts/'] = {
+    ['.scripts/*.sh'] = {
+      ['alternate'] = { '.scripts/*.sh' },
       ['type'] = "Do"
-    },
-  },
-
-  -- [[ Dotenv (Vercel like) euristics for projectionist ]]
-  ['.env.local'] = {
-    ['*.local'] = {
-      ['alternate'] = { '*.local', '.env.local' },
-      ['type'] = "EnvLocal"
     },
   },
 
   -- [[ Dotenv (with example) euristics for projectionist ]]
   ['.env-example'] = {
     ['.env'] = {
-      ['alternate'] = { '.env-example' },
+      ['alternate'] = { '.env-example', '.env', '.env.local' },
       ['type'] = "EnvExample"
     }
   },
@@ -136,6 +128,16 @@ vim.g.projectionist_heuristics = {
     ['.github/workflows/*.yml'] = {
       ['alternate'] = { '.github/workflows/*.yml' },
       ['type'] = "CI"
+    },
+  },
+
+
+  -- [[ Git hooks euristic for Projectionist ]]
+  -- USAGE: EGHooks <hook> to jump to the hook file
+  ['.git/hooks/'] = {
+    ['.git/hooks/*'] = {
+      ['alternate'] = { '.git/hooks/*' },
+      ['type'] = "GHook"
     },
   },
 }
