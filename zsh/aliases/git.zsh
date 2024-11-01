@@ -65,6 +65,11 @@ alias grsom='git reset --hard origin/"$MAIN_BRANCH"'
 alias grshom='git reset --hard origin/"$MAIN_BRANCH"'
 alias grsthom='git reset --hard origin/"$MAIN_BRANCH"'
 alias grst!='git reset --hard origin/"$MAIN_BRANCH"'
+alias grs1='git reset HEAD~1' # reset last commit
+alias grs~='git reset HEAD~1' # reset last commit
+alias grsone='git reset HEAD~1' # reset last commit
+alias grs2='git reset HEAD~2' # reset last 2 commits
+alias grs~~='git reset HEAD~2' # reset last commit
 
 # git clean
 alias gcln='git clean'
