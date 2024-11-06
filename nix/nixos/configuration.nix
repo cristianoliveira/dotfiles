@@ -11,6 +11,7 @@
       ./essential-pkgs.nix
       ./mappings/dual-keys.nix
       ./windows-manager.nix
+      ./file-manager.nix
       ./vpn.nix
 
       # Shared configurations

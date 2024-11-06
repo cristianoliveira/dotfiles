@@ -6,16 +6,16 @@
         "utils": "utils"
       },
       "locked": {
-        "lastModified": 1729446452,
-        "narHash": "sha256-4dTPmE13S3cIq69btzdZvoVIBxc61VzGXrLsBqSt5Ys=",
+        "lastModified": 1730367668,
+        "narHash": "sha256-X9IABdlntW6JdweuvZktGta/UcdAFZ04mdYCQp6XxK8=",
         "owner": "cristianoliveira",
         "repo": "nixpkgs",
-        "rev": "2b742882761f6f9034dc03e86eac43964c8604a0",
+        "rev": "bc50f3e1345ec45a1028afe0529439c5676c70f3",
         "type": "github"
       },
       "original": {
         "owner": "cristianoliveira",
-        "ref": "2b74288",
+        "ref": "main",
         "repo": "nixpkgs",
         "type": "github"
       }
