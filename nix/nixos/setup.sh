@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-set -e
-set -o pipefail
+set -e # This is necessary to catch errors in commands
+set -o pipefail # This is necessary to catch errors in commands piped together
 
 echo "Creating .config/nix folder"
 
@@ -10,7 +10,8 @@ echo "Backup found in /tmp/$BACKUPNAME"
 
 if [ -d "$HOME"/.config ]; then
   echo "Backing up your current configs: .config"
-  mv $HOME/.config /tmp/$BACKUPNAME
+  # Move and ignore if it already exists
+  mv -f "$HOME"/.config /tmp/"$BACKUPNAME"
 fi;
 
 mkdir -p $HOME/.config/nix
@@ -37,9 +38,6 @@ fi
 
 # link all configs in ~/.config
 
-# So environment is updated before running rebuild.sh
-sh -c "$HOME/.dotfiles/nix/rebuild.sh"
-
 echo "Setting up nixos applications"
 $HOME/.dotfiles/nix/nixos/mappings/setup.sh
 $HOME/.dotfiles/nix/nixos/sway/setup.sh
@@ -50,5 +48,9 @@ $HOME/.dotfiles/nix/nixos/rclone/setup.sh
 
 echo "Setting up shared applications"
 "$HOME"/.dotfiles/nix/shared/setup.sh
+
+# So environment is updated before running rebuild.sh
+echo "Installing dependencies and rebuilding system..."
+sh -c "SKIP_COMMIT=1 $HOME/.dotfiles/nix/rebuild.sh"
 
 echo "System is ready to be built with ~/.dotfiles/nix/rebuild.sh"
