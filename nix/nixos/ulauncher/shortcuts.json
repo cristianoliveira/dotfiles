@@ -138,5 +138,15 @@
         "is_default_search": false,
         "run_without_argument": true,
         "added": 1731174275.9290702
+    },
+    "f1239951-f745-43af-8da7-1767abe55608": {
+        "id": "f1239951-f745-43af-8da7-1767abe55608",
+        "name": "slock",
+        "keyword": "lock sway",
+        "cmd": "#!/usr/bin/env bash\n\nswaylock -f -c 000000",
+        "icon": null,
+        "is_default_search": false,
+        "run_without_argument": true,
+        "added": 1731184831.6883407
     }
 }
