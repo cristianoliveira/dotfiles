@@ -7,7 +7,6 @@
     kdePackages.dolphin
     kdePackages.qtwayland
     kdePackages.qt6ct
-    kdePackages.qtwayland
     kdePackages.qtsvg
   ];
 }

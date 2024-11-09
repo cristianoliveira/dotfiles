@@ -73,7 +73,7 @@
         "id": "393bc251-6081-417a-9fe4-32a49bbf8f5d",
         "name": "alacritty",
         "keyword": "terminal alacritty",
-        "cmd": "swaymsg [app_id=\"Alacritty\"] focus || alacritty --option font.size=11",
+        "cmd": "#!/usr/bin/env bash\n\nswaymsg '[app_id=\"Alacritty\"]' focus || alacritty --option font.size=11",
         "icon": null,
         "is_default_search": false,
         "run_without_argument": true,
