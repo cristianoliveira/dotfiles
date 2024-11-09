@@ -128,5 +128,15 @@
         "is_default_search": false,
         "run_without_argument": true,
         "added": 1730100011.0888097
+    },
+    "894783a3-a8a6-420c-970a-1eb88458485c": {
+        "id": "894783a3-a8a6-420c-970a-1eb88458485c",
+        "name": "displays",
+        "keyword": "displays screen",
+        "cmd": "#!/usr/bin/env bash\n\nwdisplays\n",
+        "icon": null,
+        "is_default_search": false,
+        "run_without_argument": true,
+        "added": 1731174275.9290702
     }
 }
