@@ -2,14 +2,14 @@
     "com.github.pascalbe-dev.ulauncher-browser-bookmarks": {
         "id": "com.github.pascalbe-dev.ulauncher-browser-bookmarks",
         "url": "https://github.com/pascalbe-dev/ulauncher-browser-bookmarks",
-        "updated_at": "2024-04-22T18:57:48.420336",
+        "updated_at": "2024-11-09T12:43:32.199530",
         "last_commit": "f58f01d2b95b5bd10b84971e5c968b49966c9ab0",
         "last_commit_time": "2024-04-11T15:32:47"
     },
     "com.github.lighttigerxiv.ulauncher-session-manager": {
         "id": "com.github.lighttigerxiv.ulauncher-session-manager",
         "url": "https://github.com/lighttigerXIV/ulauncher-session-manager",
-        "updated_at": "2024-04-22T18:57:49.777847",
+        "updated_at": "2024-11-09T12:43:33.785328",
         "last_commit": "39218fddb79d86150c4624d96b1a162eba89c993",
         "last_commit_time": "2023-05-23T08:14:57"
     }
