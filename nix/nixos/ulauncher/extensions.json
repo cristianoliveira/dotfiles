@@ -12,5 +12,12 @@
         "updated_at": "2024-11-09T12:43:33.785328",
         "last_commit": "39218fddb79d86150c4624d96b1a162eba89c993",
         "last_commit_time": "2023-05-23T08:14:57"
+    },
+    "com.github.rdnetto.ulauncher-sway": {
+        "id": "com.github.rdnetto.ulauncher-sway",
+        "url": "https://github.com/rdnetto/ulauncher-sway",
+        "updated_at": "2024-11-09T20:22:39.793117",
+        "last_commit": "9fc141f01959fb5086518699229af97d920ca865",
+        "last_commit_time": "2021-07-22T12:29:13"
     }
 }
