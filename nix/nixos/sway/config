@@ -188,6 +188,11 @@ input "type:keyboard" {
     # Note: workspaces can have any name you want, not just numbers.
     # We just use 1-10 as the default.
 
+    # Move workspaces to different outputs (monitors) down and up
+    # move the current workspace to the down output w or s 
+    bindsym $mod+Ctrl+Shift+w move workspace to output up
+    bindsym $mod+Ctrl+Shift+s move workspace to output down
+
     # Old habits
     bindsym $mod+Tab workspace next
     bindsym $mod+Shift+Tab workspace prev
@@ -303,7 +308,6 @@ bar {
 }
 
 for_window [class=".*"] border pixel 1
-for_window [class="Alacritty"] move container to workspace $ws2
 for_window [class="Alacritty"] opacity 0.9
 for_window [app_id="ulauncher"] border pixel 0
 
