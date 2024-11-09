@@ -86,8 +86,10 @@ input "type:keyboard" {
     xkb_layout us
     xkb_variant altgr-intl
     xkb_options caps:ctrl_modifier,altwin:swap_lalt_lwin
+    # repeat similar to OSX `KeyRepeat -int 10`
     repeat_delay 200
-    repeat_rate 30
+    # repeat similar to OSX KeyRepeat -float 1.2
+    repeat_rate 60
 }
 
 ### Key bindings
