@@ -44,9 +44,10 @@ output * bg $HOME/.dotfiles/resources/wallpaper.jpg fill
 #
 # Example configuration:
 #
+# To check a GUI option run `nix run nixpkgs#wdisplays`
 
 # builtin/main display on the bottom
-output eDP-1 resolution 1920x1080 position 1920,1080 
+output eDP-1 resolution 1920x1200 position 1920,1200 
 # secondary display on the top
 # output DP-1 resolution 1920x1080 position 1920,0 
 output DP-2 resolution 1920x1080 position 1920,0 

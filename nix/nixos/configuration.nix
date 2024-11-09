@@ -8,6 +8,8 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+
+      # NixOs specific configurations
       ./essential-pkgs.nix
       ./mappings/dual-keys.nix
       ./windows-manager.nix
