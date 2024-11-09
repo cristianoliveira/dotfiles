@@ -4,6 +4,10 @@
 #
 # Read `man 5 sway` for a complete reference.
 
+# To reload sway configuration, run `swaymsg reload`
+# To get the names of your outputs, run `swaymsg -t get_outputs`
+# To get the names of your inputs, run `swaymsg -t get_inputs`
+
 ### Variables
 #
 # Logo key. Use Mod1 for Alt.
@@ -53,10 +57,10 @@ output DP-1 resolution 1920x1080 position 1920,0
 #
 # Example configuration:
 #
-# exec swayidle -w \
-#          timeout 300 'swaylock -f -c 000000' \
-#          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-#          before-sleep 'swaylock -f -c 000000'
+exec swayidle -w \
+         timeout 300 'swaylock -f -c 000000' \
+         timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+         before-sleep 'swaylock -f -c 000000'
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
