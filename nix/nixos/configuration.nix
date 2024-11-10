@@ -15,6 +15,7 @@
       ./windows-manager.nix
       ./file-manager.nix
       ./vpn.nix
+      ./streaming.nix
 
       # Shared configurations
       ../shared/direnv.nix
