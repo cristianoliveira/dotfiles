@@ -13,11 +13,11 @@
         "last_commit": "9fc141f01959fb5086518699229af97d920ca865",
         "last_commit_time": "2021-07-22T12:29:13"
     },
-    "com.github.pascalbe-dev.ulauncher-browser-bookmarks": {
-        "id": "com.github.pascalbe-dev.ulauncher-browser-bookmarks",
-        "url": "https://github.com/pascalbe-dev/ulauncher-browser-bookmarks",
-        "updated_at": "2024-11-10T08:42:50.704924",
-        "last_commit": "f58f01d2b95b5bd10b84971e5c968b49966c9ab0",
-        "last_commit_time": "2024-04-11T15:32:47"
+    "com.github.cristianoliveira.ulauncher-browser-bookmarks": {
+        "id": "com.github.cristianoliveira.ulauncher-browser-bookmarks",
+        "url": "https://github.com/cristianoliveira/ulauncher-browser-bookmarks",
+        "updated_at": "2024-11-10T17:39:21.553101",
+        "last_commit": "f9f5e9a75ee977150261bc41e38bd94cf244ea33",
+        "last_commit_time": "2024-11-10T16:22:14"
     }
 }
