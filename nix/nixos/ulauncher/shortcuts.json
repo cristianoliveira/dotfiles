@@ -148,5 +148,25 @@
         "is_default_search": false,
         "run_without_argument": true,
         "added": 1731184831.6883407
+    },
+    "6590b67d-47c2-4783-b215-39e8375c799f": {
+        "id": "6590b67d-47c2-4783-b215-39e8375c799f",
+        "name": "Nixpkgs packages",
+        "keyword": "nxp",
+        "cmd": "https://search.nixos.org/packages?channel=24.05&from=0&size=50&sort=relevance&type=packages&query=%s",
+        "icon": null,
+        "is_default_search": false,
+        "run_without_argument": false,
+        "added": 1731232989.0838668
+    },
+    "dc13efda-659a-411d-af73-86972444eb00": {
+        "id": "dc13efda-659a-411d-af73-86972444eb00",
+        "name": "Nixpkgs options",
+        "keyword": "nxo",
+        "cmd": "https://search.nixos.org/options?channel=24.05&size=50&sort=relevance&type=packages&query=%s",
+        "icon": null,
+        "is_default_search": false,
+        "run_without_argument": false,
+        "added": 1731233773.9635782
     }
 }
