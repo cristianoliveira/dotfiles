@@ -9,13 +9,13 @@
       let
         pkgs = import nixpkgs { inherit system; };
       in {
-        devShells.default = import ./nix/development-environment.nix { inherit pkgs; };
-
         checks = {
           fmt = pkgs.runCommand "check-fmt" {} ''
             echo "Checking formatting..."
             touch $out
           '';
         };
+
+        devShells.default = import ./shell.nix { inherit pkgs; };
     });
 }

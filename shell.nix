@@ -1,7 +1,8 @@
-{ pkgs ? import <nixpkgs> {} }:
+{ pkgs }:
   pkgs.mkShell {
-    buildInputs = [
-      pkgs.zip
-      pkgs.unzip
+    buildInputs = with pkgs; [
+      statix # nix linter
+
+      nil # nix lsp for vim
     ];
   }

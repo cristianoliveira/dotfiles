@@ -39,8 +39,5 @@
         ./osx/configuration.nix
       ];
     };
-
-    devShells."x86_64-linux".default = import ./nix/development-environment.nix { inherit nixpkgs; };
-    devShells."aarch64-darwin".default = import ./nix/development-environment.nix { inherit nixpkgs; };
   };
 }
