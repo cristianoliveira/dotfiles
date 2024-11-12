@@ -314,7 +314,7 @@ for_window [class="Alacritty"] opacity 0.9
 for_window [app_id="ulauncher"] border pixel 0
 
 # For chromium picture-in-picture
-for_window [title="^.icture-in-.icture$"] floating enable, move position 0 0, sticky enable
+for_window [title="^.icture.in..icture$"] floating enable, move position 0 0, sticky enable
 
 # Start blueman-applet
 # Since it depends on $DISPLAY it must be started after sway
