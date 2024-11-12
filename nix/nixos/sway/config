@@ -283,6 +283,17 @@ bindsym $mod+r mode "resize"
 # resize window to a specific siz
 # bindsym $mod+Ctrl+F7 resize set height 400px; resize set width 600px; move position 0 100%
 
+# Move to corners mode
+mode "corners" {
+    bindsym Escape mode "default"
+
+    bindsym $mod+1 move position 76ppt 76ppt
+    bindsym $mod+2 move position 76ppt 5ppt
+    bindsym $mod+3 move position 4ppt 5ppt
+    bindsym $mod+4 move position 5ppt 76ppt
+}
+bindsym $mod+c mode "corners"
+
 ## To debug open windows/workspaces
 #bindsym $mod+z exec 'swaymsg -t get_tree > /tmp/sway_tree.json'
 
@@ -314,7 +325,7 @@ for_window [class="Alacritty"] opacity 0.9
 for_window [app_id="ulauncher"] border pixel 0
 
 # For chromium picture-in-picture
-for_window [title="^.icture.in..icture$"] floating enable, move position 0 0, sticky enable
+for_window [title="^.icture.in..icture$"] floating enable, move position 74ppt 74ppt, sticky enable
 
 # Start blueman-applet
 # Since it depends on $DISPLAY it must be started after sway
