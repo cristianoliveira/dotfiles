@@ -331,4 +331,8 @@ for_window [title="^.icture.in..icture$"] floating enable, move position 74ppt 7
 # Since it depends on $DISPLAY it must be started after sway
 exec zsh -c "blueman-applet &"
 
+# Autotiling for sway
+# To make the UX a bit more like yabai
+exec_always autotiling -w 1 3 5 7 9
+
 include @sysconfdir@/sway/config.d/*

@@ -1,10 +1,5 @@
 { _config, pkgs, _lib, ... }:
 {
-  # environment.systemPackages = with pkgs; [
-  #   # Windows manager
-  #   # sway
-  # ];
-
   programs.sway = {
     enable = true;
     wrapperFeatures.gtk = true; # so that gtk works properly
@@ -12,6 +7,11 @@
       swaylock
       i3status
       swayidle
+
+      autotiling
+
+      # Keybindings daemon
+      # NOTE try `sxhkd` to decouple keybindings from the window manager
 
       # Utilities
       wf-recorder
@@ -34,7 +34,6 @@
     ];
   };
 
-  
   # Enable the gnome-keyring secrets vault. 
   # Will be exposed through DBus to programs willing to store secrets.
   services = {
