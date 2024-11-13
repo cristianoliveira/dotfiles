@@ -1,11 +1,4 @@
 {
-    "com.github.lighttigerxiv.ulauncher-session-manager": {
-        "id": "com.github.lighttigerxiv.ulauncher-session-manager",
-        "url": "https://github.com/lighttigerXIV/ulauncher-session-manager",
-        "updated_at": "2024-11-09T12:43:33.785328",
-        "last_commit": "39218fddb79d86150c4624d96b1a162eba89c993",
-        "last_commit_time": "2023-05-23T08:14:57"
-    },
     "com.github.rdnetto.ulauncher-sway": {
         "id": "com.github.rdnetto.ulauncher-sway",
         "url": "https://github.com/rdnetto/ulauncher-sway",
@@ -19,5 +12,12 @@
         "updated_at": "2024-11-10T17:39:21.553101",
         "last_commit": "f9f5e9a75ee977150261bc41e38bd94cf244ea33",
         "last_commit_time": "2024-11-10T16:22:14"
+    },
+    "com.github.tjquillan.ulauncher-system": {
+        "id": "com.github.tjquillan.ulauncher-system",
+        "url": "https://github.com/tjquillan/ulauncher-system",
+        "updated_at": "2024-11-12T00:18:15.027166",
+        "last_commit": "7dedd992709fa2297735cddf852404144d4da47c",
+        "last_commit_time": "2023-11-14T16:53:20"
     }
 }
