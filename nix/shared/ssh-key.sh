@@ -1,6 +1,7 @@
-#!/bin/env bash
+#!/usr/bin/env bash
 
-set -e  # fail on error
+set -e # This is necessary to catch errors in commands
+set -o pipefail # This is necessary to catch errors in commands piped together
 
 if [ -f ~/.ssh/id_ed25519 ]; then
   echo "SSH key already exists"

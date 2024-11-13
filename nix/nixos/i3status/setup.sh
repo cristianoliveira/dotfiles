@@ -1,4 +1,6 @@
-#!/bin/sh
+#!/usr/bin/env bash
+
+set -e
 
 echo "Linking config to $HOME/.config/i3status"
 

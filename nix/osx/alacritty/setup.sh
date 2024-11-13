@@ -1,4 +1,7 @@
-#!/bin/sh
+#!/usr/bin/env bash
+
+set -e # This is necessary to catch errors in commands
+set -o pipefail # This is necessary to catch errors in commands piped together
 
 # Since alacritty is installed as a binary, we need to create a symlink to the
 # ~/Applications directory so that it can be found by alfred.

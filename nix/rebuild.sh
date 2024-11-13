@@ -1,6 +1,7 @@
-#!/bin/sh
-#
-set -e
+#!/usr/bin/env bash
+
+set -e # This is necessary to catch errors in commands
+set -o pipefail # This is necessary to catch errors in commands piped together
 
 echo "Use SKIP_COMMIT if you want to skip git steps"
 

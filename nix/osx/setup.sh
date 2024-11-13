@@ -1,4 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+set -e # This is necessary to catch errors in commands
+set -o pipefail # This is necessary to catch errors in commands piped together
 
 read -p "Do you want to install Nix? (y/n) " ANSWER
 if [[ $ANSWER =~ ^[Yy]$ ]]; then

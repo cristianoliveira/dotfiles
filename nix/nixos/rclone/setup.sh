@@ -1,4 +1,6 @@
-#!/bin/sh
+#!/usr/bin/env bash
+
+set -e
 
 echo "Credentials should be in your password manager"
 echo "Create a file named rclone.conf in your home directory"
