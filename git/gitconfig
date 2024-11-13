@@ -80,6 +80,7 @@
   # push
   ps = push                         # push
   psf = push --force-with-lease     # push with force-with-lease
+  psff = push --force-with-lease --no-verify     # push with force-with-lease no-verify
   pf = push --force-with-lease      # similar to my old alias
 
   # rebase
