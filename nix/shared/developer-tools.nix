@@ -11,7 +11,8 @@
     fzf
     ripgrep
     jq
-    ngrok
+    # NOTE: not using it 
+    # ngrok
 
     nil # nix LSP
     gnused # bye macOs annoying sed
