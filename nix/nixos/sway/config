@@ -7,6 +7,8 @@
 # To reload sway configuration, run `swaymsg reload`
 # To get the names of your outputs, run `swaymsg -t get_outputs`
 # To get the names of your inputs, run `swaymsg -t get_inputs`
+# To get the keysym for a key combination, run `swaymsg -t get_binding` 
+# and to check the name: `nix run nixpkgs#wev`
 
 ### Variables
 #
@@ -61,7 +63,7 @@ output DP-2 resolution 1920x1080 position 1920,0
 #
 exec swayidle -w \
          timeout 300 'swaylock -f -c 000000' \
-         timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+         # timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
          before-sleep 'swaylock -f -c 000000'
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
@@ -241,6 +243,17 @@ input "type:keyboard" {
     # If there are multiple scratchpad windows, this command cycles through them.
     # bindsym $mod+Ctrl+m scratchpad show
     bindsym $mod+Ctrl+slash scratchpad show
+
+### Function keys mapping
+
+# BrightnessScreen
+# You may need to add the following to your sudoers file in /etc/sudoers
+# username ALL=(root) NOPASSWD: /run/current-system/sw/bin/light
+# Brightness up
+bindsym XF86MonBrightnessUp exec sudo light -A 10
+# Brightness down
+bindsym XF86MonBrightnessDown exec sudo light -U 10
+
 #
 # Resizing containers:
 #
