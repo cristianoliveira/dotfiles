@@ -223,6 +223,42 @@ require('lazy').setup({
     return funzzy_vim_plugin
   end)(),
 
+  ----------------------------------------------------------------------------
+  -- Plugins to search on the web
+
+  -- Search on github
+  {
+    'thenbe/csgithub.nvim',
+    keys = {
+      {
+        '<leader>ghs',
+        function()
+          local csgithub = require('csgithub')
+          local url = csgithub.search({
+            includeFilename = false,
+            includeExtension = true,
+          })
+          csgithub.open(url)
+        end,
+        mode = { 'v', 'n' },
+        desc = 'Search Github (extension)',
+      },
+      {
+        '<leader>rhsf',
+        function()
+          local csgithub = require('csgithub')
+          local url = csgithub.search({
+            includeFilename = true,
+            includeExtension = true,
+          })
+          csgithub.open(url)
+        end,
+        mode = { 'v', 'n' },
+        desc = 'Search Github (filename)',
+      },
+    },
+  }
+
 }, {})
 
 require('solarized').setup({ theme = 'neo' })
