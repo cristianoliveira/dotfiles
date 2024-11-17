@@ -82,6 +82,11 @@ input "type:touchpad" {
     natural_scroll enabled
     middle_emulation enabled
 }
+
+# Move to newx workspace with 3 fingers swipe
+bindgesture swipe:right workspace prev
+bindgesture swipe:left workspace next
+
 #
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
@@ -341,6 +346,9 @@ for_window [app_id="ulauncher"] border pixel 0
 
 # For chromium picture-in-picture
 for_window [title="^.icture.in..icture$"] floating enable, move position 74ppt 74ppt, sticky enable
+
+# Make sure to always focus new windows
+for_window [class="^.*$"] focus
 
 # Start blueman-applet
 # Since it depends on $DISPLAY it must be started after sway
