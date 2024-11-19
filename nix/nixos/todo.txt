@@ -1,0 +1,4 @@
+ISSUES:
+
+* When toggle to fullscreen the window loses focus 
+  - As a user I should be able to toggle and untoggle fullscreen using mod+f
