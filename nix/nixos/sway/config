@@ -265,6 +265,10 @@ bindsym XF86MonBrightnessDown exec sudo light -U 10
 # Resizing containers:
 #
 mode "resize" {
+    # Return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+
     # left will shrink the containers width
     # right will grow the containers width
     # up will shrink the containers height
@@ -280,23 +284,12 @@ mode "resize" {
     bindsym Up resize shrink height 10px
     bindsym Right resize grow width 10px
 
-    # Return to default mode
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-
-    # For floating windows positioning
-    # Top left
-    bindsym F9 move position 0 0
-    # bottom right
-    bindsym F10 move position 80ppt 75ppt
-    # center
-    bindsym F11 move position center
-
-    bindsym F5 resize set height 100ppt; resize set width 100ppt; move position center
-    bindsym F6 resize set height $heightLarge; resize set width $widthLarge; move position center
+    # Predifined sizes
+    bindsym $mod+1 resize set height 100ppt; resize set width 100ppt; move position center
+    bindsym $mod+2 resize set height $heightLarge; resize set width $widthLarge; move position center
     # sway: move x y
-    bindsym F7 resize set height $heightMedium; resize set width $widthMedium; move position 58ppt 53ppt
-    bindsym F8 resize set height $heightSmall; resize set width $widthSmall; move position 78ppt 73ppt
+    bindsym $mod+3 resize set height $heightMedium; resize set width $widthMedium; move position 58ppt 53ppt
+    bindsym $mod+4 resize set height $heightSmall; resize set width $widthSmall; move position 78ppt 73ppt
 }
 bindsym $mod+r mode "resize"
 
@@ -304,15 +297,19 @@ bindsym $mod+r mode "resize"
 # bindsym $mod+Ctrl+F7 resize set height 400px; resize set width 600px; move position 0 100%
 
 # Move to corners mode
-mode "corners" {
+mode "positioning" {
+    bindsym Return mode "default"
     bindsym Escape mode "default"
 
     bindsym $mod+1 move position 76ppt 76ppt
     bindsym $mod+2 move position 76ppt 5ppt
     bindsym $mod+3 move position 4ppt 5ppt
     bindsym $mod+4 move position 5ppt 76ppt
+
+    bindsym $mod+0 move position center
 }
-bindsym $mod+c mode "corners"
+# Bind mod+} to enter the positioning mode
+bindsym $mod+F1 mode "positioning"
 
 ## To debug open windows/workspaces
 #bindsym $mod+z exec 'swaymsg -t get_tree > /tmp/sway_tree.json'
@@ -356,6 +353,6 @@ exec zsh -c "blueman-applet &"
 
 # Autotiling for sway
 # To make the UX a bit more like yabai
-exec_always autotiling -w 1 3 5 7 9
+exec_always autotiling -w 1 3 5 7 9 -sr 1.61
 
 include @sysconfdir@/sway/config.d/*
