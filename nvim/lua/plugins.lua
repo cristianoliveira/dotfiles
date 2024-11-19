@@ -101,6 +101,7 @@ require('lazy').setup({
       require("copilot").setup({
         filetypes = {
           markdown = true,
+          yaml = true,
         },
         suggestion = {
           enabled = true,
