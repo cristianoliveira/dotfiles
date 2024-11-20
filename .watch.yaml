@@ -26,7 +26,9 @@
   run_on_init: true
 
 - name: watch osx keyboard mappings
-  run: 'killall skhd' # Force restart service
+  run: # Force restart service
+    - pkill skhd
+    - pkill yabai
   change: 'nix/osx/yabai/**'
 
 - name: adds to git

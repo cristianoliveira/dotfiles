@@ -14,8 +14,6 @@
 # sudo yabai --load-sa
 # yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
 
-#!/usr/bin/env sh
-
 # bar settings
 yabai -m config top_padding 0
 
@@ -55,11 +53,4 @@ yabai -m rule --add title='Preferences$' manage=off
 # float settings windows
 yabai -m rule --add title='Settings$' manage=off
 
-# Some Goland settings, in case you are using it. float Goland Preference panes
-yabai -m rule --add app='Goland IDEA' title='^$' manage=off
-yabai -m rule --add app='Goland IDEA' title='Project Structure' manage=off
-yabai -m rule --add app='Goland IDEA' title='Preferences' manage=off
-yabai -m rule --add app='Goland IDEA' title='Edit configuration' manage=off
-
 echo "yabai configuration loaded.."
-
