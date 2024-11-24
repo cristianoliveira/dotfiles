@@ -347,6 +347,10 @@ for_window [title="^.icture.in..icture$"] floating enable, move position 74ppt 7
 # Make sure to always focus new windows
 for_window [class="^.*$"] focus
 
+# Inhibit swayidle when watching videos on fullscreen
+for_window [class="^.*"] inhibit_idle fullscreen
+for_window [app_id="^.*"] inhibit_idle fullscreen
+
 # Start blueman-applet
 # Since it depends on $DISPLAY it must be started after sway
 exec zsh -c "blueman-applet &"
