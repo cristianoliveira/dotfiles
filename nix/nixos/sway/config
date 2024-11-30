@@ -91,6 +91,7 @@ bindgesture swipe:left workspace next
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
 
+# more mappings in ./nix/nixos/mappings/
 input "type:keyboard" {
     # layout us mac
     xkb_layout us

@@ -1,7 +1,12 @@
 { _, ... }: {
-# See 
-# Key bindings for the following changes:
-# - CapsLock is Control when held, Escape when tapped
+
+  ### Special Mappings
+  #
+  # Key bindings for the following changes:
+  # - CapsLock is Control when held, Escape when tapped
+  # - RightAlt + hjkl as arrow keys
+  # - Option + aeiou for accents
+
   services = {
     keyd = {
       enable = true;
@@ -10,13 +15,34 @@
         default = {
           ids = [ "*" ];
           settings = {
+            rightalt_hjkl = {
+              h = "left";
+              j = "down";
+              k = "up";
+              l = "right";
+            };
+
+            ## option_accents layer
+            # Dead keys like in MacOS with option key 
+            # Option + aeiou or falback to AltGr
+            "option_accents:G" = {
+              n = "macro(G-~)"; # tilde
+              e = "macro(G-')"; # acute
+              a = "macro(G-`)"; # grave
+              i = "macro(G-6)"; # circumflex
+              u = "macro(G-\")"; # diaeresis
+            };
+
             main = {
               capslock = "overload(control, esc)";
+              rightalt = "layer(rightalt_hjkl)";
+              leftmeta = "layer(option_accents)";
             };
           };
         };
       };
     };
+
 
     # This didn't work, so check ../sway/config
     # xserver = {
