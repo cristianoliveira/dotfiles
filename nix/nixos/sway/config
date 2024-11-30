@@ -1,5 +1,4 @@
 # Default config for sway
-#
 # Copy this to ~/.config/sway/config and edit it to your liking.
 #
 # Read `man 5 sway` for a complete reference.
@@ -13,7 +12,7 @@
 ### Variables
 #
 # Logo key. Use Mod1 for Alt.
-set $mod Mod4
+set $mod Mod1
 # Home row direction keys, like vim
 set $left h
 set $down j
@@ -35,6 +34,9 @@ set $heightMedium 40ppt
 set $widthMedium 40ppt
 set $heightLarge 60ppt
 set $widthLarge 60ppt
+
+# Bind the mod key 
+bindsym Mod4 bindsym $mod
 
 # For notebook disable monitor when lid is closed
 bindswitch lid:on output eDP-1 disable
@@ -91,14 +93,17 @@ bindgesture swipe:left workspace next
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
 
-# more mappings in ./nix/nixos/mappings/
+# See more mappings in ./nix/nixos/mappings/
 input "type:keyboard" {
     # layout us mac
+
     xkb_layout us
     xkb_model pc104
-    xkb_variant altgr-intl
+    xkb_variant mac
+  
+    # lv3:lalt_switch makes the left Alt key a third-level chooser key (keyd remaps Start to be Alt)
+    xkb_options lv3:lwin_switch
 
-    xkb_options caps:ctrl_modifier,altwin:swap_lalt_lwin
     # repeat similar to OSX `KeyRepeat -int 10`
     repeat_delay 200
     # repeat similar to OSX KeyRepeat -float 1.2
@@ -228,6 +233,8 @@ for_window [app_id="org.telegram.desktop"] move to scratchpad
 # move the current workspace to the down output w or s 
 bindsym $mod+Ctrl+Shift+w move workspace to output up
 bindsym $mod+Ctrl+Shift+s move workspace to output down
+bindsym $mod+Ctrl+Shift+Up move workspace to output up
+bindsym $mod+Ctrl+Shift+Down move workspace to output down
 
 # Old habits
 bindsym $mod+Tab workspace next
@@ -362,8 +369,14 @@ bar {
         urgent_workspace   #2F343A #900000 #FFFFFF
         binding_mode       #2F343A #900000 #FFFFFF
     }
-
 }
+
+mode "bar_visible" {
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+# Bind mod+left_window to enter the bar_visible mode
+bindsym $mod+F2 mode "bar_visible"
 
 ### Windows layouts for specific layout and rules
 #
