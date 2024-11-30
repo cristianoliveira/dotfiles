@@ -15,7 +15,10 @@
         default = {
           ids = [ "*" ];
           settings = {
-            rightalt_hjkl = {
+
+            ## rightalt_hjkl layer
+            # RightAlt + hjkl as arrow keys, fallback to Alt
+            "rightalt_hjkl:G" = {
               h = "left";
               j = "down";
               k = "up";
@@ -24,8 +27,8 @@
 
             ## option_accents layer
             # Dead keys like in MacOS with option key 
-            # Option + aeiou or falback to AltGr
-            "option_accents:G" = {
+            # Option + aeiou or falback to Super/Meta
+            "option_accents:S" = {
               n = "macro(G-~)"; # tilde
               e = "macro(G-')"; # acute
               a = "macro(G-`)"; # grave
