@@ -11,8 +11,8 @@
 
       # NixOs specific configurations
       ./essential-pkgs.nix
-      ./mappings/dual-keys.nix
       ./windows-manager.nix
+      ./mappings/keyd.nix
       ./file-manager.nix
       ./vpn.nix
       ./streaming.nix
