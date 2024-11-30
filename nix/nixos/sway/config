@@ -22,6 +22,7 @@ set $right l
 
 # Your preferred terminal emulator
 set $term alacritty
+set $music_player spotify
 
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
@@ -53,7 +54,7 @@ output * bg $HOME/.dotfiles/resources/wallpaper.jpg fill
 # builtin/main display on the bottom
 output eDP-1 resolution 1920x1200 position 0,1080
 # secondary display on the top
-# output DP-1 resolution 1920x1080 position 1920,0 
+output DP-1 resolution 1920x1080 position 0,0 
 output DP-2 resolution 1920x1080 position 0,0 
 
 ### Idle configuration
@@ -103,14 +104,12 @@ input "type:keyboard" {
     repeat_rate 60
 }
 
-### Key bindings
-#
-# Basics:
+### Mappings
 #
 # Terminal
-# Set focus or open a new terminal
-bindsym $mod+Ctrl+Return exec swaymsg [app_id="Alacritty"] focus || \
-                                            $term --option font.size=11
+# Set focus or open a new terminal on workspace 2
+bindsym $mod+Ctrl+Return exec swaymsg [app_id=$term] focus || \
+                            $term --option font.size=11 --class $term
 
 # Kill focused window
 bindsym $mod+Shift+q kill
@@ -144,9 +143,7 @@ mode "exit: [l]ogout, [r]eboot, [s]hutdown" {
 }
 bindsym $mod+Shift+e mode "exit: [l]ogout, [r]eboot, [s]hutdown"
 
-# bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
-#
-# Moving around:
+### Mapping moving windows
 #
 # Move your focus around
 bindsym $mod+Ctrl+$left focus left
@@ -169,10 +166,33 @@ bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
-#
-# Workspaces:
+
+
+### Workspaces and outputs configuration
 #
 # Switch to workspace
+
+## Workspace in the main display TOP (external monitor)
+workspace 1 output DP-2
+workspace 2 output DP-2
+workspace 3 output DP-2
+workspace 4 output DP-2
+
+# In case the monitor is not connected in the a different order
+exec_always {
+    if swaymsg -t get_outputs | grep -q "\"name\": \"DP-1\""; then
+        swaymsg "workspace 1 output DP-1"
+        swaymsg "workspace 2 output DP-1"
+        swaymsg "workspace 3 output DP-1"
+        swaymsg "workspace 4 output DP-1"
+    fi
+}
+
+## Workspace in the main display BOTTOM (built-in)
+workspace 8 output eDP-1
+workspace 9 output eDP-1
+workspace 10 output eDP-1
+
 bindsym $mod+1 workspace number 1
 bindsym $mod+2 workspace number 2
 bindsym $mod+3 workspace number 3
@@ -194,6 +214,12 @@ bindsym $mod+Shift+7 move container to workspace number 7
 bindsym $mod+Shift+8 move container to workspace number 8
 bindsym $mod+Shift+9 move container to workspace number 9
 bindsym $mod+Shift+0 move container to workspace number 10
+
+## Apps and specific workspaces
+assign [app_id=$term] workspace 2
+for_window [app_id="whatsapp-for-linux"] move to scratchpad
+for_window [app_id="org.telegram.desktop"] move to scratchpad
+
 # Note: workspaces can have any name you want, not just numbers.
 # We just use 1-10 as the default.
 
@@ -206,10 +232,7 @@ bindsym $mod+Ctrl+Shift+s move workspace to output down
 bindsym $mod+Tab workspace next
 bindsym $mod+Shift+Tab workspace prev
 
-# TODO adds a window next
-# bindsym $mod+Ctrl+n window next
-#
-# Layout stuff:
+### Windows layout
 #
 # You can "split" the current object of your focus with
 # $mod+b or $mod+v, for horizontal and vertical splits
@@ -260,6 +283,11 @@ bindsym $mod+Ctrl+slash scratchpad show
 bindsym XF86MonBrightnessUp exec sudo light -A 10
 # Brightness down
 bindsym XF86MonBrightnessDown exec sudo light -U 10
+
+# TODO adds pulseaudio deps and commands
+# bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+# bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+# bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
 
 #
 # Resizing containers:
@@ -314,8 +342,7 @@ bindsym $mod+F1 mode "positioning"
 ## To debug open windows/workspaces
 #bindsym $mod+z exec 'swaymsg -t get_tree > /tmp/sway_tree.json'
 
-#
-# Status Bar:
+### Status Bar
 #
 # Read `man 5 sway-bar` for more information about this section.
 bar {
@@ -337,8 +364,10 @@ bar {
 
 }
 
+### Windows layouts for specific layout and rules
+#
 for_window [class=".*"] border pixel 1
-for_window [class="Alacritty"] opacity 0.9
+for_window [app_id=$term] opacity 0.9
 for_window [app_id="ulauncher"] border pixel 0
 
 # For chromium picture-in-picture
@@ -351,6 +380,8 @@ for_window [class="^.*$"] focus
 for_window [class="^.*"] inhibit_idle fullscreen
 for_window [app_id="^.*"] inhibit_idle fullscreen
 
+### Start auxiliar services
+#
 # Start blueman-applet
 # Since it depends on $DISPLAY it must be started after sway
 exec zsh -c "blueman-applet &"
