@@ -39,28 +39,6 @@
   services = {
     gnome.gnome-keyring.enable = true;
     displayManager.sddm.enable = true;
-
-    xserver = {
-      # Enable the X11 windowing system.
-      enable = true;
-
-      # Configure keymap in X11
-      # Didn't manage to use nix to configure this
-      # Check ~/.config/sway/config
-
-      # layout = "us";
-      # xkbVariant = "altgr-intl";
-      # xkbOptions = "caps:ctrl_modifier,altwin:swap_lalt_lwin";
-      # Keyboard repeat rate
-      # autoRepeatDelay = 100;
-      # autoRepeatInterval = 10;
-
-      # Enable touchpad support (enabled default in most desktopManager).
-      # libinput.enable = true;
-
-      # Enable the Desktop manager for logins
-      # exportConfiguration = true;
-    };
   };
 
   # Allow applying the same settings to outside of X11
@@ -76,11 +54,10 @@
   };
 
   # Enable sound with pipewire.
-  sound.enable = true;
+  # See: https://nixos.wiki/wiki/PipeWire
+  # sound.enable = true;
+  # hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
-
-  # Need to be false because of pipeware
-  hardware.pulseaudio.enable = false;
   services.pipewire = {
     enable = true;
     alsa.enable = true;

@@ -1,0 +1,16 @@
+# See more mappings in ./nix/nixos/mappings/
+input "type:keyboard" {
+    # layout us mac
+
+    xkb_layout us
+    xkb_model pc104
+    xkb_variant mac
+  
+    # lv3:lalt_switch makes the left Alt key a third-level chooser key (keyd remaps Start to be Alt)
+    xkb_options lv3:lwin_switch
+
+    # repeat similar to OSX `KeyRepeat -int 10`
+    repeat_delay 200
+    # repeat similar to OSX KeyRepeat -float 1.2
+    repeat_rate 60
+}
