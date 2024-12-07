@@ -39,6 +39,9 @@
   services = {
     gnome.gnome-keyring.enable = true;
     displayManager.sddm.enable = true;
+
+    # Enable the X11 windowing system.
+    xserver.enable = true;
   };
 
   # Allow applying the same settings to outside of X11

@@ -5,6 +5,7 @@
   # Key bindings for the following changes:
   # - CapsLock is Control when held, Escape when tapped
   # - RightAlt + hjkl as arrow keys
+  # - Option + aeiou for accents
 
   services = {
     keyd = {
@@ -22,6 +23,10 @@
               j = "down";
               k = "up";
               l = "right";
+
+              # Mimic ctrl + ud or gg
+              u = "pageup";
+              d = "pagedown";
             };
 
             #### NOTE: This is not being used but will leave as example 
