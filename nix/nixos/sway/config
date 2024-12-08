@@ -384,6 +384,11 @@ for_window [class=".*"] border pixel 1
 for_window [app_id=$term] opacity 0.9
 for_window [app_id="ulauncher"] border pixel 0
 
+# Make sure spotify is always fullscreen and don't get the focus on events
+# for_window [class="Spotify"] floating enable inhibit_idle fullscreen
+# Any window in the scratchpad should be floating and no focus
+no_focus [floating]
+
 # For chromium picture-in-picture
 for_window [title="^.icture.in..icture$"] floating enable, move position 74ppt 74ppt, sticky enable
 
