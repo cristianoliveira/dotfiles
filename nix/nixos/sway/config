@@ -284,7 +284,7 @@ bindsym $mod+Ctrl+slash scratchpad show
 
 ### Function keys mapping
 
-# BrightnessScreen
+## Screen brightness
 # You may need to add the following to your sudoers file in /etc/sudoers
 # username ALL=(root) NOPASSWD: /run/current-system/sw/bin/light
 # Brightness up
@@ -292,10 +292,10 @@ bindsym XF86MonBrightnessUp exec sudo light -A 10
 # Brightness down
 bindsym XF86MonBrightnessDown exec sudo light -U 10
 
-# TODO adds pulseaudio deps and commands
-# bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
-# bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
-# bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+## Volume
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
 
 #
 # Resizing containers:
