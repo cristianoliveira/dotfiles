@@ -1,0 +1,9 @@
+---SOUND FIXES---
+
+Sometimes sound get messed up when connecting and disconnecting the headphones
+To restart it run:
+
+```bash
+systemctl --user restart pipewire.service
+systemctl --user restart pipewire-pulse.service
+```

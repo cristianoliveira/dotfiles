@@ -11,8 +11,8 @@
 
       # NixOs specific configurations
       ./essential-pkgs.nix
-      ./mappings/dual-keys.nix
       ./windows-manager.nix
+      ./mappings/keyd.nix
       ./file-manager.nix
       ./vpn.nix
       ./streaming.nix
@@ -22,6 +22,12 @@
       ../shared/security.nix
       ../shared/developer-tools.nix
     ];
+
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+    driSupport32Bit = true;
+  };
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -85,28 +91,35 @@
   # };
 
 
-  # This enables running unpatched binaries from Nix store
-  # which is necessary for Mason (nvim) to work
-  # see also the environment variable NIX_LD below
-  #
-  # Detailed explanation: http://archive.today/WFxH7
-  programs.nix-ld.enable = true;
-  programs.zsh = {
-    enable = true;
-    ohMyZsh = {
-        enable = true;
-	theme = "clean";
-        plugins = ["git" "history-substring-search" "vi-mode"];
-    };    
+  # Screen brightness and back linght management
+  programs = {
 
-    interactiveShellInit = ''
-      autoload -U +X compinit && compinit
-      export NIX_ENV=1
+    light.enable = true;
 
-      export NIX_LD=$(nix eval --extra-experimental-features nix-command --impure --raw --expr 'let pkgs = import <nixpkgs> {}; NIX_LD = pkgs.lib.fileContents "${pkgs.stdenv.cc}/nix-support/dynamic-linker"; in NIX_LD')
+    # This enables running unpatched binaries from Nix store
+    # which is necessary for Mason (nvim) to work
+    # see also the environment variable NIX_LD below
+    #
+    # Detailed explanation: http://archive.today/WFxH7
+    nix-ld.enable = true;
 
-      export PATH=$HOME/.npm-global/bin:/usr/local/bin:$PATH
-    '';
+    zsh = {
+      enable = true;
+      ohMyZsh = {
+          enable = true;
+          theme = "clean";
+          plugins = ["git" "history-substring-search" "vi-mode"];
+      };    
+
+      interactiveShellInit = ''
+        autoload -U +X compinit && compinit
+        export NIX_ENV=1
+
+        export NIX_LD=$(nix eval --extra-experimental-features nix-command --impure --raw --expr 'let pkgs = import <nixpkgs> {}; NIX_LD = pkgs.lib.fileContents "${pkgs.stdenv.cc}/nix-support/dynamic-linker"; in NIX_LD')
+
+        export PATH=$HOME/.npm-global/bin:/usr/local/bin:$PATH
+      '';
+    };
   };
 
   users.users.cristianoliveira.shell = pkgs.zsh;
