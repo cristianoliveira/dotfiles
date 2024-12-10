@@ -168,5 +168,15 @@
         "is_default_search": false,
         "run_without_argument": false,
         "added": 1731233773.9635782
+    },
+    "254f0a38-73f1-45c6-99b1-fd3d5f8715ab": {
+        "id": "254f0a38-73f1-45c6-99b1-fd3d5f8715ab",
+        "name": "bluetooth-connect",
+        "keyword": "btc",
+        "cmd": "#!/usr/bin/env bash\nalacritty --class term-floating -e ~/.dotfiles/bin/dot-connect-bluetooth ",
+        "icon": null,
+        "is_default_search": false,
+        "run_without_argument": true,
+        "added": 1732259204.4766319
     }
 }
