@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+#
+# If not in Linux environment, exit
+#
+if [ "$(uname)" != "Linux" ]; then
+    echo "This script is intended for Linux only."
+    exit 1
+fi
+
+if ! command -v bluetoothctl &> /dev/null; then
+    echo "bluetoothctl is not installed. Please install it."
+    exit 1
+fi
+
+# Check if Bluetooth service is running
+if ! systemctl is-active --quiet bluetooth; then
+    echo "Bluetooth service is not running. Starting it..."
+    sudo systemctl start bluetooth
+fi
+
+bluetoothctl power on
+
+# Start scanning for devices
+# bluetoothctl scan on &
+coproc bluetoothctl
+echo -e 'scan on\n' >&${COPROC[1]}
+
+# Wait for a few seconds to gather device information
+echo "Scanning for devices..."
+sleep 10
+
+# Stop scanning
+echo -e 'scan off\n' >&${COPROC[1]}
+
+# Get list of devices
+devices=$(bluetoothctl devices | awk '{print $2 " " $3 " " $4 " " $5 " " $6}')
+
+if [ -z "$devices" ]; then
+    echo "No devices found."
+    exit 1
+fi
+
+# Use dmenu to select a device
+selected=$(echo "$devices" | fzf)
+
+if [ -z "$selected" ]; then
+    echo "No device selected."
+    exit 1
+fi
+
+# Extract the MAC address from the selected line
+mac=$(echo "$selected" | awk '{print $1}')
+
+# Attempt to connect to the selected device
+echo "Connecting to $mac..."
+bluetoothctl connect "$mac"
+
+# Optionally trust the device
+bluetoothctl trust "$mac"
+
+# Success message
+echo "Connected to $mac."
+
+exit 0
