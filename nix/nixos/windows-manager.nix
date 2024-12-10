@@ -22,7 +22,6 @@
       wmctrl #https://github.com/Ulauncher/Ulauncher/wiki/Hotkey-In-Wayland
 
       # GUIs for common settings
-      blueman # bluetooth manager
       pavucontrol # audio manager
 
       # Launcher
@@ -50,9 +49,6 @@
   ## Other related GUIS for settings
   # Bluetooth related 
   hardware.bluetooth = {
-    enable = true;
-  };
-  services.blueman = {
     enable = true;
   };
 

@@ -391,6 +391,7 @@ no_focus [floating]
 
 # For chromium picture-in-picture
 for_window [title="^.icture.in..icture$"] floating enable, move position 74ppt 74ppt, sticky enable
+for_window [app_id="term-floating"] floating enable, move position center, sticky enable
 
 # Make sure to always focus new windows
 for_window [class="^.*$"] focus
