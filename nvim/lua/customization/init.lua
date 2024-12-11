@@ -34,6 +34,5 @@ require('customization/mappings/obsidian')
 --> Settings
 require('customization/settings/lsp')
 require('customization/settings/projectionist')
-require('customization/settings/ale')
 require('customization/settings/intellisense')
 require('customization/settings/autocmds')
