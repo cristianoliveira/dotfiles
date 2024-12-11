@@ -86,8 +86,8 @@ input "type:touchpad" {
 }
 
 # Move to newx workspace with 3 fingers swipe
-bindgesture swipe:right workspace prev
-bindgesture swipe:left workspace next
+bindgesture swipe:right workspace prev_on_output
+bindgesture swipe:left workspace next_on_output
 
 #
 # You can get the names of your inputs by running: swaymsg -t get_inputs
