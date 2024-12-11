@@ -27,13 +27,13 @@ echo -e 'scan on\n' >&${COPROC[1]}
 
 # Wait for a few seconds to gather device information
 echo "Scanning for devices..."
-sleep 10
+sleep 5
 
 # Stop scanning
 echo -e 'scan off\n' >&${COPROC[1]}
 
 # Get list of devices
-devices=$(bluetoothctl devices | awk '{print $2 " " $3 " " $4 " " $5 " " $6}')
+devices=$(printf "continue...\n$(bluetoothctl devices | awk '{print $2 " " $3 " " $4 " " $5 " " $6}')")
 
 if [ -z "$devices" ]; then
     echo "No devices found."
@@ -42,6 +42,22 @@ fi
 
 # Use dmenu to select a device
 selected=$(echo "$devices" | fzf)
+# While the selected item is "continue...", scan for devices again
+waittime=10
+while [ "$selected" == "continue..." ]; do
+    echo "No devices found."
+    echo -e 'scan on\n' >&${COPROC[1]}
+
+    # Wait for a few seconds to gather device information
+    echo "Scanning for devices..."
+    sleep $waittime
+    waittime=$((waittime + 5))
+
+    # Stop scanning
+    echo -e 'scan off\n' >&${COPROC[1]}
+    devices=$(printf "continue...\n$(bluetoothctl devices | awk '{print $2 " " $3 " " $4 " " $5 " " $6}')")
+    selected=$(echo "$devices" | fzf)
+done
 
 if [ -z "$selected" ]; then
     echo "No device selected."
