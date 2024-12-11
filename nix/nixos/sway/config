@@ -74,9 +74,7 @@ exec swayidle -w \
 # your displays after another 300 seconds, and turn your screens back on when
 # resumed. It will also lock your screen before your computer goes to sleep.
 
-### Input configuration
-#
-# Example configuration:
+### Touchpad configuration - Input
 #
 input "type:touchpad" {
     dwt enabled
@@ -85,14 +83,17 @@ input "type:touchpad" {
     middle_emulation enabled
 }
 
-# Move to newx workspace with 3 fingers swipe
+# Focus the workspace on the output that the mouse pointer is on with 3 fingers swipe
 bindgesture swipe:right workspace prev_on_output
 bindgesture swipe:left workspace next_on_output
 
-bindgesture swipe:up move up
-bindgesture swipe:down move down
+# Move the window to with the swipe gesture 4 fingers
+bindgesture swipe:4:right move right
+bindgesture swipe:4:left move left
+bindgesture swipe:4:up move up
+bindgesture swipe:4:down move down
 
-#
+#### Keyboard configuration - Input
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
 
