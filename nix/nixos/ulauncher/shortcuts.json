@@ -113,7 +113,7 @@
         "id": "3f468df3-4bf9-459e-aa56-393a64558074",
         "name": "network",
         "keyword": "wifi network connect",
-        "cmd": "#!/usr/bin/env bash\n\nalacritty --command nmtui-connect",
+        "cmd": "#!/usr/bin/env bash\n\nalacritty --class term-floating --command nmtui-connect ",
         "icon": null,
         "is_default_search": false,
         "run_without_argument": true,
