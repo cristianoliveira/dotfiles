@@ -9,28 +9,26 @@ My "dotfiles" now fully set up my development environment for Nixos and OSX
 I try to keep the DX of both systems as close as possible. As well as the overall UI/UX. I'd say they are 90% similar.
 
 ```bash
-
-          ▗▄▄▄       ▗▄▄▄▄    ▄▄▄▖            me@localhost
-          ▜███▙       ▜███▙  ▟███▛            ----------------------
-           ▜███▙       ▜███▙▟███▛             OS: NixOS 23.11.20240322.56528ee (Tapir) x86_64
-            ▜███▙       ▜██████▛              Host: Dell Inc. 06YPRH
-     ▟█████████████████▙ ▜████▛     ▟▙        Kernel: 6.1.82
-    ▟███████████████████▙ ▜███▙    ▟██▙       Uptime: 20 hours, 41 mins
-           ▄▄▄▄▖           ▜███▙  ▟███▛       Packages: 1138 (nix-system), 511 (nix-user)
-          ▟███▛             ▜██▛ ▟███▛        Shell: bash 5.2.15
-         ▟███▛               ▜▛ ▟███▛         Resolution: 1366x768, 1920x1080
-▟███████████▛                  ▟██████████▙   WM: sway
-▜██████████▛                  ▟███████████▛   Theme: Adwaita [GTK3]
-      ▟███▛ ▟▙               ▟███▛            Icons: Adwaita [GTK3]
-     ▟███▛ ▟██▙             ▟███▛             Terminal: tmux
-    ▟███▛  ▜███▙           ▝▀▀▀▀              CPU: Intel i5-4210U (4) @ 2.700GHz
-    ▜██▛    ▜███▙ ▜██████████████████▛        GPU: Intel Haswell-ULT
-     ▜▛     ▟████▙ ▜████████████████▛         Memory: 3140MiB / 7861MiB
+          ▗▄▄▄       ▗▄▄▄▄    ▄▄▄▖           me@localhost
+          ▜███▙       ▜███▙  ▟███▛           ----------------------
+           ▜███▙       ▜███▙▟███▛            OS: NixOS 24.05.20 (Uakari) x86_64
+            ▜███▙       ▜██████▛             Host: LENOVO 21MECTO1WW
+     ▟█████████████████▙ ▜████▛     ▟▙       Kernel: 6.6.59
+    ▟███████████████████▙ ▜███▙    ▟██▙      Uptime: 45 mins
+           ▄▄▄▄▖           ▜███▙  ▟███▛      Packages: 1098 (nix-system), 1053 (nix-user)
+          ▟███▛             ▜██▛ ▟███▛       Shell: zsh 5.9
+         ▟███▛               ▜▛ ▟███▛        Resolution: 1920x1200, 1920x1080
+▟███████████▛                  ▟██████████▙  WM: sway
+▜██████████▛                  ▟███████████▛  Terminal: tmux
+      ▟███▛ ▟▙               ▟███▛           CPU: AMD Ryzen 7 PRO 8840HS
+     ▟███▛ ▟██▙             ▟███▛            GPU: AMD ATI Phoenix3 
+    ▟███▛  ▜███▙           ▝▀▀▀▀             Memory: 3397MiB / 27711MiB
+    ▜██▛    ▜███▙ ▜██████████████████▛
+     ▜▛     ▟████▙ ▜████████████████▛
            ▟██████▙       ▜███▙
           ▟███▛▜███▙       ▜███▙
          ▟███▛  ▜███▙       ▜███▙
          ▝▀▀▀    ▀▀▀▀▘       ▀▀▀▘
-
 --------------------
 
                     c.'          me@localhost
