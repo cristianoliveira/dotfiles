@@ -33,16 +33,6 @@
     ];
   };
 
-  # Enable the gnome-keyring secrets vault. 
-  # Will be exposed through DBus to programs willing to store secrets.
-  services = {
-    gnome.gnome-keyring.enable = true;
-    displayManager.sddm.enable = true;
-
-    # Enable the X11 windowing system.
-    xserver.enable = true;
-  };
-
   # Allow applying the same settings to outside of X11
   console.useXkbConfig = true;
 
