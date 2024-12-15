@@ -1,6 +1,6 @@
 { pkgs, ... }:
 let
-  theme = import ./sddm-theme.nix {inherit pkgs;};
+  theme = import ./sddm-theme.nix { inherit pkgs; };
 in {
   # Enable the gnome-keyring secrets vault. 
   # Will be exposed through DBus to programs willing to store secrets.
