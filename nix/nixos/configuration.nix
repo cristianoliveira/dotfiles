@@ -66,7 +66,13 @@
   users.users.cristianoliveira = {
     isNormalUser = true;
     description = "cristianoliveira";
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    extraGroups = [ 
+      "networkmanager" 
+      "wheel"
+      "docker" 
+      # Required for screen brightness (see programs.light)
+      "video"
+    ];
     packages = with pkgs; [
       firefox
       brave
@@ -77,6 +83,10 @@
 
     ];
   };
+
+  # Enable light for screen brightness
+  # Need to add user to "video" group See above
+  programs.light.enable = true;
 
   virtualisation.docker.enable = true;
 
@@ -93,9 +103,6 @@
 
   # Screen brightness and back linght management
   programs = {
-
-    light.enable = true;
-
     # This enables running unpatched binaries from Nix store
     # which is necessary for Mason (nvim) to work
     # see also the environment variable NIX_LD below
