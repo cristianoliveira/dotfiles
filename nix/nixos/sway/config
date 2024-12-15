@@ -393,10 +393,12 @@ for_window [app_id="ulauncher"] border pixel 0
 # Any window in the scratchpad should be floating and no focus
 no_focus [floating]
 
-# For chromium picture-in-picture
+# Picture in Picture - Chrome
 for_window [title="^.icture.in..icture$"] floating enable, move position 74ppt 74ppt, sticky enable
+# Tools that are for one time use and then hide
 for_window [app_id="term-floating"] floating enable, move position center, sticky enable
 for_window [app_id="pavucontrol"] floating enable, move position center, sticky enable
+for_window [class="Bitwarden"] floating enable, move position center, sticky enable
 
 # Make sure to always focus new windows
 for_window [class="^.*$"] focus
