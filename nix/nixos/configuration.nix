@@ -12,6 +12,7 @@
       # NixOs specific configurations
       ./essential-pkgs.nix
       ./windows-manager.nix
+      ./display-manager.nix
       ./mappings/keyd.nix
       ./file-manager.nix
       ./vpn.nix
