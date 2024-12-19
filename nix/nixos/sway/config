@@ -364,6 +364,9 @@ bar {
     mode hide
     tray_output primary
 
+    # Show bar on press
+    modifier $mod
+
     colors {
         statusline #ffffff
         background #323232
