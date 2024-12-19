@@ -374,13 +374,6 @@ bar {
     }
 }
 
-mode "bar_visible" {
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-}
-# Bind mod+left_window to enter the bar_visible mode
-bindsym $mod+F2 mode "bar_visible"
-
 ### Windows layouts for specific layout and rules
 #
 for_window [class=".*"] border pixel 1
