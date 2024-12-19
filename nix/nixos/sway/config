@@ -368,13 +368,9 @@ bar {
     modifier $mod
 
     colors {
-        statusline #ffffff
         background #323232
-        inactive_workspace #32323200 #32323200 #5c5c5c
         focused_workspace  #4C7899 #285577 #FFFFFF
-        active_workspace   #333333 #222222 #FFFFFF
         urgent_workspace   #2F343A #900000 #FFFFFF
-        binding_mode       #2F343A #900000 #FFFFFF
     }
 }
 
