@@ -54,4 +54,7 @@ yabai -m rule --add title='Preferences$' manage=off
 # float settings windows
 yabai -m rule --add title='Settings$' manage=off
 
+# Other aux apps
+yabai -m rule --add title='Bitwarden$' manage=off
+
 echo "yabai configuration loaded.."
