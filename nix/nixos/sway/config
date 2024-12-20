@@ -39,8 +39,8 @@ set $widthLarge 60ppt
 bindsym Mod4 bindsym $mod
 
 # For notebook disable monitor when lid is closed
-bindswitch lid:on output eDP-1 disable
-bindswitch lid:off output eDP-1 enable
+bindswitch lid:on dpms off
+bindswitch lid:off output * dpms on
 
 font pango:Monaco 8
 
