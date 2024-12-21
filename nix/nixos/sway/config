@@ -65,7 +65,7 @@ output DP-2 resolution 1920x1080 position 0,0
 # seconds, it will turn off your displays. When you resume, swayidle will unlock
 #
 exec swayidle -w \
-    timeout 120  'swaylock -f -c 000000' \
+    timeout 120  'swaylock' \
     timeout  20  'pgrep swaylock && swaymsg "output * dpms off"' \
     resume  'swaymsg "output * dpms on"' \
     before-sleep 'swaylock'
@@ -397,7 +397,6 @@ for_window [class="^.*$"] focus
 
 # Inhibit swayidle when watching videos on fullscreen
 for_window [class="^.*"] inhibit_idle fullscreen
-for_window [app_id="^.*"] inhibit_idle fullscreen
 
 ### Start auxiliar services
 #

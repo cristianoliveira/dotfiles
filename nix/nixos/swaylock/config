@@ -1,6 +1,7 @@
 image=$HOME/.dotfiles/resources/lockscreen.jpg
 scaling=fit
 
+color=000000
 ignore-empty-password
 hide-keyboard-layout
 indicator-caps-lock
