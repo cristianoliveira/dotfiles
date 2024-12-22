@@ -39,8 +39,8 @@ set $widthLarge 60ppt
 bindsym Mod4 bindsym $mod
 
 # For notebook disable monitor when lid is closed
-bindswitch lid:on dpms off
-bindswitch lid:off output * dpms on
+bindswitch lid:on 'swaymsg "output * dpms off"'
+bindswitch lid:off 'swaymsg "output * dpms on"'
 
 font pango:Monaco 8
 
@@ -68,7 +68,7 @@ exec swayidle -w \
     timeout 120  'swaylock' \
     timeout  20  'pgrep swaylock && swaymsg "output * dpms off"' \
     resume  'swaymsg "output * dpms on"' \
-    before-sleep 'swaylock'
+    before-sleep 'pgrep swaylock && swaylock'
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
@@ -391,6 +391,7 @@ for_window [title="^.icture.in..icture$"] floating enable, move position 74ppt 7
 for_window [app_id="term-floating"] floating enable, move position center, sticky enable
 for_window [app_id="pavucontrol"] floating enable, move position center, sticky enable
 for_window [class="Bitwarden"] floating enable, move position center, sticky enable
+for_window [title="^Bitwarden$"] floating enable, move position center, sticky enable
 
 # Make sure to always focus new windows
 for_window [class="^.*$"] focus
