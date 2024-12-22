@@ -16,6 +16,12 @@ in  {
     };
     installPhase = ''
       mkdir -p $out
+
+      ## Change the background color to a dark blue
+      sed -i 's/#444/#010713/' ./Main.qml
+
+      sed -i 's/ScaleImageCropped=true/ScaleImageCropped=false/' ./theme.conf
+
       cp -R ./* $out/
       rm -f $out/Background.jpg
       cp -r ${image} $out/Background.jpg
