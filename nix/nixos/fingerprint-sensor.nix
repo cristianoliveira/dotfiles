@@ -1,8 +1,9 @@
-{ pkgs ? import <nixpkgs> {}, ... }:
+{ _ , ... }:
 {
   # NOTE: tested and it works on ThinkPad T14 Gen 5
-  # need to integrate with PAM to work with login screen
   # See more: https://archive.is/tYQlZ
+  # This config allow authentication with fingerprint on SDDM, swaylock and on
+  # the terminal.
 
   # Start the driver at boot
   systemd.services.fprintd = {

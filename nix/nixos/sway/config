@@ -40,7 +40,7 @@ bindsym Mod4 bindsym $mod
 
 # For notebook disable monitor when lid is closed
 bindswitch lid:on 'swaymsg "output * dpms off"'
-bindswitch lid:off 'swaymsg "output * dpms on"'
+bindswitch lid:off 'pgrep swaylock && swaylock && swaymsg "output * dpms on"'
 
 font pango:Monaco 8
 
