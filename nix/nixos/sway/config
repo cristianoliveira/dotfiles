@@ -42,7 +42,7 @@ bindsym Mod4 bindsym $mod
 bindswitch lid:on 'swaymsg "output * dpms off"'
 bindswitch lid:off 'pgrep swaylock && swaylock && swaymsg "output * dpms on"'
 
-font pango:Monaco 8
+font pango:monospace 9
 
 ### Output configuration
 #
