@@ -17,6 +17,7 @@
       ./file-manager.nix
       ./vpn.nix
       ./streaming.nix
+      ./fingerprint-sensor.nix
 
       # Shared configurations
       ../shared/direnv.nix

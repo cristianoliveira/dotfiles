@@ -2,6 +2,10 @@ image=$HOME/.dotfiles/resources/lockscreen.jpg
 scaling=fit
 
 color=000000
-ignore-empty-password
+
+## When using fingerprint an login attempt needs to happen first
+## So: Return + Fingerprint
+## ignore-empty-password
+
 hide-keyboard-layout
 indicator-caps-lock
