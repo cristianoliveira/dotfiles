@@ -136,7 +136,7 @@ bindsym Ctrl+Space exec $menu
 floating_modifier $mod normal
 
 # Reload the configuration file
-bindsym $mod+Shift+c reload
+bindsym $mod+Ctrl+F12 reload
 
 # Toggle between two most recently focused workspaces
 bindsym $mod+grave workspace back_and_forth
@@ -241,8 +241,13 @@ bindsym $mod+Ctrl+Shift+Up move workspace to output up
 bindsym $mod+Ctrl+Shift+Down move workspace to output down
 
 # Old habits
-bindsym $mod+Tab workspace next
-bindsym $mod+Shift+Tab workspace prev
+# bindsym $mod+Tab workspace next
+# bindsym $mod+Shift+Tab workspace prev
+
+bindsym $mod+Tab focus next
+bindsym $mod+Shift+Tab focus prev
+
+# bindsym $mod+Tab workspace current
 
 ### Windows layout
 #
