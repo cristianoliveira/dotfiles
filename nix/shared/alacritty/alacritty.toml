@@ -64,7 +64,7 @@ style = "Bold"
 family = "Monaco"
 style = "Regular"
 
-[shell]
+[terminal.shell]
 args = ["-l", "-c", "tmux new-session -A -s a-session"]
 program = "/bin/sh"
 
@@ -79,3 +79,5 @@ lines = 40
 [window.padding]
 x = 4
 y = 4
+
+[terminal]

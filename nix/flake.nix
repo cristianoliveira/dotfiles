@@ -3,13 +3,13 @@
 
   inputs = {
     # Linux
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
 
     # OSX
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
-    co-pkgs.url = "github:cristianoliveira/nixpkgs/main";
+    co-pkgs.url = "github:cristianoliveira/nixpkgs";
   };
 
   outputs = { self, nixpkgs, nix-darwin, co-pkgs, ... }:

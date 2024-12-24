@@ -25,11 +25,7 @@
       ../shared/developer-tools.nix
     ];
 
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
-  };
+  hardware.graphics.enable = true;
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;

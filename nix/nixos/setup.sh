@@ -21,12 +21,6 @@ if ! command -v nix-env &> /dev/null; then
   exit 1
 fi
 
-if [ ! -f "$HOME/.config/nix/nix.conf" ]; then
-  echo "Configuring Nix..."
-  mkdir -p "$HOME/.config/nix"
-  ln -s "$HOME/.dotfiles/nix/nix.conf" "$HOME/.config/nix/nix.conf"
-fi
-
 # This is probably not necessary
 # TODO test without this
 if [ -d /etc/nixos ]; then
