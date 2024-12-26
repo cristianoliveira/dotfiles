@@ -18,7 +18,7 @@
 
             ## rightalt_hjkl layer
             # RightAlt + hjkl as arrow keys, fallback to Alt
-            "rightalt_hjkl:A" = {
+            "rightalt_hjkl:M" = {
               h = "left";
               j = "down";
               k = "up";
