@@ -23,6 +23,7 @@
       ../shared/direnv.nix
       ../shared/security.nix
       ../shared/developer-tools.nix
+      ../shared/environment-variables.nix
     ];
 
   hardware.graphics.enable = true;

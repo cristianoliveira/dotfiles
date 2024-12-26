@@ -90,10 +90,13 @@ fi
 export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='nvim'
-else
-  export EDITOR='nvim'
+# and there is no EDITOR variable set
+if [[ -z "$EDITOR" ]]; then
+  if [[ -n $SSH_CONNECTION ]]; then
+    export EDITOR='nvim'
+  else
+    export EDITOR='nvim'
+  fi
 fi
 
 # Compilation flags
@@ -119,8 +122,7 @@ bindkey '^N' history-beginning-search-forward
 
 # Set vim as editor
 set -o vi
-export EDITOR=nvim
-export VISUAL=nvim
+export VISUAL="$EDITOR"
 
 # Colors
 export GREP_COLOR='mt=1;33'
