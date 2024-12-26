@@ -24,21 +24,6 @@
       options = [ "fmask=0077" "dmask=0077" ];
     };
 
-  fileSystems."/var/lib/docker/overlay2/fb2936b00bd6aaa11f8f8cfdf5e4929ee7637d21dcade1dbd0ddc3eb3411e31b/merged" =
-    { device = "overlay";
-      fsType = "overlay";
-    };
-
-  fileSystems."/var/lib/docker/overlay2/862f6d6d19c68dd56fdd5ffd12d8e6f2515e8ed3067b2a2bbd0f227248265962/merged" =
-    { device = "overlay";
-      fsType = "overlay";
-    };
-
-  fileSystems."/var/lib/docker/overlay2/76f59c57c6d892593cfb021667cf39daa68206c640749c5d30d6dd36eaaf24f6/merged" =
-    { device = "overlay";
-      fsType = "overlay";
-    };
-
   swapDevices =
     [ { device = "/dev/disk/by-uuid/40170294-79b4-4a48-a802-50bc73e62da0"; }
     ];
@@ -51,11 +36,7 @@
   # networking.interfaces.br-84c16e62aac0.useDHCP = lib.mkDefault true;
   # networking.interfaces.br-ca5af6b76627.useDHCP = lib.mkDefault true;
   # networking.interfaces.docker0.useDHCP = lib.mkDefault true;
-  # networking.interfaces.enp198s0f4u1.useDHCP = lib.mkDefault true;
   # networking.interfaces.enp1s0f0.useDHCP = lib.mkDefault true;
-  # networking.interfaces.veth579fa20.useDHCP = lib.mkDefault true;
-  # networking.interfaces.vethc41f610.useDHCP = lib.mkDefault true;
-  # networking.interfaces.vethebcb1c5.useDHCP = lib.mkDefault true;
   # networking.interfaces.wlp2s0.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
