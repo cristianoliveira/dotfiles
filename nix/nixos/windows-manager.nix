@@ -31,6 +31,8 @@
       # Displays UI manager
       wdisplays
     ];
+
+    xwayland.enable = true;
   };
 
   ## This here isn't really necessary for the fix but let's ake sure
@@ -42,9 +44,6 @@
     wlr.enable = true;
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
-
-  # Allow applying the same settings to outside of X11
-  console.useXkbConfig = true;
 
   ## Other related GUIS for settings
   # Bluetooth related 

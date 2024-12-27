@@ -10,11 +10,10 @@ in {
       sddm = {
         enable = true;
         theme = "${theme.theme}";
+
+        wayland.enable = true;
       };
     };
-
-    # Enable the X11 windowing system.
-    xserver.enable = true;
   };
 
   environment.systemPackages = theme.extraPackages; 
