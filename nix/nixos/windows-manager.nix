@@ -33,6 +33,16 @@
     ];
   };
 
+  ## This here isn't really necessary for the fix but let's ake sure
+  # to explicitly enable and start the xdg-desktop-portal-* as services on login
+  xdg.portal = {
+    enable = true;
+
+    # Expected by xdg-desktop-portal
+    wlr.enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  };
+
   # Allow applying the same settings to outside of X11
   console.useXkbConfig = true;
 

@@ -404,14 +404,10 @@ for_window [class="^.*$"] focus
 # Inhibit swayidle when watching videos on fullscreen
 for_window [class="^.*"] inhibit_idle fullscreen
 
-### Start auxiliar services
-#
-# Start blueman-applet
-# Since it depends on $DISPLAY it must be started after sway
-exec zsh -c "blueman-applet &"
-
 # Autotiling for sway
 # To make the UX a bit more like yabai
 exec_always autotiling -w 1 3 5 7 9 -sr 1.61
 
-include @sysconfdir@/sway/config.d/*
+# on Nixos 24.11 sysconfdir is not set
+# include @sysconfdir@/sway/config.d/*
+include /etc/sway/config.d/*
