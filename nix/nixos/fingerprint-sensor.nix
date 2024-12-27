@@ -1,6 +1,6 @@
 { _ , ... }:
 {
-  # NOTE: tested and it works on ThinkPad T14 Gen 5
+  # NOTE: It is working on ThinkPad P14s Gen 5
   # See more: https://archive.is/tYQlZ
   # This config allow authentication with fingerprint on SDDM, swaylock and on
   # the terminal.
@@ -21,7 +21,7 @@
   };
 
   security.pam.services = {
-    sddm.enableGnomeKeyring = true;
+    # sddm.enableGnomeKeyring = true;
 
     login.fprintAuth = true;
 
