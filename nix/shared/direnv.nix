@@ -1,10 +1,6 @@
 { pkgs, ... }: {
-  environment.systemPackages = with pkgs; [
-    direnv
-    nix-direnv
-  ];
-
   programs.direnv = {
+    enable = true;
     package = pkgs.direnv;
     silent = true;
     nix-direnv = {

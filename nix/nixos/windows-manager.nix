@@ -18,8 +18,6 @@
       grim # screenshot functionality
       slurp # screenshot functionality
       wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
-      mako # notification system developed by swaywm maintainer
-      wmctrl #https://github.com/Ulauncher/Ulauncher/wiki/Hotkey-In-Wayland
 
       # GUIs for common settings
       pavucontrol # audio manager
