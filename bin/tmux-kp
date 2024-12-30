@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+set -e
+
+# TMUX [K]ILL [P]ROJECT (SESSION)
+
+tmux_sessions=$(tmux list-sessions -F "#{session_name}" 2>/dev/null)
+
+selected_session=$(
+    echo "$tmux_sessions" |
+    fzf --height 50% \
+      --layout=reverse \
+      --border \
+      --header '-------------TMUX - SESSION TO KILL--------------' \
+      --preview "cat $HOME/{}/README.* || ls -la $HOME/{}"
+  )
+
+# If session is selected kill it
+if [[ -n "$selected_session" ]]; then
+  tmux kill-session -t "$selected_session"
+else
+  exit 0
+fi
