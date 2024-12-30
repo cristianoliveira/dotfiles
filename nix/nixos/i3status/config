@@ -9,35 +9,29 @@
 general {
   interval = 1
     colors = true
-    color_good="#FFFFFF"
+    color_good="#cccccc"
     color_degraded="#ffd75f"
     color_bad="#d75f5f"
 }
 
 order += "volume master"
 order += "battery 0"
-order += "cpu_usage"
 order += "memory"
+order += "cpu_usage"
 order += "tztime local"
 
-# order += "disk /"
-# order += "disk /home"
-# order += "load"
+memory {
+  format = "💾 %percentage_used"
+  threshold_degraded = "10%"
+  format_degraded = "MEMORY: %free"
+}
 
 tztime local {
-  format = " %d/%m/%Y %H:%M "
-}
-
-disk "/home" {
-  format = " %avail "
-}
-
-disk "/" {
-  format = " %avail "
+  format = "%H:%M %a %d/%m/%y"
 }
 
 cpu_usage {
-  format = "CPU %usage "
+  format = "💻 %usage"
 }
 
 load {
@@ -45,7 +39,7 @@ load {
 }
 
 volume master {
-  format = "🔉 %volume "
+  format = "🔉 %volume"
     format_muted = " %volume "
     device = "default"
     mixer = "Master"
@@ -53,12 +47,12 @@ volume master {
 }
 
 battery 0 {
-  format = "🔋%status %percentage "
+  format = "🔋 %status %percentage "
     format_down = " DOWN "
-    status_chr = " CHARGING "
-    status_bat = " BATTERY "
-    status_unk = " UNKNOWN "
-#last_full_capacity = true
-    status_full = " FULL "
+    status_chr = "⚡"
+    status_bat = "▶️"
+    status_unk = "??"
+    status_idle = "⏸"
+    status_full = "100% 🔋"
     path = "/sys/class/power_supply/BAT%d/uevent"
 }

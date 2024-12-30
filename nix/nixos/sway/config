@@ -80,6 +80,7 @@ input "type:touchpad" {
 # Focus the workspace on the output that the mouse pointer is on with 3 fingers swipe
 bindgesture swipe:right workspace prev_on_output
 bindgesture swipe:left workspace next_on_output
+bindgesture swipe:down move scratchpad
 
 # Move the window to with the swipe gesture 4 fingers
 bindgesture swipe:4:right move right
