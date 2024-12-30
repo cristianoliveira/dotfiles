@@ -44,6 +44,10 @@
     - '.git/**/*'
     - result
 
+- name: reload tmux
+  run: tmux/reload.sh
+  change: 'tmux/**'
+
 - name: after commit attempt to rebase
   run: 
     - git fetch --all
