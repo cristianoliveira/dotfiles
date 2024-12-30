@@ -39,8 +39,8 @@ set $widthLarge 60ppt
 bindsym Mod4 bindsym $mod
 
 # For notebook disable monitor when lid is closed
-bindswitch lid:on 'swaymsg "output * dpms off"'
-bindswitch lid:off 'pgrep swaylock && swaylock && swaymsg "output * dpms on"'
+bindswitch lid:on 'swaymsg "output * dpms on"'
+bindswitch lid:off 'swaymsg "output * dpms off" && systemctl suspend'
 
 font pango:monospace 9
 
@@ -60,15 +60,9 @@ output DP-1 resolution 1920x1080 position 0,0
 output DP-2 resolution 1920x1080 position 0,0 
 
 ### Idle configuration
-#
-# After 120 seconds of inactivity, swayidle will lock your screen. After 20 more
-# seconds, it will turn off your displays. When you resume, swayidle will unlock
-#
-exec swayidle -w \
-    timeout 120  'swaylock' \
-    timeout  20  'pgrep swaylock && swaymsg "output * dpms off"' \
-    resume  'swaymsg "output * dpms on"' \
-    before-sleep 'pgrep swaylock && swaylock'
+
+exec $HOME/.dotfiles/nix/nixos/sway/bin/swayidle.sh
+
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
