@@ -366,6 +366,8 @@ bar {
     status_command i3status
     mode hide
     tray_output primary
+    # Fits well with the tmux status bar
+    height 18
 
     # Show bar on press
     modifier $mod
