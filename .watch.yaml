@@ -17,7 +17,7 @@
 - name: watch nix configs
   run: 
     # linter
-    - statix check -i nix/nixos/hardware-configuration.nix
+    - statix check nix/ -i nix/nixos/hardware-configuration.nix 
     # FIXME it fails on osx
     # - nix flake check nix --no-build
     - nix/rebuild.sh
