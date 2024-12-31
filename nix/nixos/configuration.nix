@@ -18,6 +18,7 @@
       ./vpn.nix
       ./streaming.nix
       ./fingerprint-sensor.nix
+      ./gaming.nix
 
       # Shared configurations
       ../shared/direnv.nix
