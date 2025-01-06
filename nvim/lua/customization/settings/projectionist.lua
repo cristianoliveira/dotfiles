@@ -114,6 +114,12 @@ vim.g.projectionist_heuristics = {
     },
   },
 
+  ['.tmp/notes'] = {
+    ['.tmp/notes/*'] = {
+      ['type'] = "TNotes"
+    },
+  },
+
   -- [[ Dotenv (with example) euristics for projectionist ]]
   ['.env-example'] = {
     ['.env'] = {
