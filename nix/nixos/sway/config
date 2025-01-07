@@ -39,10 +39,6 @@ set $widthLarge 60ppt
 # Bind the mod key 
 bindsym Mod4 bindsym $mod
 
-set $laptop_screen eDP-1
-bindswitch lid:on output $laptop_screen disable
-bindswitch lid:off output $laptop_screen enable
-
 font pango:monospace 9
 
 ### Output configuration
@@ -55,10 +51,14 @@ output * bg $HOME/.dotfiles/resources/wallpaper.jpg stretch
 # To check a GUI option run `nix run nixpkgs#wdisplays`
 
 # builtin/main display on the bottom
-output eDP-1 resolution 1920x1200 position 0,1080
+set $laptop_screen eDP-1
+output $laptop_screen resolution 1920x1200 position 0,1080
 # secondary display on the top
 output DP-1 resolution 1920x1080 position 0,0 
 output DP-2 resolution 1920x1080 position 0,0 
+
+bindswitch lid:on swaymsg output $laptop_screen dpms on && swaymsg output $laptop_screen enable
+bindswitch lid:off swaymsg output $laptop_screen dpms off && swaymsg output $laptop_screen disable
 
 ### Idle configuration
 

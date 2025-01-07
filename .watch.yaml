@@ -20,7 +20,7 @@
     - statix check nix/ -i nix/nixos/hardware-configuration.nix 
     # FIXME it fails on osx
     # - nix flake check nix --no-build
-    - nix/rebuild.sh
+    - SKIP_COMMIT=1 nix/rebuild.sh
   change: 
     - 'nix/**/*.nix'
   run_on_init: true
