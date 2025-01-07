@@ -39,9 +39,9 @@ set $widthLarge 60ppt
 # Bind the mod key 
 bindsym Mod4 bindsym $mod
 
-# For notebook disable monitor when lid is closed
-bindswitch lid:on 'swaymsg "output * dpms on"'
-bindswitch lid:off 'swaymsg "output * dpms off" && systemctl suspend'
+set $laptop_screen eDP-1
+bindswitch lid:on output $laptop_screen disable
+bindswitch lid:off output $laptop_screen enable
 
 font pango:monospace 9
 
