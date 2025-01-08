@@ -150,6 +150,18 @@ mode "exit: [l]ogout, [r]eboot, [s]hutdown" {
 }
 bindsym $mod+Shift+e mode "exit: [l]ogout, [r]eboot, [s]hutdown"
 
+set $idlemode "idle: [d]isabled / [e]nabled"
+mode $idlemode {
+    # Mappings
+    bindsym d exec pkill swayidle && swaymsg mode "default"
+    bindsym e exec $HOME/.dotfiles/nix/nixos/sway/bin/swayidle.sh & swaymsg mode "default"
+
+    # Exit mode
+    bindsym Escape mode "default"
+    bindsym Return mode "default"
+}
+bindsym $mod+F12 mode $idlemode
+
 ### Mapping moving windows
 #
 # Move your focus around
