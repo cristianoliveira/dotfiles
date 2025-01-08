@@ -1,12 +1,17 @@
+{ pkgs, ... }:
 
-{ config, pkgs, lib, ... }:
 {
-  # Dolphin file manager
-  # https://wiki.nixos.org/wiki/Dolphin
-  environment.systemPackages = with pkgs; [
-    kdePackages.dolphin
-    kdePackages.qtwayland
-    kdePackages.qt6ct
-    kdePackages.qtsvg
-  ];
+  programs = {
+    thunar = {
+      enable = true;
+      plugins = with pkgs.xfce; [
+        thunar-archive-plugin
+        thunar-volman
+      ];
+    };
+    xfconf.enable = true;
+  };
+
+  services.gvfs.enable = true; # Mount, trash, and other functionalities
+  services.tumbler.enable = true; # Thumbnail support for images
 }
