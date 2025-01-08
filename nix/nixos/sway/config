@@ -415,6 +415,7 @@ for_window [class="^.*$"] focus
 
 # Inhibit swayidle when watching videos on fullscreen
 for_window [class="^.*"] inhibit_idle fullscreen
+for_window [app_id="^.*"] inhibit_idle fullscreen
 
 # Autotiling for sway
 # To make the UX a bit more like yabai
