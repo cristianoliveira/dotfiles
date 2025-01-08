@@ -57,8 +57,8 @@ output $laptop_screen resolution 1920x1200 position 0,1080
 output DP-1 resolution 1920x1080 position 0,0 
 output DP-2 resolution 1920x1080 position 0,0 
 
-bindswitch lid:on swaymsg output $laptop_screen dpms on && swaymsg output $laptop_screen enable
-bindswitch lid:off swaymsg output $laptop_screen dpms off && swaymsg output $laptop_screen disable
+bindswitch lid:off exec swaymsg "output eDP-1 enable" && swaymsg "output * dpms on" 
+bindswitch lid:on exec swaymsg "output eDP-1 disable"
 
 ### Idle configuration
 
