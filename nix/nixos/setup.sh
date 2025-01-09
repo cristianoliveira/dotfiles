@@ -38,6 +38,7 @@ $HOME/.dotfiles/nix/nixos/i3status/setup.sh
 $HOME/.dotfiles/nix/nixos/fonts/setup.sh
 $HOME/.dotfiles/nix/nixos/ulauncher/setup.sh
 $HOME/.dotfiles/nix/nixos/rclone/setup.sh
+$HOME/.dotfiles/nix/nixos/services/setup.sh
 
 echo "Setting up shared applications"
 "$HOME"/.dotfiles/nix/shared/setup.sh

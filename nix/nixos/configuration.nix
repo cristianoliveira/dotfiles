@@ -19,6 +19,7 @@
       ./streaming.nix
       ./fingerprint-sensor.nix
       ./gaming.nix
+      ./services/notification.nix
 
       # Shared configurations
       ../shared/direnv.nix
