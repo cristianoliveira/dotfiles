@@ -7,6 +7,7 @@
       swaylock
       i3status
       swayidle
+      sway-audio-idle-inhibit # Prevents the screen from going to sleep when audio is playing
 
       autotiling
 
