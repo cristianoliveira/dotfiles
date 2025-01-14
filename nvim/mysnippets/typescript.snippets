@@ -127,11 +127,12 @@ describe("$1", () => {
 endsnippet
 
 snippet tmd "Test module" b
-import { ${1:`!v expand('%:t:r')`} } from "../$1"
+import { ${2:`!v expand('%:t:r')`} } from "../$1"
 
-describe("$1", () => {
-	it("$2", () => {
+describe("$2", () => {
+	it("$3", () => {
 		$0
+		expect(false).toBe(true); // TODO: implement test
 	})
 })
 endsnippet
