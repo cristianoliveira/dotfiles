@@ -43,7 +43,8 @@ endsnippet
 
 snippet trc "test react component (js)"
 import React from 'react';
-import { render } from 'testing-library';
+import { describe, expect, it } from 'vitest';
+import { render, screen } from '@testing-library/react';
 
 import { $1 } from './${2:$1}';
 
@@ -53,15 +54,17 @@ describe('${3:$1}', () => {
 	it('$4', () => {
 		const props = {...defaultProps};
 
-		const wrapper = render(<${5:$1} {...props}/>)
+		render(<${5:$1} {...props}/>)
 
-		expect(wrapper).toEqual('')
+    expect(screen.getByText('Pick an option')).toBeInTheDocument();
+    expect(screen.getByLabel('Date')).toBeInTheDocument();
 	});
 });
 endsnippet
 
 snippet tgc "test generic component (js)"
-import { render } from 'testing-library';
+import { describe, expect, it } from 'vitest';
+import { render, screen } from '@testing-library/react';
 
 import $1 from './${2:$1}';
 
@@ -71,9 +74,9 @@ describe('${3:$1}', () => {
 	it('$4', () => {
 		const props = {...defaultprops};
 
-		const wrapper = render(<${5:$1} {...props}/>)
+		render(<${5:$1} {...props}/>)
 
-		expect(wrapper).toequal('')
+    expect(screen.getByText('Pick an option')).toBeInTheDocument();
 	});
 });
 endsnippet
