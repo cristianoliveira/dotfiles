@@ -178,5 +178,15 @@
         "is_default_search": false,
         "run_without_argument": true,
         "added": 1732259204.4766319
+    },
+    "e5dfd966-15b6-4811-8959-9170fdd2852e": {
+        "id": "e5dfd966-15b6-4811-8959-9170fdd2852e",
+        "name": "restart sound",
+        "keyword": "res sound",
+        "cmd": "#!/bin/sh\n\nsystemctl --user restart pipewire.service\nsystemctl --user restart pipewire-pulse.service\n",
+        "icon": null,
+        "is_default_search": false,
+        "run_without_argument": true,
+        "added": 1737153731.8937755
     }
 }
