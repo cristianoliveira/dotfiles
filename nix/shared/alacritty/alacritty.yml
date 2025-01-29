@@ -3,7 +3,7 @@ env:
 
 window:
   decorations: none
-  opacity: 0.94
+  opacity: 1
 
   dimensions:
     columns: 133

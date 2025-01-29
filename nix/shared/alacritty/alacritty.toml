@@ -70,7 +70,7 @@ program = "/bin/sh"
 
 [window]
 decorations = "none"
-opacity = 0.94
+opacity = 1
 
 [window.dimensions]
 columns = 133
