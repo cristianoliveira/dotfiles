@@ -52,10 +52,10 @@ output * bg $HOME/.dotfiles/resources/wallpaper.jpg stretch
 
 # builtin/main display on the bottom
 set $laptop_screen eDP-1
-output $laptop_screen resolution 1920x1200 position 0,1080
+output $laptop_screen resolution 1920x1200 position 1920,1080
 # secondary display on the top
 output DP-1 resolution 1920x1080 position 0,0 
-output DP-2 resolution 1920x1080 position 0,0 
+output DP-2 resolution 1920x1080 position 1920,0 
 
 bindswitch lid:off exec swaymsg "output eDP-1 enable"
 bindswitch lid:on exec swaymsg "output eDP-1 disable"
@@ -196,16 +196,12 @@ workspace 1 output DP-2
 workspace 2 output DP-2
 workspace 3 output DP-2
 workspace 4 output DP-2
+workspace 5 output DP-2
+workspace 6 output DP-2
 
-# In case the monitor is not connected in the a different order
-exec_always {
-    if swaymsg -t get_outputs | grep -q "\"name\": \"DP-1\""; then
-        swaymsg "workspace 1 output DP-1"
-        swaymsg "workspace 2 output DP-1"
-        swaymsg "workspace 3 output DP-1"
-        swaymsg "workspace 4 output DP-1"
-    fi
-}
+# If not connected no problem
+workspace 5 output DP-1
+workspace 6 output DP-1
 
 ## Workspace in the main display BOTTOM (built-in)
 workspace 8 output eDP-1
