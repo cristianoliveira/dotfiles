@@ -33,7 +33,7 @@ vim.keymap.set('i', '<C-k>', function()
   else
     cmp.complete();
   end
-end, { noremap = true })
+end, { noremap = false })
 
 vim.keymap.set('i', '<C-j>', function()
   if cmp.visible() then
@@ -41,4 +41,4 @@ vim.keymap.set('i', '<C-j>', function()
   else
     cmp.complete();
   end
-end, { noremap = true })
+end, { noremap = false })
