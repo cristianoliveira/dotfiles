@@ -20,3 +20,16 @@ vim.cmd("command! -nargs=0 Gaf :G add %")
 --Common linux command
 --make current file executable
 vim.cmd("command! -nargs=0 Chx :!chmod +x %")
+
+
+function ToggleRelativeNumber()
+  if vim.wo.relativenumber then
+    vim.wo.relativenumber = false
+    vim.wo.number = true
+  else
+    vim.wo.relativenumber = true
+    vim.wo.number = false
+  end
+end
+
+vim.api.nvim_create_user_command("NvimToggleRelativeNumber", ToggleRelativeNumber, {})
