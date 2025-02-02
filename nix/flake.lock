@@ -1,25 +1,5 @@
 {
   "nodes": {
-    "conixpkgs": {
-      "inputs": {
-        "nixpkgs": "nixpkgs",
-        "sway-setter": "sway-setter",
-        "utils": "utils_2"
-      },
-      "locked": {
-        "lastModified": 1738502850,
-        "narHash": "sha256-6JwQvGUvHrNvCTJD+DQiow/tNWY4mYkZaPhNk5tvK7I=",
-        "owner": "cristianoliveira",
-        "repo": "nixpkgs",
-        "rev": "a105418496cb0f92f5c9636558c955337e980cad",
-        "type": "github"
-      },
-      "original": {
-        "owner": "cristianoliveira",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "copkgs": {
       "inputs": {
         "ergo": "ergo",

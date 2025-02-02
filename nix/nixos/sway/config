@@ -51,11 +51,8 @@ output * bg $HOME/.dotfiles/resources/wallpaper.jpg stretch
 # To check a GUI option run `nix run nixpkgs#wdisplays`
 
 # builtin/main display on the bottom
-set $laptop_screen eDP-1
-output $laptop_screen resolution 1920x1200 position 1920,1080
-# secondary display on the top
-output DP-1 resolution 1920x1080 position 0,0 
-output DP-2 resolution 1920x1080 position 1920,0 
+exec_always sway-setter \
+                -t set_outputs < $HOME/.dotfiles/nix/nixos/sway/home-outputs.json
 
 bindswitch lid:off exec swaymsg "output eDP-1 enable"
 bindswitch lid:on exec swaymsg "output eDP-1 disable"
@@ -197,7 +194,6 @@ workspace 2 output DP-2
 workspace 3 output DP-2
 workspace 4 output DP-2
 workspace 5 output DP-2
-workspace 6 output DP-2
 
 # If not connected no problem
 workspace 5 output DP-1
@@ -232,6 +228,9 @@ bindsym $mod+Shift+0 move container to workspace number 10
 
 ## Apps and specific workspaces
 assign [app_id=$term] workspace 2
+assign [app_id="whatsapp-for-linux"] workspace 10
+assign [app_id="org.telegram.desktop"] workspace 10
+assign [class="Spotify"] workspace 9
 for_window [app_id="whatsapp-for-linux"] move to scratchpad
 for_window [app_id="org.telegram.desktop"] move to scratchpad
 
