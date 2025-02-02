@@ -9,10 +9,10 @@
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
-    co-pkgs.url = "github:cristianoliveira/nixpkgs";
+    copkgs.url = "github:cristianoliveira/nixpkgs";
   };
 
-  outputs = { self, nixpkgs, nix-darwin, co-pkgs, ... }:
+  outputs = { self, nixpkgs, nix-darwin, copkgs, ... }:
   {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
@@ -20,7 +20,7 @@
         ({ config, pkgs, ... }: { 
           # Injects mypkgs into nixpkgs as pkgs.mypkgs
           nixpkgs.overlays = [ 
-            (final: prev: { copckgs = import co-pkgs { inherit pkgs; }; })
+            (final: prev: { copckgs = copkgs.packages.x86_64-linux; })
           ];
         })
         ./nixos/configuration.nix
@@ -32,7 +32,7 @@
         ({ config, pkgs, ... }: { 
           # Injects mypkgs into nixpkgs as pkgs.mypkgs
           nixpkgs.overlays = [ 
-            (final: prev: { copckgs = import co-pkgs { inherit pkgs; }; })
+            (final: prev: { copckgs = copkgs.packages.aarch64-darwin; })
           ];
         })
 

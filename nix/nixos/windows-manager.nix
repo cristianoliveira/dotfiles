@@ -29,6 +29,9 @@
 
       # Displays UI manager
       wdisplays
+
+      # Persistent object states
+      copckgs.sway-setter
     ];
 
     xwayland.enable = true;
