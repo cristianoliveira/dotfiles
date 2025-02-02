@@ -1,27 +1,5 @@
 {
   "nodes": {
-    "co-pkgs": {
-      "inputs": {
-        "ergo": "ergo",
-        "funzzy": "funzzy",
-        "nixpkgs": "nixpkgs_5",
-        "sway-setter": "sway-setter_2",
-        "utils": "utils_6"
-      },
-      "locked": {
-        "lastModified": 1738506957,
-        "narHash": "sha256-CsfQ524qos+IgBN9Vp4/DxbP7yp167DdsUStPElIN58=",
-        "owner": "cristianoliveira",
-        "repo": "nixpkgs",
-        "rev": "ffa91aa011a4fe6b57048d2277b33ad82274dc9b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "cristianoliveira",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "conixpkgs": {
       "inputs": {
         "nixpkgs": "nixpkgs",
@@ -34,6 +12,28 @@
         "owner": "cristianoliveira",
         "repo": "nixpkgs",
         "rev": "a105418496cb0f92f5c9636558c955337e980cad",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cristianoliveira",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "copkgs": {
+      "inputs": {
+        "ergo": "ergo",
+        "funzzy": "funzzy",
+        "nixpkgs": "nixpkgs_5",
+        "sway-setter": "sway-setter_2",
+        "utils": "utils_6"
+      },
+      "locked": {
+        "lastModified": 1738513735,
+        "narHash": "sha256-Zp+dAsf+5kM58uQYuKQLO514ZGJIAg27H9VCdbl7bVQ=",
+        "owner": "cristianoliveira",
+        "repo": "nixpkgs",
+        "rev": "3466da65487f29d01158888b013987d19e8a64d0",
         "type": "github"
       },
       "original": {
@@ -209,7 +209,7 @@
     },
     "root": {
       "inputs": {
-        "co-pkgs": "co-pkgs",
+        "copkgs": "copkgs",
         "nix-darwin": "nix-darwin",
         "nixpkgs": "nixpkgs_7"
       }
