@@ -10,11 +10,11 @@
       ./hardware-configuration.nix
 
       # NixOs specific configurations
-      ./essential-pkgs.nix
       ./windows-manager.nix
       ./display-manager.nix
       ./mappings/keyd.nix
       ./file-manager.nix
+      ./applications.nix
       ./streaming.nix
       ./fingerprint-sensor.nix
       ./gaming.nix

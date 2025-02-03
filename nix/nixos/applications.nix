@@ -1,5 +1,7 @@
-{ config, pkgs, lib, ... }:
+{ pkgs, ... }:
 {
+  # Applications here more GUIs apps that are commonly used
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -14,5 +16,8 @@
     rclone
     zip
     unzip
+
+    # Notes and organization tools
+    obsidian
   ];
 }
