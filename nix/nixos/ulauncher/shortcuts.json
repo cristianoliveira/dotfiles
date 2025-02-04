@@ -133,7 +133,7 @@
         "id": "894783a3-a8a6-420c-970a-1eb88458485c",
         "name": "displays",
         "keyword": "displays screen",
-        "cmd": "#!/usr/bin/env bash\n\nwdisplays\n",
+        "cmd": "#!/usr/bin/env bash\n\nwdisplays && sleep 2 && swaymsg -t get_outputs > $HOME/.local/state/sway-outputs.json\n",
         "icon": null,
         "is_default_search": false,
         "run_without_argument": true,

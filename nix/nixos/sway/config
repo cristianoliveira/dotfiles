@@ -51,8 +51,45 @@ output * bg $HOME/.dotfiles/resources/wallpaper.jpg stretch
 # To check a GUI option run `nix run nixpkgs#wdisplays`
 
 # builtin/main display on the bottom
+# Load the output configuration on startup
 exec_always sway-setter \
-                -t set_outputs < $HOME/.dotfiles/nix/nixos/sway/home-outputs.json
+    outputs < $HOME/.local/state/sway-outputs.json
+
+# Load the output configuration on demand
+set $outputLoadMode "Output state: [s]ave, [r]eload"
+mode $outputLoadMode {
+    # Mappings
+    bindsym s exec swaymsg \
+        -t get_outputs > $HOME/.local/state/sway-outputs.json \
+        && swaymsg mode "default"
+    bindsym r exec sway-setter \
+               outputs < $HOME/.local/state/sway-outputs.json \
+        && swaymsg mode "default"
+
+    # Exit mode
+    bindsym Escape mode "default"
+    bindsym Return mode "default"
+}
+bindsym $mod+Shift+o mode $outputLoadMode
+
+# Containers state configs
+exec_always $HOME/.dotfiles/nix/nixos/sway/bin/sway-save-tree.sh &
+
+set $containersSaveMode "Containers state: [s]ave, [r]eload"
+mode $containersSaveMode {
+    # Mappings
+    bindsym s exec swaymsg \
+        -t get_tree > $HOME/.local/state/sway-tree.json \
+        && swaymsg mode "default"
+    bindsym r exec sway-setter \
+               containers < $HOME/.local/state/sway-tree.json \
+        && swaymsg mode "default"
+
+    # Exit mode
+    bindsym Escape mode "default"
+    bindsym Return mode "default"
+}
+bindsym $mod+Shift+t mode $containersSaveMode
 
 bindswitch lid:off exec swaymsg "output eDP-1 enable"
 bindswitch lid:on exec swaymsg "output eDP-1 disable"
