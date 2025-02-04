@@ -7,12 +7,14 @@
       swaylock
       i3status
       swayidle
-      sway-audio-idle-inhibit # Prevents the screen from going to sleep when audio is playing
 
       autotiling
 
       # Keybindings daemon
       # NOTE try `sxhkd` to decouple keybindings from the window manager
+
+      # Notifications
+      mako
 
       # Utilities
       wf-recorder
@@ -77,27 +79,66 @@
   };
 
   # Sway related services
-  systemd.services.swayaudioinhibit = {
-    # Prevents the screen from going to sleep when audio is playing
-    # For when having zoom calls or watching videos
-    description = "Sway audio inhibit";
-    enable = true;
+  systemd = {
+    services.swayaudioinhibit = {
+      # Prevents the screen from going to sleep when audio is playing
+      # For when having zoom calls or watching videos
+      description = "Sway audio inhibit";
+      enable = true;
 
-    after = [ "graphical.target" ];
-    wantedBy = [ "graphical.target" ];
-    partOf = [ "graphical.target" ];
-    environment = {
-      WAYLAND_DISPLAY = "wayland-1";
-      XDG_RUNTIME_DIR = "/run/user/1000";
+      after = [ "graphical.target" ];
+      wantedBy = [ "graphical.target" ];
+      partOf = [ "graphical.target" ];
+      environment = {
+        WAYLAND_DISPLAY = "wayland-1";
+        XDG_RUNTIME_DIR = "/run/user/1000";
+      };
+
+      serviceConfig = {
+        User = "cristianoliveira";
+        Group = "users";
+        Type = "simple";
+        ExecStart = "${pkgs.sway-audio-idle-inhibit}/bin/sway-audio-idle-inhibit";
+        Restart = "always";
+      };
     };
 
-    serviceConfig = {
-      User = "cristianoliveira";
-      Group = "users";
-      Type = "simple";
-      ExecStart = "${pkgs.sway-audio-idle-inhibit}/bin/sway-audio-idle-inhibit";
-      Restart = "always";
+    # Notification service
+    timers."notifications" = {
+      wantedBy = [ "timers.target" ];
+      timerConfig = {
+        OnBootSec = "5m";
+        OnUnitActiveSec = "5m";
+        Unit = "notifications.service";
+      };
+    };
+
+    services."notifications" = {
+      wantedBy = [ "graphical.target" ];
+
+      environment = {
+        WAYLAND_DISPLAY = "wayland-1";
+        XDG_RUNTIME_DIR = "/run/user/1000";
+      };
+
+      script = ''
+        set -eu
+
+        BATTERY="/sys/class/power_supply/BAT0"
+
+        capacity="$(cat "$BATTERY/capacity")"
+        status="$(cat "$BATTERY/status")"
+        if [ "$status" = "Discharging" ] && [ "$capacity" -le 10 ]; then
+          ${pkgs.libnotify}/bin/notify-send "Battery low" "Battery is at $capacity%"
+        fi
+      '';
+
+      serviceConfig = {
+        User = "cristianoliveira";
+        Group = "users";
+        Type = "simple";
+        Restart = "on-failure";
+      };
     };
   };
-
 }
