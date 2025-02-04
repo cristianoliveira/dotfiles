@@ -406,6 +406,9 @@ bindsym $mod+F1 mode "positioning"
 ## To debug open windows/workspaces
 #bindsym $mod+z exec 'swaymsg -t get_tree > /tmp/sway_tree.json'
 
+## Notifications
+bindsym $mod+Delete exec makoctl dismiss -a
+
 ### Status Bar
 #
 # Read `man 5 sway-bar` for more information about this section.
