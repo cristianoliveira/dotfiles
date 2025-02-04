@@ -121,8 +121,17 @@
 
           capacity="$(cat "$BATTERY/capacity")"
           status="$(cat "$BATTERY/status")"
-          if [ "$status" = "Discharging" ] && [ "$capacity" -le 10 ]; then
-            ${pkgs.libnotify}/bin/notify-send "Battery low" "Battery is at $capacity%"
+          if [ "$status" = "Discharging" ] && [ "$capacity" -le 15 ]; then
+            ${pkgs.libnotify}/bin/notify-send \
+              "⚠ Battery low" \
+              "Battery is at $capacity%"
+          fi
+
+          if [ "$status" = "Discharging" ] && [ "$capacity" -le 4 ]; then
+            ${pkgs.libnotify}/bin/notify-send \
+              --urgency=critical \
+              "⚠ Battery critical" \
+              "Critically low batery, save your work!"
           fi
         '';
 
