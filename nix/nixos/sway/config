@@ -83,6 +83,7 @@ mode $containersSaveMode {
         && swaymsg mode "default"
     bindsym r exec sway-setter \
                containers < $HOME/.local/state/sway-tree.json \
+        || swaymsg mode "default" \
         && swaymsg mode "default"
 
     # Exit mode

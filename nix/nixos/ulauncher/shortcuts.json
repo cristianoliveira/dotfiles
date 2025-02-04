@@ -188,5 +188,15 @@
         "is_default_search": false,
         "run_without_argument": true,
         "added": 1737153731.8937755
+    },
+    "71df156c-8900-446f-b63c-b579ba82c824": {
+        "id": "71df156c-8900-446f-b63c-b579ba82c824",
+        "name": "term",
+        "keyword": "term",
+        "cmd": "#!/usr/bin/env bash\n%s",
+        "icon": null,
+        "is_default_search": false,
+        "run_without_argument": false,
+        "added": 1738617108.764298
     }
 }
