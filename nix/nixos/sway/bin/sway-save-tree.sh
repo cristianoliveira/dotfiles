@@ -6,7 +6,7 @@ set -e # This is necessary to catch errors in commands
 #
 
 service_count=$(pgrep -f sway-save-tree.sh | wc -l)
-if [ $service_count -gt 1 ]; then
+if [ $service_count -gt 2 ]; then
   echo "sway-save-tree.sh is already running"
   exit 1
 fi
