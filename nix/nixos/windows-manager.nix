@@ -24,6 +24,7 @@
 
       # GUIs for common settings
       pavucontrol # audio manager
+      playerctl # media player control
 
       # Launcher
       dmenu # Dmenu is the default in the config but i recommend wofi since its wayland native
