@@ -80,31 +80,78 @@
 
   # Sway related services
   systemd = {
-    services.swayaudioinhibit = {
-      # Prevents the screen from going to sleep when audio is playing
-      # For when having zoom calls or watching videos
-      description = "Sway audio inhibit";
-      enable = true;
-
-      after = [ "graphical.target" ];
-      wantedBy = [ "graphical.target" ];
-      partOf = [ "graphical.target" ];
-      environment = {
-        WAYLAND_DISPLAY = "wayland-1";
-        XDG_RUNTIME_DIR = "/run/user/1000";
-      };
-
-      serviceConfig = {
+    services = let
+      userConfig = {
         User = "cristianoliveira";
         Group = "users";
         Type = "simple";
-        ExecStart = "${pkgs.sway-audio-idle-inhibit}/bin/sway-audio-idle-inhibit";
-        Restart = "always";
+        Restart = "on-failure";
+      };
+      env = {
+        WAYLAND_DISPLAY = "wayland-1";
+        XDG_RUNTIME_DIR = "/run/user/1000";
+      };
+    in {
+      swayaudioinhibit = {
+        enable = true;
+        # Prevents the screen from going to sleep when audio is playing
+        # For when having zoom calls or watching videos
+        description = "Sway audio inhibit";
+
+        after = [ "graphical.target" ];
+        wantedBy = [ "graphical.target" ];
+        partOf = [ "graphical.target" ];
+
+        environment = env;
+        serviceConfig = userConfig //
+          {
+            ExecStart = "${pkgs.sway-audio-idle-inhibit}/bin/sway-audio-idle-inhibit";
+          };
+      };
+
+      notifications = {
+        wantedBy = [ "graphical.target" ];
+
+        environment = env;
+
+        script = ''
+          set -eu
+
+          BATTERY="/sys/class/power_supply/BAT0"
+
+          capacity="$(cat "$BATTERY/capacity")"
+          status="$(cat "$BATTERY/status")"
+          if [ "$status" = "Discharging" ] && [ "$capacity" -le 10 ]; then
+            ${pkgs.libnotify}/bin/notify-send "Battery low" "Battery is at $capacity%"
+          fi
+        '';
+
+        serviceConfig = userConfig;
+      };
+
+      swayidle = let
+        swayidle = "${pkgs.swayidle}/bin/swayidle";
+        swaylock = "${pkgs.swaylock}/bin/swaylock";
+        swaymsg = "${pkgs.sway}/bin/swaymsg";
+      in {
+        wantedBy = [ "graphical.target" ];
+
+        environment = env;
+
+        script = ''
+          ${swayidle} -w \
+            timeout 180 '${swaylock} -f' \
+            timeout 60 'pgrep ${swaylock} && ${swaymsg} "output * dpms off"' \
+            resume '${swaymsg} "output * dpms on"' \
+            before-sleep '${swaylock} -f'
+        '';
+
+        serviceConfig = userConfig;
       };
     };
 
     # Notification service
-    timers."notifications" = {
+    timers.notifications = {
       wantedBy = [ "timers.target" ];
       timerConfig = {
         OnBootSec = "5m";
@@ -113,32 +160,5 @@
       };
     };
 
-    services."notifications" = {
-      wantedBy = [ "graphical.target" ];
-
-      environment = {
-        WAYLAND_DISPLAY = "wayland-1";
-        XDG_RUNTIME_DIR = "/run/user/1000";
-      };
-
-      script = ''
-        set -eu
-
-        BATTERY="/sys/class/power_supply/BAT0"
-
-        capacity="$(cat "$BATTERY/capacity")"
-        status="$(cat "$BATTERY/status")"
-        if [ "$status" = "Discharging" ] && [ "$capacity" -le 10 ]; then
-          ${pkgs.libnotify}/bin/notify-send "Battery low" "Battery is at $capacity%"
-        fi
-      '';
-
-      serviceConfig = {
-        User = "cristianoliveira";
-        Group = "users";
-        Type = "simple";
-        Restart = "on-failure";
-      };
-    };
   };
 }
