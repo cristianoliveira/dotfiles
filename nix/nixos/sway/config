@@ -109,6 +109,14 @@ input "type:touchpad" {
     middle_emulation enabled
 }
 
+## Disable TPPS/2 Synaptics TrackPoint
+input "2:10:TPPS/2_Synaptics_TrackPoint" {
+    events disabled
+    scroll_factor 0.5
+    pointer_accel -0.2
+}
+bindsym $mod+Insert exec swaymsg input "2:10:TPPS/2_Synaptics_TrackPoint" events toggle
+
 # Focus the workspace on the output that the mouse pointer is on with 3 fingers swipe
 bindgesture swipe:right workspace prev_on_output
 bindgesture swipe:left workspace next_on_output
