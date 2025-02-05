@@ -353,12 +353,16 @@ bindsym XF86AudioMute exec wpctl set-mute @DEFAULT_SINK@ toggle
 bindsym XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_SINK@ 5%+
 bindsym XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_SINK@ 5%-
 
+# Mute all the audio
+bindsym XF86AudioMicMute exec wpctl set-mute @DEFAULT_SOURCE@ toggle
+
 ## Media keys or bluetooth headphones
 bindsym XF86AudioPlay exec playerctl play
 bindsym XF86AudioPause exec playerctl pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
-bindsym XF86AudioStop exec playerctl stop
+
+
 
 #
 # Resizing containers:
@@ -443,6 +447,7 @@ bar {
 for_window [class=".*"] border pixel 1
 for_window [app_id=$term] opacity 0.9
 for_window [app_id="ulauncher"] border pixel 0
+for_window [app_id="ulauncher"] opacity 0.9
 
 # Make sure spotify is always fullscreen and don't get the focus on events
 # for_window [class="Spotify"] floating enable inhibit_idle fullscreen
