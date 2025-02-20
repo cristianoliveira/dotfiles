@@ -1,4 +1,4 @@
-{ pkgs , ... }:
+{ _ , ... }:
 {
   # NOTE: It is working on ThinkPad P14s Gen 5
   # See more: https://archive.is/tYQlZ
@@ -15,9 +15,9 @@
   services.fprintd = { 
     enable = true;
     # If simply enabling fprintd is not enough, try enabling fprintd.tod...
-    tod.enable = true;
+    # tod.enable = true;
     # ...and use one of the next four drivers
-    tod.driver = pkgs.libfprint-2-tod1-goodix;
+    # tod.driver = pkgs.libfprint-2-tod1-goodix;
   };
 
   security.pam.services = {
