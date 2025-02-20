@@ -144,7 +144,9 @@
         swaylock = "${pkgs.swaylock}/bin/swaylock";
         swaymsg = "${pkgs.sway}/bin/swaymsg";
       in {
+        after = [ "graphical.target" ];
         wantedBy = [ "graphical.target" ];
+        partOf = [ "graphical.target" ];
 
         environment = env;
 
