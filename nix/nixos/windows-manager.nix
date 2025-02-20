@@ -81,18 +81,7 @@
 
   # Sway related services
   systemd = {
-    services = let
-      userConfig = {
-        User = "cristianoliveira";
-        Group = "users";
-        Type = "simple";
-        Restart = "on-failure";
-      };
-      env = {
-        WAYLAND_DISPLAY = "wayland-1";
-        XDG_RUNTIME_DIR = "/run/user/1000";
-      };
-    in {
+    services = {
       swayaudioinhibit = {
         enable = true;
         # Prevents the screen from going to sleep when audio is playing
@@ -103,17 +92,22 @@
         wantedBy = [ "graphical.target" ];
         partOf = [ "graphical.target" ];
 
-        environment = env;
-        serviceConfig = userConfig //
-          {
-            ExecStart = "${pkgs.sway-audio-idle-inhibit}/bin/sway-audio-idle-inhibit";
-          };
+        environment = {
+          WAYLAND_DISPLAY = "wayland-1";
+          XDG_RUNTIME_DIR = "/run/user/1000";
+        };
+
+        serviceConfig = {
+          User = "cristianoliveira";
+          Group = "users";
+          Type = "simple";
+          ExecStart = "${pkgs.sway-audio-idle-inhibit}/bin/sway-audio-idle-inhibit";
+          Restart = "always";
+        };
       };
 
       notifications = {
         wantedBy = [ "graphical.target" ];
-
-        environment = env;
 
         script = ''
           set -eu
@@ -136,7 +130,17 @@
           fi
         '';
 
-        serviceConfig = userConfig;
+        environment = {
+          WAYLAND_DISPLAY = "wayland-1";
+          XDG_RUNTIME_DIR = "/run/user/1000";
+        };
+
+        serviceConfig = {
+          User = "cristianoliveira";
+          Group = "users";
+          Type = "simple";
+          Restart = "always";
+        };
       };
 
       swayidle = let
@@ -148,8 +152,6 @@
         wantedBy = [ "graphical.target" ];
         partOf = [ "graphical.target" ];
 
-        environment = env;
-
         script = ''
           ${swayidle} -w \
             timeout 180 '${swaylock} -f' \
@@ -158,7 +160,17 @@
             before-sleep '${swaylock} -f'
         '';
 
-        serviceConfig = userConfig;
+        environment = {
+          WAYLAND_DISPLAY = "wayland-1";
+          XDG_RUNTIME_DIR = "/run/user/1000";
+        };
+
+        serviceConfig = {
+          User = "cristianoliveira";
+          Group = "users";
+          Type = "simple";
+          Restart = "always";
+        };
       };
     };
 
