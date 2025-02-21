@@ -88,9 +88,9 @@
         # For when having zoom calls or watching videos
         description = "Sway audio inhibit";
 
-        after = [ "graphical.target" ];
-        wantedBy = [ "graphical.target" ];
-        partOf = [ "graphical.target" ];
+        after = [ "multi-user.target" ];
+        wantedBy = [ "multi-user.target" ];
+        partOf = [ "multi-user.target" ];
 
         environment = {
           WAYLAND_DISPLAY = "wayland-1";
@@ -102,12 +102,13 @@
           Group = "users";
           Type = "simple";
           ExecStart = "${pkgs.sway-audio-idle-inhibit}/bin/sway-audio-idle-inhibit";
-          Restart = "always";
+          Restart = "on-failure";
+          RestartSec = "5s";
         };
       };
 
       notifications = {
-        wantedBy = [ "graphical.target" ];
+        wantedBy = [ "multi-user.target" ];
 
         script = ''
           set -eu
@@ -139,7 +140,8 @@
           User = "cristianoliveira";
           Group = "users";
           Type = "simple";
-          Restart = "always";
+          Restart = "on-failure";
+          RestartSec = "5s";
         };
       };
 
@@ -148,9 +150,9 @@
         swaylock = "${pkgs.swaylock}/bin/swaylock";
         swaymsg = "${pkgs.sway}/bin/swaymsg";
       in {
-        after = [ "graphical.target" ];
-        wantedBy = [ "graphical.target" ];
-        partOf = [ "graphical.target" ];
+        after = [ "multi-user.target" ];
+        wantedBy = [ "multi-user.target" ];
+        partOf = [ "multi-user.target" ];
 
         script = ''
           ${swayidle} -w \
@@ -169,7 +171,8 @@
           User = "cristianoliveira";
           Group = "users";
           Type = "simple";
-          Restart = "always";
+          Restart = "on-failure";
+          RestartSec = "5s";
         };
       };
     };
