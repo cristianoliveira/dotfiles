@@ -92,8 +92,8 @@ mode $containersSaveMode {
 }
 bindsym $mod+Shift+t mode $containersSaveMode
 
-bindswitch lid:off exec swaymsg "output eDP-1 enable"
-bindswitch lid:on exec swaymsg "output eDP-1 disable"
+bindswitch lid:off output eDP-1 on
+bindswitch lid:on output eDP-1 off
 
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
@@ -448,7 +448,7 @@ bar {
 ### Windows layouts for specific layout and rules
 #
 for_window [class=".*"] border pixel 1
-for_window [app_id=$term] opacity 0.9
+for_window [app_id=$term] opacity 0.95
 for_window [app_id="ulauncher"] border pixel 0
 for_window [app_id="ulauncher"] opacity 0.9
 
