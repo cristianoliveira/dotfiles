@@ -113,22 +113,30 @@
         script = ''
           set -eu
 
-          BATTERY="/sys/class/power_supply/BAT0"
+          while true; do
 
-          capacity="$(cat "$BATTERY/capacity")"
-          status="$(cat "$BATTERY/status")"
-          if [ "$status" = "Discharging" ] && [ "$capacity" -le 15 ]; then
-            ${pkgs.libnotify}/bin/notify-send \
-              "⚠ Battery low" \
-              "Battery is at $capacity%"
-          fi
+            BATTERY="/sys/class/power_supply/BAT0"
 
-          if [ "$status" = "Discharging" ] && [ "$capacity" -le 4 ]; then
-            ${pkgs.libnotify}/bin/notify-send \
-              --urgency=critical \
-              "⚠ Battery critical" \
-              "Critically low batery, save your work!"
-          fi
+            capacity="$(cat "$BATTERY/capacity")"
+            status="$(cat "$BATTERY/status")"
+            if [ "$status" = "Discharging" ] && [ "$capacity" -le 15 ]; then
+              ${pkgs.libnotify}/bin/notify-send \
+                "⚠ Battery low" \
+                "Battery is at $capacity%"
+            fi
+
+            if [ "$status" = "Discharging" ] && [ "$capacity" -le 4 ]; then
+              ${pkgs.libnotify}/bin/notify-send \
+                --urgency=critical \
+                "⚠ Battery critical" \
+                "Critically low batery, save your work!"
+
+                sleep 180
+                systemctl suspend
+            fi
+
+            sleep 180
+          done
         '';
 
         environment = {
@@ -140,52 +148,10 @@
           User = "cristianoliveira";
           Group = "users";
           Type = "simple";
-          Restart = "on-failure";
-          RestartSec = "5s";
-        };
-      };
-
-      swayidle = let
-        swayidle = "${pkgs.swayidle}/bin/swayidle";
-        swaylock = "${pkgs.swaylock}/bin/swaylock";
-        swaymsg = "${pkgs.sway}/bin/swaymsg";
-      in {
-        after = [ "multi-user.target" ];
-        wantedBy = [ "multi-user.target" ];
-        partOf = [ "multi-user.target" ];
-
-        script = ''
-          ${swayidle} -w \
-            timeout 180 '${swaylock} -f' \
-            timeout 60 'pgrep ${swaylock} && ${swaymsg} "output * dpms off"' \
-            resume '${swaymsg} "output * dpms on"' \
-            before-sleep '${swaylock} -f'
-        '';
-
-        environment = {
-          WAYLAND_DISPLAY = "wayland-1";
-          XDG_RUNTIME_DIR = "/run/user/1000";
-        };
-
-        serviceConfig = {
-          User = "cristianoliveira";
-          Group = "users";
-          Type = "simple";
-          Restart = "on-failure";
+          Restart = "always";
           RestartSec = "5s";
         };
       };
     };
-
-    # Notification service
-    timers.notifications = {
-      wantedBy = [ "timers.target" ];
-      timerConfig = {
-        OnBootSec = "5m";
-        OnUnitActiveSec = "5m";
-        Unit = "notifications.service";
-      };
-    };
-
   };
 }
