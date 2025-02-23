@@ -23,3 +23,7 @@ osx: ## Run the osx setup to setup a new macos instance
 .PHONY: watch
 watch: ## Run the watch script to watch for changes in the dotfiles
 	@fzz
+
+.PHONY: nixos
+nixos: ## 
+	SKIP_COMMIT=1 nix/rebuild.sh
