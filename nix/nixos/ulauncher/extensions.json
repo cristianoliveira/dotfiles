@@ -20,11 +20,11 @@
         "last_commit": "827cfe5e1d2f89f742f811f981759787b0654fa9",
         "last_commit_time": "2023-11-04T18:37:13"
     },
-    "com.github.abhishekmj303.ulauncher-playerctl": {
-        "id": "com.github.abhishekmj303.ulauncher-playerctl",
-        "url": "https://github.com/abhishekmj303/ulauncher-playerctl",
-        "updated_at": "2025-02-05T10:37:52.334579",
-        "last_commit": "5f52e6c949ee9793ba60b5385df4744b134c3369",
-        "last_commit_time": "2023-06-23T15:13:13"
+    "com.github.e1bos.ulauncher-media-controller": {
+        "id": "com.github.e1bos.ulauncher-media-controller",
+        "url": "https://github.com/E1Bos/ulauncher-media-controller",
+        "updated_at": "2025-02-06T12:26:00.918989",
+        "last_commit": "ceb22592f78b3f9b3abafad3bb88e7581efa65fa",
+        "last_commit_time": "2025-01-21T16:09:07"
     }
 }

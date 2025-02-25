@@ -1,5 +1,6 @@
-{ pkgs, ... }:
-{
+{ pkgs, ... }: let
+  webapps = import ../shared/webapps.nix { inherit pkgs; };
+in {
   # Applications here more GUIs apps that are commonly used
 
   # List packages installed in system profile. To search, run:
@@ -19,5 +20,10 @@
 
     # Notes and organization tools
     obsidian
+
+    # Web apps
+    webapps.googlekeep
+    webapps.chatgpt
+    webapps.youtube
   ];
 }
