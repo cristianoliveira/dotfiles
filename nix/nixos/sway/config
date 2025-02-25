@@ -279,6 +279,10 @@ assign [class="Spotify"] workspace 9
 for_window [app_id="whatsapp-for-linux"] move to scratchpad
 for_window [app_id="org.telegram.desktop"] move to scratchpad
 
+# Webapps with chromium
+assign [instance="chatgpt.com"] workspace 4
+assign [instance="www.youtube.com"] workspace 5
+
 # Note: workspaces can have any name you want, not just numbers.
 # We just use 1-10 as the default.
 
