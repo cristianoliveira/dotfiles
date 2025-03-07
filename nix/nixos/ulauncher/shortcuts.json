@@ -199,34 +199,14 @@
         "run_without_argument": false,
         "added": 1738617108.764298
     },
-    "289cc23d-3437-4c87-8e51-08b0f7a71b38": {
-        "id": "289cc23d-3437-4c87-8e51-08b0f7a71b38",
-        "name": "notes",
-        "keyword": "notes keep",
-        "cmd": "$HOME/.dotfiles/bin/google-keep",
-        "icon": null,
-        "is_default_search": false,
-        "run_without_argument": true,
-        "added": 1740420012.5570633
-    },
-    "38f9b131-b592-4b0d-bba5-6410900cfe19": {
-        "id": "38f9b131-b592-4b0d-bba5-6410900cfe19",
-        "name": "chatgpt",
-        "keyword": "gpt chat ai",
-        "cmd": "$HOME/.dotfiles/bin/chatgpt",
-        "icon": null,
-        "is_default_search": false,
-        "run_without_argument": true,
-        "added": 1740420472.5299568
-    },
-    "97d36b18-bb75-4b59-b699-29780e87b4de": {
-        "id": "97d36b18-bb75-4b59-b699-29780e87b4de",
-        "name": "webapp",
+    "7ce960f8-2c4d-4c5d-8334-84f67cfbb4a0": {
+        "id": "7ce960f8-2c4d-4c5d-8334-84f67cfbb4a0",
+        "name": "wapp",
         "keyword": "wapp",
         "cmd": "#!/bin/sh\n\nbrave -app=$1",
         "icon": null,
         "is_default_search": false,
         "run_without_argument": false,
-        "added": 1740499851.9429104
+        "added": 1740503244.4278092
     }
 }
