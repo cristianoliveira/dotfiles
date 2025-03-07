@@ -1,0 +1,5 @@
+[Desktop Entry]
+Exec=brave -app=https://keep.google.com
+Name=google-keep
+Type=Application
+Categories=Network;WebBrowser;
