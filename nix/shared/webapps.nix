@@ -5,8 +5,8 @@
     name = "google-keep";
     text = ''
 #!/bin/sh
-      set -e
-      brave -app=https://keep.google.com
+set -e
+${pkgs.brave}/bin/brave -app=https://keep.google.com
       '';
   };
 
@@ -14,8 +14,8 @@
     name = "chatgpt";
     text = ''
 #!/bin/sh
-      set -e
-      brave -app=https://chat.openai.com
+set -e
+${pkgs.brave}/bin/brave -app=https://chat.openai.com
       '';
   };
 
@@ -23,8 +23,8 @@
     name = "youtube";
     text = ''
 #!/bin/sh
-      set -e
-      brave -app=https://www.youtube.com
+set -e
+${pkgs.brave}/bin/brave -app=https://www.youtube.com
       '';
   };
 }
