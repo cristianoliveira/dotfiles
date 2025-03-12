@@ -6,7 +6,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
 
     # OSX
-    nix-darwin.url = "github:LnL7/nix-darwin";
+    nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-24.11";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
     copkgs.url = "github:cristianoliveira/nixpkgs/nightly";
