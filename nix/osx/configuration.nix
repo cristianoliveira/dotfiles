@@ -20,7 +20,8 @@
   environment.systemPackages = with pkgs; [
     # Other tools (GUI)
     alacritty 
-    bitwarden-cli
+    # FIXME this package is failing
+    # bitwarden-cli
 
     # OSX tiling window manager
     yabai
