@@ -1,0 +1,5 @@
+#!/bin/sh
+
+set -e # This is necessary to catch errors in commands
+
+alacritty --option window.opacity=0.75

@@ -13,6 +13,6 @@ if ! command -v alacritty &> /dev/null; then
 fi
 
 mkdir ~/Applications/Alacritty.app
-ln -s "$(which alacritty)" ~/Applications/Alacritty.app
+ln -s $HOME/.dotfiles/nix/osx/alacritty/alacritty ~/Applications/Alacritty.app
 
 # See also ~/.dotfiles/nix/shared/alacritty/ for the configuration file.
