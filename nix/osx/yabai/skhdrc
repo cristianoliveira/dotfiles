@@ -147,7 +147,7 @@
 
 # Terminal
 # Set focus if open, else open
-cmd + ctrl - return : open ~/Applications/Alacritty.app --option window.opacity=0.94
+cmd + ctrl - return : alacritty --option window.opacity=0.90
 
 cmd - return : osascript -e 'tell application "System Events" to tell process "alacritty"' \
             -e 'set frontmost to true' \
