@@ -9,5 +9,9 @@
     EDITOR = "${pkgs.neovim}/bin/nvim";
     # Opens man pages in neovim with highlighting
     MANPAGER = "${EDITOR} +Man!";
+
+    # For chrome/electron apps to work on wayland
+    # https://nixos.wiki/wiki/Wayland
+    NIXOS_OZONE_WL = "1";
   };
 }
