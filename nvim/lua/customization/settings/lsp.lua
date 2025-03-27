@@ -85,3 +85,13 @@ mason_lspconfig.setup_handlers {
     }
   end,
 }
+
+-- NOTE: Nixd requires to be installed with nix
+-- see also "../../../../nix/shared/developer-tools.nix"
+lspconfig.nixd.setup {
+  cmd = { "/run/current-system/sw/bin/nixd" },
+  capabilities = capabilities,
+  on_attach = Lsp_on_attach, -- see ../mappings/lsp.lua
+  settings = {},
+  flags = lsp_flags,
+}

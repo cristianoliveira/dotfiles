@@ -14,7 +14,10 @@
     # NOTE: not using it 
     # ngrok
 
-    nil # nix LSP
+    # NOTE: this is used by nvim settup
+    # See also: ../../nvim/lua/customization/settings/lsp.lua
+    nixd # nix lsp (full fledged)
+    nil # nix LSP (just linter)
     gnused # bye macOs annoying sed
 
     # Nvim stuff
