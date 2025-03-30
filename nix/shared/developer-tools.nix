@@ -51,7 +51,7 @@
     cargo #
 
     (pkgs.writeScriptBin "snipgpt" ''#!${pkgs.stdenv.shell}
-      npx snipgpt "$@"
+      NODE_NO_WARNINGS=1 npx snipgpt "$@"
     '')
   ];
 }
