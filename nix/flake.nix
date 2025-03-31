@@ -9,7 +9,7 @@
     nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-24.11";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
-    copkgs.url = "github:cristianoliveira/nixpkgs/nightly";
+    copkgs.url = "github:cristianoliveira/nixpkgs";
   };
 
   outputs = { nixpkgs, nix-darwin, copkgs, ... }:
