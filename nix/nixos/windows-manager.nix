@@ -34,7 +34,7 @@
       wdisplays
 
       # Persistent object states
-      copckgs.sway-setter
+      copkgs.sway-setter
     ];
 
     xwayland.enable = true;

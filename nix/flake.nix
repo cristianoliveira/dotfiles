@@ -12,7 +12,7 @@
     copkgs.url = "github:cristianoliveira/nixpkgs/nightly";
   };
 
-  outputs = { self, nixpkgs, nix-darwin, copkgs, ... }:
+  outputs = { nixpkgs, nix-darwin, copkgs, ... }:
   {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
@@ -20,7 +20,7 @@
         (_: { 
           # Injects mypkgs into nixpkgs as pkgs.mypkgs
           nixpkgs.overlays = [ 
-            (final: prev: { copckgs = copkgs.packages.x86_64-linux; })
+            (final: prev: { copkgs = copkgs.packages.x86_64-linux; })
           ];
         })
         ./nixos/configuration.nix
@@ -32,7 +32,7 @@
         (_: { 
           # Injects mypkgs into nixpkgs as pkgs.mypkgs
           nixpkgs.overlays = [ 
-            (final: prev: { copckgs = copkgs.packages.aarch64-darwin; })
+            (final: prev: { copkgs = copkgs.packages.aarch64-darwin; })
           ];
         })
 

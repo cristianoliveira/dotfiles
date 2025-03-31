@@ -31,7 +31,9 @@
     gcc # VIM: Required to build lsp in Mason
 
     # My custom pkgs
-    copckgs.funzzy
+    copkgs.funzzy
+    copkgs.snipgpt
+
     # (if mypkgs then mypkgs.ergo else null)
 
     # Essential pkgs
@@ -49,9 +51,5 @@
     python311Packages.pip
     go
     cargo #
-
-    (pkgs.writeScriptBin "snipgpt" ''#!${pkgs.stdenv.shell}
-      NODE_NO_WARNINGS=1 npx snipgpt "$@"
-    '')
   ];
 }
