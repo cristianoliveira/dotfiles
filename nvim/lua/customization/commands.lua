@@ -21,6 +21,9 @@ vim.cmd("command! -nargs=0 Gaf :G add %")
 --make current file executable
 vim.cmd("command! -nargs=0 Chx :!chmod +x %")
 
+--Format json file to pretty print
+vim.cmd("command! -nargs=0 JSONFormat :%!python -m json.tool")
+
 
 function ToggleRelativeNumber()
   if vim.wo.relativenumber then
