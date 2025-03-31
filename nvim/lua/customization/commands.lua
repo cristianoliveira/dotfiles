@@ -4,9 +4,6 @@ require("customization/commands/obsidian")
 
 vim.cmd("command! -nargs=0 CFormat lua vim.lsp.buf.format()")
 
-vim.cmd("command! -nargs=0 NvimEdit :e $MYVIMRC")
-
-
 -- Usually when I am working on a project I have a script that I run over and over again
 -- I take this and create a simple command to run it
 -- with :Do
@@ -35,4 +32,12 @@ function ToggleRelativeNumber()
   end
 end
 
-vim.api.nvim_create_user_command("NvimToggleRelativeNumber", ToggleRelativeNumber, {})
+----------------------------------------
+-- Custom nvim related commands
+--
+-- Toggle relative number
+vim.api.nvim_create_user_command("NVIMToggleRelativeNumber", ToggleRelativeNumber, {})
+-- Edit nvim config
+vim.cmd("command! -nargs=0 NVIMEdit :e $MYVIMRC")
+-- Edit my nvim customization
+vim.cmd("command! -nargs=0 NVIMCustomizationEdit :e $HOME/.dotfiles/nvim/lua/customization/")
