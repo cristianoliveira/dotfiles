@@ -72,6 +72,6 @@ alias fga="git add \$($fzf_git_unstaged_files)"
 # fzf git merge
 alias fgm="git merge \$($fzf_git_branch_local)"
 
-function fgpick () {
+function fgcpick () {
   git cherry -v ${2:-$MAIN_BRANCH} $1 | fzf | awk '{print $2}' | xargs git cherry-pick
 }
