@@ -39,5 +39,20 @@ end
 vim.api.nvim_create_user_command("NVIMToggleRelativeNumber", ToggleRelativeNumber, {})
 -- Edit nvim config
 vim.cmd("command! -nargs=0 NVIMEdit :e $MYVIMRC")
+
 -- Edit my nvim customization
 vim.cmd("command! -nargs=0 NVIMCustomizationEdit :e $HOME/.dotfiles/nvim/lua/customization/")
+
+-- EXAMPLES
+--
+-- Command with completion
+-- ```lua
+--   vim.api.nvim_create_user_command("Greet", function(opts)
+--     print("Hello, " .. opts.args)
+--   end, {
+--     nargs = 1,
+--     complete = function(arg_lead, cmd_line, cursor_pos)
+--       return { "Alice", "Bob", "Charlie" }
+--     end
+--   })
+-- ```
