@@ -27,4 +27,13 @@ set -e
 ${pkgs.brave}/bin/brave -app=https://www.youtube.com
       '';
   };
+
+  discord = pkgs.writeShellApplication {
+    name = "discord";
+    text = ''
+#!/bin/sh
+set -e
+${pkgs.brave}/bin/brave -app=https://discord.com/channels/@me
+      '';
+  };
 }

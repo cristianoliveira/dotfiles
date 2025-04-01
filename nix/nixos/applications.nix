@@ -25,5 +25,6 @@ in {
     webapps.googlekeep
     webapps.chatgpt
     webapps.youtube
+    webapps.discord
   ];
 }
