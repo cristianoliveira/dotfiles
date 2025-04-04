@@ -36,4 +36,13 @@ set -e
 ${pkgs.brave}/bin/brave -app=https://discord.com/channels/@me
       '';
   };
+
+  tradeview = pkgs.writeShellApplication {
+    name = "tradeview";
+    text = ''
+#!/bin/sh
+set -e
+${pkgs.brave}/bin/brave -app=https://tradeview.com
+      '';
+  };
 }
