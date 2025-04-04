@@ -8,7 +8,3 @@ printf "\n\n\n\n\n"
 echo "-------------Installing deps-------------------"
 printf "\n\n\n\n\n"
 $HOME/.dotfiles/nix/osx/setup.sh
-
-# FIXME Quarantine till I figure if it's needed
-# echo "Configuring machine as 'squall'"
-# sh $HOME/.dotfiles/osx/configure-osx.sh squall
