@@ -51,5 +51,7 @@
     python311Packages.pip
     go
     cargo #
+
+    unstable.gh
   ];
 }
