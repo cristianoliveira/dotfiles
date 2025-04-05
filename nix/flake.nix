@@ -16,7 +16,7 @@
 
   outputs = { nixpkgs, unstable, nix-darwin, copkgs, ... }:
   {
-    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem rec {
       system = "x86_64-linux";
       modules = [
         (_: { 
@@ -24,14 +24,17 @@
           nixpkgs.overlays = [ 
             (final: prev: { 
               copkgs = copkgs.packages.x86_64-linux;
-              unstable = unstable.legacyPackages.x86_64-linux;
+              unstable = import unstable {
+                inherit system;
+                config = { allowUnfree = true; };
+              };
             })
           ];
         })
         ./nixos/configuration.nix
       ];
     };
-    darwinConfigurations.darwin = nix-darwin.lib.darwinSystem {
+    darwinConfigurations.darwin = nix-darwin.lib.darwinSystem rec {
       system = "aarch64-darwin";
       modules = [
         (_: { 
@@ -39,7 +42,10 @@
           nixpkgs.overlays = [ 
             (final: prev: {
               copkgs = copkgs.packages.aarch64-darwin;
-              unstable = unstable.legacyPackages.aarch64-darwin;
+              unstable = import unstable {
+                inherit system;
+                config = { allowUnfree = true; };
+              };
             })
           ];
         })
