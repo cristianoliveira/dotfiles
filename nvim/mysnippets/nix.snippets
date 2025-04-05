@@ -29,12 +29,12 @@ endsnippet
 # Generate a flake.nix boilerplate
 snippet flake "flake.nix boilerplate"
 {
-  description = "New flake";
+  description = "Nix flake";
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs";
     utils.url = "github:numtide/flake-utils";
   };
-  outputs = { self, nixpkgs, utils }: 
+  outputs = { nixpkgs, utils, ... }: 
     utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
