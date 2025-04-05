@@ -53,3 +53,4 @@ nvim-macos/
 # Pono
 pono.toml
 *.bak
+.mark

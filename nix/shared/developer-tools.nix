@@ -52,6 +52,7 @@
     go
     cargo #
 
-    unstable.gh
+    # TODO: evaluate if I need this
+    unstable.code-cursor
   ];
 }
