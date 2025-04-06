@@ -1,2 +1,2 @@
 steps:
-  - .file `git diff --cached` -- generate semantic git commit message > .tmp/commit-msg
+  - .file `git diff --cached` -- generate semantic git commit message
