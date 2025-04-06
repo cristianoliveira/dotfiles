@@ -1,5 +1,12 @@
 local runner = require("customization.utils.runner")
 
+-- ignore commands if aichat is not present
+local ainchat_bin = vim.g.aichat_bin or "aichat"
+if not vim.fn.executable(ainchat_bin) then
+  print("aichat command not found, skipping commands")
+  return
+end
+
 --- AIMacro command
 --
 -- Args:
