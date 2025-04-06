@@ -52,6 +52,7 @@
     go
     cargo #
 
-    unstable.gh
+    # AI and related 
+    unstable.aichat
   ];
 }
