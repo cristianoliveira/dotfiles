@@ -37,8 +37,42 @@ class TestFizzBuzz(unittest.TestCase):
 if __name__ == '__main__':
     unittest.main()
 
+Request:
+Write a test for fizzbuzz function in javascript
+
+Response:
+import assert from 'assert';
+import { fizzbuzz } from './fizzbuzz.js';
+import { describe, it } from 'vitest';
+
+describe('FizzBuzz', function() {
+    it('should return "Fizz" for multiples of 3', function() {
+        assert.strictEqual(fizzbuzz(3), 'Fizz');
+        assert.strictEqual(fizzbuzz(6), 'Fizz');
+        assert.strictEqual(fizzbuzz(9), 'Fizz');
+    });
+
+    it('should return "Buzz" for multiples of 5', function() {
+        assert.strictEqual(fizzbuzz(5), 'Buzz');
+        assert.strictEqual(fizzbuzz(10), 'Buzz');
+        assert.strictEqual(fizzbuzz(20), 'Buzz');
+    });
+
+    it('should return "FizzBuzz" for multiples of both 3 and 5', function() {
+        assert.strictEqual(fizzbuzz(15), 'FizzBuzz');
+        assert.strictEqual(fizzbuzz(30), 'FizzBuzz');
+    });
+
+    it('should return the number for non-multiples of 3 or 5', function() {
+        assert.strictEqual(fizzbuzz(1), 1);
+        assert.strictEqual(fizzbuzz(2), 2);
+        assert.strictEqual(fizzbuzz(4), 4);
+        assert.strictEqual(fizzbuzz(7), 7);
+        assert.strictEqual(fizzbuzz(8), 8);
+    });
+});
+
 Request: 
-{{my_next_request}}
+__INPUT__
 
 Response: 
-{{your_next_response}}
