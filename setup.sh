@@ -23,6 +23,9 @@ sh $HOME/.dotfiles/nvim/setup.sh
 echo "setup: tmux"
 $HOME/.dotfiles/tmux/setup.sh
 
+echo "setup: aichat"
+$HOME/.dotfiles/aichat/setup.sh
+
 chsh -s /bin/zsh
 
 mkdir -p $HOME/work

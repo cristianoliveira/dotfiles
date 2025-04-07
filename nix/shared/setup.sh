@@ -11,4 +11,3 @@ $HOME/.dotfiles/nvim/setup.sh
 $HOME/.dotfiles/tmux/setup.sh
 $HOME/.dotfiles/zsh/setup.sh
 $HOME/.dotfiles/nix/shared/alacritty/setup.sh
-$HOME/.dotfiles/nix/shared/aichat/setup.sh
