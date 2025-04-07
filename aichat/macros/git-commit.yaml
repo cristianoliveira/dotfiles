@@ -5,4 +5,4 @@ variables:
 
 steps:
   - .role git-commit
-  - .file `git diff --cached` -- write a semantic git commit message using this context -- {{args}}
+  - .file `git diff --cached` -- more context -- {{args}}

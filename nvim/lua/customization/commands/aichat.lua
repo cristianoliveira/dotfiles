@@ -27,7 +27,8 @@ vim.api.nvim_create_user_command("AIMacro", function(opts)
   local row = vim.api.nvim_win_get_cursor(0)[1]
   vim.api.nvim_buf_set_lines(0, row, row, false, lines)
 end, {
-  nargs = 1,
+  -- it may contain 1 or more arguments
+  nargs = "*",
   complete = function()
     return runner.execute("aichat --list-macros")
   end
