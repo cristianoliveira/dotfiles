@@ -73,9 +73,17 @@ alias fga="git add \$($fzf_git_unstaged_files)"
 alias fgm="git merge \$($fzf_git_branch_local)"
 
 function fgcpick () {
+  if [[ -z "$1" ]]; then
+    echo "Usage: fgcpick <branch> [<main_branch>]"
+    return 1
+  fi
   git cherry -v ${2:-$MAIN_BRANCH} $1 | fzf | awk '{print $2}' | xargs git cherry-pick
 }
 
 function gcpall () {
+  if [[ -z "$1" ]]; then
+    echo "Usage: gcpall <branch> [<main_branch>]"
+    return 1
+  fi
   git cherry ${2:-$MAIN_BRANCH} $1 --verbose | grep -Ev ' temp:| delete:| ignore:' | awk '{ print $2 }' | xargs git cherry-pick
 }
