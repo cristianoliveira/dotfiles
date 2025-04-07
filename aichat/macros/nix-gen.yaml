@@ -1,0 +1,7 @@
+# nix-gen generate code for nix/nixos
+variables:
+  - name: args
+
+steps:
+  - .role exp-nix
+  - write to me "{{args}}"
