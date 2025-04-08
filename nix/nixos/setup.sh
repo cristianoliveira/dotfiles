@@ -8,12 +8,6 @@ echo "Creating .config/nix folder"
 export BACKUPNAME="nixbkp-$(date +%s)"
 echo "Backup found in /tmp/$BACKUPNAME"
 
-if [ -d "$HOME"/.config ]; then
-  echo "Backing up your current configs: .config"
-  # Move and ignore if it already exists
-  mv -f "$HOME"/.config /tmp/"$BACKUPNAME"
-fi;
-
 mkdir -p $HOME/.config/nix
 
 if ! command -v nix-env &> /dev/null; then
