@@ -30,19 +30,6 @@ if [ -d /etc/nixos ]; then
   sudo nixos-generate-config
 fi
 
-# link all configs in ~/.config
-
-echo "Setting up nixos applications"
-$HOME/.dotfiles/nix/nixos/sway/setup.sh
-$HOME/.dotfiles/nix/nixos/i3status/setup.sh
-$HOME/.dotfiles/nix/nixos/fonts/setup.sh
-$HOME/.dotfiles/nix/nixos/ulauncher/setup.sh
-$HOME/.dotfiles/nix/nixos/rclone/setup.sh
-$HOME/.dotfiles/nix/nixos/services/setup.sh
-
-echo "Setting up shared applications"
-"$HOME"/.dotfiles/nix/shared/setup.sh
-
 # So environment is updated before running rebuild.sh
 echo "Installing dependencies and rebuilding system..."
 sh -c "SKIP_COMMIT=1 $HOME/.dotfiles/nix/rebuild.sh"

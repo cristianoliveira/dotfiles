@@ -17,15 +17,6 @@ elif [ "$(uname)" == "Darwin" ]; then
   bash $HOME/.dotfiles/nix/osx/setup.sh
 fi
 
-echo "setup: nvim"
-sh $HOME/.dotfiles/nvim/setup.sh
-
-echo "setup: tmux"
-$HOME/.dotfiles/tmux/setup.sh
-
-echo "setup: aichat"
-$HOME/.dotfiles/aichat/setup.sh
-
 chsh -s /bin/zsh
 
 mkdir -p $HOME/work

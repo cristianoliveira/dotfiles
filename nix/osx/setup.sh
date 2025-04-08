@@ -32,14 +32,14 @@ if [ ! -f "$HOME/.config/nix/nix.conf" ]; then
   ln -sTf "$HOME/.dotfiles/nix/nix.conf" "$HOME/.config/nix/nix.conf"
 fi
 
-echo "Setting up OSX applications"
-"$HOME"/.dotfiles/nix/osx/yabai/setup.sh
-"$HOME"/.dotfiles/nix/osx/finicky/setup.sh
-"$HOME"/.dotfiles/nix/osx/karabiner/setup.sh
-
-echo "Setting up shared applications"
-"$HOME"/.dotfiles/nix/shared/setup.sh
-"$HOME"/.dotfiles/nix/osx/alacritty/setup.sh
+# echo "Setting up OSX applications"
+# "$HOME"/.dotfiles/nix/osx/yabai/setup.sh
+# "$HOME"/.dotfiles/nix/osx/finicky/setup.sh
+# "$HOME"/.dotfiles/nix/osx/karabiner/setup.sh
+#
+# echo "Setting up shared applications"
+# "$HOME"/.dotfiles/nix/shared/setup.sh
+# "$HOME"/.dotfiles/nix/osx/alacritty/setup.sh
 
 # So darwin-rebuild is available in the new shell
 sh -c "$HOME/.dotfiles/nix/rebuild.sh"
