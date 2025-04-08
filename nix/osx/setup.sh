@@ -23,13 +23,13 @@ fi
 echo "Linking Nix Darwin configuration"
 mkdir -p "$HOME/.nixpkgs"
 rm -f "$HOME/.nixpkgs/darwin-configuration.nix"
-ln -s "$HOME/.dotfiles/nix/osx/configuration.nix" "$HOME/.nixpkgs/darwin-configuration.nix"
+ln -sTf "$HOME/.dotfiles/nix/osx/configuration.nix" "$HOME/.nixpkgs/darwin-configuration.nix"
 
 
 if [ ! -f "$HOME/.config/nix/nix.conf" ]; then
   echo "Configuring Nix (~/.dotfiles/nix/nix.conf)"
   mkdir -p "$HOME/.config/nix"
-  ln -s "$HOME/.dotfiles/nix/nix.conf" "$HOME/.config/nix/nix.conf"
+  ln -sTf "$HOME/.dotfiles/nix/nix.conf" "$HOME/.config/nix/nix.conf"
 fi
 
 echo "Setting up OSX applications"
