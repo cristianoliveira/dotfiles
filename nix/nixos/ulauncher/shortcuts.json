@@ -93,7 +93,7 @@
         "id": "a7810ddb-ee94-47f4-b4b9-c8500afe33e6",
         "name": "screenshot",
         "keyword": "screenshot printscreen",
-        "cmd": "grim -g \"$(slurp)\"",
+        "cmd": "flameshot gui",
         "icon": null,
         "is_default_search": false,
         "run_without_argument": true,
