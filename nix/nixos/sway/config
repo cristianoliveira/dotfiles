@@ -72,6 +72,23 @@ mode $outputLoadMode {
 }
 bindsym $mod+Shift+o mode $outputLoadMode
 
+# Screenshot mode
+set $screenshotMode "Screenshot: [a]rea, [f]ullscreen, [c]opy area"
+mode $screenshotMode {
+    # Take a screenshot of an area
+    bindsym a exec grim -g "$(slurp)" && swaymsg mode "default"
+    # Take a screenshot of the full screen
+    bindsym f exec grim  && swaymsg mode "default"
+    # Take a screenshot of an area and copy to clipboard
+    bindsym c exec grim -g "$(slurp)" - | wl-copy && swaymsg mode "default"
+
+    # Exit mode
+    bindsym Escape mode "default"
+    bindsym Return mode "default"
+}
+bindsym $mod+F9 mode $screenshotMode
+
+
 # Containers state configs
 exec_always $HOME/.dotfiles/nix/nixos/sway/bin/sway-save-tree.sh &
 
