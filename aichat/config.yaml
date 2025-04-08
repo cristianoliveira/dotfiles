@@ -1,6 +1,11 @@
 # see https://github.com/sigoden/aichat/blob/main/config.example.yaml
 
 model: openai:gpt-4o
+
+stream: false                 # Controls whether to use the stream-style API.
+save: false                   # Indicates whether to persist the message
+keybindings: vi               # Choose keybinding style (emacs, vi)
+
 clients:
   - type: openai
 
