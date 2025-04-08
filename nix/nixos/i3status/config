@@ -47,7 +47,7 @@ volume master {
 }
 
 battery 0 {
-  format = "🔋 %status %percentage "
+  format = "🔋 %status %percentage"
     format_down = " DOWN "
     status_chr = "⚡"
     status_bat = "▶️"
