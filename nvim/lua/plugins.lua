@@ -87,7 +87,7 @@ require('lazy').setup({
       vim.g.UltiSnipsExpandTrigger = "<C-l>"
       vim.g.UltiSnipsJumpForwardTrigger = "<C-l>"
     end,
-    build = 'python3 -m pip install --user --upgrade pynvim',
+    build = 'pip3 install --user --upgrade pynvim',
     dependencies = {
       'honza/vim-snippets',
     },
@@ -158,11 +158,6 @@ require('lazy').setup({
       vim.o.timeout = true
       vim.o.timeoutlen = 1000
     end,
-  },
-
-  {
-    'cristianoliveira/snipgpt.nvim',
-    build = 'npm i snipgpt -g',
   },
 
   ----------------------------------------------------------------------------
