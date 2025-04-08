@@ -18,6 +18,11 @@
 
       # Utilities
       wf-recorder
+      (flameshot.override {
+        # advanced screenshot functionality 
+        # Enable USE_WAYLAND_GRIM compile flag
+        enableWlrSupport = true;
+      })
       grim # screenshot functionality
       slurp # screenshot functionality
       wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
