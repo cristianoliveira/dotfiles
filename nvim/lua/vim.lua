@@ -32,8 +32,10 @@ vim.o.undofile = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
 
--- Keep signcolumn on by default
-vim.wo.signcolumn = 'yes'
+-- Make left column at smalest size
+vim.wo.signcolumn = 'yes:1'
+vim.wo.foldcolumn = '0'
+vim.wo.numberwidth = 1
 
 -- Decrease update time
 vim.o.updatetime = 250
