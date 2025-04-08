@@ -19,9 +19,15 @@ end
 -- Suggest all macros from `aichat --list-macros`
 vim.api.nvim_create_user_command("AIMacro", function(opts)
   local macro = opts.fargs[1]
-  local macro_cmd = string.format("aichat --macro %s", macro)
+  if not macro or macro == "" then
+    print("Please provide a macro name")
+    return
+  end
 
-  -- Execute command and get the output lines
+  local context = table.concat(opts.fargs, " ", 2)
+  local macro_cmd = string.format("aichat --macro %s %s", macro, context)
+  print("Running command: " .. macro_cmd)
+
   local lines = fn.filter(runner.execute(macro_cmd), function(line)
     return not string.match(line, ">>")
   end)
