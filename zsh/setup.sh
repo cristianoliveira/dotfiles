@@ -9,7 +9,7 @@ if [ -f "$HOME"/.zshrc ]; then
   mv "$HOME"/.zshrc /tmp/"$BACKUPNAME"
 fi
 
-ln -s "$HOME"/.dotfiles/zsh/zshrc "$HOME"/.zshrc
+ln -sf "$HOME"/.dotfiles/zsh/zshrc "$HOME"/.zshrc
 
 chsh -s "$(which zsh)"
 

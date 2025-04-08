@@ -11,6 +11,6 @@ fi
 
 mkdir -p "$HOME"/.local/share
 
-ln -s "$HOME"/.dotfiles/nix/nixos/fonts "$HOME"/.local/share/fonts
+ln -sTf "$HOME"/.dotfiles/nix/nixos/fonts "$HOME"/.local/share/fonts
 
 fc-cache -f -v

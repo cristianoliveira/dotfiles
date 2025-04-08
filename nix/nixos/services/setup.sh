@@ -2,4 +2,4 @@
 
 set -e
 
-sudo ln -s $HOME/.dotfiles/nix/nixos/services /var/ 
+sudo ln -sTf $HOME/.dotfiles/nix/nixos/services /var/ 

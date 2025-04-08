@@ -2,4 +2,4 @@
 
 set -e
 
-ln -sf $HOME/.dotfiles/aichat ~/.config/aichat
+ln -sTf $HOME/.dotfiles/aichat $HOME/.config/aichat

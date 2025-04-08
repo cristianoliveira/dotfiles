@@ -1,3 +1,3 @@
 #!/bin/sh
 
-ln -s "$HOME"/.dotfiles/nix/nixos/flameshot "$HOME"/.config/
+ln -sTf "$HOME"/.dotfiles/nix/nixos/flameshot "$HOME"/.config/flameshot

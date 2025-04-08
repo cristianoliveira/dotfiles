@@ -5,4 +5,4 @@ set -o pipefail # This is necessary to catch errors in commands piped together
 
 echo "linking finicky configuration file"
 mv "$HOME/.finicky.js" "$HOME/.finicky.js.bak"
-ln -s "$HOME/.dotfiles/nix/osx/finicky/finicky.js" "$HOME/.finicky.js"
+ln -sTf "$HOME/.dotfiles/nix/osx/finicky/finicky.js" "$HOME/.finicky.js"

@@ -26,7 +26,7 @@ fi
 if [ -d /etc/nixos ]; then
   echo "Cleaning up /etc/nixos/*"
   sudo mv /etc/nixos /tmp/"$BACKUPNAME"
-  sudo ln -s $HOME/.dotfiles/nix/nixos /etc/nixos
+  sudo ln -sTf $HOME/.dotfiles/nix/nixos /etc/nixos
   sudo nixos-generate-config
 fi
 

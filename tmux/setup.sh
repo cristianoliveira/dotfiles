@@ -9,7 +9,7 @@ if [ -f "$HOME"/.tmux.conf ]; then
   mv "$HOME"/.tmux.conf /tmp/"$BACKUPNAME"
 fi
 
-ln -s "$HOME"/.dotfiles/tmux/tmux.conf "$HOME"/.tmux.conf
+ln -sf "$HOME"/.dotfiles/tmux/tmux.conf "$HOME"/.tmux.conf
 
 # Create work and other directories
 echo "Creating project directories: work/ and other/"
