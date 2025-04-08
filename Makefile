@@ -27,3 +27,11 @@ watch: ## Run the watch script to watch for changes in the dotfiles
 .PHONY: nixos
 nixos: ## 
 	SKIP_COMMIT=1 nix/rebuild.sh
+
+.PHONY: sway-reload 
+sway-reload: ## Reload sway configuration
+	swaymsg reload
+
+.PHONY: nix-setup
+nix-setup: ## Run the nix setup script
+	@bash ./nix/setup.sh
