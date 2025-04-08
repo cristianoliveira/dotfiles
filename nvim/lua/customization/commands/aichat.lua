@@ -1,4 +1,5 @@
 local runner = require("customization.utils.runner")
+local fn = require("customization.utils.fn")
 
 -- ignore commands if aichat is not present
 local ainchat_bin = vim.g.aichat_bin or "aichat"
@@ -23,10 +24,7 @@ vim.api.nvim_create_user_command("AIMacro", function(opts)
     return
   end
 
-  local context = table.concat(opts.fargs, " ", 2)
-  local macro_cmd = string.format("aichat --macro %s %s", macro, context)
-  print("Running command: " .. macro_cmd)
-
+  -- Execute command and get the output lines
   local lines = fn.filter(runner.execute(macro_cmd), function(line)
     return not string.match(line, ">>")
   end)
