@@ -20,7 +20,36 @@ For the commit description:
 DO NOT USE MARKDOWN, only plaint text appropriate for commit messages.
 </context>
 
+Example:
+```diff
+diff --git a/user.py b/user.py
+index <old_hash>..<new_hash> 100644
+--- a/user.py
++++ b/user.py
+@@ -10,6 +10,13 @@
+         self.email = email
+         self.password = password
 
-Generate to me a commit message for the following diff:
++    def hash_password(self, password):
++        """Hashes the password using bcrypt."""
++        import bcrypt
++        hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
++        self.password = hashed.decode('utf-8')
++
+     def __repr__(self):
+         return f"<User(email='{self.email}')>"
+```
+Expected output:
+```text
+feat(auth): hash password using bcrypt
+<empty line>
+Summary:
+This commit introduces a new method `hash_password` to the User class, which hashes the user's password using bcrypt for enhanced security.
+<empty line>
+Detailed Changes:
+ - user.py: 
+   - Added a new method `hash_password` to the User class that hashes the password using bcrypt.
+```
 
+Input:
 __INPUT__
