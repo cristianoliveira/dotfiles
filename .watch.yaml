@@ -23,7 +23,7 @@
     - SKIP_COMMIT=1 nix/rebuild.sh
   change: 
     - 'nix/**/*.nix'
-  run_on_init: true
+  # run_on_init: true
 
 - name: watch osx keyboard mappings
   run: # Force restart service
@@ -32,7 +32,7 @@
   change: 'nix/osx/yabai/**'
 
 - name: adds to git
-  run_on_init: true
+  # run_on_init: true
   run:
     - git add {{relative_filepath}}
     - git add -p
