@@ -52,6 +52,9 @@
 
   # cherry-pick
   cp = cherry-pick -x               # grab a change from a branch
+  cpsp = cherry-pick --skip         # skip a commit during cherry-pick
+  cpab = cherry-pick --abort        # abort a cherry-pick
+  cpc = cherry-pick --continue      # continue a cherry-pick
 
   # diff
   d = difftool
