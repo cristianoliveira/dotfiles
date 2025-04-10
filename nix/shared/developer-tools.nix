@@ -25,6 +25,8 @@
     neovim 
     python311Packages.pynvim
     python311Packages.pip
+    # For UltiSnips
+    python312Packages.pynvim
 
     # Nvim plugins dependencies
     libiconv # VIM: Required to build lsp in Mason
