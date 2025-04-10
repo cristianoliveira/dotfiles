@@ -87,7 +87,8 @@ require('lazy').setup({
       vim.g.UltiSnipsExpandTrigger = "<C-l>"
       vim.g.UltiSnipsJumpForwardTrigger = "<C-l>"
     end,
-    build = 'pip3 install --user --upgrade pynvim',
+    -- NOTE: added via nix in 
+    -- build = 'pip3 install --user --upgrade pynvim',
     dependencies = {
       'honza/vim-snippets',
     },
