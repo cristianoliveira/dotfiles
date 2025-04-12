@@ -85,5 +85,5 @@ function gcpall () {
     echo "Usage: gcpall <branch> [<main_branch>]"
     return 1
   fi
-  git cherry ${2:-$MAIN_BRANCH} $1 --verbose | grep -Ev ' temp:| delete:| ignore:' | awk '{ print $2 }' | xargs git cherry-pick
+  git cherry ${2:-$MAIN_BRANCH} $1 --verbose | grep -Ev ' temp:| delete:| ignore:|WIP' | awk '{ print $2 }' | xargs git cherry-pick
 }
