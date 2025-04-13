@@ -54,3 +54,6 @@ nvim-macos/
 pono.toml
 *.bak
 .mark
+
+# Ai related
+.aider*
