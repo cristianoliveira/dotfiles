@@ -56,5 +56,6 @@
 
     # AI and related 
     unstable.aichat
+    unstable.aider-chat
   ];
 }
