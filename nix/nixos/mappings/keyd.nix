@@ -17,7 +17,7 @@
           settings = {
 
             ## rightalt_hjkl layer
-            # RightAlt + hjkl as arrow keys, fallback to Alt
+            # RightAlt + hjkl as arrow keys, fallback to Windows key (Meta)
             "rightalt_hjkl:M" = {
               h = "left";
               j = "down";
