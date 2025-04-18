@@ -28,6 +28,22 @@
 
   hardware.graphics.enable = true;
 
+  # services.printing.enable = true;
+  hardware.printers = {
+    ensurePrinters = [
+      {
+        name = "MG2500-series";
+        location = "Home";
+        deviceUri = "http://app.local:631/printers/MG2500-series";
+        model = "drv:///sample.drv/generic.ppd";
+        ppdOptions = {
+          PageSize = "A4";
+        };
+      }
+    ];
+    ensureDefaultPrinter = "MG2500-series";
+  };
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
