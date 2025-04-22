@@ -26,6 +26,7 @@
       grim # screenshot functionality
       slurp # screenshot functionality
       wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
+      wf-recorder # screen recording used with $(slurp -o) to record a specific area
 
       # GUIs for common settings
       pavucontrol # audio manager

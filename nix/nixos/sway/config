@@ -88,6 +88,21 @@ mode $screenshotMode {
 }
 bindsym $mod+F9 mode $screenshotMode
 
+set $screenRecordingMode "Screen recording: [a]rea, [f]ullscreen"
+mode $screenRecordingMode {
+    # Record a screen area
+    bindsym a exec wf-recorder -f $HOME/Pictures/recording-$(date +%Y-%m-%d_%H-%M-%S).mkv -g "$(slurp) " \
+        && swaymsg mode "default"
+    # Record the full screen
+    bindsym f exec wf-recorder -f $HOME/Pictures/recording-$(date +%Y-%m-%d_%H-%M-%S).mkv \
+        && swaymsg mode "default"
+
+    # Exit mode
+    bindsym Escape mode "default"
+    bindsym Return mode "default"
+}
+bindsym $mod+F10 mode $screenRecordingMode
+
 
 # Containers state configs
 exec_always $HOME/.dotfiles/nix/nixos/sway/bin/sway-save-tree.sh &
