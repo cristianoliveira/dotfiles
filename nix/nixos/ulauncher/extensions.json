@@ -1,11 +1,4 @@
 {
-    "com.github.cristianoliveira.ulauncher-browser-bookmarks": {
-        "id": "com.github.cristianoliveira.ulauncher-browser-bookmarks",
-        "url": "https://github.com/cristianoliveira/ulauncher-browser-bookmarks",
-        "updated_at": "2024-11-10T17:39:21.553101",
-        "last_commit": "f9f5e9a75ee977150261bc41e38bd94cf244ea33",
-        "last_commit_time": "2024-11-10T16:22:14"
-    },
     "com.github.tjquillan.ulauncher-system": {
         "id": "com.github.tjquillan.ulauncher-system",
         "url": "https://github.com/tjquillan/ulauncher-system",
@@ -26,5 +19,26 @@
         "updated_at": "2025-02-06T12:26:00.918989",
         "last_commit": "ceb22592f78b3f9b3abafad3bb88e7581efa65fa",
         "last_commit_time": "2025-01-21T16:09:07"
+    },
+    "com.github.ulauncher.ulauncher-kill": {
+        "id": "com.github.ulauncher.ulauncher-kill",
+        "url": "https://github.com/Ulauncher/ulauncher-kill",
+        "updated_at": "2025-04-20T00:17:12.984186",
+        "last_commit": "00ffe8266dbb6c2aea7d86a6363e51cec4b1981f",
+        "last_commit_time": "2022-11-26T16:15:05"
+    },
+    "com.github.cristianoliveira.ulauncher-sway-plus": {
+        "id": "com.github.cristianoliveira.ulauncher-sway-plus",
+        "url": "https://github.com/cristianoliveira/ulauncher-sway-plus",
+        "updated_at": "2025-04-22T13:23:35.346610",
+        "last_commit": "a65d33f6a92398814cde9cd47385dc3cb087055c",
+        "last_commit_time": "2025-04-22T10:21:13"
+    },
+    "com.github.cristianoliveira.ulauncher-chrome-bookmarks-plus": {
+        "id": "com.github.cristianoliveira.ulauncher-chrome-bookmarks-plus",
+        "url": "https://github.com/cristianoliveira/ulauncher-chrome-bookmarks-plus",
+        "updated_at": "2025-04-23T09:26:12.228082",
+        "last_commit": "5eced30bd7368eb3170b983bdb619e7027750971",
+        "last_commit_time": "2025-04-20T08:10:51"
     }
 }
