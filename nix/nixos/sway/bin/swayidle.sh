@@ -4,6 +4,6 @@ set -e
 
 swayidle -w \
   timeout 180 'swaylock -f' \
-  timeout 60 'pgrep swaylock && swaymsg "output * dpms off"' \
-  resume 'swaymsg "output * dpms on"' \
+  timeout 60 'swaymsg "output * power off"' \
+  resume 'swaymsg "output * power on"' \
   before-sleep 'swaylock -f'
