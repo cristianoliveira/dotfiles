@@ -115,3 +115,49 @@ ENV VARIABLE:
 CMD = ${1:-$USAGE}
 "
 endsnippet
+
+# Git pre-push hook
+snippet gph "git pre-push hook"
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "🔍 Checking for pushable changes..."
+
+# Determine the range of commits being pushed
+remote="$1"
+url="$2"
+read local_ref local_sha remote_ref remote_sha
+
+# Only push if there are changes
+if [ "$local_sha" = "$remote_sha" ]; then
+  echo "✅ Nothing to push (no changes). Skipping checks."
+  exit 0
+fi
+
+echo "🔍 Running checks before push..."
+
+# Run linter
+echo "📦 Running linter..."
+if ! make lint; then
+  echo "❌ Lint failed. Fix issues before pushing."
+  exit 1
+fi
+
+# Run tests
+echo "🧪 Running tests..."
+if ! make test; then
+  echo "❌ Tests failed. Fix issues before pushing."
+  exit 1
+fi
+
+# Check for WIP commits in push range
+echo "🔍 Checking for WIP commits..."
+if git log "$remote_sha..$local_sha" --oneline | grep -i 'WIP'; then
+  echo "❌ Push blocked: WIP commits found in push range."
+  exit 1
+fi
+
+echo "✅ All checks passed. Ready to push!"
+exit 0
+endsnippet
+
