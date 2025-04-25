@@ -45,6 +45,32 @@ font pango:monospace 9
 #
 # Default wallpaper (more resolutions are available in @datadir@/backgrounds/sway/)
 output * bg $HOME/.dotfiles/resources/wallpaper.jpg stretch 
+
+bindswitch lid:on exec swaymsg "output eDP-1 disable" \
+               && swaymsg "output eDP-1 off"
+bindswitch lid:off exec swaymsg "output eDP-1 enable" \
+               && swaymsg "output eDP-1 on"
+
+# Setup 3 displays left, right and built-in
+output DP-1 resolution 1920x1080 position 0 0
+output DP-2 resolution 1920x1080 position 1920 0
+output eDP-1 resolution 1920x1200 position 1920 1080
+
+set $displaysMode "Displays: [1] eDP-1, [2] DP-1, [3] DP-2 (n=enable, Shift+n=disable)"
+mode $displaysMode {
+    # Mappings
+    bindsym 1 exec swaymsg "output eDP-1 enable" && swaymsg mode "default"
+    bindsym 2 exec swaymsg "output DP-1 enable" && swaymsg mode "default"
+    bindsym 3 exec swaymsg "output DP-2 enable" && swaymsg mode "default"
+    # Disabled
+    bindsym Shift+1 exec swaymsg "output eDP-1 disable" && swaymsg mode "default"
+    bindsym Shift+2 exec swaymsg "output DP-1 disable" && swaymsg mode "default"
+    bindsym Shift+3 exec swaymsg "output DP-2 disable" && swaymsg mode "default"
+    # Exit mode
+    bindsym Escape mode "default"
+    bindsym Return mode "default"
+}
+bindsym $mod+Shift+F12 mode $displaysMode
 #
 # Example configuration:
 #
@@ -52,8 +78,8 @@ output * bg $HOME/.dotfiles/resources/wallpaper.jpg stretch
 
 # builtin/main display on the bottom
 # Load the output configuration on startup
-exec_always sway-setter \
-    outputs < $HOME/.local/state/sway-outputs.json
+# exec_always sway-setter \
+#     outputs < $HOME/.local/state/sway-outputs.json
 
 # Load the output configuration on demand
 set $outputLoadMode "Output state: [s]ave, [r]eload"
@@ -105,7 +131,7 @@ bindsym $mod+F10 mode $screenRecordingMode
 
 
 # Containers state configs
-exec_always $HOME/.dotfiles/nix/nixos/sway/bin/sway-save-tree.sh &
+# exec_always $HOME/.dotfiles/nix/nixos/sway/bin/sway-save-tree.sh &
 
 set $containersSaveMode "Containers state: [s]ave, [r]eload"
 mode $containersSaveMode {
@@ -123,9 +149,6 @@ mode $containersSaveMode {
     bindsym Return mode "default"
 }
 bindsym $mod+Shift+t mode $containersSaveMode
-
-bindswitch lid:off output eDP-1 on
-bindswitch lid:on output eDP-1 off
 
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
@@ -278,9 +301,13 @@ workspace 5 output DP-1
 workspace 6 output DP-1
 
 ## Workspace in the main display BOTTOM (built-in)
-workspace 8 output eDP-1
-workspace 9 output eDP-1
-workspace 10 output eDP-1
+workspace 8 output DP-1
+workspace 9 output DP-1
+workspace 10 output DP-1
+
+# workspace 8 output eDP-1
+# workspace 9 output eDP-1
+# workspace 10 output eDP-1
 
 bindsym $mod+1 workspace number 1
 bindsym $mod+2 workspace number 2
