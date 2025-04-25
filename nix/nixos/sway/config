@@ -46,10 +46,8 @@ font pango:monospace 9
 # Default wallpaper (more resolutions are available in @datadir@/backgrounds/sway/)
 output * bg $HOME/.dotfiles/resources/wallpaper.jpg stretch 
 
-bindswitch lid:on exec swaymsg "output eDP-1 disable" \
-               && swaymsg "output eDP-1 off"
-bindswitch lid:off exec swaymsg "output eDP-1 enable" \
-               && swaymsg "output eDP-1 on"
+bindswitch lid:on exec swaymsg "output eDP-1 off"
+bindswitch lid:off exec swaymsg "output eDP-1 on"
 
 # Setup 3 displays left, right and built-in
 output DP-1 resolution 1920x1080 position 0 0
@@ -70,7 +68,7 @@ mode $displaysMode {
     bindsym Escape mode "default"
     bindsym Return mode "default"
 }
-bindsym $mod+Shift+F12 mode $displaysMode
+bindsym $mod+F11 mode $displaysMode
 #
 # Example configuration:
 #
@@ -102,9 +100,11 @@ bindsym $mod+Shift+o mode $outputLoadMode
 set $screenshotMode "Screenshot: [a]rea, [f]ullscreen, [c]opy area"
 mode $screenshotMode {
     # Take a screenshot of an area
-    bindsym a exec grim -g "$(slurp)" && swaymsg mode "default"
+    bindsym a exec grim -g "$(slurp)" -o $HOME/Pictures/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png \
+        && swaymsg mode "default"
     # Take a screenshot of the full screen
-    bindsym f exec grim  && swaymsg mode "default"
+    bindsym f exec grim  -o $HOME/Pictures/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png \
+        && swaymsg mode "default"
     # Take a screenshot of an area and copy to clipboard
     bindsym c exec grim -g "$(slurp)" - | wl-copy && swaymsg mode "default"
 
@@ -300,14 +300,9 @@ workspace 5 output DP-2
 workspace 5 output DP-1
 workspace 6 output DP-1
 
-## Workspace in the main display BOTTOM (built-in)
-workspace 8 output DP-1
-workspace 9 output DP-1
-workspace 10 output DP-1
-
-# workspace 8 output eDP-1
-# workspace 9 output eDP-1
-# workspace 10 output eDP-1
+workspace 8 output eDP-1
+workspace 9 output eDP-1
+workspace 10 output eDP-1
 
 bindsym $mod+1 workspace number 1
 bindsym $mod+2 workspace number 2
