@@ -46,8 +46,12 @@ font pango:monospace 9
 # Default wallpaper (more resolutions are available in @datadir@/backgrounds/sway/)
 output * bg $HOME/.dotfiles/resources/wallpaper.jpg stretch 
 
-bindswitch lid:on exec swaymsg "output eDP-1 off"
-bindswitch lid:off exec swaymsg "output eDP-1 on"
+## Set laptop output when lid is closed
+## man 5 sway | grep bindswitch
+bindswitch --locked --reload {
+    lid:on output eDP-1 disable
+    lid:off output eDP-1 enable
+}
 
 # Setup 3 displays left, right and built-in
 output DP-1 resolution 1920x1080 position 0 0
