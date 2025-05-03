@@ -21,12 +21,20 @@ bash "$HOME/.dotfiles/nix/$OSTARGET/setup.sh"
 
 for setup in $(find $HOME/.dotfiles/nix/$OSTARGET -name "setup.sh"); do
     echo "NixOs: Running $setup"
-    bash $setup
+    if [ "$setup" != "$HOME/.dotfiles/setup.sh" ] && 
+       [ "$setup" != "$HOME/.dotfiles/nix/setup.sh" ]; 
+       [ "$setup" != "$HOME/.dotfiles/nix/$OSTARGET/setup.sh" ]; then
+        bash $setup
+    fi
 done
 
 for setup in $(find $HOME/.dotfiles/nix/shared -name "setup.sh"); do
     echo "Shared: running $setup"
-    bash $setup
+    if [ "$setup" != "$HOME/.dotfiles/setup.sh" ] && 
+       [ "$setup" != "$HOME/.dotfiles/nix/setup.sh" ]; 
+       [ "$setup" != "$HOME/.dotfiles/nix/$OSTARGET/setup.sh" ]; then
+        bash $setup
+    fi
 done
 
 # check for folders in the root level but only one level deep
