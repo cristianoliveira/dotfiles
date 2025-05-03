@@ -54,7 +54,12 @@ fi
 
 echo "System is ready to be built with ~/.dotfiles/nix/rebuild.sh"
 echo "Running darwin-rebuild switch"
-# So darwin-rebuild is available in the new shell
-zsh -c "$HOME/.dotfiles/nix/rebuild.sh"
+
+NIXOS_CONFIG=$HOME/.dotfiles/nix
+/nix/var/nix/profiles/default/bin/nix run \
+  --extra-experimental-features nix-command \
+  --extra-experimental-features flakes \
+  nix-darwin/nix-darwin-24.11#darwin-rebuild switch \
+  --flake $HOME/.dotfiles/nix#darwin
 
 echo "Setup complete"
