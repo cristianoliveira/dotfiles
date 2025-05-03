@@ -3,45 +3,61 @@
 set -e # This is necessary to catch errors in commands
 set -o pipefail # This is necessary to catch errors in commands piped together
 
-read -p "Do you want to install Nix? (y/n) " ANSWER
-if [[ $ANSWER =~ ^[Yy]$ ]]; then
-  echo "Installing Nix"
-  sh <(curl -L https://nixos.org/nix/install)
-else
-  echo "Skipping Nix installation"
+
+## Check if nix is installed and available
+if ! command -v nix &> /dev/null; then
+  read -p "Do you want to install Nix? (y/n) " ANSWER
+  if [[ $ANSWER =~ ^[Yy]$ ]]; then
+    echo "Installing Nix"
+    sh <(curl -L https://nixos.org/nix/install)
+  else
+    echo "Skipping Nix installation"
+  fi
 fi
 
-read -p "Do you want to install Nix Darwin? (y/n) " ANSWER
-if [[ $ANSWER =~ ^[Yy]$ ]]; then
-  echo "Installing Nix Darwin"
-  sh -c "nix-build https://github.com/LnL7/nix-darwin/archive/master.tar.gz -A installer"
-  ./result/bin/darwin-installer
-else
-  echo "Skipping Nix Darwin installation"
+## Check if homebrew is installed
+if ! command -v brew &> /dev/null; then
+  read -p "Do you want to install Homebrew? (y/n) " ANSWER
+  if [[ $ANSWER =~ ^[Yy]$ ]]; then
+    echo "Installing Homebrew"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  else
+    echo "Skipping Homebrew installation"
+  fi
+fi
+
+## Check if darwin-rebuild is installed
+if ! command -v darwin-rebuild &> /dev/null; then
+  read -p "Do you want to install darwin-rebuild? (y/n) " ANSWER
+  if [[ $ANSWER =~ ^[Yy]$ ]]; then
+    echo "Installing darwin-rebuild"
+    /nix/var/nix/profiles/default/bin/nix profile install \
+      --experimental-features nix-command \
+      --experimental-features flakes \
+      nix-darwin/nix-darwin-24.11#darwin-rebuild
+  else
+    echo "Skipping darwin-rebuild installation"
+  fi
 fi
 
 echo "Linking Nix Darwin configuration"
 mkdir -p "$HOME/.nixpkgs"
 rm -f "$HOME/.nixpkgs/darwin-configuration.nix"
-ln -sTf "$HOME/.dotfiles/nix/osx/configuration.nix" "$HOME/.nixpkgs/darwin-configuration.nix"
+ln -sf "$HOME/.dotfiles/nix/osx/configuration.nix" "$HOME/.nixpkgs/darwin-configuration.nix"
 
 
 if [ ! -f "$HOME/.config/nix/nix.conf" ]; then
   echo "Configuring Nix (~/.dotfiles/nix/nix.conf)"
   mkdir -p "$HOME/.config/nix"
-  ln -sTf "$HOME/.dotfiles/nix/nix.conf" "$HOME/.config/nix/nix.conf"
+  ln -sf "$HOME/.dotfiles/nix/nix.conf" "$HOME/.config/nix/nix.conf"
 fi
 
-# echo "Setting up OSX applications"
-# "$HOME"/.dotfiles/nix/osx/yabai/setup.sh
-# "$HOME"/.dotfiles/nix/osx/finicky/setup.sh
-# "$HOME"/.dotfiles/nix/osx/karabiner/setup.sh
-#
-# echo "Setting up shared applications"
-# "$HOME"/.dotfiles/nix/shared/setup.sh
-# "$HOME"/.dotfiles/nix/osx/alacritty/setup.sh
-
-# So darwin-rebuild is available in the new shell
-sh -c "$HOME/.dotfiles/nix/rebuild.sh"
-
 echo "System is ready to be built with ~/.dotfiles/nix/rebuild.sh"
+echo "Running darwin-rebuild switch"
+# So darwin-rebuild is available in the new shell
+zsh -c "$HOME/.dotfiles/nix/rebuild.sh"
+
+echo "Running Nix setup script"
+zsh -c "$HOME/.dotfiles/nix/setup.sh"
+
+echo "Setup complete"
