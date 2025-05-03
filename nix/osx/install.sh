@@ -59,7 +59,7 @@ NIXOS_CONFIG=$HOME/.dotfiles/nix
 /nix/var/nix/profiles/default/bin/nix run \
   --extra-experimental-features nix-command \
   --extra-experimental-features flakes \
-  nix-darwin/nix-darwin-24.11#darwin-rebuild switch \
+  nix-darwin/nix-darwin-24.11#darwin-rebuild -- switch \
   --flake $HOME/.dotfiles/nix#darwin
 
 echo "Setup complete"
