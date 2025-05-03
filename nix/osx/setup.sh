@@ -32,8 +32,8 @@ if ! command -v darwin-rebuild &> /dev/null; then
   if [[ $ANSWER =~ ^[Yy]$ ]]; then
     echo "Installing darwin-rebuild"
     /nix/var/nix/profiles/default/bin/nix profile install \
-      --experimental-features nix-command \
-      --experimental-features flakes \
+      --extra-experimental-features nix-command \
+      --extra-experimental-features flakes \
       nix-darwin/nix-darwin-24.11#darwin-rebuild
   else
     echo "Skipping darwin-rebuild installation"
