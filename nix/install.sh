@@ -16,7 +16,7 @@ else
     exit 1
 fi
 
-## First install os specific tools
+## First run setup
 bash "$HOME/.dotfiles/nix/$OSTARGET/install.sh"
 
 for setup in $(find $HOME/.dotfiles/nix/$OSTARGET -name "setup.sh"); do
@@ -31,6 +31,8 @@ done
 
 # check for folders in the root level but only one level deep
 for setup in $(find $HOME/.dotfiles/ -maxdepth 2 -name "setup.sh"); do
-    echo "Running $setup"
-    bash $setup
+    if [ "$setup" != "$HOME/.dotfiles/setup.sh" ]; then
+        echo "Running $setup"
+        bash $setup
+    fi
 done
