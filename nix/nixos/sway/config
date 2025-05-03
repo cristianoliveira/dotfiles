@@ -343,6 +343,20 @@ assign [instance="chat.openai.com"] workspace 4
 assign [instance=".*.youtube.com"] workspace 5
 assign [instance="mail.google.com"] workspace 8
 
+## MARKS
+for_window [app_id="whatsapp-for-linux"] mark "wap"
+for_window [app_id="org.telegram.desktop"] mark "tlg"
+for_window [instance=".*.youtube.com"] mark "ytb"
+for_window [instance="mail.google.com"] mark "mail"
+for_window [app_id=$term] mark "term"
+
+## Marks shortcuts
+
+# focus on main mark with $mod+Ctrl+1
+bindsym $mod+Ctrl+1 [con_mark="main"] focus
+bindsym $mod+Ctrl+2 [con_mark="aux"] focus
+bindsym $mod+Ctrl+3 [con_mark="extra"] focus
+
 # Note: workspaces can have any name you want, not just numbers.
 # We just use 1-10 as the default.
 
@@ -454,6 +468,16 @@ mode "resize" {
     bindsym Up resize shrink height 10px
     bindsym Right resize grow width 10px
 
+    bindsym Shift+$left resize shrink width 10ppt
+    bindsym Shift+$down resize grow height 10ppt
+    bindsym Shift+$up resize shrink height 10ppt
+    bindsym Shift+$right resize grow width 10ppt
+
+    bindsym 0 resize set width 20ppt, resize set height 20ppt, mode "default"
+    bindsym 9 resize set width 80ppt, resize set height 80ppt, mode "default"
+    bindsym $mod+0 resize set width 20ppt, resize set height 20ppt, mode "default"
+    bindsym $mod+9 resize set width 80ppt, resize set height 80ppt, mode "default"
+
     # Predifined sizes
     bindsym $mod+1 resize set height 100ppt; resize set width 100ppt; move position center
     bindsym $mod+2 resize set height $heightLarge; resize set width $widthLarge; move position center
@@ -527,7 +551,11 @@ for_window [title="^.icture.in..icture$"] floating enable, move position 74ppt 7
 for_window [app_id="term-floating"] floating enable, move position center, sticky enable
 for_window [app_id="pavucontrol"] floating enable, move position center, sticky enable
 for_window [class="Bitwarden"] floating enable, move position center, sticky enable
-for_window [title="^Bitwarden$"] floating enable, move position center, sticky enable
+
+# Make bitwarden window on browser brave-browser width 1/4 of the screen and 
+# always on left side, not floating
+for_window [class="Brave-browser" title="^Bitwarden$"] move right, resize set width 18ppt
+
 
 # Make sure to always focus new windows
 for_window [class="^.*$"] focus
