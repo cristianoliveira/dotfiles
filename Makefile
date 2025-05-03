@@ -14,11 +14,11 @@ ssh: ## Run the ssh-key script to generate a new ssh key
 
 .PHONY: linux
 linux: ## Run the linux setup to setup a new nixos instance
-	@bash ./nix/setup.sh
+	@bash ./nix/install.sh
 
 .PHONY: osx
 osx: ## Run the osx setup to setup a new macos instance
-	@bash ./nix/setup.sh
+	@bash ./nix/install.sh
 
 .PHONY: watch
 watch: ## Run the watch script to watch for changes in the dotfiles
