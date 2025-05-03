@@ -95,7 +95,7 @@
         # See https://github.com/LnL7/nix-darwin/issues/122
         # Workaround for macos because it sets the system path with higher priority
         # than nix paths this will reverse the order of the path's sections
-        PATH=$(echo $PATH | sed 's/:/\n/g' | tac | tr "\n" ":")
+        # PATH=$(echo $PATH | sed 's/:/\n/g' | tac | tr "\n" ":")
       '';
     };
   };
