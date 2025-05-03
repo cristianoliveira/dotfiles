@@ -19,6 +19,7 @@
     nixd # nix lsp (full fledged)
     nil # nix LSP (just linter)
     gnused # bye macOs annoying sed
+    coreutils # bye macOs annoying coreutils
 
     # Nvim stuff
     vim
