@@ -16,6 +16,9 @@ else
     exit 1
 fi
 
+## First run setup
+bash "$HOME/.dotfiles/nix/$OSTARGET/setup.sh"
+
 for setup in $(find $HOME/.dotfiles/nix/$OSTARGET -name "setup.sh"); do
     echo "NixOs: Running $setup"
     bash $setup
@@ -29,7 +32,8 @@ done
 # check for folders in the root level but only one level deep
 for setup in $(find $HOME/.dotfiles/ -maxdepth 2 -name "setup.sh"); do
     if [ "$setup" != "$HOME/.dotfiles/setup.sh" ] && 
-       [ "$setup" != "$HOME/.dotfiles/nix/setup.sh" ]; then
+       [ "$setup" != "$HOME/.dotfiles/nix/setup.sh" ]; 
+       [ "$setup" != "$HOME/.dotfiles/nix/$OSTARGET/setup.sh" ]; then
         echo "Running $setup"
         bash $setup
     fi

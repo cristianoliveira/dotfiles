@@ -57,7 +57,4 @@ echo "Running darwin-rebuild switch"
 # So darwin-rebuild is available in the new shell
 zsh -c "$HOME/.dotfiles/nix/rebuild.sh"
 
-echo "Running Nix setup script"
-zsh -c "$HOME/.dotfiles/nix/setup.sh"
-
 echo "Setup complete"
