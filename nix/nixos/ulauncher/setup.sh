@@ -7,6 +7,6 @@ echo "Linking config to $HOME/.config/ulauncher"
 
 mkdir -p $HOME/.config/ulauncher
 
-ln -sf $HOME/.dotfiles/nix/nixos/ulauncher/settings.json $HOME/.config/ulauncher/settings.json
-ln -sf $HOME/.dotfiles/nix/nixos/ulauncher/extensions.json $HOME/.config/ulauncher/extensions.json
-ln -sf $HOME/.dotfiles/nix/nixos/ulauncher/shortcuts.json $HOME/.config/ulauncher/shortcuts.json
+ln -sTf $HOME/.dotfiles/nix/nixos/ulauncher/settings.json $HOME/.config/ulauncher/settings.json
+ln -sTf $HOME/.dotfiles/nix/nixos/ulauncher/extensions.json $HOME/.config/ulauncher/extensions.json
+ln -sTf $HOME/.dotfiles/nix/nixos/ulauncher/shortcuts.json $HOME/.config/ulauncher/shortcuts.json

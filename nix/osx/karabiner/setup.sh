@@ -7,4 +7,4 @@ echo "Setting up Karabiner configurations."
 
 mkdir -p "$HOME"/.config
 mv -f "$HOME"/.config/karabiner "$HOME"/.config/karabiner.bkp
-ln -sf "$HOME"/.dotfiles/nix/osx/karabiner "$HOME"/.config/karabiner
+ln -sTf "$HOME"/.dotfiles/nix/osx/karabiner "$HOME"/.config/karabiner

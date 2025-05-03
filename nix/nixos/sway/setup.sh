@@ -9,4 +9,4 @@ if [ -f "$HOME"/.config/sway ]; then
   mv -f $HOME/.config/sway /tmp/"$BACKUPNAME"
 fi
 
-ln -sf $HOME/.dotfiles/nix/nixos/sway $HOME/.config/sway
+ln -sTf $HOME/.dotfiles/nix/nixos/sway $HOME/.config/sway
