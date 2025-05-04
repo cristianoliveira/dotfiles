@@ -4,7 +4,7 @@ set -e
 
 # list all packages in stow directory
 packages=$(ls -d stow/* | sed 's#stow\/##')
-echo "Available packages: $packages"
+echo "Installing packages"
 for package in $packages; do
     # only if is a directory
     if [ "install.sh" = "$package" ]; then
