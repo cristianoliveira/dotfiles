@@ -11,7 +11,7 @@ if [ -d "$HOME"/.local/share/nvim ]; then
 fi
 
 echo "Linking config to $HOME/.config/nvim"
-ln -sTf "$HOME"/.dotfiles/nvim "$HOME"/.config/nvim
+ln -sf "$HOME"/.dotfiles/nvim "$HOME"/.config/nvim
 
 echo "Setting up ctags"
-ln -sTf "$HOME"/.dotfiles/ctags "$HOME"/.ctags
+ln -sf "$HOME"/.dotfiles/ctags "$HOME"/.ctags
