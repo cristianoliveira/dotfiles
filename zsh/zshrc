@@ -1,18 +1,13 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-# OSX doesn't have date so we use gdate instead and alias when in linux
-if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    alias gdate=date
-fi
-
 # Adds custom bins from dotfiles
 export PATH=$HOME/.dotfiles/bin:$HOME/bin:/opt/homebrew/bin:$PATH
 
 #
 # debug-slow-startup-time
 # zmodload zsh/zprof
-STARTTIME=$(gdate "+%s%3N")
+STARTTIME=$(date "+%s%3N")
 
 DISABLE_AUTO_UPDATE=true
 
@@ -177,7 +172,7 @@ if command -v direnv &> /dev/null; then
   eval "$(direnv hook zsh)"
 fi
 
-CURRTIME=$(gdate "+%s%3N")
+CURRTIME=$(date "+%s%3N")
 echo "Everything is ready. ($(echo "$CURRTIME - $STARTTIME" | bc -l) ms)"
 
 # debug-slow-startup-time
