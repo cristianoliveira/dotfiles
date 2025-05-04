@@ -123,6 +123,8 @@
         AppleShowAllFiles = true;
       };
 
+      universalaccess.reduceMotion = true;
+
       # Dock configs
       dock.autohide = true;
 
