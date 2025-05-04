@@ -9,4 +9,4 @@ if [ -f "$HOME"/.config/i3status ]; then
   mv -f  "$HOME"/.config/i3status /tmp/"$BACKUPNAME"
 fi
 
-ln -sTf $HOME/.dotfiles/nix/nixos/i3status $HOME/.config/i3status
+ln -sf $HOME/.dotfiles/nix/nixos/i3status $HOME/.config/i3status
