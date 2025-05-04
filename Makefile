@@ -39,3 +39,7 @@ sway-reload: ## Reload sway configuration
 .PHONY: nix-setup
 nix-setup: ## Run the nix setup script
 	@bash ./nix/setup.sh
+
+.PHONY: stow
+stow: ## Create links for .config files using stow
+	@bash ./stow/install.sh
