@@ -2,5 +2,5 @@
 
 set -e # This is necessary to catch errors in commands
 
-ALACRITTY_OPACITY="${ALACRITTY_OPACITY:-0.80}"
+ALACRITTY_OPACITY="${ALACRITTY_OPACITY:-0.90}"
 alacritty --option window.opacity="$ALACRITTY_OPACITY"
