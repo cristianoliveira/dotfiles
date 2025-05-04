@@ -63,6 +63,9 @@ defaults write -g ApplePressAndHoldEnabled -bool false
 defaults write com.apple.universalaccess closeViewScrollWheelToggle -bool true
 defaults write com.apple.universalaccess HIDScrollZoomModifierMask -int 262144
 
+# Auto hide menu bar
+defaults write -g _HIHideMenuBar -bool true
+
 # set background lighting properly
 defaults write com.apple.BezelServices kDim -bool true
 defaults write com.apple.BezelServices kDimTime -int 300

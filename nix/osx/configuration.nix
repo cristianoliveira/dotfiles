@@ -108,10 +108,11 @@
       # Keyboard settings
       # Enable full keyboard access for all controls
       # (e.g. enable Tab in modal dialogs)
-      NSGlobalDomain.AppleKeyboardUIMode = 3;
-
       # define delays, keyrepeat and press and hold
       NSGlobalDomain = {
+        AppleKeyboardUIMode = 3;
+        _HIHideMenuBar = true;
+
         InitialKeyRepeat = 10;
         KeyRepeat = 1;
         ApplePressAndHoldEnabled = false;
