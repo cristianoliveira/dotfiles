@@ -24,8 +24,8 @@
     # bitwarden-cli
 
     # OSX tiling window manager
-    yabai
-    skhd
+    # yabai
+    # skhd
   ];
 
   # Enable yabai and skhd services
@@ -56,7 +56,7 @@
 
       # Entertainment Apps
       "spotify"
-      # "slack"
+      "slack"
       "whatsapp"
       "telegram"
 
