@@ -12,7 +12,12 @@ if ! command -v alacritty &> /dev/null; then
   exit 1
 fi
 
-mkdir ~/Applications/Alacritty.app
+# if the ~/Applications directory does not exist, create it
+if [ ! -d ~/Applications ]; then
+  mkdir -p ~/Applications
+fi
+mkdir -f ~/Applications/Alacritty.app
+
 ln -sf $HOME/.dotfiles/nix/osx/alacritty/alacritty ~/Applications/Alacritty.app
 
 # See also ~/.dotfiles/nix/shared/alacritty/ for the configuration file.
