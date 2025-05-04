@@ -353,9 +353,28 @@ for_window [app_id=$term] mark "term"
 ## Marks shortcuts
 
 # focus on main mark with $mod+Ctrl+1
-bindsym $mod+Ctrl+1 [con_mark="main"] focus
-bindsym $mod+Ctrl+2 [con_mark="aux"] focus
-bindsym $mod+Ctrl+3 [con_mark="extra"] focus
+bindsym $mod+Ctrl+1 [con_mark="w1"] focus
+bindsym $mod+Ctrl+2 [con_mark="w2"] focus
+bindsym $mod+Ctrl+3 [con_mark="w3"] focus
+bindsym $mod+Ctrl+0 [con_mark="w0"] focus
+ 
+set $markMode "Marks: [1] w1, [2] w2, [3] w3, [0] w0" 
+mode $markMode {
+    # Mappings
+    # Mark the current window with mark w1
+    bindsym 1 exec swaymsg "mark w1" && swaymsg mode "default"
+    bindsym 2 exec swaymsg "mark w2" && swaymsg mode "default"
+    bindsym 3 exec swaymsg "mark w3" && swaymsg mode "default"
+    bindsym 0 exec swaymsg "mark w0" && swaymsg mode "default"
+
+    # Exit mode
+    bindsym Escape mode "default"
+    bindsym Return mode "default"
+}
+bindsym $mod+Ctrl+m mode $markMode
+
+# Mark the current window with $mod+Ctrl+Shift+1
+bindsym $mod+Ctrl+Shift+1 [con_mark="w1"] mark "w1"
 
 # Note: workspaces can have any name you want, not just numbers.
 # We just use 1-10 as the default.
