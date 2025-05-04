@@ -11,6 +11,7 @@
     fzf
     ripgrep
     jq
+
     # NOTE: not using it 
     # ngrok
 
@@ -20,6 +21,9 @@
     nil # nix LSP (just linter)
     gnused # bye macOs annoying sed
     coreutils # bye macOs annoying coreutils
+
+    # To manage my dotfiles
+    stow
 
     # Nvim stuff
     vim
