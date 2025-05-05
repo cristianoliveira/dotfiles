@@ -1,7 +1,3 @@
-# TODO remove osx/ folder and keep only nix/osx
-
-# TODO make obsh-cli work on nixos
-
 # TODO adds rclone as a service to sync with google drive in nixos
 
 # TODO use tpm (tmux plugin manager) to manage tmux plugins
