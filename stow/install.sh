@@ -3,8 +3,8 @@
 set -e
 
 ## Package setup
-# If the package folder contains an $pkg/before_install.sh file, it will be executed
-# after the package is linked.
+# If the package folder contains an $pkg/before_install.sh file,
+# it will be executed before the package is linked.
 function package_before_install() {
     local pkgpath="$1"
     local setup_file="$pkgpath/before_install.sh"
@@ -17,8 +17,8 @@ function package_before_install() {
 }
 
 ## Package after install
-# If the package folder contains an $pkg/after_install.sh file, it will be executed
-# after the package is linked.
+# If the package folder contains an $pkg/after_install.sh file
+# it will be executed after the package is linked.
 function package_after_install() {
     local pkgpath="$1"
     local setup_file="$pkgpath/after_install.sh"
