@@ -89,6 +89,19 @@
         # Workaround for macos because it sets the system path with higher priority
         # than nix paths this will reverse the order of the path's sections
         # PATH=$(echo $PATH | sed 's/:/\n/g' | tac | tr "\n" ":")
+        nixpaths=(
+          $HOME/.nix-profile/bin
+          /run/current-system/sw/bin
+          /nix/var/nix/profiles/default/bin
+          /nix/var/nix/profiles/system/sw/bin
+          /nix/var/nix/profiles/system/sw/sbin
+        )
+        for nixpath in $nixpaths[@]; do
+          if [[ ":$PATH:" != *":$nixpath:"* ]]; then
+            PATH="$nixpath:$PATH"
+          fi
+        done
+        typeset -a PATH
       '';
     };
   };
