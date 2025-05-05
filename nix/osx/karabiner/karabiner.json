@@ -101,6 +101,20 @@
                             "to": [{ "key_code": "left_command" }]
                         }
                     ]
+                },
+                {
+                    "disable_built_in_keyboard_if_exists": true,
+                    "identifiers": {
+                        "is_keyboard": true,
+                        "product_id": 49305,
+                        "vendor_id": 1130
+                    },
+                    "simple_modifications": [
+                        {
+                            "from": { "key_code": "right_option" },
+                            "to": [{ "key_code": "right_command" }]
+                        }
+                    ]
                 }
             ],
             "name": "Default profile",
@@ -109,6 +123,10 @@
                 "country_code": 0,
                 "keyboard_type_v2": "ansi"
             }
+        },
+        {
+            "name": "external-pc-keyboard",
+            "virtual_hid_keyboard": { "keyboard_type_v2": "ansi" }
         }
     ]
 }
