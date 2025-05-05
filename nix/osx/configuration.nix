@@ -6,27 +6,20 @@
   imports =
     [ 
       ./developer-tools.nix
+      ./applications.nix
 
       # Shared between linux and darwin
       ../shared/developer-tools.nix
       ../shared/direnv.nix
-      ./streaming.nix
+
+      # Others
+      # ./streaming.nix
+      # TODO: this is temporary, move this to a shell.nix somehow
+      # ./mobile-dev.nix
     ];
 
   # Allow proprietary pkgs for apps like ngrok
   nixpkgs.config.allowUnfree = true;
-  # List packages installed in system profile. To search by name, run:
-  # $ nix-env -qaP | grep wget
-  environment.systemPackages = with pkgs; [
-    # Other tools (GUI)
-    alacritty 
-    # FIXME this package is failing
-    # bitwarden-cli
-
-    # OSX tiling window manager
-    # yabai
-    # skhd
-  ];
 
   # Enable yabai and skhd services
   # https://github.com/LnL7/nix-darwin/blob/f0dd0838c3558b59dc3b726d8ab89f5b5e35c297/modules/services/yabai/default.nix#L44

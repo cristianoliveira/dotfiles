@@ -1,4 +1,4 @@
-{ pkgs }:
+{ pkgs, ... }:
 
 {
   googlekeep = pkgs.writeShellApplication {
