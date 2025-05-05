@@ -123,7 +123,9 @@
         AppleShowAllFiles = true;
       };
 
-      universalaccess.reduceMotion = true;
+      # NOTE: This is not working, but it should
+      # ERROR: defaults[41922:398520] Could not write domain com.apple.universalaccess; exiting
+      # universalaccess.reduceMotion = true;
 
       # Dock configs
       dock.autohide = true;
