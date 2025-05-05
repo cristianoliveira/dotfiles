@@ -90,16 +90,14 @@
         # than nix paths this will reverse the order of the path's sections
         # PATH=$(echo $PATH | sed 's/:/\n/g' | tac | tr "\n" ":")
         nixpaths=(
-          $HOME/.nix-profile/bin
-          /run/current-system/sw/bin
           /nix/var/nix/profiles/default/bin
           /nix/var/nix/profiles/system/sw/bin
           /nix/var/nix/profiles/system/sw/sbin
+          /run/current-system/sw/bin
+          $HOME/.nix-profile/bin
         )
         for nixpath in $nixpaths[@]; do
-          if [[ ":$PATH:" != *":$nixpath:"* ]]; then
-            PATH="$nixpath:$PATH"
-          fi
+          PATH="$nixpath:$PATH"
         done
         typeset -U path
       '';
