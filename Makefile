@@ -24,8 +24,12 @@ osx: ## Run the osx setup to setup a new macos instance
 watch: ## Run the watch script to watch for changes in the dotfiles
 	@fzz
 
+.PHONY: nix
+nix: ## Rebuild the system using nix installing all the packages
+	SKIP_COMMIT=1 nix/rebuild.sh
+
 .PHONY: nixos
-nixos: ## 
+nixos: ## Rebuild the system using nix installing all the packages
 	SKIP_COMMIT=1 nix/rebuild.sh
 
 .PHONY: sway-reload 
