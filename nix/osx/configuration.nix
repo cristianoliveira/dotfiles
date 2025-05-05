@@ -101,7 +101,7 @@
             PATH="$nixpath:$PATH"
           fi
         done
-        typeset -a PATH
+        typeset -U path
       '';
     };
   };
