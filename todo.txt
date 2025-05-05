@@ -15,3 +15,8 @@
 
 # TODO nix generation as git commit 
 https://github.com/knoc-off/nixos/blob/main/.githooks/post-commit
+
+# TODO fetch ssh keys from bitwarden and put them in the right place
+https://bitwarden.com/help/cli/
+
+# TODO adds a way to version the Brave custom shortcuts 
