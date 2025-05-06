@@ -17,4 +17,38 @@
       webapps.chatgpt
       webapps.youtube
     ];
+
+    # GUI applications via homebrew
+    homebrew = {
+      enable = true;
+
+      taps = [];
+
+      casks = [
+        "alfred" # Launcher
+
+        # Browsers
+        "firefox"
+        "google-chrome"
+        # "google-chrome-canary"
+        "brave-browser"
+        "finicky" # Ensure to open links in a browser/profile based on rules
+
+        # Entertainment Apps
+        "spotify"
+        "slack"
+        "whatsapp"
+        "telegram"
+
+        "karabiner-elements"
+
+        # Others
+        "bitwarden"
+        # "veracrypt"
+        # "mullvadvpn"
+        # "tunnelblick" # VPN
+        "google-drive"
+      ];
+    };
+
   }

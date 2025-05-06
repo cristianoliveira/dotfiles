@@ -31,38 +31,6 @@
     skhd.enable = true;
   };
 
-  # GUI applications via homebrew
-  homebrew = {
-    enable = true;
-
-    taps = [];
-
-    casks = [
-      "alfred" # Launcher
-
-       # Browsers
-      "firefox"
-      "google-chrome"
-      # "google-chrome-canary"
-      "brave-browser"
-      "finicky" # Ensure to open links in a browser/profile based on rules
-
-      # Entertainment Apps
-      "spotify"
-      "slack"
-      "whatsapp"
-      "telegram"
-
-      "karabiner-elements"
-
-      # Others
-      "bitwarden"
-      "veracrypt"
-      "mullvadvpn"
-      "tunnelblick" # VPN
-    ];
-  };
-
   # Create /etc/zshrc that loads the nix-darwin environment.
   programs = {
     gnupg.agent.enable = true;
