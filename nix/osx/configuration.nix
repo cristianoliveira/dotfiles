@@ -44,6 +44,7 @@
       interactiveShellInit = ''
         export NIX_ENV=1
         export PATH=$HOME/.npm-global/bin:$PATH
+        export EDITOR='nvim'
       '';
 
       # Oh-my-zsh configuration
