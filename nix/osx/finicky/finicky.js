@@ -36,19 +36,22 @@ module.exports = {
         /miro\.com/,
         /segment\.com/,
         /sanity.studio/,
+
+        /localhost/,
+        /local.gd/,
       ],
       browser: {
         name: "Google Chrome",
       }
     },
-    {
-      // Open code related urls in Google Chrome Canary
-      match: [
-        /localhost/,
-        /local.gd/,
-      ],
-      browser: "Google Chrome Canary"
-    },
+    // {
+    //   // Open code related urls in Google Chrome Canary
+    //   match: [
+    //     /localhost/,
+    //     /local.gd/,
+    //   ],
+    //   browser: "Google Chrome Canary"
+    // },
   ].filter(() => isWorkingHours),
 
   // Any other urls open in Brave Browser
