@@ -48,6 +48,10 @@
   run: tmux/reload.sh
   change: 'tmux/**'
 
+- name: reload stow
+  run: make stow
+  change: 'stow/**'
+
 - name: after commit attempt to rebase
   run: 
     - git fetch --all
