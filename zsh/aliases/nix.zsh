@@ -10,3 +10,6 @@ alias denvrm="rm .envrc"
 
 alias dallow="direnv allow"
 alias disallow="direnv disallow"
+
+alias dupd="touch .envrc"
+alias dupdate="touch .envrc"
