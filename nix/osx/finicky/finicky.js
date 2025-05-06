@@ -12,21 +12,33 @@
 //  brew install --cask finicky
 //
 //  see more in https://github.com/johnste/finicky
+
+let timenow = new Date();
+
+let isWorkingHours = (timenow.getHours() >= 9 && timenow.getHours() <= 18);
+
 module.exports = {
   handlers: [
     {
       // Open work related urls open in Google Chrome
       match: [
-        /(sumup|sam-app|meet\.google)/,
-        "atlassian.net",
+        /meet\.google/,
+        /atlassian.net/,
         /ngrok-free/,
         /tuple/,
         /figma/,
         /smartling/,
+        /sentry.io/,
+        /expo.dev/,
+        /mail.google/,
+        /github\.com/,
+        /mixpanel\.com/,
+        /miro\.com/,
+        /segment\.com/,
+        /sanity.studio/,
       ],
       browser: {
         name: "Google Chrome",
-        profile: "Profile 2", // work profile
       }
     },
     {
@@ -37,7 +49,7 @@ module.exports = {
       ],
       browser: "Google Chrome Canary"
     },
-  ],
+  ].filter(() => isWorkingHours),
 
   // Any other urls open in Brave Browser
   defaultBrowser: "Brave Browser",

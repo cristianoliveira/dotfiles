@@ -1,0 +1,1 @@
+../../../nix/osx/finicky/finicky.js
