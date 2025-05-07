@@ -1,15 +1,21 @@
 alias nss="nix-shell --run 'zsh' shell.nix"
 alias nsh="nix-shell --run 'zsh' shell.nix"
 
-alias denv="echo 'use nix' > .envrc && direnv allow"
+## Direnv setup
+# For more: man direnv-stdlib 
+alias denv="direnv"
 # Use flake
 alias denvf="echo 'use flake' > .envrc && direnv allow"
 # Use nix-shell
 alias denvs="echo 'use nix' > .envrc && direnv allow"
+# Load .env if it exists
+alias ddotifexist="echo 'dotenv_if_exists' >> .envrc && direnv allow"
+
 alias denvrm="rm .envrc"
 
 alias dallow="direnv allow"
 alias disallow="direnv disallow"
 
+# Touch .envrc to reload it
 alias dupd="touch .envrc"
 alias dupdate="touch .envrc"
