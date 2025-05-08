@@ -36,6 +36,7 @@ module.exports = {
         /miro\.com/,
         /segment\.com/,
         /sanity.studio/,
+        /superblocks/,
 
         /localhost/,
         /local.gd/,
