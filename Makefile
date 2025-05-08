@@ -5,8 +5,8 @@ help: ## Lists the available commands. Add a comment with '##' to describe a com
 		| awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 .PHONY: setup
-setup: ## Run the setup script
-	@bash ./setup.sh
+setup: ## Run the setup script (stow)
+	@bash ./stow/install.sh
 
 .PHONY: ssh
 ssh: ## Run the ssh-key script to generate a new ssh key
