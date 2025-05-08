@@ -147,12 +147,12 @@
 
 # Terminal
 # Set focus if open, else open
-cmd + ctrl - return : open ~/Applications/Alacritty.app
+cmd + ctrl - return : open ~/Applications/Alacritty.app && sleep 0.5 && yabai -m window --space 2
 
-cmd - return : osascript -e 'tell application "System Events" to tell process "alacritty"' \
-            -e 'set frontmost to true' \
-            -e 'if windows is not {} then perform action "AXRaise" of item 1 of windows' \
-            -e 'end tell' || open ~/Applications/Alacritty.app
+# cmd - return : osascript -e 'tell application "System Events" to tell process "alacritty"' \
+#             -e 'set frontmost to true' \
+#             -e 'if windows is not {} then perform action "AXRaise" of item 1 of windows' \
+#             -e 'end tell' || open ~/Applications/Alacritty.app
 
 # Launcher alfred
 ctrl - space : /usr/bin/open -a "/Applications/Alfred 5.app"
@@ -180,7 +180,10 @@ cmd + shift - 1 : yabai -m window --space 1
 cmd + shift - 2 : yabai -m window --space 2
 cmd + shift - 3 : yabai -m window --space 3
 cmd + shift - 4 : yabai -m window --space 4
-cmd + shift - 5 : yabai -m window --space 5
+cmd + shift - 9 : yabai -m window --space 5
+cmd + shift - 0 : yabai -m window --space 6
+
+cmd + shift - 8 : yabai -m window --space 7
 
 # Move window to next space
 cmd + shift - n : yabai -m window --space next
@@ -216,4 +219,3 @@ cmd + ctrl - e : yabai -m window --toggle split
 # (regardless of which window is focused at this point)
 cmd + ctrl - m : yabai -m window "$(yabai -m query --windows --window | jq -re '.id')" --toggle float --move abs:10000:10000
 cmd + ctrl - b : yabai -m window "$(yabai -m query --windows --window | jq -re '.id')" --toggle float
-
