@@ -5,11 +5,11 @@ alias nsh="nix-shell --run 'zsh' shell.nix"
 # For more: man direnv-stdlib 
 alias denv="direnv"
 # Use flake
-alias denvf="echo 'use flake' > .envrc && direnv allow"
-# Use nix-shell
-alias denvs="echo 'use nix' > .envrc && direnv allow"
+alias dusef="echo 'use flake' > .envrc && direnv allow"
+# Use nix
+alias dusen="echo 'use nix' > .envrc && direnv allow"
 # Load .env if it exists
-alias ddotifexist="echo 'dotenv_if_exists' >> .envrc && direnv allow"
+alias duseenv="echo 'dotenv_if_exists' >> .envrc && direnv allow"
 
 alias denvrm="rm .envrc"
 
