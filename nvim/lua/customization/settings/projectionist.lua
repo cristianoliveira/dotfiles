@@ -27,9 +27,11 @@ vim.g.projectionist_heuristics = {
     },
     ['*.spec.ts'] = {
       ['alternate'] = { '{}.ts' },
+      -- Run linter 
     },
     ['*.test.ts'] = {
       ['alternate'] = { '{}.ts' },
+      ['dispatch'] = { 'npm run test -- --watch' },
     },
     ['*.tsx'] = {
       ['alternate'] = { '{}.spec.tsx', '{}.test.tsx' },
