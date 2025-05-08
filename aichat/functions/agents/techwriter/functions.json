@@ -1,0 +1,20 @@
+[
+  {
+    "name": "aichat-mcp-client",
+    "description": "To use available tools and interact with external services. {{command}} {{args}",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "command": {
+          "type": "string",
+          "description": "Fetch the available tools"
+        },
+        "args": {
+          "type": "object",
+          "description": "Arguments as object 'args' for the command described on the tools"
+        }
+      },
+      "required": []
+    }
+  }
+]
