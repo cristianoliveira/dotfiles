@@ -1,0 +1,6 @@
+#!/bin/sh
+
+set -e # This is necessary to catch errors in commands
+
+ALACRITTY_OPACITY="${ALACRITTY_OPACITY:-0.90}"
+exec alacritty --option window.opacity="$ALACRITTY_OPACITY" --option font.size=12
