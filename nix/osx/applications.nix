@@ -14,6 +14,8 @@
       # yabai
       # skhd
 
+      obsidian
+
       webapps.chatgpt
       webapps.youtube
     ];
