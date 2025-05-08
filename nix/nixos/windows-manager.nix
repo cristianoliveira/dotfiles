@@ -1,4 +1,4 @@
-{ _config, pkgs, _lib, ... }:
+{ pkgs, ... }:
 {
   programs.sway = {
     enable = true;
@@ -7,6 +7,7 @@
       swaylock
       i3status
       swayidle
+      sway-audio-idle-inhibit
 
       autotiling
 
@@ -88,30 +89,30 @@
   # Sway related services
   systemd = {
     services = {
-      swayaudioinhibit = {
-        enable = true;
-        # Prevents the screen from going to sleep when audio is playing
-        # For when having zoom calls or watching videos
-        description = "Sway audio inhibit";
-
-        after = [ "multi-user.target" ];
-        wantedBy = [ "multi-user.target" ];
-        partOf = [ "multi-user.target" ];
-
-        environment = {
-          WAYLAND_DISPLAY = "wayland-1";
-          XDG_RUNTIME_DIR = "/run/user/1000";
-        };
-
-        serviceConfig = {
-          User = "cristianoliveira";
-          Group = "users";
-          Type = "simple";
-          ExecStart = "${pkgs.sway-audio-idle-inhibit}/bin/sway-audio-idle-inhibit";
-          Restart = "on-failure";
-          RestartSec = "5s";
-        };
-      };
+      # swayaudioinhibit = {
+      #   enable = true;
+      #   # Prevents the screen from going to sleep when audio is playing
+      #   # For when having zoom calls or watching videos
+      #   description = "Sway audio inhibit";
+      #
+      #   after = [ "multi-user.target" ];
+      #   wantedBy = [ "multi-user.target" ];
+      #   partOf = [ "multi-user.target" ];
+      #
+      #   environment = {
+      #     WAYLAND_DISPLAY = "wayland-1";
+      #     XDG_RUNTIME_DIR = "/run/user/1000";
+      #   };
+      #
+      #   serviceConfig = {
+      #     User = "cristianoliveira";
+      #     Group = "users";
+      #     Type = "simple";
+      #     ExecStart = "${pkgs.sway-audio-idle-inhibit}/bin/sway-audio-idle-inhibit";
+      #     Restart = "on-failure";
+      #     RestartSec = "5s";
+      #   };
+      # };
 
       notifications = {
         wantedBy = [ "multi-user.target" ];
