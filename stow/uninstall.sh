@@ -31,9 +31,9 @@ for package in $packages; do
     fi
 
     echo "<< Removing links for $pkg"
-    package_before_install "$package"
+    package_before_uninstall "$package"
     stow -d stow -t $HOME -D $pkg
-    package_after_install "$package"
+    package_after_uninstall "$package"
 done
 
 os="$(uname)"
@@ -55,7 +55,7 @@ for package in $packages; do
     fi
 
     echo "<< Removing links for $pkg"
-    package_before_install "$package"
+    package_before_uninstall "$package"
     stow -d "stow/$os" -t $HOME -D $pkg
-    package_after_install "$package"
+    package_after_uninstall "$package"
 done
