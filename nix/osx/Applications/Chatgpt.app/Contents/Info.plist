@@ -1,17 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
-  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>CFBundleName</key>
-    <string>Chatgpt</string>
-    <key>CFBundleDisplayName</key>
-    <string>Chatgpt</string>
-    <key>CFBundleIdentifier</key>
-    <string>com.user.Chatgpt</string>
-    <key>CFBundleExecutable</key>
-    <string>Chatgpt</string>
-    <key>CFBundlePackageType</key>
-    <string>APPL</string>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleExecutable</key>
+	<string>app_mode_loader</string>
+	<key>CFBundleIconFile</key>
+	<string>app.icns</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.brave.Browser.app.ejchbfmclafmnbdnakocbglidjomhpdo</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>ChatGPT</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string></string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>78.94</string>
+	<key>CrAppModeIsAdhocSigned</key>
+	<false/>
+	<key>CrAppModeShortcutID</key>
+	<string>ejchbfmclafmnbdnakocbglidjomhpdo</string>
+	<key>CrAppModeShortcutName</key>
+	<string>ChatGPT</string>
+	<key>CrAppModeShortcutURL</key>
+	<string>https://chatgpt.com/?temporary-chat=true</string>
+	<key>CrAppModeUserDataDir</key>
+	<string>/Users/cristianoliveira/Library/Application Support/BraveSoftware/Brave-Browser/-/Web Applications/_crx_ejchbfmclafmnbdnakocbglidjomhpdo</string>
+	<key>CrBundleIdentifier</key>
+	<string>com.brave.Browser</string>
+	<key>CrBundleVersion</key>
+	<string>136.1.78.94</string>
+	<key>DTCompiler</key>
+	<string>com.apple.compilers.llvm.clang.1_0</string>
+	<key>DTSDKBuild</key>
+	<string>24C94</string>
+	<key>DTSDKName</key>
+	<string>macosx15.2</string>
+	<key>DTXcode</key>
+	<string>1620</string>
+	<key>DTXcodeBuild</key>
+	<string>16C5032a</string>
+	<key>LSEnvironment</key>
+	<dict>
+		<key>MallocNanoZone</key>
+		<string>0</string>
+	</dict>
+	<key>LSHasLocalizedDisplayName</key>
+	<true/>
+	<key>LSMinimumSystemVersion</key>
+	<string>11.0</string>
+	<key>NSAppleScriptEnabled</key>
+	<true/>
+	<key>NSHighResolutionCapable</key>
+	<true/>
 </dict>
 </plist>
