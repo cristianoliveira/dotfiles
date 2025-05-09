@@ -16,8 +16,8 @@
 
       obsidian
 
-      webapps.chatgpt
-      webapps.youtube
+      # webapps.chatgpt doesn't work in macOS
+      # webapps.youtube
     ];
 
     # GUI applications via homebrew
