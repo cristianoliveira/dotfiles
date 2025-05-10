@@ -1,0 +1,1 @@
+../../../nix/osx/Applications/Alacritty.app
