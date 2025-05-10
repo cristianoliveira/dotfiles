@@ -9,11 +9,11 @@
 	<key>CFBundleIconFile</key>
 	<string>app.icns</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.brave.Browser.app.ejchbfmclafmnbdnakocbglidjomhpdo</string>
+	<string>com.google.Chrome.app.fmgjjmmmlfnkbppncabfkddbjimcfncm</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>ChatGPT</string>
+	<string>Gmail</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -21,21 +21,21 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>78.94</string>
+	<string>7103.93</string>
 	<key>CrAppModeIsAdhocSigned</key>
 	<false/>
 	<key>CrAppModeShortcutID</key>
-	<string>ejchbfmclafmnbdnakocbglidjomhpdo</string>
+	<string>fmgjjmmmlfnkbppncabfkddbjimcfncm</string>
 	<key>CrAppModeShortcutName</key>
-	<string>ChatGPT</string>
+	<string>Gmail</string>
 	<key>CrAppModeShortcutURL</key>
-	<string>https://chatgpt.com/?temporary-chat=true</string>
+	<string>https://mail.google.com/mail/?usp=installed_webapp</string>
 	<key>CrAppModeUserDataDir</key>
-	<string>/Users/cristianoliveira/Library/Application Support/BraveSoftware/Brave-Browser/-/Web Applications/_crx_ejchbfmclafmnbdnakocbglidjomhpdo</string>
+	<string>/Users/cristianoliveira/Library/Application Support/Google/Chrome/-/Web Applications/_crx_fmgjjmmmlfnkbppncabfkddbjimcfncm</string>
 	<key>CrBundleIdentifier</key>
-	<string>com.brave.Browser</string>
+	<string>com.google.Chrome</string>
 	<key>CrBundleVersion</key>
-	<string>136.1.78.94</string>
+	<string>136.0.7103.93</string>
 	<key>DTCompiler</key>
 	<string>com.apple.compilers.llvm.clang.1_0</string>
 	<key>DTSDKBuild</key>

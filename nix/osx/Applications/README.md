@@ -16,3 +16,4 @@ on Chrome, navigate to the website.
 mv ~/Applications/Chrome\ Apps.localized.app/YourWebsite.app ~/.dotfiles/nix/osx/Applications/
 make stow
 ```
+
