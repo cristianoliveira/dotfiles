@@ -7,6 +7,7 @@
     [ 
       ./developer-tools.nix
       ./applications.nix
+      ./window-manager.nix
 
       # Shared between linux and darwin
       ../shared/developer-tools.nix
@@ -25,10 +26,10 @@
   # https://github.com/LnL7/nix-darwin/blob/f0dd0838c3558b59dc3b726d8ab89f5b5e35c297/modules/services/yabai/default.nix#L44
   services = {
     yabai = { 
-      enable = true;
+      enable = false;
       enableScriptingAddition = true;
     };
-    skhd.enable = true;
+    skhd.enable = false;
   };
 
   # Create /etc/zshrc that loads the nix-darwin environment.
