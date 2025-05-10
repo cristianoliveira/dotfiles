@@ -2,6 +2,8 @@
 
 set -e
 
+RESTOW=${RESTOW:-false}
+
 . $HOME/.dotfiles/stow/common.sh
 
 # list all packages in stow directory
@@ -22,7 +24,13 @@ for package in $packages; do
     package_before_install "$package"
 
     echo ">> Create links for $pkg"
-    stow -d stow -t $HOME $pkg
+    if [ "$RESTOW" = true ]; then
+        echo ">> Restowing $pkg"
+        stow -d stow -t $HOME --restow $pkg
+    else
+        echo ">> Stowing $pkg"
+        stow -d stow -t $HOME $pkg
+    fi
 
     package_after_install "$package"
 done
@@ -44,7 +52,13 @@ for package in $packages; do
     package_before_install "$package"
 
     echo ">> Create links for $pkg"
-    stow -d "stow/$os" -t $HOME $pkg
+    if [ "$RESTOW" = true ]; then
+        echo ">> Restowing $pkg"
+        stow -d "stow/$os" -t $HOME --restow $pkg
+    else
+        echo ">> Stowing $pkg"
+        stow -d "stow/$os" -t $HOME $pkg
+    fi
 
     package_after_install "$package"
 done
