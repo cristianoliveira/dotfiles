@@ -43,3 +43,7 @@ nix-setup: ## Run the nix setup script
 .PHONY: stow
 stow: ## Create links for .config files using stow
 	@bash ./stow/install.sh
+
+.PHONY: restow
+restow: ## Create links for .config files using stow
+	RESTOW=true bash ./stow/install.sh

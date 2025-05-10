@@ -54,4 +54,5 @@ autom4te\.cache
 README.*
 COPYING
 
-.*\.sh
+.*_install.sh
+.*_uninstall.sh
