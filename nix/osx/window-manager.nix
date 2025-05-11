@@ -18,13 +18,12 @@
           outer.right =      0;
         };
 
-
         mode.main.binding = {
           alt-slash = "layout tiles horizontal vertical";
           alt-comma = "layout accordion horizontal vertical";
 
           ctrl-cmd-enter = [
-            "workspace-back-and-forth" # Workaround for when the workspace is empty
+            "focus-back-and-forth" # Workaround for when the workspace is empty
             "exec-and-forget open -a ~/Applications/Alacritty.app"
           ];
 
@@ -90,6 +89,10 @@
             "focus left"
           ];
 
+          # See: https://nikitabobko.github.io/AeroSpace/commands#layout
+          cmd-ctrl-s = "layout v_accordion";
+          cmd-ctrl-t = "layout h_accordion";
+
           cmd-h = []; # Disable "hide application"
           cmd-alt-h = []; # Disable "hide others"
         };
@@ -116,11 +119,16 @@
             run = [ "move-node-to-workspace 4" ];
           }
           {
+            "if".app-name-regex-substring = "YouTube";
+            run = [ "move-node-to-workspace 7" ];
+          }
+          {
             "if".app-name-regex-substring = "WhatsApp|Spotify|Slack";
-            run = [ "move-node-to-workspace m" ]; 
+            run = [ "move-node-to-workspace scratchpad" ]; 
           }
         ];
 
+        # Makes accordion layout like fullscreen
         accordion-padding = 1;
 
         # setting.end
