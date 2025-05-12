@@ -9,9 +9,11 @@
 
     "\nmap <C-w> removeTab ",
     "\nmap 0 firstTab ",
+    "\nmap 1 firstTab ",
     "\nmap - firstTab ",
     "\nmap $ lastTab ",
-    "\nmap 9 lastTab"
+    "\nmap 9 lastTab ",
+    "\nmap <C-p> Vomnibar.activateTabSelection "
   ],
 
   "settingsVersion": "2.0.6"
