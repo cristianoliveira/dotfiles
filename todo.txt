@@ -16,3 +16,7 @@ https://github.com/knoc-off/nixos/blob/main/.githooks/post-commit
 https://bitwarden.com/help/cli/
 
 # TODO adds a way to version the Brave custom shortcuts 
+
+# TODO tmux: mod + enter put focus on the nvim
+
+# TODO git: add a way to squash commits that start with "temp|wip|squashme"
