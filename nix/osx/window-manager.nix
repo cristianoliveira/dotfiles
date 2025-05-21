@@ -21,10 +21,10 @@
         mode.main.binding = {
           alt-slash = "layout tiles horizontal vertical";
           alt-comma = "layout accordion horizontal vertical";
+          alt-shift-enter = "layout tiling";
 
           ctrl-cmd-enter = [
-            "focus-back-and-forth" # Workaround for when the workspace is empty
-            "exec-and-forget open -a ~/Applications/Alacritty.app"
+            "exec-and-forget open ~/Applications/Alacritty.app"
           ];
 
           # See: https://nikitabobko.github.io/AeroSpace/commands#focus
@@ -32,12 +32,22 @@
           cmd-ctrl-j = "focus down";
           cmd-ctrl-k = "focus up";
           cmd-ctrl-l = "focus right";
+          # Focus across all monitors
+          cmd-ctrl-left = "focus left --boundaries all-monitors-outer-frame";
+          cmd-ctrl-down = "focus down --boundaries all-monitors-outer-frame";
+          cmd-ctrl-up = "focus up --boundaries all-monitors-outer-frame";
+          cmd-ctrl-right = "focus right --boundaries all-monitors-outer-frame";
 
           # See: https://nikitabobko.github.io/AeroSpace/commands#move
           cmd-shift-h = "move left";
           cmd-shift-j = "move down";
           cmd-shift-k = "move up";
           cmd-shift-l = "move right";
+
+          cmd-ctrl-shift-h = "move-node-to-monitor left --focus-follows-window";
+          cmd-ctrl-shift-j = "move-node-to-monitor down --focus-follows-window";
+          cmd-ctrl-shift-k = "move-node-to-monitor up --focus-follows-window";
+          cmd-ctrl-shift-l = "move-node-to-monitor right --focus-follows-window";
 
           # Move the focused window with the same, but add Shift
           cmd-shift-left = "move left";
@@ -75,7 +85,10 @@
 
           cmd-backtick = "workspace-back-and-forth";
 
-          cmd-ctrl-f = "fullscreen";
+          cmd-ctrl-f = [
+            "layout tiling"
+            "fullscreen"
+          ];
           # cmd-ctrl-space = "toggle float";
 
           ## Scratchpad workspace
@@ -83,11 +96,6 @@
           # cmd-ctrl-backslash = "workspace scratchpad";
           cmd-m = "move-node-to-workspace scratchpad";
           cmd-ctrl-slash = "workspace scratchpad";
-          cmd-shift-minus = "move-node-to-workspace scratchpad";
-          cmd-minus = [
-            "exec-and-forget aerospace focus --window-id $(aerospace list-windows --workspace 2 | grep -v \"$(aerospace list-windows --focused | awk '{print $1}')\" | awk '{print $1}')"
-            "focus left"
-          ];
 
           # See: https://nikitabobko.github.io/AeroSpace/commands#layout
           cmd-ctrl-s = "layout v_accordion";
@@ -95,7 +103,225 @@
 
           cmd-h = []; # Disable "hide application"
           cmd-alt-h = []; # Disable "hide others"
+
+          # Goto marks
+          cmd-ctrl-g = "mode mark";
+          cmd-g = "mode goto";
+
+          cmd-ctrl-0 = ''exec-and-forget aerospace-scratchpad move Finder || \
+                                         aerospace-scratchpad show Finder'';
+
+          cmd-ctrl-9 = ''exec-and-forget aerospace-scratchpad move Bitwarden || \
+                                         aerospace-scratchpad show Bitwarden'';
+
+          cmd-ctrl-8 = ''exec-and-forget aerospace-scratchpad move WhatsApp || \
+                                         aerospace-scratchpad show WhatsApp'';
+
+          cmd-ctrl-1 = [
+            ''exec-and-forget aerospace-scratchpad move "$(aerospace-marks get sp-1 -a)" || \
+                              aerospace-scratchpad show "$(aerospace-marks get sp-1 -a)"''
+          ];
+          cmd-ctrl-2 = [
+            ''exec-and-forget aerospace-scratchpad move "$(aerospace-marks get sp-2 -a)" || \
+                              aerospace-scratchpad show "$(aerospace-marks get sp-2 -a)"''
+          ];
+          cmd-ctrl-3 = [
+            ''exec-and-forget aerospace-scratchpad move "$(aerospace-marks get sp-3 -a)" || \
+                              aerospace-scratchpad show "$(aerospace-marks get sp-3 -a)"''
+          ];
+          cmd-ctrl-4 = [
+            ''exec-and-forget aerospace-scratchpad move "$(aerospace-marks get sp-4 -a)" || \
+                              aerospace-scratchpad show "$(aerospace-marks get sp-3 -a)"''
+          ];
         };
+
+        mode.mark.binding = {
+          esc = "mode main";
+          "1" = [
+            "exec-and-forget aerospace-marks mark sp-1"
+            "mode main"
+          ];
+
+          "2" = [
+            "exec-and-forget aerospace-marks mark sp-2"
+            "mode main"
+          ];
+
+          "3" = [
+            "exec-and-forget aerospace-marks mark sp-3"
+            "mode main"
+          ];
+
+          "4" = [
+            "exec-and-forget aerospace-marks mark sp-4"
+            "mode main"
+          ];
+
+          h = [
+            "exec-and-forget aerospace-marks mark h"
+            "mode main"
+          ];
+
+          k = [
+            "exec-and-forget aerospace-marks mark k"
+            "mode main"
+          ];
+
+          j = [
+            "exec-and-forget aerospace-marks mark j"
+            "mode main"
+          ];
+
+          l = [
+            "exec-and-forget aerospace-marks mark l"
+            "mode main"
+          ];
+
+          f = [
+            "exec-and-forget aerospace-marks mark f"
+            "mode main"
+          ];
+
+          d = [
+            "exec-and-forget aerospace-marks mark d"
+            "mode main"
+          ];
+
+          s = [
+            "exec-and-forget aerospace-marks mark s"
+            "mode main"
+          ];
+
+          a = [
+            "exec-and-forget aerospace-marks mark a"
+            "mode main"
+          ];
+
+          g = [
+            "exec-and-forget aerospace-marks mark g"
+            "mode main"
+          ];
+
+          t = [
+            "exec-and-forget aerospace-marks mark term"
+            "mode main"
+          ];
+
+          v = [
+            "exec-and-forget aerospace-marks mark video"
+            "mode main"
+          ];
+
+          b = [
+            "exec-and-forget aerospace-marks mark browser"
+            "mode main"
+          ];
+
+          m = [
+            "exec-and-forget aerospace-marks mark music"
+            "mode main"
+          ];
+        };
+
+        mode.goto.binding = let
+          h = [
+            "exec-and-forget aerospace-marks focus h"
+            "mode main"
+          ];
+
+          j = [
+            "exec-and-forget aerospace-marks focus j"
+            "mode main"
+          ];
+
+          k = [
+            "exec-and-forget aerospace-marks focus k"
+            "mode main"
+          ];
+
+          l = [
+            "exec-and-forget aerospace-marks focus l"
+            "mode main"
+          ];
+
+          f = [
+            "exec-and-forget aerospace-marks focus f"
+            "mode main"
+          ];
+
+          d = [
+            "exec-and-forget aerospace-marks focus d"
+            "mode main"
+          ];
+
+          s = [
+            "exec-and-forget aerospace-marks focus s"
+            "mode main"
+          ];
+
+          a = [
+            "exec-and-forget aerospace-marks focus a"
+            "mode main"
+          ];
+
+          g = [
+            "exec-and-forget aerospace-marks focus g"
+            "mode main"
+          ];
+
+          t = [
+            "exec-and-forget aerospace-marks focus term"
+            "mode main"
+          ];
+
+          v = [
+            "exec-and-forget aerospace-marks focus video"
+            "mode main"
+          ];
+
+          b = [
+            "exec-and-forget aerospace-marks focus browser"
+            "mode main"
+          ];
+
+          m = [
+            "exec-and-forget aerospace-marks focus music"
+            "mode main"
+          ];
+        in {
+          esc = "mode main";
+          enter = "mode main";
+          cmd-space = "mode main";
+
+          h = h;
+          cmd-h = h;
+          j = j;
+          cmd-j = j;
+          k = k;
+          cmd-k = k;
+          l = l;
+          cmd-l = l;
+          f = f;
+          cmd-f = f;
+          d = d;
+          cmd-d = d;
+          s = s;
+          cmd-s = s;
+          a = a;
+          cmd-a = a;
+          g = g;
+          cmd-g = g;
+          t = t;
+          cmd-t = t;
+          v = v;
+          cmd-v = v;
+          b = b;
+          cmd-b = b;
+          m = m;
+          cmd-m = m;
+        };
+
+        exec.env-vars.PATH = "\${HOME}/golang/bin:/run/current-system/sw/bin:\${PATH}";
 
         workspace-to-monitor-force-assignment = {
           "1" = "main";
@@ -123,8 +349,12 @@
             run = [ "move-node-to-workspace 7" ];
           }
           {
-            "if".app-name-regex-substring = "WhatsApp|Spotify|Slack";
+            "if".app-name-regex-substring = "WhatsApp|Spotify|Slack|Telegram";
             run = [ "move-node-to-workspace scratchpad" ]; 
+          }
+          {
+            "if".app-name-regex-substring = "Picture.*Picture"; 
+            run = [ "layout floating" ];
           }
         ];
 
