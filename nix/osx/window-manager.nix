@@ -23,9 +23,9 @@
           alt-comma = "layout accordion horizontal vertical";
           alt-shift-enter = "layout tiling";
 
-          ctrl-cmd-enter = [
-            "exec-and-forget open ~/Applications/Alacritty.app"
-          ];
+          # Fixed bindings
+          ctrl-cmd-enter = "exec-and-forget open ~/Applications/Alacritty.app";
+          ctrl-cmd-b = "exec-and-forget open '/Applications/Brave Browser.app'";
 
           # See: https://nikitabobko.github.io/AeroSpace/commands#focus
           cmd-ctrl-h = "focus left";
@@ -94,8 +94,8 @@
           ## Scratchpad workspace
           # This allows me to have a scratchpad workspace similart to i3
           # cmd-ctrl-backslash = "workspace scratchpad";
-          cmd-m = "move-node-to-workspace scratchpad";
-          cmd-ctrl-slash = "workspace scratchpad";
+          cmd-m = "exec-and-forget aerospace-scratchpad move";
+          cmd-ctrl-slash = "exec-and-forget aerospace-scratchpad next";
 
           # See: https://nikitabobko.github.io/AeroSpace/commands#layout
           cmd-ctrl-s = "layout v_accordion";
@@ -105,55 +105,66 @@
           cmd-alt-h = []; # Disable "hide others"
 
           # Goto marks
-          cmd-ctrl-g = "mode mark";
+          cmd-ctrl-g = "mode marks";
           cmd-g = "mode goto";
 
-          cmd-ctrl-0 = ''exec-and-forget aerospace-scratchpad move Finder || \
-                                         aerospace-scratchpad show Finder'';
-
-          cmd-ctrl-9 = ''exec-and-forget aerospace-scratchpad move Bitwarden || \
-                                         aerospace-scratchpad show Bitwarden'';
-
-          cmd-ctrl-8 = ''exec-and-forget aerospace-scratchpad move WhatsApp || \
-                                         aerospace-scratchpad show WhatsApp'';
+          cmd-ctrl-0 = "exec-and-forget aerospace-scratchpad show Finder";
+          cmd-ctrl-9 = "exec-and-forget aerospace-scratchpad show Bitwarden";
+          cmd-ctrl-8 = "exec-and-forget aerospace-scratchpad show WhatsApp";
+          cmd-ctrl-7 = "exec-and-forget aerospace-scratchpad show Spotify";
 
           cmd-ctrl-1 = [
-            ''exec-and-forget aerospace-scratchpad move "$(aerospace-marks get sp-1 -a)" || \
-                              aerospace-scratchpad show "$(aerospace-marks get sp-1 -a)"''
+            ''exec-and-forget aerospace-scratchpad show \
+                            "$(aerospace-marks get sp-1 -a)"''
           ];
           cmd-ctrl-2 = [
-            ''exec-and-forget aerospace-scratchpad move "$(aerospace-marks get sp-2 -a)" || \
-                              aerospace-scratchpad show "$(aerospace-marks get sp-2 -a)"''
+            ''exec-and-forget aerospace-scratchpad show \
+                            "$(aerospace-marks get sp-2 -a)"''
           ];
           cmd-ctrl-3 = [
-            ''exec-and-forget aerospace-scratchpad move "$(aerospace-marks get sp-3 -a)" || \
-                              aerospace-scratchpad show "$(aerospace-marks get sp-3 -a)"''
+            ''exec-and-forget aerospace-scratchpad show \
+                            "$(aerospace-marks get sp-3 -a)"''
           ];
           cmd-ctrl-4 = [
-            ''exec-and-forget aerospace-scratchpad move "$(aerospace-marks get sp-4 -a)" || \
-                              aerospace-scratchpad show "$(aerospace-marks get sp-3 -a)"''
+            ''exec-and-forget aerospace-scratchpad show \
+                            "$(aerospace-marks get sp-4 -a)"''
+          ];
+          cmd-ctrl-5 = [
+            ''exec-and-forget aerospace-scratchpad show \
+                            "$(aerospace-marks get sp-5 -a)"''
           ];
         };
 
-        mode.mark.binding = {
+        mode.marks.binding = {
           esc = "mode main";
           "1" = [
-            "exec-and-forget aerospace-marks mark sp-1"
+            # Toggle marks and unmark
+            ''exec-and-forget aerospace-marks unmark sp-1 || \
+                              aerospace-marks mark sp-1 -s''
             "mode main"
           ];
 
           "2" = [
-            "exec-and-forget aerospace-marks mark sp-2"
+            ''exec-and-forget aerospace-marks unmark sp-2 || \
+                              aerospace-marks mark sp-2 -s''
             "mode main"
           ];
 
           "3" = [
-            "exec-and-forget aerospace-marks mark sp-3"
+            ''exec-and-forget aerospace-marks unmark sp-3 || \
+                              aerospace-marks mark sp-3 -s''
             "mode main"
           ];
 
           "4" = [
-            "exec-and-forget aerospace-marks mark sp-4"
+            ''exec-and-forget aerospace-marks unmark sp-4 || \
+                              aerospace-marks mark sp-4 -s''
+            "mode main"
+          ];
+
+          "5" = [
+            ''exec-and-forget aerospace-marks unmark sp-5 || \
+                              aerospace-marks mark sp-5 -s''
             "mode main"
           ];
 
@@ -321,7 +332,7 @@
           cmd-m = m;
         };
 
-        exec.env-vars.PATH = "\${HOME}/golang/bin:/run/current-system/sw/bin:\${PATH}";
+        exec.env-vars.PATH = "/opt/homebrew/bin:\${HOME}/golang/bin:/run/current-system/sw/bin:\${PATH}";
 
         workspace-to-monitor-force-assignment = {
           "1" = "main";
@@ -329,10 +340,11 @@
           "3" = "main";
           "4" = "main";
           "5" = "main";
+          "6" = ["secondary" "main"];
           "7" = ["secondary" "main"];
           "8" = ["secondary" "main"];
-          "9" = ["secondary" "main"];
-          "0" = ["secondary" "main"];
+          "9" = ["built-in" "main"];
+          "0" = ["built-in" "main"];
         };
 
         on-window-detected = [
@@ -341,16 +353,16 @@
             run = [ "move-node-to-workspace 2" ];
           }
           {
-            "if".app-name-regex-substring = "ChatGPT";
-            run = [ "move-node-to-workspace 4" ];
-          }
-          {
             "if".app-name-regex-substring = "YouTube";
             run = [ "move-node-to-workspace 7" ];
           }
           {
-            "if".app-name-regex-substring = "WhatsApp|Spotify|Slack|Telegram";
-            run = [ "move-node-to-workspace scratchpad" ]; 
+            "if".app-name-regex-substring = 
+              "ChatGPT|Clock|WhatsApp|Spotify|Slack|Telegram";
+            run = [
+              "layout floating"
+              "move-node-to-workspace .scratchpad"
+            ]; 
           }
           {
             "if".app-name-regex-substring = "Picture.*Picture"; 
