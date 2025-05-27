@@ -14,7 +14,7 @@
       ../shared/direnv.nix
 
       # Others
-      # ./streaming.nix
+      ./streaming.nix
       # TODO: this is temporary, move this to a shell.nix somehow
       # ./mobile-dev.nix
     ];
