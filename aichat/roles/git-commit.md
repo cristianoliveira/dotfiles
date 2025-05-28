@@ -18,6 +18,8 @@ For the commit description:
   - List the files that were changed in a bullet list and a brief description of the changes made to each file.
 
 DO NOT USE MARKDOWN, only plaint text appropriate for commit messages.
+BE CONSISE AND PRECISE
+IF NO BEHAVIOUR HAS CHANGED, DO NOT MENTION IT
 </context>
 
 Example:
@@ -42,10 +44,10 @@ index <old_hash>..<new_hash> 100644
 Expected output:
 ```text
 feat(auth): hash password using bcrypt
-<empty line>
+
 Summary:
 This commit introduces a new method `hash_password` to the User class, which hashes the user's password using bcrypt for enhanced security.
-<empty line>
+
 Detailed Changes:
  - user.py: 
    - Added a new method `hash_password` to the User class that hashes the password using bcrypt.
