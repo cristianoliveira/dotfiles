@@ -1,6 +1,12 @@
 { pkgs, ... }: 
 
 {
+  environment.systemPackages = with pkgs; [
+    # Requires custom packages
+    copkgs.aerospace-marks
+    copkgs.aerospace-scratchpad
+  ];
+
   services = {
     aerospace = {
       enable = true;
@@ -108,15 +114,44 @@
           cmd-ctrl-g = "mode marks";
           cmd-g = "mode goto";
 
+          cmd-ctrl-m = ''
+            exec-and-forget aerospace-marks mark \
+              $(osascript -e 'text returned of (display dialog "mark" default answer "")')
+          '';
+          cmd-ctrl-quote = ''
+            exec-and-forget aerospace-marks focus \
+              $(osascript -e 'text returned of (display dialog "focus" default answer "")')
+          '';
+          cmd-ctrl-comma = ''
+            exec-and-forget aerospace-marks summon -f 
+              $(osascript -e 'text returned of (display dialog "summon" default answer "")')
+          '';
+
+          cmd-f1 = "mode relocate";
+          cmd-f2 = "mode resize";
+
           cmd-ctrl-0 = "exec-and-forget aerospace-scratchpad show Finder";
           cmd-ctrl-9 = "exec-and-forget aerospace-scratchpad show Bitwarden";
           cmd-ctrl-8 = "exec-and-forget aerospace-scratchpad show WhatsApp";
           cmd-ctrl-7 = "exec-and-forget aerospace-scratchpad show Spotify";
 
+          # TODO adds a way to center a window with move/resize mode
+          # TODO adds a way to center-left/right a window with move/resize mode
+
+          # Zoom/Google Meet/Teams remote call tool
+          cmd-ctrl-z = 
+            "exec-and-forget aerospace-scratchpad show 'zoom.us|Google.Meet|Teams'";
+
           cmd-ctrl-1 = [
             ''exec-and-forget aerospace-scratchpad show \
                             "$(aerospace-marks get sp-1 -a)"''
           ];
+
+          cmd-ctrl-n = [
+            ''exec-and-forget aerospace-scratchpad show \
+                            "$(aerospace-marks get sp-notes -a)"''
+          ];
+
           cmd-ctrl-2 = [
             ''exec-and-forget aerospace-scratchpad show \
                             "$(aerospace-marks get sp-2 -a)"''
@@ -137,6 +172,12 @@
 
         mode.marks.binding = {
           esc = "mode main";
+          "n" = [
+            ''exec-and-forget aerospace-marks unmark sp-notes || \
+                              aerospace-marks mark sp-notes -s''
+            "mode main"
+          ];
+
           "1" = [
             # Toggle marks and unmark
             ''exec-and-forget aerospace-marks unmark sp-1 || \
@@ -212,26 +253,6 @@
             "exec-and-forget aerospace-marks mark g"
             "mode main"
           ];
-
-          t = [
-            "exec-and-forget aerospace-marks mark term"
-            "mode main"
-          ];
-
-          v = [
-            "exec-and-forget aerospace-marks mark video"
-            "mode main"
-          ];
-
-          b = [
-            "exec-and-forget aerospace-marks mark browser"
-            "mode main"
-          ];
-
-          m = [
-            "exec-and-forget aerospace-marks mark music"
-            "mode main"
-          ];
         };
 
         mode.goto.binding = let
@@ -279,26 +300,6 @@
             "exec-and-forget aerospace-marks focus g"
             "mode main"
           ];
-
-          t = [
-            "exec-and-forget aerospace-marks focus term"
-            "mode main"
-          ];
-
-          v = [
-            "exec-and-forget aerospace-marks focus video"
-            "mode main"
-          ];
-
-          b = [
-            "exec-and-forget aerospace-marks focus browser"
-            "mode main"
-          ];
-
-          m = [
-            "exec-and-forget aerospace-marks focus music"
-            "mode main"
-          ];
         in {
           esc = "mode main";
           enter = "mode main";
@@ -322,14 +323,30 @@
           cmd-a = a;
           g = g;
           cmd-g = g;
-          t = t;
-          cmd-t = t;
-          v = v;
-          cmd-v = v;
-          b = b;
-          cmd-b = b;
-          m = m;
-          cmd-m = m;
+        };
+
+        mode.relocate.binding = {
+          esc = "mode main";
+          enter = "mode main";
+
+          u = "exec-and-forget ~/.dotfiles/bin/osx-win-move topleft";
+          i = "exec-and-forget ~/.dotfiles/bin/osx-win-move center";
+          o = "exec-and-forget ~/.dotfiles/bin/osx-win-move topright";
+          j = "exec-and-forget ~/.dotfiles/bin/osx-win-move bottomleft";
+          k = "exec-and-forget ~/.dotfiles/bin/osx-win-move bottomcenter";
+          l = "exec-and-forget ~/.dotfiles/bin/osx-win-move bottomright";
+        };
+
+        mode.resize.binding = {
+          esc = "mode main";
+          enter = "mode main";
+
+          u = "exec-and-forget ~/.dotfiles/bin/osx-win-resize w1/2";
+          i = "exec-and-forget ~/.dotfiles/bin/osx-win-resize w1/3";
+          o = "exec-and-forget ~/.dotfiles/bin/osx-win-resize w1/4";
+          j = "exec-and-forget ~/.dotfiles/bin/osx-win-resize h1/2";
+          k = "exec-and-forget ~/.dotfiles/bin/osx-win-resize h1/3";
+          l = "exec-and-forget ~/.dotfiles/bin/osx-win-resize h1/4";
         };
 
         exec.env-vars.PATH = "/opt/homebrew/bin:\${HOME}/golang/bin:/run/current-system/sw/bin:\${PATH}";
@@ -358,7 +375,7 @@
           }
           {
             "if".app-name-regex-substring = 
-              "ChatGPT|Clock|WhatsApp|Spotify|Slack|Telegram";
+              "ChatGPT|Clock|WhatsApp|Spotify|Slack|Telegram|Google.Meet|Zoom|Teams";
             run = [
               "layout floating"
               "move-node-to-workspace .scratchpad"
