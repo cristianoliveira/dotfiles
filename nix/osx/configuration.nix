@@ -75,6 +75,8 @@
   };
 
   system = {
+    primaryUser = "cristianoliveira";
+
     keyboard.enableKeyMapping = true;
     keyboard.remapCapsLockToControl = true;
 
@@ -113,8 +115,9 @@
   };
 
   # Auto upgrade nix package and the daemon service.
-  services.nix-daemon.enable = true;
+  nix.enable = true;
   nix.package = pkgs.nix;
+  ids.gids.nixbld = 350;
   # Experimental features
   # If you used nix/osx/setup.sh to setup your system this feature is already enabled
   # via the $HOME/.config/nix/nix.conf file
