@@ -123,7 +123,7 @@
               $(osascript -e 'text returned of (display dialog "focus" default answer "")')
           '';
           cmd-ctrl-comma = ''
-            exec-and-forget aerospace-marks summon -f 
+            exec-and-forget aerospace-marks summon \
               $(osascript -e 'text returned of (display dialog "summon" default answer "")')
           '';
 
@@ -379,6 +379,18 @@
             run = [
               "layout floating"
               "move-node-to-workspace .scratchpad"
+            ]; 
+          }
+          {
+            "if".app-name-regex-substring = "Brave";
+            run = [
+              "move-node-to-workspace 1"
+            ]; 
+          }
+          {
+            "if".app-name-regex-substring = "Google.Chrome";
+            run = [
+              "move-node-to-workspace 0"
             ]; 
           }
           {
