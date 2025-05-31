@@ -1,0 +1,5 @@
+[global]
+  # skip_dotenv = true # deprecated
+  load_dotenv = true
+  disable_stdin = true
+  log_format="-"
