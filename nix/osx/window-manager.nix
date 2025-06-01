@@ -101,7 +101,7 @@
           # This allows me to have a scratchpad workspace similart to i3
           # cmd-ctrl-backslash = "workspace scratchpad";
           cmd-m = "exec-and-forget aerospace-scratchpad move";
-          cmd-ctrl-slash = "exec-and-forget aerospace-scratchpad next";
+          cmd-ctrl-minus = "exec-and-forget aerospace-scratchpad next";
 
           # See: https://nikitabobko.github.io/AeroSpace/commands#layout
           cmd-ctrl-s = "layout v_accordion";
@@ -122,7 +122,7 @@
             exec-and-forget aerospace-marks focus \
               $(osascript -e 'text returned of (display dialog "focus" default answer "")')
           '';
-          cmd-ctrl-comma = ''
+          cmd-ctrl-slash = ''
             exec-and-forget aerospace-marks summon \
               $(osascript -e 'text returned of (display dialog "summon" default answer "")')
           '';
@@ -375,7 +375,7 @@
           }
           {
             "if".app-name-regex-substring = 
-              "ChatGPT|Clock|WhatsApp|Spotify|Slack|Telegram|Google.Meet|Zoom|Teams";
+              "ChatGPT|Clock|WhatsApp|Spotify|Slack|Telegram|Google.Meet|Zoom|Teams|Finder";
             run = [
               "layout floating"
               "move-node-to-workspace .scratchpad"
