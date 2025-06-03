@@ -1,0 +1,60 @@
+#!/bin/bash
+
+ARG="$1"
+
+if [[ -z "$ARG" ]]; then
+  echo "Usage: $0 [w1/2|w1/3|w1/4|h1/2|h1/3|h1/4]"
+  exit 1
+fi
+
+osascript <<EOF
+on run
+    set arg to "$ARG"
+    if arg does not start with "w" and arg does not start with "h" then
+        display dialog "Invalid argument: " & arg
+        return
+    end if
+
+    set dir to character 1 of arg
+    set fractionString to characters 2 thru -1 of arg as string
+    set {numStr, denomStr} to my split(fractionString, "/")
+
+    set num to numStr as integer
+    set denom to denomStr as integer
+    if denom = 0 then return
+
+    -- Get screen dimensions
+    tell application "Finder"
+        set {screenX, screenY, screenW, screenH} to bounds of window of desktop
+    end tell
+
+    -- Start with full screen size
+    set newW to screenW
+    set newH to screenH
+
+    if dir is "w" then
+        set newW to (screenW * num) / denom
+    else if dir is "h" then
+        set newH to (screenH * num) / denom
+    end if
+
+    -- Get frontmost window
+    tell application "System Events"
+        set frontApp to name of first application process whose frontmost is true
+        tell application process frontApp
+            if (count of windows) = 0 then return
+            set win to front window
+            set {winX, winY} to position of win
+            set {winW, winH} to size of win
+            set size of win to {newW, newH}
+        end tell
+    end tell
+end run
+
+on split(txt, delim)
+    set AppleScript's text item delimiters to delim
+    set theList to text items of txt
+    set AppleScript's text item delimiters to ""
+    return theList
+end split
+EOF

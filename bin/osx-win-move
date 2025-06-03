@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+
+POSITION="$1"
+
+if [[ -z "$POSITION" ]]; then
+  echo "Usage: $0 [topleft|topright|center|bottomleft|bottomright|bottomcenter]"
+  exit 1
+fi
+
+osascript <<EOF
+on run
+    set positionName to "$POSITION"
+    set allowedPositions to {"topleft", "topright", "center", "bottomleft", "bottomright", "bottomcenter"}
+
+    if allowedPositions does not contain positionName then
+        display dialog "Invalid position: " & positionName
+        return
+    end if
+
+    -- Get frontmost app
+    tell application "System Events"
+        set frontApp to name of first application process whose frontmost is true
+        tell application process frontApp
+            if (count of windows) = 0 then return
+            set win to front window
+            set {winW, winH} to size of win
+        end tell
+    end tell
+
+    -- Get screen dimensions
+    tell application "Finder"
+        set {screenX, screenY, screenW, screenH} to bounds of window of desktop
+    end tell
+
+    -- Account for menu bar and dock
+    set menuBarHeight to 22
+    set dockHeight to 80
+
+    -- Calculate target position
+    if positionName is "topleft" then
+        set newPos to {0, menuBarHeight}
+    else if positionName is "topright" then
+        set newPos to {screenW - winW, menuBarHeight}
+    else if positionName is "center" then
+        set newPos to {(screenW - winW) / 2, (screenH - winH - dockHeight) / 2}
+    else if positionName is "bottomleft" then
+        set newPos to {0, screenH - winH - dockHeight}
+    else if positionName is "bottomright" then
+        set newPos to {screenW - winW, screenH - winH - dockHeight}
+    else if positionName is "bottomcenter" then
+        set newPos to {(screenW - winW) / 2, screenH - winH - dockHeight}
+    else
+        display dialog "Invalid position: " & positionName
+        return
+    end if
+
+    -- Move the frontmost window
+    tell application "System Events"
+        tell application process frontApp
+            set position of front window to newPos
+        end tell
+    end tell
+end run
+EOF
+
