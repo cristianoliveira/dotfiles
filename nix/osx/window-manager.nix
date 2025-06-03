@@ -114,6 +114,7 @@
           cmd-ctrl-g = "mode marks";
           cmd-g = "mode goto";
 
+          ## TODO adds a way to quick send a window to scratchpad and get it back (MAX 1 key)
           cmd-ctrl-m = ''
             exec-and-forget aerospace-marks mark \
               $(osascript -e 'text returned of (display dialog "mark" default answer "")')
@@ -121,8 +122,8 @@
           cmd-ctrl-quote = ''
             exec-and-forget aerospace-marks focus \
               $(osascript -e 'text returned of (display dialog "focus" default answer "")')
-          '';
-          cmd-ctrl-slash = ''
+            '';
+          cmd-ctrl-semicolon = ''
             exec-and-forget aerospace-marks summon \
               $(osascript -e 'text returned of (display dialog "summon" default answer "")')
           '';
@@ -137,6 +138,14 @@
 
           # TODO adds a way to center a window with move/resize mode
           # TODO adds a way to center-left/right a window with move/resize mode
+
+          cmd-ctrl-o = [
+            ''exec-and-forget aerospace-scratchpad show \
+                            "$(aerospace-marks get o -a \
+                             || aerospace-marks mark o -s)"''
+          ];
+
+          cmd-shift-ctrl-o = "exec-and-forget aerospace-marks unmark o";
 
           # Zoom/Google Meet/Teams remote call tool
           cmd-ctrl-z = 
