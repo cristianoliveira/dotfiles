@@ -89,7 +89,7 @@
           cmd-shift-9 = "move-node-to-workspace 9";
           cmd-shift-0 = "move-node-to-workspace 0";
 
-          cmd-backtick = "workspace-back-and-forth";
+          # cmd-backtick = "workspace-back-and-forth";
 
           cmd-ctrl-f = [
             "layout tiling"
@@ -114,7 +114,6 @@
           cmd-ctrl-g = "mode marks";
           cmd-g = "mode goto";
 
-          ## TODO adds a way to quick send a window to scratchpad and get it back (MAX 1 key)
           cmd-ctrl-m = ''
             exec-and-forget aerospace-marks mark \
               $(osascript -e 'text returned of (display dialog "mark" default answer "")')
@@ -123,13 +122,16 @@
             exec-and-forget aerospace-marks focus \
               $(osascript -e 'text returned of (display dialog "focus" default answer "")')
             '';
-          cmd-ctrl-semicolon = ''
+          cmd-ctrl-slash = ''
             exec-and-forget aerospace-marks summon \
               $(osascript -e 'text returned of (display dialog "summon" default answer "")')
           '';
 
           cmd-f1 = "mode relocate";
-          cmd-f2 = "mode resize";
+          cmd-f2 = ''exec-and-forget ~/.dotfiles/bin/osx-win-resize \
+              $(osascript -e \
+                  'text returned of (display dialog "resize w%/h% (Eg. w50)" default answer "")')
+          '';
 
           cmd-ctrl-0 = "exec-and-forget aerospace-scratchpad show Finder";
           cmd-ctrl-9 = "exec-and-forget aerospace-scratchpad show Bitwarden";
@@ -139,6 +141,7 @@
           # TODO adds a way to center a window with move/resize mode
           # TODO adds a way to center-left/right a window with move/resize mode
 
+          ## a way to quick send a window to scratchpad and get it back (MAX 1 key)
           cmd-ctrl-o = [
             ''exec-and-forget aerospace-scratchpad show \
                             "$(aerospace-marks get o -a \
@@ -147,123 +150,41 @@
 
           cmd-shift-ctrl-o = "exec-and-forget aerospace-marks unmark o";
 
+          # Specific marks
           # Zoom/Google Meet/Teams remote call tool
           cmd-ctrl-z = 
             "exec-and-forget aerospace-scratchpad show 'zoom.us|Google.Meet|Teams'";
 
-          cmd-ctrl-1 = [
-            ''exec-and-forget aerospace-scratchpad show \
-                            "$(aerospace-marks get sp-1 -a)"''
-          ];
-
           cmd-ctrl-n = [
             ''exec-and-forget aerospace-scratchpad show \
-                            "$(aerospace-marks get sp-notes -a)"''
+                            "$(aerospace-marks get n -a)"''
           ];
 
+          # Quick generic marks
+          cmd-ctrl-1 = [
+            ''exec-and-forget aerospace-scratchpad show \
+                            "$(aerospace-marks get 1 -a)"''
+          ];
           cmd-ctrl-2 = [
             ''exec-and-forget aerospace-scratchpad show \
-                            "$(aerospace-marks get sp-2 -a)"''
+                            "$(aerospace-marks get 2 -a)"''
           ];
           cmd-ctrl-3 = [
             ''exec-and-forget aerospace-scratchpad show \
-                            "$(aerospace-marks get sp-3 -a)"''
+                            "$(aerospace-marks get 3 -a)"''
           ];
           cmd-ctrl-4 = [
             ''exec-and-forget aerospace-scratchpad show \
-                            "$(aerospace-marks get sp-4 -a)"''
+                            "$(aerospace-marks get 4 -a)"''
           ];
           cmd-ctrl-5 = [
             ''exec-and-forget aerospace-scratchpad show \
-                            "$(aerospace-marks get sp-5 -a)"''
+                            "$(aerospace-marks get 5 -a)"''
           ];
         };
 
-        mode.marks.binding = {
-          esc = "mode main";
-          "n" = [
-            ''exec-and-forget aerospace-marks unmark sp-notes || \
-                              aerospace-marks mark sp-notes -s''
-            "mode main"
-          ];
-
-          "1" = [
-            # Toggle marks and unmark
-            ''exec-and-forget aerospace-marks unmark sp-1 || \
-                              aerospace-marks mark sp-1 -s''
-            "mode main"
-          ];
-
-          "2" = [
-            ''exec-and-forget aerospace-marks unmark sp-2 || \
-                              aerospace-marks mark sp-2 -s''
-            "mode main"
-          ];
-
-          "3" = [
-            ''exec-and-forget aerospace-marks unmark sp-3 || \
-                              aerospace-marks mark sp-3 -s''
-            "mode main"
-          ];
-
-          "4" = [
-            ''exec-and-forget aerospace-marks unmark sp-4 || \
-                              aerospace-marks mark sp-4 -s''
-            "mode main"
-          ];
-
-          "5" = [
-            ''exec-and-forget aerospace-marks unmark sp-5 || \
-                              aerospace-marks mark sp-5 -s''
-            "mode main"
-          ];
-
-          h = [
-            "exec-and-forget aerospace-marks mark h"
-            "mode main"
-          ];
-
-          k = [
-            "exec-and-forget aerospace-marks mark k"
-            "mode main"
-          ];
-
-          j = [
-            "exec-and-forget aerospace-marks mark j"
-            "mode main"
-          ];
-
-          l = [
-            "exec-and-forget aerospace-marks mark l"
-            "mode main"
-          ];
-
-          f = [
-            "exec-and-forget aerospace-marks mark f"
-            "mode main"
-          ];
-
-          d = [
-            "exec-and-forget aerospace-marks mark d"
-            "mode main"
-          ];
-
-          s = [
-            "exec-and-forget aerospace-marks mark s"
-            "mode main"
-          ];
-
-          a = [
-            "exec-and-forget aerospace-marks mark a"
-            "mode main"
-          ];
-
-          g = [
-            "exec-and-forget aerospace-marks mark g"
-            "mode main"
-          ];
-        };
-
+        # Goto marks mode
+        # cmd-g + <mark> to focus a mark
         mode.goto.binding = let
           h = [
             "exec-and-forget aerospace-marks focus h"
@@ -358,7 +279,12 @@
           l = "exec-and-forget ~/.dotfiles/bin/osx-win-resize h1/4";
         };
 
-        exec.env-vars.PATH = "/opt/homebrew/bin:\${HOME}/golang/bin:/run/current-system/sw/bin:\${PATH}";
+        exec.env-vars = {
+          AEROSPACE_SCRATCHPAD_LOGS_LEVEL = "DEBUG";
+          AEROSPACE_MARKS_LOGS_LEVEL = "DEBUG";
+          
+          PATH = "/opt/homebrew/bin:\${HOME}/golang/bin:/run/current-system/sw/bin:\${PATH}";
+        };
 
         workspace-to-monitor-force-assignment = {
           "1" = "main";
@@ -387,7 +313,6 @@
               "ChatGPT|Clock|WhatsApp|Spotify|Slack|Telegram|Google.Meet|Zoom|Teams|Finder";
             run = [
               "layout floating"
-              "move-node-to-workspace .scratchpad"
             ]; 
           }
           {
