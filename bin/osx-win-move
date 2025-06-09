@@ -33,8 +33,8 @@ on run
     end tell
 
     -- Account for menu bar and dock
-    set menuBarHeight to 22
-    set dockHeight to 80
+    set menuBarHeight to 0
+    set dockHeight to 0
 
     -- Calculate target position
     if positionName is "topleft" then
