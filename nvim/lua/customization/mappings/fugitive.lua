@@ -16,7 +16,8 @@ nnoremap('<leader>gamd', ':G amd<CR>')
 nnoremap('<leader>gaf', ':G add % <CR>')
 nnoremap('<leader>gap', ':G add % -p <CR>')
 nnoremap('<leader>gch', ':G checkout % <CR>')
-nnoremap('<leader>grs', ':G reset % <CR>')
+-- FIXME it was conflicting with LSP's go to references gr
+-- nnoremap('<leader>grs', ':G reset % <CR>')
 
 nnoremap('<leader>gh', ':GBrowse :1<CR>')
 vnoremap('<leader>gh', ':GBrowse :1<CR>')
