@@ -29,6 +29,9 @@ __/
 .scripts/
 .bin/
 .tmp/
+_tmp/
+# Git worktree
+_wte/
 
 # fzz related
 .watch.yaml
