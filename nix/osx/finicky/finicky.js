@@ -37,6 +37,7 @@ module.exports = {
         /segment\.com/,
         /sanity.studio/,
         /superblocks/,
+        /slack/,
         /docs.google/,
 
         /localhost/,
