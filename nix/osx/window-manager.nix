@@ -141,14 +141,7 @@
           # TODO adds a way to center a window with move/resize mode
           # TODO adds a way to center-left/right a window with move/resize mode
 
-          ## a way to quick send a window to scratchpad and get it back (MAX 1 key)
-          cmd-ctrl-o = [
-            ''exec-and-forget aerospace-scratchpad show \
-                            "$(aerospace-marks get o -a \
-                             || aerospace-marks mark o -s)"''
-          ];
-
-          cmd-shift-ctrl-o = "exec-and-forget aerospace-marks unmark o";
+          cmd-ctrl-o = "workspace-back-and-forth";
 
           # Specific marks
           # Zoom/Google Meet/Teams remote call tool
@@ -156,8 +149,9 @@
             "exec-and-forget aerospace-scratchpad show 'zoom.us|Google.Meet|Teams'";
 
           cmd-ctrl-n = [
-            ''exec-and-forget aerospace-scratchpad show \
-                            "$(aerospace-marks get n -a)"''
+            ''exec-and-forget aerospace-scratchpad show "$(aerospace-marks get n -a)" \
+                          || aerospace-scratchpad show Obsidian
+            ''
           ];
 
           # Quick generic marks
@@ -306,7 +300,7 @@
           }
           {
             "if".app-name-regex-substring = "YouTube";
-            run = [ "move-node-to-workspace 7" ];
+            run = [ "move-node-to-workspace 8" ];
           }
           {
             "if".app-name-regex-substring = 
@@ -319,12 +313,6 @@
             "if".app-name-regex-substring = "Brave";
             run = [
               "move-node-to-workspace 1"
-            ]; 
-          }
-          {
-            "if".app-name-regex-substring = "Google.Chrome";
-            run = [
-              "move-node-to-workspace 0"
             ]; 
           }
           {
