@@ -185,10 +185,6 @@ bindgesture swipe:left workspace next_on_output
 bindgesture swipe:4:right move right
 bindgesture swipe:4:left move left
 
-# Send to scratchpad
-bindgesture swipe:4:up scratchpad show
-bindgesture swipe:4:down move scratchpad
-
 #### Keyboard configuration - Input
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
@@ -332,11 +328,26 @@ bindsym $mod+Shift+0 move container to workspace number 10
 
 ## Apps and specific workspaces
 assign [app_id=$term] workspace 2
-assign [app_id="whatsapp-for-linux"] workspace 10
-assign [app_id="org.telegram.desktop"] workspace 10
-assign [class="Spotify"] workspace 9
+
+# [SCRATCHPAD-RULES]
 for_window [app_id="whatsapp-for-linux"] move to scratchpad
 for_window [app_id="org.telegram.desktop"] move to scratchpad
+for_window [app_id="Spotify"] move to scratchpad
+for_window [instance="mail.google.com"] move to scratchpad
+for_window [class="Bitwarden"] move to scratchpad
+for_window [class="obsidian"] move to scratchpad
+
+# [SCRATCHPAD-MAPPING]
+bindgesture swipe:4:up scratchpad show
+bindgesture swipe:4:down move scratchpad
+
+bindsym $mod+Ctrl+8 [app_id="whatsapp-for-linux"] scratchpad show
+bindsym $mod+Ctrl+9 [class="Bitwarden"] scratchpad show
+bindsym $mod+Ctrl+0 [app_id="thunar"] scratchpad show
+
+# notes
+bindsym $mod+Ctrl+n [class="obsidian"] scratchpad show
+
 
 # Webapps with chromium
 assign [instance="chat.openai.com"] workspace 4
@@ -356,16 +367,19 @@ for_window [app_id=$term] mark "term"
 bindsym $mod+Ctrl+1 [con_mark="w1"] focus
 bindsym $mod+Ctrl+2 [con_mark="w2"] focus
 bindsym $mod+Ctrl+3 [con_mark="w3"] focus
-bindsym $mod+Ctrl+0 [con_mark="w0"] focus
+
  
-set $markMode "Marks: [1] w1, [2] w2, [3] w3, [0] w0" 
+set $markMode "Marks: [1] w1, [2] w2, [3] w3, [8] s1, [9] s2, [0] s3"
 mode $markMode {
     # Mappings
     # Mark the current window with mark w1
     bindsym 1 exec swaymsg "mark w1" && swaymsg mode "default"
     bindsym 2 exec swaymsg "mark w2" && swaymsg mode "default"
     bindsym 3 exec swaymsg "mark w3" && swaymsg mode "default"
-    bindsym 0 exec swaymsg "mark w0" && swaymsg mode "default"
+
+    bindsym 8 exec swaymsg "mark s1" && swaymsg mode "default"
+    bindsym 9 exec swaymsg "mark s2" && swaymsg mode "default"
+    bindsym 0 exec swaymsg "mark s3" && swaymsg mode "default"
 
     # Exit mode
     bindsym Escape mode "default"
