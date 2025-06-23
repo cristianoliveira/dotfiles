@@ -1,6 +1,6 @@
 alias ai="aichat"
 alias aish="aichat -c -r %shell%"
-alias aiex="aichat -c -r %shell% -e"
+alias aishe="aichat -c -r %shell% -e"
 
 # Generate ai outputs
 alias aig-test="aichat -c -r dev-tdd -f $(git ls-files --modified --exclude-standard --others) "
