@@ -253,24 +253,60 @@
           esc = "mode main";
           enter = "mode main";
 
-          u = "exec-and-forget ~/.dotfiles/bin/osx-win-move topleft";
-          i = "exec-and-forget ~/.dotfiles/bin/osx-win-move center";
-          o = "exec-and-forget ~/.dotfiles/bin/osx-win-move topright";
-          j = "exec-and-forget ~/.dotfiles/bin/osx-win-move bottomleft";
-          k = "exec-and-forget ~/.dotfiles/bin/osx-win-move bottomcenter";
-          l = "exec-and-forget ~/.dotfiles/bin/osx-win-move bottomright";
+          u = [
+            "exec-and-forget ~/.dotfiles/bin/osx-win-move topleft"
+            "mode main"
+          ];
+          i = [
+            "exec-and-forget ~/.dotfiles/bin/osx-win-move center"
+            "mode main"
+          ];
+          o = [
+            "exec-and-forget ~/.dotfiles/bin/osx-win-move topright"
+            "mode main"
+          ];
+          j = [
+            "exec-and-forget ~/.dotfiles/bin/osx-win-move bottomleft"
+            "mode main"
+          ];
+          k = [
+            "exec-and-forget ~/.dotfiles/bin/osx-win-move bottomcenter"
+            "mode main"
+          ];
+          l = [
+            "exec-and-forget ~/.dotfiles/bin/osx-win-move bottomright"
+            "mode main"
+          ];
         };
 
         mode.resize.binding = {
           esc = "mode main";
           enter = "mode main";
 
-          u = "exec-and-forget ~/.dotfiles/bin/osx-win-resize w1/2";
-          i = "exec-and-forget ~/.dotfiles/bin/osx-win-resize w1/3";
-          o = "exec-and-forget ~/.dotfiles/bin/osx-win-resize w1/4";
-          j = "exec-and-forget ~/.dotfiles/bin/osx-win-resize h1/2";
-          k = "exec-and-forget ~/.dotfiles/bin/osx-win-resize h1/3";
-          l = "exec-and-forget ~/.dotfiles/bin/osx-win-resize h1/4";
+          u = [
+            "exec-and-forget ~/.dotfiles/bin/osx-win-resize w1/2"
+            "mode main"
+          ];
+          i = [
+            "exec-and-forget ~/.dotfiles/bin/osx-win-resize w1/3"
+            "mode main"
+          ];
+          o = [
+            "exec-and-forget ~/.dotfiles/bin/osx-win-resize w1/4"
+            "mode main"
+          ];
+          j = [
+            "exec-and-forget ~/.dotfiles/bin/osx-win-resize h1/2"
+            "mode main"
+          ];
+          k = [
+            "exec-and-forget ~/.dotfiles/bin/osx-win-resize h1/3"
+            "mode main"
+          ];
+          l = [
+            "exec-and-forget ~/.dotfiles/bin/osx-win-resize h1/4"
+            "mode main"
+          ];
         };
 
         exec.env-vars = {
