@@ -35,6 +35,7 @@
 
       # Launcher
       dmenu # Dmenu is the default in the config but i recommend wofi since its wayland native
+      # wofi # Wofi is a wayland native dmenu replacement
       ulauncher
 
       # Displays UI manager
