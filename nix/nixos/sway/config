@@ -341,9 +341,6 @@ for_window [class="obsidian"] move to scratchpad
 bindgesture swipe:4:up scratchpad show
 bindgesture swipe:4:down move scratchpad
 
-bindsym $mod+Ctrl+8 [app_id="whatsapp-for-linux"] scratchpad show
-bindsym $mod+Ctrl+9 [class="Bitwarden"] scratchpad show
-bindsym $mod+Ctrl+0 [app_id="thunar"] scratchpad show
 
 # notes
 bindsym $mod+Ctrl+n [class="obsidian"] scratchpad show
@@ -364,31 +361,47 @@ for_window [app_id=$term] mark "term"
 ## Marks shortcuts
 
 # focus on main mark with $mod+Ctrl+1
-bindsym $mod+Ctrl+1 [con_mark="w1"] focus
-bindsym $mod+Ctrl+2 [con_mark="w2"] focus
-bindsym $mod+Ctrl+3 [con_mark="w3"] focus
+bindsym $mod+Ctrl+m exec echo "" | dmenu -p "Mark: " | xargs -I {} swaymsg mark "{}"
+bindsym $mod+Ctrl+apostrophe exec echo "" | dmenu -p "Focus: " | xargs -I {} swaymsg '[con_mark="{}"] focus'
+# Summon the marked window to current workspace
+bindsym $mod+Ctrl+Slash exec echo "" | dmenu -p "Summon: " | xargs -I {} swaymsg '[con_mark="{}"] move container to workspace current'
 
- 
-set $markMode "Marks: [1] w1, [2] w2, [3] w3, [8] s1, [9] s2, [0] s3"
-mode $markMode {
+# Mark the current window with $mod+Ctrl+Shift+1
+bindsym $mod+Ctrl+1 [con_mark="1"] scratchpad show
+bindsym $mod+Ctrl+2 [con_mark="2"] scratchpad show
+bindsym $mod+Ctrl+3 [con_mark="3"] scratchpad show
+bindsym $mod+Ctrl+4 [con_mark="4"] scratchpad show
+bindsym $mod+Ctrl+5 [con_mark="5"] scratchpad show
+bindsym $mod+Ctrl+6 [con_mark="6"] scratchpad show
+
+bindsym $mod+Ctrl+7 [class="Spotify"] scratchpad show
+bindsym $mod+Ctrl+8 [app_id="whatsapp-for-linux"] scratchpad show
+bindsym $mod+Ctrl+9 [class="Bitwarden"] scratchpad show
+bindsym $mod+Ctrl+0 [app_id="thunar"] scratchpad show
+
+# Goto modo with $mod+g 
+mode "goto" {
     # Mappings
-    # Mark the current window with mark w1
-    bindsym 1 exec swaymsg "mark w1" && swaymsg mode "default"
-    bindsym 2 exec swaymsg "mark w2" && swaymsg mode "default"
-    bindsym 3 exec swaymsg "mark w3" && swaymsg mode "default"
+    bindsym a exec swaymsg '[con_mark="a"] focus' && swaymsg mode "default"
+    bindsym s exec swaymsg '[con_mark="s"] focus' && swaymsg mode "default"
+    bindsym d exec swaymsg '[con_mark="d"] focus' && swaymsg mode "default"
+    bindsym f exec swaymsg '[con_mark="f"] focus' && swaymsg mode "default"
+    bindsym g exec swaymsg '[con_mark="g"] focus' && swaymsg mode "default"
+    bindsym h exec swaymsg '[con_mark="h"] focus' && swaymsg mode "default"
+    bindsym j exec swaymsg '[con_mark="j"] focus' && swaymsg mode "default"
+    bindsym k exec swaymsg '[con_mark="k"] focus' && swaymsg mode "default"
+    bindsym l exec swaymsg '[con_mark="l"] focus' && swaymsg mode "default"
+    bindsym m exec swaymsg '[con_mark="m"] focus' && swaymsg mode "default"
 
-    bindsym 8 exec swaymsg "mark s1" && swaymsg mode "default"
-    bindsym 9 exec swaymsg "mark s2" && swaymsg mode "default"
-    bindsym 0 exec swaymsg "mark s3" && swaymsg mode "default"
+    bindsym y exec swaymsg '[con_mark="y"] focus' && swaymsg mode "default"
+    bindsym t exec swaymsg '[con_mark="t"] focus' && swaymsg mode "default"
 
     # Exit mode
     bindsym Escape mode "default"
     bindsym Return mode "default"
 }
-bindsym $mod+Ctrl+m mode $markMode
+bindsym $mod+g mode "goto"
 
-# Mark the current window with $mod+Ctrl+Shift+1
-bindsym $mod+Ctrl+Shift+1 [con_mark="w1"] mark "w1"
 
 # Note: workspaces can have any name you want, not just numbers.
 # We just use 1-10 as the default.
@@ -450,7 +463,7 @@ bindsym $lmod+m move scratchpad
 # Show the next scratchpad window or hide the focused scratchpad window.
 # If there are multiple scratchpad windows, this command cycles through them.
 # bindsym $mod+Ctrl+m scratchpad show
-bindsym $mod+Ctrl+slash scratchpad show
+bindsym $mod+Ctrl+minus scratchpad show
 
 ### Function keys mapping
 
@@ -475,8 +488,6 @@ bindsym XF86AudioPlay exec playerctl play
 bindsym XF86AudioPause exec playerctl pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
-
-
 
 #
 # Resizing containers:
