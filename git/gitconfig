@@ -95,7 +95,9 @@
   rbsom = !git rebase "origin/$MAIN_BRANCH"   # rebase on origin main branch
 
   # remote
-  r = remote -v                     # show remotes (verbose)
+  rt = remote -v                     # show remotes (verbose)
+  rta = remote add                   # add a remote
+  rtr = remote remove                # remove a remote
 
   # reset
   rs = reset
