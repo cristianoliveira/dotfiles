@@ -18,10 +18,12 @@
         gaps = {
           inner.horizontal = 0;
           inner.vertical =   0;
-          outer.left =       0;
-          outer.bottom =     0;
-          outer.top =        0;
-          outer.right =      0;
+          outer = {
+            left =       0;
+            bottom =     0;
+            top =        0;
+            right =      0;
+          };
         };
 
         mode.main.binding = {
@@ -229,23 +231,23 @@
           enter = "mode main";
           cmd-space = "mode main";
 
-          h = h;
+          inherit h;
           cmd-h = h;
-          j = j;
+          inherit j;
           cmd-j = j;
-          k = k;
+          inherit k;
           cmd-k = k;
-          l = l;
+          inherit l;
           cmd-l = l;
-          f = f;
+          inherit f;
           cmd-f = f;
-          d = d;
+          inherit d;
           cmd-d = d;
-          s = s;
+          inherit s;
           cmd-s = s;
-          a = a;
+          inherit a;
           cmd-a = a;
-          g = g;
+          inherit g;
           cmd-g = g;
         };
 
