@@ -136,8 +136,14 @@
           '';
 
           cmd-ctrl-0 = "exec-and-forget aerospace-scratchpad show Finder";
-          cmd-ctrl-9 = "exec-and-forget aerospace-scratchpad show Bitwarden";
-          cmd-ctrl-8 = "exec-and-forget aerospace-scratchpad show WhatsApp";
+          cmd-ctrl-9 = ''
+            exec-and-forget aerospace-scratchpad show Bitwarden \
+                        ||  open -a Bitwarden
+          '';
+          cmd-ctrl-8 = ''
+            exec-and-forget aerospace-scratchpad show WhatsApp \
+                        ||  open -a WhatsApp
+          '';
           cmd-ctrl-7 = "exec-and-forget aerospace-scratchpad show Spotify";
 
           # TODO adds a way to center a window with move/resize mode
@@ -152,7 +158,8 @@
 
           cmd-ctrl-n = [
             ''exec-and-forget aerospace-scratchpad show "$(aerospace-marks get n -a)" \
-                          || aerospace-scratchpad show Obsidian
+                          ||  aerospace-scratchpad show Obsidian \
+                          ||  open -a Obsidian
             ''
           ];
 
