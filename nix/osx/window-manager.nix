@@ -135,34 +135,33 @@
                   'text returned of (display dialog "resize w%/h% (Eg. w50)" default answer "")')
           '';
 
-          cmd-ctrl-0 = "exec-and-forget aerospace-scratchpad show Finder";
-          cmd-ctrl-9 = ''
-            exec-and-forget aerospace-scratchpad show Bitwarden \
-                        ||  open -a Bitwarden
-          '';
-          cmd-ctrl-8 = ''
-            exec-and-forget aerospace-scratchpad show WhatsApp \
-                        ||  open -a WhatsApp
-          '';
-          cmd-ctrl-7 = "exec-and-forget aerospace-scratchpad show Spotify";
-
-          # TODO adds a way to center a window with move/resize mode
-          # TODO adds a way to center-left/right a window with move/resize mode
-
           cmd-ctrl-o = "workspace-back-and-forth";
 
+          ## SCRATCHPAD FIXED BINDINGS
+          cmd-ctrl-0 = ''exec-and-forget aerospace-scratchpad show Finder \
+                        ||  open -a Finder'';
+          cmd-ctrl-9 = ''
+            exec-and-forget aerospace-scratchpad show Bitwarden \
+                        ||  open -a Bitwarden'';
+          cmd-ctrl-8 = ''
+            exec-and-forget aerospace-scratchpad show WhatsApp \
+                        ||  open -a WhatsApp'';
+          cmd-ctrl-7 = ''
+            exec-and-forget aerospace-scratchpad show Spotify \
+                        ||  open -a Spotify'';
+
+          # [N]ote taker
+          cmd-ctrl-n = ''
+            exec-and-forget aerospace-scratchpad show "$(aerospace-marks get n -a)" \
+                        ||  aerospace-scratchpad show Obsidian \
+                        ||  open -a Obsidian'';
+
           # Specific marks
-          # Zoom/Google Meet/Teams remote call tool
+          # [Z]oom/Google Meet/Teams remote call tool
           cmd-ctrl-z = 
             "exec-and-forget aerospace-scratchpad show 'zoom.us|Google.Meet|Teams'";
 
-          cmd-ctrl-n = [
-            ''exec-and-forget aerospace-scratchpad show "$(aerospace-marks get n -a)" \
-                          ||  aerospace-scratchpad show Obsidian \
-                          ||  open -a Obsidian
-            ''
-          ];
-
+          # SCRATCHPAD DYNAMIC BINDINGS
           # Quick generic marks
           cmd-ctrl-1 = [
             ''exec-and-forget aerospace-scratchpad show \
