@@ -43,6 +43,7 @@
     ];
     ensureDefaultPrinter = "MG2500-series";
   };
+  hardware.sane.enable = true;
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -87,6 +88,8 @@
       "docker" 
       # Required for screen brightness (see programs.light)
       "video"
+      "scanner"
+      "lp" 
     ];
     packages = with pkgs; [
       firefox
