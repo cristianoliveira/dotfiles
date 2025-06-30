@@ -1,4 +1,4 @@
-{ _ , ... }:
+_:
 {
   # NOTE: It is working on ThinkPad P14s Gen 5
   # See more: https://archive.is/tYQlZ

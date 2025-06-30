@@ -91,15 +91,6 @@
       "scanner"
       "lp" 
     ];
-    packages = with pkgs; [
-      firefox
-      brave
-
-      spotify
-      whatsapp-for-linux
-      telegram-desktop
-
-    ];
   };
 
   # Enable light for screen brightness

@@ -21,6 +21,18 @@ in {
     # Notes and organization tools
     obsidian
 
+    # Browsers
+    firefox
+    brave
+
+    # Music
+    spotify
+
+    # Communication apps
+    zapzap
+    telegram-desktop
+
+
     # Web apps
     webapps.googlekeep
     webapps.chatgpt

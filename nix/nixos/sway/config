@@ -330,7 +330,7 @@ bindsym $mod+Shift+0 move container to workspace number 10
 assign [app_id=$term] workspace 2
 
 # [SCRATCHPAD-RULES]
-for_window [app_id="whatsapp-for-linux"] move to scratchpad
+for_window [instance="zapzap"] move to scratchpad
 for_window [app_id="org.telegram.desktop"] move to scratchpad
 for_window [app_id="Spotify"] move to scratchpad
 for_window [instance="mail.google.com"] move to scratchpad
@@ -352,7 +352,7 @@ assign [instance=".*.youtube.com"] workspace 5
 assign [instance="mail.google.com"] workspace 8
 
 ## MARKS
-for_window [app_id="whatsapp-for-linux"] mark "wap"
+for_window [instance="zapzap"] mark "wap"
 for_window [app_id="org.telegram.desktop"] mark "tlg"
 for_window [instance=".*.youtube.com"] mark "ytb"
 for_window [instance="mail.google.com"] mark "mail"
@@ -375,7 +375,7 @@ bindsym $mod+Ctrl+5 [con_mark="5"] scratchpad show
 bindsym $mod+Ctrl+6 [con_mark="6"] scratchpad show
 
 bindsym $mod+Ctrl+7 [class="Spotify"] scratchpad show
-bindsym $mod+Ctrl+8 [app_id="whatsapp-for-linux"] scratchpad show
+bindsym $mod+Ctrl+8 [instance="zapzap"] scratchpad show
 bindsym $mod+Ctrl+9 [class="Bitwarden"] scratchpad show
 bindsym $mod+Ctrl+0 [app_id="thunar"] scratchpad show
 
