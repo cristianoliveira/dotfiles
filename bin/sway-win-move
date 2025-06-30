@@ -1,0 +1,134 @@
+#!/usr/bin/env bash
+
+# Script to dynamically move and position the focused floating window
+# to a specific grid location on the current output.
+#
+# This script calculates positions based on screen and window dimensions
+# to ensure the window remains fully visible.
+#
+# Usage:
+#   sway_position_window.sh <position>
+#
+#   <position> can be one of:
+#     top-left, top-center, top-right
+#     middle-left, middle-center, middle-right
+#     bottom-left, bottom-center, bottom-right
+#     center-output (centers the window on the current output)
+#     full-screen (resizes to fill the output)
+#
+# Dependencies:
+#   - jq (for parsing JSON output from swaymsg)
+#   - swaymsg (SwayWM command-line interface)
+
+# Ensure jq is installed
+if ! command -v jq &> /dev/null; then
+    echo "Error: 'jq' is not installed. Please install it (e.g., sudo apt install jq)." >&2
+    exit 1
+fi
+
+# Ensure swaymsg is available
+if ! command -v swaymsg &> /dev/null; then
+    echo "Error: 'swaymsg' is not found. Are you running SwayWM?" >&2
+    exit 1
+fi
+
+# Get the desired position from the command line argument
+POSITION="$1"
+
+# Function to get the dimensions of the currently focused output (monitor)
+get_output_dimensions() {
+    # Get all outputs, filter for the focused one, and extract its current resolution
+    swaymsg -t get_outputs | jq -r '.[] | select(.focused) | "\(.rect.width)x\(.rect.height)"'
+}
+
+# Function to get the dimensions of the focused window
+get_window_dimensions() {
+    # Get the tree, find the focused node, and extract its width and height
+    swaymsg -t get_tree | jq '.. | select(.focused? == true) | "\(.rect.width)x\(.rect.height)"' | tr -d '"'
+}
+
+# Get output dimensions
+OUTPUT_DIMS=$(get_output_dimensions)
+if [ -z "$OUTPUT_DIMS" ]; then
+    echo "Error: Could not determine focused output dimensions. Is SwayWM running?" >&2
+    exit 1
+fi
+OUTPUT_WIDTH=$(echo "$OUTPUT_DIMS" | cut -d'x' -f1)
+OUTPUT_HEIGHT=$(echo "$OUTPUT_DIMS" | cut -d'x' -f2)
+
+# Get window dimensions
+WINDOW_DIMS=$(get_window_dimensions)
+if [ -z "$WINDOW_DIMS" ]; then
+    echo "Error: Could not determine focused window dimensions. Is a window focused?" >&2
+    exit 1
+fi
+WINDOW_WIDTH=$(echo "$WINDOW_DIMS" | cut -d'x' -f1)
+WINDOW_HEIGHT=$(echo "$WINDOW_DIMS" | cut -d'x' -f2)
+
+# Ensure the window is floating before attempting to move it
+swaymsg floating enable &> /dev/null
+
+# Calculate target X and Y coordinates
+TARGET_X=0
+TARGET_Y=0
+
+case "$POSITION" in
+    # --- Top Row ---
+    "top-left")
+        TARGET_X=0
+        TARGET_Y=0
+        ;;
+    "top-center")
+        TARGET_X=$(( ("$OUTPUT_WIDTH" - "$WINDOW_WIDTH") / 2 ))
+        TARGET_Y=0
+        ;;
+    "top-right")
+        TARGET_X=$(( OUTPUT_WIDTH - WINDOW_WIDTH ))
+        TARGET_Y=0
+        ;;
+    # --- Middle Row ---
+    "middle-left")
+        TARGET_X=0
+        TARGET_Y=$(( (OUTPUT_HEIGHT - WINDOW_HEIGHT) / 2 ))
+        ;;
+    "middle-center")
+        TARGET_X=$(( (OUTPUT_WIDTH - WINDOW_WIDTH) / 2 ))
+        TARGET_Y=$(( (OUTPUT_HEIGHT - WINDOW_HEIGHT) / 2 ))
+        ;;
+    "middle-right")
+        TARGET_X=$(( OUTPUT_WIDTH - WINDOW_WIDTH ))
+        TARGET_Y=$(( (OUTPUT_HEIGHT - WINDOW_HEIGHT) / 2 ))
+        ;;
+    # --- Bottom Row ---
+    "bottom-left")
+        TARGET_X=0
+        TARGET_Y=$(( OUTPUT_HEIGHT - WINDOW_HEIGHT ))
+        ;;
+    "bottom-center")
+        TARGET_X=$(( (OUTPUT_WIDTH - WINDOW_WIDTH) / 2 ))
+        TARGET_Y=$(( OUTPUT_HEIGHT - WINDOW_HEIGHT ))
+        ;;
+    "bottom-right")
+        TARGET_X=$(( OUTPUT_WIDTH - WINDOW_WIDTH ))
+        TARGET_Y=$(( OUTPUT_HEIGHT - WINDOW_HEIGHT ))
+        ;;
+    # --- Special Cases ---
+    "center-output")
+        TARGET_X=$(( (OUTPUT_WIDTH - WINDOW_WIDTH) / 2 ))
+        TARGET_Y=$(( (OUTPUT_HEIGHT - WINDOW_HEIGHT) / 2 ))
+        ;;
+    "full-screen")
+        # For full-screen, we also resize the window
+        swaymsg move position 0 0, resize set "$OUTPUT_WIDTH" "$OUTPUT_HEIGHT"
+        exit 0 # Exit after resizing
+        ;;
+    *)
+        echo "Usage: $0 <position>" >&2
+        echo "Supported positions: top-left, top-center, top-right, middle-left, middle-center, middle-right, bottom-left, bottom-center, bottom-right, center-output, full-screen" >&2
+        exit 1
+        ;;
+esac
+
+# Execute the move command
+# Note: Integer division in bash might truncate, but for pixel coords, it's usually fine.
+swaymsg move position "$TARGET_X" "$TARGET_Y"

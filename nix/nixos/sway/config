@@ -346,10 +346,8 @@ for_window [class="obsidian"] move to scratchpad
 bindgesture swipe:4:up scratchpad show
 bindgesture swipe:4:down move scratchpad
 
-
 # notes
 bindsym $mod+Ctrl+n [class="obsidian"] scratchpad show
-
 
 # Webapps with chromium
 assign [instance="chat.openai.com"] workspace 4
@@ -446,7 +444,6 @@ bindsym $mod+Ctrl+Shift+f fullscreen
 
 # Toggle the current focus between tiling and floating mode
 bindsym $mod+Shift+space floating toggle
-bindsym $mod+Ctrl+b floating toggle
 
 # Swap focus between the tiling area and the floating area
 bindsym $mod+space focus mode_toggle
@@ -463,12 +460,12 @@ bindsym $mod+a focus parent
 
 # Move the currently focused window to the scratchpad
 bindsym $mod+m move scratchpad
-bindsym $lmod+m move scratchpad
 
 # Show the next scratchpad window or hide the focused scratchpad window.
 # If there are multiple scratchpad windows, this command cycles through them.
 # bindsym $mod+Ctrl+m scratchpad show
-bindsym $mod+Ctrl+minus scratchpad show
+bindsym $mod+minus scratchpad show
+bindsym $mod+shift+minus move scratchpad
 
 ### Function keys mapping
 
@@ -536,20 +533,30 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
-# resize window to a specific siz
-# bindsym $mod+Ctrl+F7 resize set height 400px; resize set width 600px; move position 0 100%
-
-# Move to corners mode
+# Define the "positioning" mode
+# In this mode, you can use the specified keys to move and resize the focused window.
 mode "positioning" {
+    # Top Row
+    # u: Top Left (0% x 0% position, 50% width x 50% height)
+    bindsym u exec bash ~/.dotfiles/bin/sway-win-move top-left
+    bindsym i exec bash ~/.dotfiles/bin/sway-win-move top-center
+    bindsym o exec bash ~/.dotfiles/bin/sway-win-move top-right
+
+    # Middle Row
+    # j: Middle Left (0% x 25% position, 50% width x 50% height)
+    bindsym j exec bash ~/.dotfiles/bin/sway-win-move bottom-left
+    bindsym k exec bash ~/.dotfiles/bin/sway-win-move bottom-center
+    bindsym l exec bash ~/.dotfiles/bin/sway-win-move bottom-right
+
+    # Move the windows 1px left, down, up, right
+    bindsym Shift+h move left 5px
+    bindsym Shift+j move down 5px
+    bindsym Shift+k move up 5px
+    bindsym Shift+l move right 5px
+
+    # Exit the mode without performing an action
     bindsym Return mode "default"
     bindsym Escape mode "default"
-
-    bindsym $mod+1 move position 76ppt 76ppt
-    bindsym $mod+2 move position 76ppt 5ppt
-    bindsym $mod+3 move position 4ppt 5ppt
-    bindsym $mod+4 move position 5ppt 76ppt
-
-    bindsym $mod+0 move position center
 }
 # Bind mod+} to enter the positioning mode
 bindsym $mod+F1 mode "positioning"
@@ -600,6 +607,8 @@ for_window [title="^.icture.in..icture$"] floating enable, move position 74ppt 7
 for_window [app_id="term-floating"] floating enable, move position center, sticky enable
 for_window [app_id="pavucontrol"] floating enable, move position center, sticky enable
 for_window [class="Bitwarden"] floating enable, move position center, sticky enable
+for_window [instance="zapzap"] floating enable, move position center, sticky enable
+for_window [instance="obsidian"] floating enable, move position center, sticky enable
 
 # Make bitwarden window on browser brave-browser width 1/4 of the screen and 
 # always on left side, not floating
