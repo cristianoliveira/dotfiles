@@ -169,6 +169,11 @@ input "type:touchpad" {
     pointer_accel 0.2
 }
 
+input "1133:50498:Logitech_Wireless_Receiver_Mouse" {
+    natural_scroll enabled
+    pointer_accel 0.2
+}
+
 ## Disable TPPS/2 Synaptics TrackPoint
 input "2:10:TPPS/2_Synaptics_TrackPoint" {
     events disabled
