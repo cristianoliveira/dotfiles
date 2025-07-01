@@ -364,10 +364,18 @@ for_window [app_id=$term] mark "term"
 ## Marks shortcuts
 
 # focus on main mark with $mod+Ctrl+1
-bindsym $mod+Ctrl+m exec echo "" | dmenu -p "Mark: " | xargs -I {} swaymsg mark "{}"
-bindsym $mod+Ctrl+apostrophe exec echo "" | dmenu -p "Focus: " | xargs -I {} swaymsg '[con_mark="{}"] focus'
+bindsym $mod+Ctrl+m exec echo "" | wofi -d "Mark: " | xargs -I {} swaymsg mark "{}"
+bindsym $mod+Ctrl+apostrophe exec swaymsg -t get_tree \
+            | jq '.. | select(.marks? | length > 0) | "\(.marks[]) - \(.name)"' \
+            | tr -d '"' \
+            | wofi -d "Focus: " \
+            | cut -c1 \
+            | xargs -I {} swaymsg '[con_mark="{}"] focus'
 # Summon the marked window to current workspace
-bindsym $mod+Ctrl+Slash exec echo "" | dmenu -p "Summon: " | xargs -I {} swaymsg '[con_mark="{}"] move container to workspace current'
+bindsym $mod+Ctrl+Slash exec swaymsg -t get_tree \
+            | jq '.. | select(.marks? | length > 0) | "\(.marks[]) - \(.name)"' \
+            | tr -d '"' \
+            | wofi -d "Summon: " | xargs -I {} swaymsg '[con_mark="{}"] move container to workspace current'
 
 # Mark the current window with $mod+Ctrl+Shift+1
 bindsym $mod+Ctrl+1 [con_mark="1"] scratchpad show
@@ -606,6 +614,7 @@ for_window [title="^.icture.in..icture$"] floating enable, move position 74ppt 7
 # Tools that are for one time use and then hide
 for_window [app_id="term-floating"] floating enable, move position center, sticky enable
 for_window [app_id="pavucontrol"] floating enable, move position center, sticky enable
+for_window [app_id="gnome-pomodoro"] floating enable, move position center, sticky enable
 for_window [class="Bitwarden"] floating enable, move position center, sticky enable
 for_window [instance="zapzap"] floating enable, move position center, sticky enable
 for_window [instance="obsidian"] floating enable, move position center, sticky enable

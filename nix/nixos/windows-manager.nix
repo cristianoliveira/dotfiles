@@ -34,8 +34,8 @@
       playerctl # media player control
 
       # Launcher
-      dmenu # Dmenu is the default in the config but i recommend wofi since its wayland native
-      # wofi # Wofi is a wayland native dmenu replacement
+      # dmenu # Dmenu is the default in the config but i recommend wofi since its wayland native
+      wofi
       ulauncher
 
       # Displays UI manager

@@ -191,9 +191,9 @@
     },
     "71df156c-8900-446f-b63c-b579ba82c824": {
         "id": "71df156c-8900-446f-b63c-b579ba82c824",
-        "name": "term",
-        "keyword": "term",
-        "cmd": "#!/bin/sh\n \nbash $1",
+        "name": "Teminal>",
+        "keyword": ">",
+        "cmd": "bash \"$1\"",
         "icon": null,
         "is_default_search": false,
         "run_without_argument": false,
