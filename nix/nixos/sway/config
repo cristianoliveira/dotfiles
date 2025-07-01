@@ -104,10 +104,10 @@ bindsym $mod+Shift+o mode $outputLoadMode
 set $screenshotMode "Screenshot: [a]rea, [f]ullscreen, [c]opy area"
 mode $screenshotMode {
     # Take a screenshot of an area
-    bindsym a exec grim -g "$(slurp)" -o $HOME/Pictures/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png \
+    bindsym a exec grim -g "$(slurp)" $HOME/Pictures/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png \
         && swaymsg mode "default"
     # Take a screenshot of the full screen
-    bindsym f exec grim  -o $HOME/Pictures/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png \
+    bindsym f exec grim $HOME/Pictures/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png \
         && swaymsg mode "default"
     # Take a screenshot of an area and copy to clipboard
     bindsym c exec grim -g "$(slurp)" - | wl-copy && swaymsg mode "default"
