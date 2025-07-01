@@ -93,7 +93,7 @@
         "id": "a7810ddb-ee94-47f4-b4b9-c8500afe33e6",
         "name": "screenshot",
         "keyword": "screenshot printscreen",
-        "cmd": "flameshot gui",
+        "cmd": "grim -g \"$(slurp)\" $HOME/Pictures/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png",
         "icon": null,
         "is_default_search": false,
         "run_without_argument": true,

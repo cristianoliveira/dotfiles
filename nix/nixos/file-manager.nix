@@ -9,6 +9,9 @@
         thunar-volman
       ];
     };
+
+    file-roller.enable = true; # Archive manager for Thunar
+
     xfconf.enable = true;
   };
 
@@ -16,7 +19,7 @@
   services.tumbler.enable = true; # Thumbnail support for images
 
   environment.sessionVariables = {
-    GTK_THEME = "Adwaita:light";
+    GTK_THEME = "Adwaita:dark";
   };
 # .thunar .sidebar GTK_THEME
 }
