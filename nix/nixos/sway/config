@@ -573,7 +573,8 @@ bindsym $mod+F1 mode "positioning"
 #bindsym $mod+z exec 'swaymsg -t get_tree > /tmp/sway_tree.json'
 
 ## Notifications
-bindsym $mod+Delete exec makoctl dismiss -a
+# Dismiss all notifications with $mod+! I
+bindsym $mod+Ctrl+Shift+1 exec makoctl dismiss -a
 
 ### Status Bar
 #
