@@ -574,7 +574,7 @@ bindsym $mod+F1 mode "positioning"
 
 ## Notifications
 # Dismiss all notifications with $mod+! I
-bindsym $mod+Ctrl+Shift+1 exec makoctl dismiss -a
+bindsym $lmod+1 exec makoctl dismiss -a
 
 ### Status Bar
 #
