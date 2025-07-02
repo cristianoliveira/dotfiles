@@ -347,10 +347,11 @@ assign [app_id=$term] workspace 2
 # [SCRATCHPAD-RULES]
 for_window [instance="zapzap"] move to scratchpad
 for_window [app_id="org.telegram.desktop"] move to scratchpad
-for_window [app_id="Spotify"] move to scratchpad
+for_window [class="Spotify"] move to scratchpad
 for_window [instance="mail.google.com"] move to scratchpad
 for_window [class="Bitwarden"] move to scratchpad
 for_window [class="obsidian"] move to scratchpad
+for_window [app_id="thunar"] move to scratchpad
 
 # [SCRATCHPAD-MAPPING]
 bindgesture swipe:4:up scratchpad show
@@ -395,10 +396,10 @@ bindsym $mod+Ctrl+4 [con_mark="4"] scratchpad show
 bindsym $mod+Ctrl+5 [con_mark="5"] scratchpad show
 bindsym $mod+Ctrl+6 [con_mark="6"] scratchpad show
 
-bindsym $mod+Ctrl+7 [class="Spotify"] scratchpad show
-bindsym $mod+Ctrl+8 [instance="zapzap"] scratchpad show
-bindsym $mod+Ctrl+9 [class="Bitwarden"] scratchpad show
-bindsym $mod+Ctrl+0 [app_id="thunar"] scratchpad show
+bindsym $mod+Ctrl+7 exec swaymsg '[class="Spotify"] scratchpad show' || exec spotify
+bindsym $mod+Ctrl+8 exec swaymsg '[instance="zapzap"] scratchpad show' || exec zapzap
+bindsym $mod+Ctrl+9 exec swaymsg '[class="Bitwarden"] scratchpad show' || exec bitwarden
+bindsym $mod+Ctrl+0 exec swaymsg '[app_id="thunar"] scratchpad show' || exec thunar
 
 # Goto modo with $mod+g 
 mode "goto" {
