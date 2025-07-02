@@ -175,7 +175,7 @@ input "1452:613:Apple_Inc._Magic_Trackpad" {
     natural_scroll enabled
     middle_emulation enabled
     scroll_factor 0.2
-    pointer_accel -0.05
+    pointer_accel 0.2
 }
 
 input "1133:50498:Logitech_Wireless_Receiver_Mouse" {
