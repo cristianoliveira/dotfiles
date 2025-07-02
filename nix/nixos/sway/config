@@ -169,6 +169,14 @@ input "type:touchpad" {
     pointer_accel 0.2
 }
 
+input "1452:613:Apple_Inc._Magic_Trackpad" {
+    dwt enabled
+    tap enabled
+    natural_scroll enabled
+    middle_emulation enabled
+    pointer_accel 0.2
+}
+
 input "1133:50498:Logitech_Wireless_Receiver_Mouse" {
     natural_scroll enabled
     pointer_accel 0.2
@@ -183,12 +191,14 @@ input "2:10:TPPS/2_Synaptics_TrackPoint" {
 bindsym $mod+Insert exec swaymsg input "2:10:TPPS/2_Synaptics_TrackPoint" events toggle
 
 # Focus the workspace on the output that the mouse pointer is on with 3 fingers swipe
-bindgesture swipe:right workspace prev_on_output
-bindgesture swipe:left workspace next_on_output
+# bindgesture swipe:right workspace prev_on_output
+# bindgesture swipe:left workspace next_on_output
+bindgesture swipe:4:right workspace prev_on_output
+bindgesture swipe:4:left workspace next_on_output
 
 # Move the window to with the swipe gesture 4 fingers
-bindgesture swipe:4:right move right
-bindgesture swipe:4:left move left
+# bindgesture swipe:4:right move right
+# bindgesture swipe:4:left move left
 
 #### Keyboard configuration - Input
 # You can get the names of your inputs by running: swaymsg -t get_inputs
