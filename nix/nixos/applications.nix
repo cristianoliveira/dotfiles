@@ -10,6 +10,10 @@ in {
     alacritty
     bitwarden
 
+    # Media 
+    vlc # Video player
+    gthumb # Image viewer
+
     ## Media manipulation
     gimp
 
@@ -31,7 +35,6 @@ in {
     # Communication apps
     zapzap
     telegram-desktop
-
 
     # Web apps
     webapps.googlekeep
