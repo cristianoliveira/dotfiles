@@ -38,5 +38,8 @@ in {
     webapps.chatgpt
     webapps.youtube
     webapps.discord
+    
+    # Editor AI
+    code-cursor
   ];
 }
