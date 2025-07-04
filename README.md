@@ -1,12 +1,9 @@
 # dotfiles
 
-My "dotfiles" now fully set up my development environment for Nixos and OSX
+My "dotfiles" are a reproducible development environment for NixOS and macOS. 
+I try to keep the DX of both systems as close as possible, as well as, the overall UI/UX. I'd say they are 90% similar.
 
-![systemprint](https://github.com/cristianoliveira/dotfiles/assets/3959744/808ecffc-f4b3-426a-ab1c-fa589ee702fd)
-
-# Setup
-
-I try to keep the DX of both systems as close as possible. As well as the overall UI/UX. I'd say they are 90% similar.
+# System Details
 
 ```bash
           ▗▄▄▄       ▗▄▄▄▄    ▄▄▄▖           me@localhost
@@ -41,7 +38,7 @@ I try to keep the DX of both systems as close as possible. As well as the overal
  XMMMMMMMMMMMMMMMMMMMMMMMX.      Shell: bash 5.2.26
 ;MMMMMMMMMMMMMMMMMMMMMMMM:       Resolution: 1920x1080 @ FHDHz, 3024x1964
 :MMMMMMMMMMMMMMMMMMMMMMMM:       DE: Aqua
-.MMMMMMMMMMMMMMMMMMMMMMMMX.      WM: yabai
+.MMMMMMMMMMMMMMMMMMMMMMMMX.      WM: AeroSpace
  kMMMMMMMMMMMMMMMMMMMMMMMMWd.    Terminal: tmux
  'XMMMMMMMMMMMMMMMMMMMMMMMMMMk   CPU: Apple M2 Pro
   'XMMMMMMMMMMMMMMMMMMMMMMMMK.   GPU: Apple M2 Pro
@@ -50,14 +47,19 @@ I try to keep the DX of both systems as close as possible. As well as the overal
        "cooc*"    "*coo'"
 ```
 
+### Look and feel
+
+![systemprint](https://github.com/cristianoliveira/dotfiles/assets/3959744/808ecffc-f4b3-426a-ab1c-fa589ee702fd)
+
+
 # What do I use?
 
-  - NIX (for package and system management)
+  - Nix (for package and system management)
   - Neovim
   - Tmux
   - ZSH (oh-my-zsh)
   - Terminal: Alacritty
-  - WM: yabai (osx) / sway (linux)
+  - WM: AeroSpace (osx) / sway (linux)
   - Launcher: alfred (osx) / ulauncher (linux)
   - Others: Check `nix/*` folder
 
