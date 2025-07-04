@@ -174,7 +174,8 @@ input "1452:613:Apple_Inc._Magic_Trackpad" {
     tap enabled
     natural_scroll enabled
     middle_emulation enabled
-    pointer_accel 0.2
+    scroll_factor 0.2
+    pointer_accel -0.05
 }
 
 input "1133:50498:Logitech_Wireless_Receiver_Mouse" {
@@ -357,9 +358,6 @@ for_window [app_id="thunar"] move to scratchpad
 bindgesture swipe:4:up scratchpad show
 bindgesture swipe:4:down move scratchpad
 
-# notes
-bindsym $mod+Ctrl+n [class="obsidian"] scratchpad show
-
 # Webapps with chromium
 assign [instance="chat.openai.com"] workspace 4
 assign [instance=".*.youtube.com"] workspace 5
@@ -400,6 +398,9 @@ bindsym $mod+Ctrl+7 exec swaymsg '[class="Spotify"] scratchpad show' || exec spo
 bindsym $mod+Ctrl+8 exec swaymsg '[instance="zapzap"] scratchpad show' || exec zapzap
 bindsym $mod+Ctrl+9 exec swaymsg '[class="Bitwarden"] scratchpad show' || exec bitwarden
 bindsym $mod+Ctrl+0 exec swaymsg '[app_id="thunar"] scratchpad show' || exec thunar
+
+# notes
+bindsym $mod+Ctrl+n exec swaymsg '[class="obsidian"] scratchpad show' || exec obsidian
 
 # Goto modo with $mod+g 
 mode "goto" {
