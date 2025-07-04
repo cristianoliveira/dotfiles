@@ -400,7 +400,7 @@ bindsym $mod+Ctrl+9 exec swaymsg '[class="Bitwarden"] scratchpad show' || exec b
 bindsym $mod+Ctrl+0 exec swaymsg '[app_id="thunar"] scratchpad show' || exec thunar
 
 # notes
-bindsym $mod+Ctrl+n exec swaymsg '[class="obsidian"] scratchpad show' || exec obsidian
+bindsym $mod+Ctrl+n exec swaymsg '[class="obsidian"] scratchpad show' 
 
 # Goto modo with $mod+g 
 mode "goto" {
