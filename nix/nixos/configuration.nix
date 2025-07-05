@@ -19,6 +19,7 @@
       ./fingerprint-sensor.nix
       ./gaming.nix
       ./utils.nix
+      ./file-sync.nix
 
       # Shared configurations
       ../shared/direnv.nix
