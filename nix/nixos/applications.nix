@@ -28,9 +28,19 @@ in {
     # Browsers
     firefox
     (brave.override {
-      commandLineArgs = [
+      commandLineArgs = let
+        features = [
+          "TouchpadOverscrollHistoryNavigation"
+          "UseOzonePlatform"
+          "WaylandWindowDecorations"
+          "WebUIDarkMode"
+          "AutoDarkMode"
+        ];
+        featuresStr = builtins.concatStringsSep "," features;
+      in [
         # Enable swipe navigation on touchpads
-        "--enable-features=TouchpadOverscrollHistoryNavigation"
+        "--enable-features=${featuresStr}"
+        "--ozone-platform=wayland"
       ];
     })
 
