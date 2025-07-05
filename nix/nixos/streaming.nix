@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ pkgs, ... }:
 {
   environment.systemPackages = [
     # https://nixos.wiki/wiki/OBS_Studio
@@ -7,6 +7,8 @@
         wlrobs
         obs-backgroundremoval
         obs-pipewire-audio-capture
+
+        obs-multi-rtmp
       ];
     })
   ];
