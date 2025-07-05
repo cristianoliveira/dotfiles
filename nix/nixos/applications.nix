@@ -29,17 +29,16 @@ in {
     firefox
     (brave.override {
       commandLineArgs = let
-        features = [
+        features = builtins.concatStringsSep "," [
           "TouchpadOverscrollHistoryNavigation"
           "UseOzonePlatform"
           "WaylandWindowDecorations"
           "WebUIDarkMode"
           "AutoDarkMode"
         ];
-        featuresStr = builtins.concatStringsSep "," features;
       in [
         # Enable swipe navigation on touchpads
-        "--enable-features=${featuresStr}"
+        "--enable-features=${features}"
         "--ozone-platform=wayland"
       ];
     })
