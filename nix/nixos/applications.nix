@@ -18,7 +18,6 @@ in {
     gimp
 
     # Data managment
-    rclone
     zip
     unzip
 
@@ -56,7 +55,8 @@ in {
     webapps.youtube
     webapps.discord
     
-    # Editor AI
-    code-cursor
+    # Dev GUIs
+    code-cursor # Editor AI
+    dbeaver-bin # Database management
   ];
 }
