@@ -27,7 +27,12 @@ in {
 
     # Browsers
     firefox
-    brave
+    (brave.override {
+      commandLineArgs = [
+        # Enable swipe navigation on touchpads
+        "--enable-features=TouchpadOverscrollHistoryNavigation"
+      ];
+    })
 
     # Music
     spotify
