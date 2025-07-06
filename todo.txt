@@ -1,11 +1,5 @@
 --- General TODOs ---
 
-# TODO adds rclone as a service to sync with google drive in nixos
-
-# TODO use tpm (tmux plugin manager) to manage tmux plugins
-
-# TODO Adds explaination of the workflow in nix/README.md
-
 # TODO adds a way to manage aws credentials and terraform integration in nixos
 # or with a script to setup and validate the credentials
 
@@ -17,14 +11,12 @@ https://bitwarden.com/help/cli/
 
 # TODO adds a way to version the Brave custom shortcuts 
 
-# TODO tmux: mod + enter put focus on the nvim
-
 # TODO git: add a way to squash commits that start with "temp|wip|squashme"
+
+# TODO fix: rclone service makes file root owned by root:root
 
 --- NixOs/macOs UI/UX ---
 
-# TODO WM: adds way to position window on the screen with a shortcut (like bottom left, top right, etc.)
-
-# TODO WM: adds a shortcut to resize windows  
+# TODO WM: adds a shortcut to resize windows on a predefined size (w50%, w75%, h50%, h75%, etc)
 
 -------------------------
