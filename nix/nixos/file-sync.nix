@@ -16,9 +16,7 @@
   systemd.services.rcloneBisync = {
     description = "Rclone bisync service";
     serviceConfig = let 
-        # FIXME: use $HOME instead of hardcoding the path
-        # userDir = builtins.getEnv "HOME";
-        userDir = "/home/cristianoliveira"; # Replace with your actual username
+        userDir = "${builtins.getEnv "HOME"}";
         cmd = builtins.concatStringsSep " " [
           "${pkgs.rclone}/bin/rclone"
           "--config=${userDir}/.config/rclone/rclone.conf"
@@ -28,6 +26,7 @@
           "--resync"
         ];
       in {
+      User = "cristianoliveira";
       ExecStart = "${cmd}";
     };
   };
