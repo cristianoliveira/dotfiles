@@ -57,6 +57,6 @@ in {
     
     # Dev GUIs
     code-cursor # Editor AI
-    dbeaver-bin # Database management
+    unstable.dbeaver-bin # Database GUI - unstable ver because java 21
   ];
 }
