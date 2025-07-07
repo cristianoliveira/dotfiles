@@ -40,6 +40,8 @@ set $widthLarge 60ppt
 bindsym Mod4 bindsym $mod
 
 font pango:monospace 9
+titlebar_border_thickness 0                                                     
+titlebar_padding 0
 
 ### Output configuration
 #
@@ -316,9 +318,11 @@ workspace 5 output DP-2
 workspace 6 output DP-1
 workspace 7 output DP-1
 
+workspace 8 output DP-2
+workspace 9 output DP-2
+
 workspace 8 output eDP-1
 workspace 9 output eDP-1
-workspace 10 output eDP-1
 
 bindsym $mod+1 workspace number 1
 bindsym $mod+2 workspace number 2
