@@ -1,0 +1,12 @@
+#input > image.left {
+  -gtk-icon-transform:scaleX(0);
+  margin-left: -10px;
+}
+
+#input > image.right {
+  -gtk-icon-transform:scaleX(0);
+}
+
+#input {
+  padding: 0;
+}

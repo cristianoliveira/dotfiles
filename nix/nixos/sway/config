@@ -372,19 +372,23 @@ for_window [app_id=$term] mark "term"
 
 ## Marks shortcuts
 
-# focus on main mark with $mod+Ctrl+1
-bindsym $mod+Ctrl+m exec echo "" | wofi -d "Mark: " | xargs -I {} swaymsg mark "{}"
+# Mark the current window with $mod+Ctrl+m
+bindsym $mod+Ctrl+m exec echo "" \
+            | wofi -d -L 1 --width 280 \
+                   -p "Type the mark for this window: " \
+            | xargs -I {} swaymsg mark "{}"
+# Set focus to the marked window with $mod+Ctrl+apostrophe
 bindsym $mod+Ctrl+apostrophe exec swaymsg -t get_tree \
             | jq '.. | select(.marks? | length > 0) | "\(.marks[]) - \(.name)"' \
             | tr -d '"' \
-            | wofi -d "Focus: " \
+            | wofi -d -p "Focus: " \
             | cut -c1 \
             | xargs -I {} swaymsg '[con_mark="{}"] focus'
 # Summon the marked window to current workspace
 bindsym $mod+Ctrl+Slash exec swaymsg -t get_tree \
             | jq '.. | select(.marks? | length > 0) | "\(.marks[]) - \(.name)"' \
             | tr -d '"' \
-            | wofi -d "Summon: " | xargs -I {} swaymsg '[con_mark="{}"] move container to workspace current'
+            | wofi -d -p "Summon: " | xargs -I {} swaymsg '[con_mark="{}"] move container to workspace current'
 
 # Mark the current window with $mod+Ctrl+Shift+1
 bindsym $mod+Ctrl+1 [con_mark="1"] scratchpad show
