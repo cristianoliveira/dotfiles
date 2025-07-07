@@ -391,6 +391,12 @@ bindsym $lmod+apostrophe \
 bindsym $mod+Ctrl+Slash \
             exec ~/.dotfiles/nix/nixos/sway/bin/sway-marks.sh summon
 
+# Resize widows with 
+bindsym $mod+F2 \
+            exec echo "w100\nw80\nw50\nw40\nw20\nh100\nh80\nh50\nh40\nh20" \
+            | wofi -d -p "Resize window" \
+            | xargs -I {} ~/.dotfiles/nix/nixos/sway/bin/sway-resize.sh {}
+
 # Mark the current window with $mod+Ctrl+Shift+1
 bindsym $mod+Ctrl+1 [con_mark="1"] scratchpad show
 bindsym $mod+Ctrl+2 [con_mark="2"] scratchpad show
