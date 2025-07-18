@@ -17,6 +17,6 @@ https://bitwarden.com/help/cli/
 
 --- NixOs/macOs UI/UX ---
 
-# TODO WM: adds a shortcut to resize windows on a predefined size (w50%, w75%, h50%, h75%, etc)
+# TODO scratchpad shortcut should set focus when the window in tilling layout 
 
 -------------------------
