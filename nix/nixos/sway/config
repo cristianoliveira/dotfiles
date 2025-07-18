@@ -359,8 +359,8 @@ for_window [class="obsidian"] move to scratchpad
 for_window [app_id="thunar"] move to scratchpad
 
 # [SCRATCHPAD-MAPPING]
-bindgesture swipe:4:up scratchpad show
-bindgesture swipe:4:down move scratchpad
+bindgesture swipe:4:up scratchpad show; focus
+bindgesture swipe:4:down move scratchpad; focus
 
 # Webapps with chromium
 assign [instance="chat.openai.com"] workspace 4
@@ -398,20 +398,20 @@ bindsym $mod+F2 \
             | xargs -I {} ~/.dotfiles/nix/nixos/sway/bin/sway-resize.sh {}
 
 # Mark the current window with $mod+Ctrl+Shift+1
-bindsym $mod+Ctrl+1 [con_mark="1"] scratchpad show
-bindsym $mod+Ctrl+2 [con_mark="2"] scratchpad show
-bindsym $mod+Ctrl+3 [con_mark="3"] scratchpad show
-bindsym $mod+Ctrl+4 [con_mark="4"] scratchpad show
-bindsym $mod+Ctrl+5 [con_mark="5"] scratchpad show
-bindsym $mod+Ctrl+6 [con_mark="6"] scratchpad show
+bindsym $mod+Ctrl+1 [con_mark="1"] scratchpad show; focus
+bindsym $mod+Ctrl+2 [con_mark="2"] scratchpad show; focus
+bindsym $mod+Ctrl+3 [con_mark="3"] scratchpad show; focus
+bindsym $mod+Ctrl+4 [con_mark="4"] scratchpad show; focus
+bindsym $mod+Ctrl+5 [con_mark="5"] scratchpad show; focus
+bindsym $mod+Ctrl+6 [con_mark="6"] scratchpad show; focus
 
-bindsym $mod+Ctrl+7 exec swaymsg '[class="Spotify"] scratchpad show' || exec spotify
-bindsym $mod+Ctrl+8 exec swaymsg '[instance="zapzap"] scratchpad show' || exec zapzap
-bindsym $mod+Ctrl+9 exec swaymsg '[class="Bitwarden"] scratchpad show' || exec bitwarden
-bindsym $mod+Ctrl+0 exec swaymsg '[app_id="thunar"] scratchpad show' || exec thunar
+bindsym $mod+Ctrl+7 exec swaymsg '[class="Spotify"] scratchpad show; focus' || exec spotify
+bindsym $mod+Ctrl+8 exec swaymsg '[instance="zapzap"] scratchpad show; focus' || exec zapzap
+bindsym $mod+Ctrl+9 exec swaymsg '[class="Bitwarden"] scratchpad show; focus' || exec bitwarden
+bindsym $mod+Ctrl+0 exec swaymsg '[app_id="thunar"] scratchpad show; focus' || exec thunar
 
 # notes
-bindsym $mod+Ctrl+n exec swaymsg '[class="obsidian"] scratchpad show' || exec obsidian
+bindsym $mod+Ctrl+n exec swaymsg '[class="obsidian"] scratchpad show; focus' || exec obsidian
 
 # Goto modo with $mod+g 
 mode "goto" {
