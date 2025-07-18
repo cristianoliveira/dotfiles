@@ -405,9 +405,9 @@ bindsym $mod+Ctrl+4 [con_mark="4"] scratchpad show; focus
 bindsym $mod+Ctrl+5 [con_mark="5"] scratchpad show; focus
 bindsym $mod+Ctrl+6 [con_mark="6"] scratchpad show; focus
 
-bindsym $mod+Ctrl+7 exec swaymsg '[class="Spotify"] scratchpad show; focus' || exec spotify
+bindsym $mod+Ctrl+7 exec swaymsg '[class="Bitwarden"] scratchpad show; focus' || exec bitwarden
 bindsym $mod+Ctrl+8 exec swaymsg '[instance="zapzap"] scratchpad show; focus' || exec zapzap
-bindsym $mod+Ctrl+9 exec swaymsg '[class="Bitwarden"] scratchpad show; focus' || exec bitwarden
+bindsym $mod+Ctrl+9 exec swaymsg '[class="Spotify"] scratchpad show; focus' || exec spotify
 bindsym $mod+Ctrl+0 exec swaymsg '[app_id="thunar"] scratchpad show; focus' || exec thunar
 
 # notes
