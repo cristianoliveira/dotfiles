@@ -138,17 +138,19 @@
           cmd-ctrl-o = "workspace-back-and-forth";
 
           ## SCRATCHPAD FIXED BINDINGS
-          cmd-ctrl-0 = ''exec-and-forget aerospace-scratchpad show Finder \
-                        ||  open -a Finder'';
-          cmd-ctrl-9 = ''
+          cmd-ctrl-7 = ''
             exec-and-forget aerospace-scratchpad show Bitwarden \
-                        ||  open -a Bitwarden'';
+                         || open -a Bitwarden'';
           cmd-ctrl-8 = ''
             exec-and-forget aerospace-scratchpad show WhatsApp \
                         ||  open -a WhatsApp'';
-          cmd-ctrl-7 = ''
+          cmd-ctrl-9 = ''
             exec-and-forget aerospace-scratchpad show Spotify \
-                        ||  open -a Spotify'';
+                         || open -a Spotify'';
+
+          cmd-ctrl-0 = ''
+            exec-and-forget aerospace-scratchpad show Finder \
+                         || open -a Finder'';
 
           # [N]ote taker
           cmd-ctrl-n = ''
