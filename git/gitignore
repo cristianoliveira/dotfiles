@@ -60,3 +60,4 @@ pono.toml
 
 # Ai related
 .aider*
+.opencode
