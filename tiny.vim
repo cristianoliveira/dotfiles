@@ -17,3 +17,5 @@ set ruler " Show the cursor position all the time
 set showcmd " Show incomplete commands
 
 set number " Show line numbers
+
+set syntax on " Enable syntax highlighting
