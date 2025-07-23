@@ -35,16 +35,19 @@
       {
         name = "MG2500-series";
         location = "Home";
-        deviceUri = "http://app.local:631/printers/MG2500-series";
+        deviceUri = "http://nixpi.lab:631/printers/MG2500-series";
         model = "drv:///sample.drv/generic.ppd";
         ppdOptions = {
+          ColorModel = "RGB";
           PageSize = "A4";
         };
       }
     ];
     ensureDefaultPrinter = "MG2500-series";
   };
-  hardware.sane.enable = true;
+
+  # To enable scanner
+  # hardware.sane.enable = true;
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
