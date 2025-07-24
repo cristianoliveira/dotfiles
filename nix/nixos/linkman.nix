@@ -5,34 +5,39 @@ _: {
     enable = true;
 
     targets = rec {
+      # Standard directories
       "home" = "~/";
       "config" = "~/.config";
       "local" = "~/.local";
 
+      # Aplication specific directories
+      "ctags" = "~/.ctags.d";
       # Ensure these mutable directories exist so
       # that linkman can create links in them
       "ulauncher" = "${config}/ulauncher";
+      "applications" = "${local}/share/applications";
     };
 
     links = with targets; [
       # Standard
-      { source = ../../nvim; target = "${config}/nvim"; }
-      { source = ../../tmux; target = "${config}/tmux"; }
+      { source = ../../nvim; target = config; }
+      { source = ../../tmux; target = config; }
       { source = ../../zsh/zshrc; target = "${home}.zshrc"; }
       { source = ../../git/gitignore; target = "${home}.gitignore"; }
       { source = ../../git/gitconfig; target = "${home}.gitconfig"; }
-      { source = ../../aichat; target = "${config}/aichat"; }
+      { source = ../../aichat; target = config; }
+      { source = ../../ctags; target = "${ctags}/default.ctags"; }
 
       # Shared
-      { source = ../shared/alacritty; target = "${config}/alacritty"; }
-      { source = ../shared/direnv; target = "${config}/direnv"; }
+      { source = ../shared/alacritty; target = config; }
+      { source = ../shared/direnv; target = config; }
 
       # Linux specific
       { source = ./fonts; target = "${local}/share/fonts"; }
-      { source = ./sway; target = "${config}/sway"; }
-      { source = ./swaylock; target = "${config}/swaylock"; }
-      { source = ./i3status; target = "${config}/i3status"; }
-      { source = ./wofi; target = "${config}/wofi"; }
+      { source = ./sway; target = config; }
+      { source = ./swaylock; target = config; }
+      { source = ./i3status; target = config; }
+      { source = ./wofi; target = config; }
 
       # Ulauncher requires mutable links
       { 
@@ -47,6 +52,37 @@ _: {
         source = "~/.dotfiles/nix/nixos/ulauncher/extensions.json";
         target = "${ulauncher}/extensions.json";
       }
+
+      # Application entries
+      { 
+        source = ./desktop-entries/chatgpt.desktop; 
+        target = applications;
+      }
+      {
+        source = ./desktop-entries/discord.desktop;
+        target = applications;
+      }
+      {
+        source = ./desktop-entries/gmail.desktop;
+        target = applications;
+      }
+      {
+        source = ./desktop-entries/google-keep.desktop;
+        target = applications;
+      }
+      {
+        source = ./desktop-entries/twitch.desktop;
+        target = applications;
+      }
+      {
+        source = ./desktop-entries/youtube.desktop;
+        target = applications;
+      }
+      {
+        source = ./desktop-entries/zapzap.desktop;
+        target = applications;
+      }
+      
     ];
 
     user = "cristianoliveira";
