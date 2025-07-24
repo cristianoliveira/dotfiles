@@ -1,12 +1,12 @@
 _: let
   targets = rec {
     "home" = "~/";
-    "home_config" = "~/.config";
-    "home_local" = "~/.local";
+    "config" = "~/.config";
+    "local" = "~/.local";
 
     # Ensure these mutable directories exist so
     # that linkman can create links in them
-    "ulauncher" = "${home_config}/ulauncher";
+    "ulauncher" = "${config}/ulauncher";
   };
  in {
   # Manage dotfiles using linkman 
@@ -16,36 +16,38 @@ _: let
 
     inherit targets;
 
-    links = [
+    links = with targets; [
       # Standard
-      { source = ../../nvim; target = "~/.config/nvim"; }
-      { source = ../../tmux; target = "~/.config/tmux"; }
-      { source = ../../zsh/zshrc; target = "~/.zshrc"; }
-      { source = ../../aichat; target = "~/.config/aichat"; }
-      { source = ../../git/gitconfig; target = "~/.gitconfig"; }
-      { source = ../../git/gitignore; target = "~/.gitignore"; }
+      { source = ../../nvim; target = "${config}/nvim"; }
+      { source = ../../tmux; target = "${config}/tmux"; }
+      { source = ../../zsh/zshrc; target = "${home}.zshrc"; }
+      { source = ../../git/gitignore; target = "${home}.gitignore"; }
+      { source = ../../git/gitconfig; target = "${home}.gitconfig"; }
+      { source = ../../aichat; target = "${config}/aichat"; }
 
       # Shared
-      { source = ../shared/alacritty; target = "~/.config/alacritty"; }
-      { source = ../shared/direnv; target = "~/.config/direnv"; }
+      { source = ../shared/alacritty; target = "${config}/alacritty"; }
+      { source = ../shared/direnv; target = "${config}/direnv"; }
 
       # Linux specific
-      { source = ./fonts; target = "~/.local/share/fonts"; }
-      { source = ./sway; target = "~/.config/sway"; }
-      { source = ./swaylock/config; target = "~/.swaylock"; }
+      { source = ./fonts; target = "${local}/share/fonts"; }
+      { source = ./sway; target = "${config}/sway"; }
+      { source = ./swaylock/config; target = "${home}/.swaylock"; }
+      { source = ./wofi; target = "${config}/wofi"; }
+
+      # Ulauncher requires mutable links
       { 
-        source = ./ulauncher/settings.json;
-        target = "${targets.ulauncher}/settings.json";
+        source = "~/.dotfiles/nix/nixos/ulauncher/settings.json";
+        target = "${ulauncher}/settings.json";
       }
       { 
-        source = ./ulauncher/shortcuts.json;
-        target = "${targets.ulauncher}/shortcuts.json";
+        source = "~/.dotfiles/nix/nixos/ulauncher/shortcuts.json";
+        target = "${ulauncher}/shortcuts.json";
       }
       { 
-        source = ./ulauncher/extensions.json; 
-        target = "${targets.ulauncher}/extensions.json";
+        source = "~/.dotfiles/nix/nixos/ulauncher/extensions.json";
+        target = "${ulauncher}/extensions.json";
       }
-      { source = ./wofi; target = "~/.config/wofi"; }
     ];
 
     user = "cristianoliveira";
