@@ -1,20 +1,18 @@
-_: let
-  targets = rec {
-    "home" = "~/";
-    "config" = "~/.config";
-    "local" = "~/.local";
-
-    # Ensure these mutable directories exist so
-    # that linkman can create links in them
-    "ulauncher" = "${config}/ulauncher";
-  };
- in {
+_: {
   # Manage dotfiles using linkman 
   # See: https://github.com/cristianoliveira/nix-linkman
   services.linkman = rec {
     enable = true;
 
-    inherit targets;
+    targets = rec {
+      "home" = "~/";
+      "config" = "~/.config";
+      "local" = "~/.local";
+
+      # Ensure these mutable directories exist so
+      # that linkman can create links in them
+      "ulauncher" = "${config}/ulauncher";
+    };
 
     links = with targets; [
       # Standard
@@ -55,4 +53,3 @@ _: let
     group = "users";
   };
 }
-
