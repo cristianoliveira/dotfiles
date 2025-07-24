@@ -12,10 +12,14 @@
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
     copkgs.url = "github:cristianoliveira/nixpkgs";
+
+    linkman = {
+      url = "github:cristianoliveira/nix-linkman";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { nixpkgs, unstable, nix-darwin, copkgs, ... }:
-  {
+  outputs = { nixpkgs, unstable, nix-darwin, copkgs, linkman, ... }: {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem rec {
       system = "x86_64-linux";
       modules = [
@@ -31,6 +35,9 @@
             })
           ];
         })
+        linkman.nixosModules.${system}.linkman
+        ./nixos/linkman.nix
+
         ./nixos/configuration.nix
       ];
     };
