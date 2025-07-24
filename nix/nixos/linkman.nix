@@ -32,7 +32,7 @@ _: let
       # Linux specific
       { source = ./fonts; target = "${local}/share/fonts"; }
       { source = ./sway; target = "${config}/sway"; }
-      { source = ./swaylock/config; target = "${home}/.swaylock"; }
+      { source = ./swaylock; target = "${config}/swaylock"; }
       { source = ./wofi; target = "${config}/wofi"; }
 
       # Ulauncher requires mutable links
