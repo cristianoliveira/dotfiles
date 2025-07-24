@@ -33,6 +33,7 @@ _: let
       { source = ./fonts; target = "${local}/share/fonts"; }
       { source = ./sway; target = "${config}/sway"; }
       { source = ./swaylock; target = "${config}/swaylock"; }
+      { source = ./i3status; target = "${config}/i3status"; }
       { source = ./wofi; target = "${config}/wofi"; }
 
       # Ulauncher requires mutable links
