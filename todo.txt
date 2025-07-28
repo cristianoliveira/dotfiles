@@ -21,4 +21,5 @@ https://bitwarden.com/help/cli/
 
 # FIXME stow is not present when first isntallation. Create script in nix
 
+# FIXME ~/Applications is not created on first installation
 -------------------------
