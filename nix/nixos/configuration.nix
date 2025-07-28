@@ -25,6 +25,7 @@
       ../shared/direnv.nix
       ../shared/developer-tools.nix
       ../shared/environment-variables.nix
+      ../shared/stow.nix
     ];
 
   hardware.graphics.enable = true;

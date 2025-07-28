@@ -19,4 +19,8 @@ fi
 ## First run setup
 bash "$HOME/.dotfiles/nix/$OSTARGET/install.sh"
 
+# Make sure the nix profile is in the PATH before running 
+# next scripts
+export PATH="/run/current-system/sw/bin:$PATH"
+
 bash "$HOME/.dotfiles/stow/install.sh"
