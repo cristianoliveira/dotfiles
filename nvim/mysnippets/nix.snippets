@@ -196,3 +196,32 @@ snippet shpy "a shell.nix for python"
     '';
   }
 endsnippet
+
+snippet mdl "a default module definition"
+{ pkgs ? import <nixpkgs> {}, ... }: {
+  environment.systemPackages = with pkgs; [
+    hello
+    # (pkgs.callPackage ./nix/package.nix {})
+  ];
+
+  environment.sessionVariables = {
+    GTK_THEME = "Adwaita:dark";
+  };
+
+  systemd.services.notifier = {
+    enable = true;
+    wantedBy = [ "multi-user.target" ];
+
+    serviceConfig = {
+      # Link from $HOME/.dotfiles/nix/nixos/services
+      ExecStart = "/var/services/notification.sh";
+    };
+
+    script = ''
+      #!/bin/sh
+
+      echo "Notification service started"
+    '';
+  };
+}
+endsnippet
