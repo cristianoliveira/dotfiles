@@ -19,4 +19,6 @@ https://bitwarden.com/help/cli/
 
 # TODO scratchpad shortcut should set focus when the window in tilling layout 
 
+# FIXME stow is not present when first isntallation. Create script in nix
+
 -------------------------
