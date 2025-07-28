@@ -225,3 +225,10 @@ snippet mdl "a default module definition"
   };
 }
 endsnippet
+
+snippet shscbin "shell script bin"
+  pkgs.writeShellScriptBin "myscript" ''
+    #!${pkgs.stdenv.shell}
+    echo "Hello, world!"
+  ''; 
+endsnippet
