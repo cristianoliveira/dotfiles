@@ -1,6 +1,15 @@
-{ pkgs, ... }: 
+{ pkgs, ... }: let 
+    aerospaceNightly = pkgs.aerospace.overrideAttrs (_: finalAttrs: let 
+        version = "0.19.1-Beta";
+      in {
+        inherit version;
+        src = pkgs.fetchzip {
+          url = "https://github.com/nikitabobko/AeroSpace/releases/download/v${version}/AeroSpace-v${version}.zip";
+          sha256 = "sha256-9BR3dFqO1X35uyNcT5vgME0HqeHW/yo9qRIGZs2bvuA=";
+        };
+      });
 
-{
+in {
   environment.systemPackages = with pkgs; [
     # Requires custom packages
     copkgs.aerospace-marks
@@ -12,7 +21,9 @@
       enable = true;
       # Enable the aerospace service
       # This is a placeholder for the actual service
-      package = pkgs.aerospace;
+      # package = pkgs.aerospace;
+      # NOTE: To install the latest version of Aerospace
+      package = aerospaceNightly; 
 
       settings = {
         gaps = {
