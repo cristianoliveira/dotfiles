@@ -38,6 +38,7 @@ module.exports = {
         /sanity.studio/,
         /superblocks/,
         /slack/,
+        /notion.so/,
         /docs.google/,
 
         /localhost/,
