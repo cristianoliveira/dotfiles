@@ -10,6 +10,7 @@
       ./applications-shortcuts.nix
       ./global-shortcuts.nix
       ./window-manager.nix
+      ./virtualization.nix
 
       # Shared between linux and darwin
       ../shared/developer-tools.nix
