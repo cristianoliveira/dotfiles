@@ -7,6 +7,7 @@
     [ 
       ./developer-tools.nix
       ./applications.nix
+      ./applications-shortcuts.nix
       ./window-manager.nix
 
       # Shared between linux and darwin
