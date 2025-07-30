@@ -10,10 +10,6 @@
       # FIXME this package is failing
       # bitwarden-cli
 
-      # OSX tiling window manager
-      # yabai
-      # skhd
-
       obsidian
 
       # webapps.chatgpt doesn't work in macOS
