@@ -5,6 +5,10 @@
   # https://github.com/LnL7/nix-darwin/tree/master
   imports =
     [ 
+      # System builtin settings
+      ./macos-settings.nix
+
+      # Applications settigs
       ./developer-tools.nix
       ./applications.nix
       ./applications-shortcuts.nix
@@ -67,45 +71,7 @@
     };
   };
 
-  system = {
-    primaryUser = "cristianoliveira";
-
-    keyboard.enableKeyMapping = true;
-    keyboard.remapCapsLockToControl = true;
-
-    defaults = {
-      # Keyboard settings
-      # Enable full keyboard access for all controls
-      # (e.g. enable Tab in modal dialogs)
-      # define delays, keyrepeat and press and hold
-      NSGlobalDomain = {
-        AppleKeyboardUIMode = 3;
-        _HIHideMenuBar = true;
-
-        InitialKeyRepeat = 10;
-        KeyRepeat = 1;
-        ApplePressAndHoldEnabled = false;
-        # set fn properly
-        "com.apple.keyboard.fnState" = true;
-
-        # Finder default
-        AppleShowAllFiles = true;
-      };
-
-      # NOTE: This is not working, but it should
-      # ERROR: defaults[41922:398520] Could not write domain com.apple.universalaccess; exiting
-      # universalaccess.reduceMotion = true;
-
-      # Dock configs
-      dock.autohide = true;
-
-      # Finder and file managment
-      finder = {
-        AppleShowAllFiles = true;
-        _FXShowPosixPathInTitle = true;
-      };
-    };
-  };
+  system.primaryUser = "cristianoliveira";
 
   # Auto upgrade nix package and the daemon service.
   nix.enable = true;

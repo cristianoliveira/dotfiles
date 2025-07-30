@@ -1,11 +1,7 @@
-{ pkgs, ... }: {
-  environment.systemPackages = with pkgs; [
-    colima # docker runtime 
-  ];
-
+{
   homebrew.casks = [
     # More dev tools
-    "visual-studio-code" # For pairing
+    "visual-studio-code" # For pair programming
     "dbeaver-community" # DB sql client
   ];
 }
