@@ -41,6 +41,14 @@
         AppleShowAllFiles = true;
         _FXShowPosixPathInTitle = true;
       };
+
+      # Group windows in Mission Control
+      CustomUserPreferences = {
+        "com.apple.dock" = {
+          "expose-group-apps" = 1;
+          "expose-group-apps-enabled" = 1;
+        };
+      };
     };
   };
 }
