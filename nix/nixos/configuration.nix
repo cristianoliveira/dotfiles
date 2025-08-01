@@ -167,5 +167,14 @@
   # Experimental features
   # If you used nix/nixos/setup.sh to setup your system this feature is already enabled
   # via the $HOME/.config/nix/nix.conf file
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix = {
+    settings.experimental-features = [ "nix-command" "flakes" ];
+
+    # Enable garbage collection every day at 22:00 and delete older than 14 days
+    gc = {
+      automatic = true;
+      dates = "22:00";
+      options = "--delete-older-than 14d";
+    };
+  };
 }
