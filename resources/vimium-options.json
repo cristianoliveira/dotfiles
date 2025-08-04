@@ -1,20 +1,4 @@
 {
-  "keyMappings": [
-    "",
-    "\nmap <C-o> goBack ",
-    "\nmap <C-i> goForward ",
-    "\nmap <C-j> goBack ",
-    "\nmap <C-u> scrollPageUp ",
-    "\nmap <C-d> scrollPageDown ",
-
-    "\nmap <C-w> removeTab ",
-    "\nmap 0 firstTab ",
-    "\nmap 1 firstTab ",
-    "\nmap - firstTab ",
-    "\nmap $ lastTab ",
-    "\nmap 9 lastTab ",
-    "\nmap <C-p> Vomnibar.activateTabSelection "
-  ],
-
-  "settingsVersion": "2.0.6"
+  "keyMappings": "map <C-o> goBack\nmap <C-i> goForward\nmap <C-j> goBack\nmap <C-u> scrollPageUp\nmap <C-d> scrollPageDown\nmap <C-w> removeTab\nmap <C-r> reload\nmap <C-1> firstTab\nmap <C-0> lastTab\nmap $ lastTab\nmap 9 lastTab\nmap <C-p> Vomnibar.activateTabSelection",
+  "settingsVersion": "2.3"
 }
