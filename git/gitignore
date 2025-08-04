@@ -61,3 +61,5 @@ pono.toml
 # Ai related
 .aider*
 .opencode
+.crush
+.cursor
