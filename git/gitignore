@@ -37,7 +37,9 @@ _wte/
 .watch.yaml
 .fzz
 
+# Git user related stuff
 .gitconfig.user
+.git-blame-ignore-revs
 
 .tool-versions
 
