@@ -16,7 +16,7 @@
   systemd.services.rcloneBisync = {
     description = "Rclone bisync service";
     serviceConfig = let 
-        userDir = "${builtins.getEnv "HOME"}";
+        userDir = "/home/cristianoliveira";
         cmd = builtins.concatStringsSep " " [
           "${pkgs.rclone}/bin/rclone"
           "--config=${userDir}/.config/rclone/rclone.conf"
