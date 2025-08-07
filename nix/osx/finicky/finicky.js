@@ -39,7 +39,8 @@ module.exports = {
         /superblocks/,
         /slack/,
         /notion.so/,
-        /docs.google/,
+        /docs\.google/,
+        /shortcut\.com/,
 
         /localhost/,
         /local.gd/,
