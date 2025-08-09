@@ -19,22 +19,29 @@
     };
   };
 
-  outputs = { nixpkgs, unstable, nix-darwin, copkgs, linkman, ... }: {
+  outputs = { nixpkgs, unstable, nix-darwin, copkgs, linkman, ... }: let
+    pkgsSetup = { system, ... }: { 
+      # Injects mypkgs into nixpkgs as pkgs.mypkgs
+      nixpkgs = {
+        config = { allowUnfree = true; };
+
+        overlays = [ 
+          (final: prev: { 
+            copkgs = copkgs.packages.x86_64-linux;
+            unstable = import unstable {
+              inherit system;
+              config = { allowUnfree = true; };
+            };
+          })
+        ];
+      };
+    };
+  in {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem rec {
       system = "x86_64-linux";
       modules = [
-        (_: { 
-          # Injects mypkgs into nixpkgs as pkgs.mypkgs
-          nixpkgs.overlays = [ 
-            (final: prev: { 
-              copkgs = copkgs.packages.x86_64-linux;
-              unstable = import unstable {
-                inherit system;
-                config = { allowUnfree = true; };
-              };
-            })
-          ];
-        })
+        pkgsSetup system
+
         linkman.nixosModules.${system}.linkman
         ./nixos/linkman.nix
 
@@ -44,18 +51,7 @@
     darwinConfigurations.darwin = nix-darwin.lib.darwinSystem rec {
       system = "aarch64-darwin";
       modules = [
-        (_: { 
-          # Injects mypkgs into nixpkgs as pkgs.mypkgs
-          nixpkgs.overlays = [ 
-            (final: prev: {
-              copkgs = copkgs.packages.aarch64-darwin;
-              unstable = import unstable {
-                inherit system;
-                config = { allowUnfree = true; };
-              };
-            })
-          ];
-        })
+        pkgsSetup system
 
         ./osx/configuration.nix
       ];
