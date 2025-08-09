@@ -36,13 +36,24 @@
       {
         name = "MG2500-series";
         location = "Home";
-        deviceUri = "http://nixpi.lab:631/printers/MG2500-series";
+        deviceUri = "https://printers.nixpi.lab/printers/MG2500-series";
         model = "drv:///sample.drv/generic.ppd";
         ppdOptions = {
           ColorModel = "RGB";
           PageSize = "A4";
         };
       }
+      # Black and white printer
+      {
+        name = "MG2500-series-bw";
+        location = "Home";
+        deviceUri = "https://printers.nixpi.lab/printers/MG2500-series";
+        model = "drv:///sample.drv/generic.ppd";
+        ppdOptions = {
+          ColorModel = "KGray"; # RGB CMYGray KGray
+          PageSize = "A4";
+        };
+      } 
     ];
     ensureDefaultPrinter = "MG2500-series";
   };
