@@ -342,11 +342,12 @@ in {
           "3" = "main";
           "4" = "main";
           "5" = "main";
-          "6" = ["secondary" "main"];
-          "7" = ["secondary" "main"];
-          "8" = ["secondary" "main"];
+          "6" = ["secondary" "main" "built-in"];
+          "7" = ["secondary" "main" "built-in"];
+          "8" = ["secondary" "main" "built-in"];
           "9" = ["built-in" "main"];
           "0" = ["built-in" "main"];
+          ".scratchpad" = ["deskpad" "secondary" "main" "built-in"];
         };
 
         on-window-detected = [
