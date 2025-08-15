@@ -16,3 +16,6 @@ alias dups='grep -v "^\s*$" | sort | uniq -d'
 
 # Ripgrep aliases
 alias rgh='rg --hidden'
+
+# Use zoxide  
+alias cdd='z'

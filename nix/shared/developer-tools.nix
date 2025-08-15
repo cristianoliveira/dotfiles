@@ -12,6 +12,8 @@
     ripgrep
     jq
 
+    zoxide # Better cd inspired by z
+
     # NOTE: not using it 
     # ngrok
 

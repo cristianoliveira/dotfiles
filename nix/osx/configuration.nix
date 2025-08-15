@@ -28,6 +28,8 @@
 
   # Allow proprietary pkgs for apps like ngrok
   nixpkgs.config.allowUnfree = true;
+  
+  services.openssh.enable = true;
 
   # Create /etc/zshrc that loads the nix-darwin environment.
   programs = {
@@ -48,6 +50,7 @@
       # Oh-my-zsh configuration
       promptInit = ''
         plugins=(git vi-mode history-substring-search)
+        eval "$(${pkgs.zoxide}/bin/zoxide init zsh)"
         source $ZSH/oh-my-zsh.sh
       '';
 
