@@ -6,6 +6,8 @@ RESTOW=${RESTOW:-false}
 
 . $HOME/.dotfiles/stow/common.sh
 
+packageToInstall="${1:-}"
+
 # list all packages in stow directory
 packages=$(ls -d ./stow/*)
 echo "Installing shared packages"
@@ -13,6 +15,18 @@ for package in $packages; do
     # Check if the package is a directory
     if [ ! -d "$package" ]; then
         continue
+    fi
+    # Check if install only a specific package
+    if [ -z "$packageToInstall" ]; then
+        # If no specific package is provided, install all packages
+        echo ">> Installing all packages in $package"
+    else
+        # If a specific package is provided, check if it matches the current package
+        pkg=$(basename "$package")
+        if [ "$pkg" != "$packageToInstall" ]; then
+            continue
+        fi
+        echo ">> Installing package $pkg"
     fi
 
     pkg=$(basename "$package")
@@ -47,6 +61,19 @@ for package in $packages; do
     pkg=$(basename "$package")
     if [ "install.sh" = "$pkg" ]; then
         continue
+    fi
+
+    # Check if install only a specific package
+    if [ -z "$packageToInstall" ]; then
+        # If no specific package is provided, install all packages
+        echo ">> Installing all packages in $package"
+    else
+        # If a specific package is provided, check if it matches the current package
+        pkg=$(basename "$package")
+        if [ "$pkg" != "$packageToInstall" ]; then
+            continue
+        fi
+        echo ">> Installing package $pkg"
     fi
 
     package_before_install "$package"
