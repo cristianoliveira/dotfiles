@@ -33,6 +33,8 @@ vim.g.projectionist_heuristics = {
       ['alternate'] = { '{}.ts' },
       ['dispatch'] = { 'npm run test -- --watch' },
     },
+
+    -- React specific --
     ['*.tsx'] = {
       ['alternate'] = { '{}.spec.tsx', '{}.test.tsx' },
       -- Allow :Etest to jump to alternative file eg from `Foo.tsx` to `Foo.spec.tsx`
@@ -55,7 +57,28 @@ vim.g.projectionist_heuristics = {
     },
     ['*.spec.jsx'] = {
       ['alternate'] = { '{}.jsx' }
-    }
+    },
+    -- redux pattern
+    ['*/reducer.ts'] = {
+      ['alternate'] = { '{}/actions.ts', '{}/types.ts', '{}/state.ts', '{}/selectors.ts' },
+      ['type'] = "redux"
+    },
+    ['*/actions.ts'] = {
+      ['alternate'] = { '{}/reducer.ts', '{}/types.ts', '{}/state.ts', '{}/selectors.ts' },
+      ['type'] = "redux"
+    },
+    ['*/types.ts'] = {
+      ['alternate'] = { '{}/reducer.ts', '{}/actions.ts', '{}/state.ts', '{}/selectors.ts' },
+      ['type'] = "redux"
+    },
+    ['*/state.ts'] = {
+      ['alternate'] = { '{}/reducer.ts', '{}/actions.ts', '{}/types.ts', '{}/selectors.ts' },
+      ['type'] = "redux"
+    },
+    ['*/selectors.ts'] = {
+      ['alternate'] = { '{}/reducer.ts', '{}/actions.ts', '{}/types.ts', '{}/state.ts' },
+      ['type'] = "redux"
+    },
   },
 
   -- [[ Golang euristics for projectionist ]]
