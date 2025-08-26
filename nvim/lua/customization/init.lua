@@ -29,6 +29,7 @@ require('customization/mappings/marks')
 require('customization/mappings/find_replace')
 require('customization/mappings/telescope')
 require('customization/mappings/obsidian')
+require('customization/mappings/curl')
 
 --> Settings
 require('customization/settings/lsp')

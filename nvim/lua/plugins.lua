@@ -220,6 +220,17 @@ require('lazy').setup({
     return funzzy_vim_plugin
   end)(),
 
+  -- Curl.nvim to run curl commands within neovim
+  -- Select curl and execute with :CurlOpen
+  {
+    "oysandvik94/curl.nvim",
+    cmd = { "CurlOpen" },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    config = true,
+  },
+
   ----------------------------------------------------------------------------
   -- Plugins to search on the web
 
