@@ -19,6 +19,7 @@
       # Shared between linux and darwin
       ../shared/developer-tools.nix
       ../shared/direnv.nix
+      ../shared/environment-variables.nix
 
       # Others
       ./streaming.nix
@@ -41,8 +42,6 @@
       };
       interactiveShellInit = ''
         export NIX_ENV=1
-        export PATH=$HOME/.npm-global/bin:$PATH
-        export EDITOR='nvim'
       '';
 
       # Oh-my-zsh configuration

@@ -148,8 +148,6 @@
         export NIX_ENV=1
 
         export NIX_LD=$(nix eval --extra-experimental-features nix-command --impure --raw --expr 'let pkgs = import <nixpkgs> {}; NIX_LD = pkgs.lib.fileContents "${pkgs.stdenv.cc}/nix-support/dynamic-linker"; in NIX_LD')
-
-        export PATH=$HOME/.npm-global/bin:/usr/local/bin:$PATH
       '';
     };
   };

@@ -9,5 +9,24 @@
     EDITOR = "${pkgs.neovim}/bin/nvim";
     # Opens man pages in neovim with highlighting
     MANPAGER = "${EDITOR} +Man!";
+
+  };
+
+  environment.variables = {
+    # Path
+    PATH = builtins.concatStringsSep ":" [
+      # Systemwise
+      "/usr/local/bin"
+      "/opt/homebrew/bin"
+
+      # Local
+      "$HOME/.npm-global/bin"
+      "$HOME/.dotfiles/bin"
+      "$HOME/bin"
+      "$HOME/.local/bin"
+
+      # Others
+      "$PATH"
+    ];
   };
 }
