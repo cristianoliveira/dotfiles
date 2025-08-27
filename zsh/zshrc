@@ -2,7 +2,8 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Adds custom bins from dotfiles
-export PATH=$HOME/.dotfiles/bin:$HOME/bin:$HOME/.local/bin:/opt/homebrew/bin:$PATH
+# NOTE: Set this in nix/(nixos|osx)/configuration.nix instead
+# export PATH=$HOME/.dotfiles/bin:$HOME/bin:/opt/homebrew/bin:$PATH
 
 #
 # debug-slow-startup-time
