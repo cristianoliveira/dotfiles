@@ -168,10 +168,18 @@ in {
                         ||  aerospace-scratchpad show Obsidian \
                         ||  open -a Obsidian'';
 
+          # Terminal s[c]rat[c]hpad
+          ctrl-cmd-c = ''
+            exec-and-forget aerospace-scratchpad show alacritty -F window-title='terminal-scratchpad' \
+                         || alacritty -t 'terminal-scratchpad'
+          '';
+
           # Specific marks
           # [Z]oom/Google Meet/Teams remote call tool
-          cmd-ctrl-z = 
-            "exec-and-forget aerospace-scratchpad show 'zoom.us|Google.Meet|Teams'";
+          cmd-ctrl-z = ''
+            exec-and-forget aerospace-scratchpad show 'zoom.us|Meet|Teams' \
+                         || aerospace-scratchpad show 'Google' -F window-title='Meet'
+          '';
 
           # SCRATCHPAD DYNAMIC BINDINGS
           # Quick generic marks
