@@ -17,6 +17,7 @@
       ./virtualization.nix
 
       # Shared between linux and darwin
+      ../shared/sysadmin-tools.nix
       ../shared/developer-tools.nix
       ../shared/direnv.nix
       ../shared/environment-variables.nix

@@ -49,7 +49,6 @@
     curl
     wget
     bc
-    htop
     gnumake
 
     universal-ctags
