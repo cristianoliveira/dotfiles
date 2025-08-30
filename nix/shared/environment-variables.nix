@@ -10,9 +10,6 @@
     # Opens man pages in neovim with highlighting
     MANPAGER = "${EDITOR} +Man!";
 
-  };
-
-  environment.variables = {
     # Path
     PATH = builtins.concatStringsSep ":" [
       # Systemwise
@@ -24,9 +21,6 @@
       "$HOME/.dotfiles/bin"
       "$HOME/bin"
       "$HOME/.local/bin"
-
-      # Others
-      "$PATH"
     ];
   };
 }
