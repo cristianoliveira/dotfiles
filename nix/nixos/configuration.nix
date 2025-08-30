@@ -24,6 +24,7 @@
       # Shared configurations
       ../shared/direnv.nix
       ../shared/developer-tools.nix
+      ../shared/sysadmin-tools.nix
       ../shared/environment-variables.nix
       ../shared/stow.nix
     ];

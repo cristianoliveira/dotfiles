@@ -42,7 +42,6 @@
 
     # My custom pkgs
     # copkgs.funzzy
-    copkgs.snipgpt
 
     # (if mypkgs then mypkgs.ergo else null)
 
