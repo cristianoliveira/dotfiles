@@ -130,15 +130,16 @@
         "utils": "utils_10"
       },
       "locked": {
-        "lastModified": 1753462008,
-        "narHash": "sha256-8f3aREEc+yvOLxfc4vpCqkxi9YKXPE8JfNiR25RPStI=",
+        "lastModified": 1755430067,
+        "narHash": "sha256-dIDWKypFdbg0O3OJUpx6WAJmsNKNtjYSN+NfZ4vG814=",
         "owner": "cristianoliveira",
         "repo": "nix-linkman",
-        "rev": "0cc879327a33a22fb684cd3c801417ae01d639e8",
+        "rev": "537ac2ddd419ca36b1fc971e8c9d544168cbc1cf",
         "type": "github"
       },
       "original": {
         "owner": "cristianoliveira",
+        "ref": "537ac2d",
         "repo": "nix-linkman",
         "type": "github"
       }
