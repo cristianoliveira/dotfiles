@@ -230,13 +230,17 @@ input "type:keyboard" {
 # Set focus or open a new terminal on workspace 2
 bindsym $mod+Ctrl+Return exec swaymsg [app_id=$term] focus || \
                             $term --option window.opacity=0.94 --class $term
+# Scratchpad terminal
+set $termFloating term-floating
+bindsym $mod+Ctrl+b exec swaymsg [app_id=$termFloating] focus || \
+                            $term --option window.opacity=0.94 --class $termFloating
 
 # Kill focused window
 bindsym $mod+Shift+q kill
 bindsym $mod+w kill # OSX bad habit
 
 # Start your launcher
-bindsym Ctrl+Space exec $menu
+bindsym $mod+Space exec $menu
 
 # Drag floating windows by holding down $mod and left mouse button.
 # Resize them with right mouse button + $mod.
@@ -413,8 +417,6 @@ bindsym $mod+Ctrl+0 exec swaymsg '[app_id="thunar"] scratchpad show; focus' || e
 # notes
 bindsym $mod+Ctrl+n exec swaymsg '[class="obsidian"] scratchpad show; focus' || exec obsidian
 
-bindsym $mod+Ctrl+b [con_mark="b"] focus
-
 # Goto modo with $mod+g 
 mode "goto" {
     # Mappings
@@ -479,7 +481,7 @@ bindsym $mod+Ctrl+Shift+f fullscreen
 bindsym $mod+Shift+space floating toggle
 
 # Swap focus between the tiling area and the floating area
-bindsym $mod+space focus mode_toggle
+bindsym $mod+Shift+Ctrl+space focus mode_toggle
 
 # Move focus to the parent container
 bindsym $mod+a focus parent
