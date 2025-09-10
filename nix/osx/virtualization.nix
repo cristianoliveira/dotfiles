@@ -1,4 +1,10 @@
 { pkgs ? import <nixpkgs> {}, ... }: {
+  environment.systemPackages = with pkgs; [
+    colima
+    docker
+    docker-compose
+  ];
+                                     
   # Enable virtualization with colima and launchd
   launchd.agents."colima.default" = {
     command = "${pkgs.colima}/bin/colima start --foreground";
