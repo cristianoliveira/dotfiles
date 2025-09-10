@@ -51,4 +51,10 @@
       };
     };
   };
+
+  environment.variables = {
+    # Xcode path for command line tools
+    # Make sure to install Xcode from the App Store
+    DEVELOPER_DIR="/Applications/Xcode.app/Contents/Developer";
+  };
 }
