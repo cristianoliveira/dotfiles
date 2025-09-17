@@ -10,6 +10,15 @@ date: ${3:`!v strftime('%d-%m-%Y')`}
 ---
 endsnippet
 
+snippet header "Metadata header"
+---
+title: ${1:`!v expand('%:t:r')`}
+description: ${2:Description of the note}
+tags: [${4:tag1, tag2}]
+date: ${3:`!v strftime('%d-%m-%Y')`}
+---
+endsnippet
+
 snippet link "link expands standard links"
 [${1:link text}](${2:https://example.com})
 endsnippet
