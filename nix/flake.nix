@@ -11,6 +11,13 @@
     nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-25.05";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
+    # NUR - Nix User Repository
+    nixpkgsnur = {
+      url = "github:nix-community/NUR";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+
     copkgs.url = "github:cristianoliveira/nixpkgs";
 
     linkman = {
@@ -19,7 +26,14 @@
     };
   };
 
-  outputs = { nixpkgs, unstable, nix-darwin, copkgs, linkman, ... }: {
+  outputs = { nixpkgs,
+    unstable,
+    nix-darwin,
+    copkgs,
+    linkman,
+    nixpkgsnur,
+    ...
+  }: {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem rec {
       system = "x86_64-linux";
       modules = [
@@ -33,6 +47,8 @@
                 config = { allowUnfree = true; };
               };
             })
+
+            nixpkgsnur.overlays.default
           ];
         })
         linkman.nixosModules.${system}.linkman
@@ -54,6 +70,7 @@
                 config = { allowUnfree = true; };
               };
             })
+            nixpkgsnur.overlays.default
           ];
         })
 
