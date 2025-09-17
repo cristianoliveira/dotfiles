@@ -22,6 +22,9 @@ vim.cmd("command! -nargs=0 Chx :!chmod +x %")
 --Format json file to pretty print
 vim.cmd("command! -nargs=0 JSONFormat :%!python -m json.tool")
 
+--Relaod nvim config command
+vim.cmd("command! -nargs=0 NVIMReload :source $MYVIMRC")
+
 
 function ToggleRelativeNumber()
   if vim.wo.relativenumber then

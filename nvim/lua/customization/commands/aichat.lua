@@ -38,7 +38,8 @@ vim.api.nvim_create_user_command("AIMacro", function(opts)
 end, {
   -- it may contain 1 or more arguments
   nargs = "*",
-  complete = function()
-    return runner.execute("aichat --list-macros")
+  complete = function(fargs)
+    local macro = fargs or ".*"
+    return runner.execute("aichat --list-macros | grep " .. macro)
   end
 })
