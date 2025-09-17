@@ -4,30 +4,29 @@
     rclone
   ];
 
-  systemd.timers.rcloneBisync = {
-    description = "Rclone bisync every hour";
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnCalendar = "hourly";
-      Persistent = true;
-    };
-  };
-
   systemd.services.rcloneBisync = {
+    enabled = true;
     description = "Rclone bisync service";
     serviceConfig = let 
         userDir = "/home/cristianoliveira";
+
+        # Mount grive:notes in $HOME/notes
+        # rclone mount gdrive:notes $HOME/_notes  --cache-db-purge --fast-list --poll-interval 10 --allow-non-empty
         cmd = builtins.concatStringsSep " " [
           "${pkgs.rclone}/bin/rclone"
-          "--config=${userDir}/.config/rclone/rclone.conf"
-          "bisync"
+          "mount"
+          "gdrive:notes"
           "${userDir}/notes"
-          "gdrive:/notes"
-          "--resync"
+          "--cache-db-purge"
+          "--fast-list"
+          "--poll-interval 10"
+          "--allow-non-empty"
         ];
-      in {
+    in {
       User = "cristianoliveira";
       ExecStart = "${cmd}";
+      Restart = "always";
+      RestartSec = "10";
     };
   };
 }
