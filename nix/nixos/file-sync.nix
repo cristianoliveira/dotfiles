@@ -5,7 +5,6 @@
   ];
 
   systemd.services.rcloneBisync = {
-    enabled = true;
     description = "Rclone bisync service";
     serviceConfig = let 
         userDir = "/home/cristianoliveira";
