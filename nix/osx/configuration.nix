@@ -43,8 +43,12 @@
         ZSH_THEME = "clean";
         DISABLE_AUTO_UPDATE = "true";
       };
+
+      # TODO: move npm config to a singular place
       interactiveShellInit = ''
         export NIX_ENV=1
+
+        ${pkgs.nodejs_22}/bin/npm set prefix $HOME/.npm-global
       '';
 
       # Oh-my-zsh configuration

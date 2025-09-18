@@ -148,6 +148,8 @@
         autoload -U +X compinit && compinit
         export NIX_ENV=1
 
+        ${pkgs.nodejs_22}/bin/npm set prefix $HOME/.npm-global
+
         export NIX_LD=$(nix eval --extra-experimental-features nix-command --impure --raw --expr 'let pkgs = import <nixpkgs> {}; NIX_LD = pkgs.lib.fileContents "${pkgs.stdenv.cc}/nix-support/dynamic-linker"; in NIX_LD')
       '';
     };
