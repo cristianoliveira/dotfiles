@@ -10,17 +10,18 @@
     # Opens man pages in neovim with highlighting
     MANPAGER = "${EDITOR} +Man!";
 
-    # Path
+    # Set a custom PATH
     PATH = builtins.concatStringsSep ":" [
       # Systemwise
       "/usr/local/bin"
       "/opt/homebrew/bin"
 
       # Local
-      "$HOME/.npm-global/bin"
       "$HOME/.dotfiles/bin"
       "$HOME/bin"
       "$HOME/.local/bin"
+      "$HOME/.npm-global/bin"
+      "$PATH"
     ];
   };
 }
