@@ -20,6 +20,11 @@ set $down j
 set $up k
 set $right l
 
+# Monitors
+set $main eDP-1
+set $2nd DP-8
+set $3rd DP-7
+
 # Your preferred terminal emulator
 set $term alacritty
 set $music_player spotify
@@ -51,25 +56,25 @@ output * bg $HOME/.dotfiles/resources/wallpaper.jpg stretch
 ## Set laptop output when lid is closed
 ## man 5 sway | grep bindswitch
 bindswitch --locked --reload {
-    lid:on output eDP-1 disable
-    lid:off output eDP-1 enable
+    lid:on output $main disable
+    lid:off output $main enable
 }
 
 # Setup 3 displays left, right and built-in
-output DP-1 resolution 1920x1080 position 0 0
-output DP-2 resolution 1920x1080 position 1920 0
-output eDP-1 resolution 1920x1200 position 1920 1080
+output $3rd resolution 1920x1080 position 0 0
+output $2nd resolution 1920x1080 position 1920 0
+output $main resolution 1920x1200 position 1920 1080
 
-set $displaysMode "Displays: [1] eDP-1, [2] DP-1, [3] DP-2 (n=enable, Shift+n=disable)"
+set $displaysMode "Displays: [1] main, [2] 2nd, [3] 3rd (n=enable, Shift+n=disable)"
 mode $displaysMode {
     # Mappings
-    bindsym 1 exec swaymsg "output eDP-1 enable" && swaymsg mode "default"
-    bindsym 2 exec swaymsg "output DP-1 enable" && swaymsg mode "default"
-    bindsym 3 exec swaymsg "output DP-2 enable" && swaymsg mode "default"
+    bindsym 1 exec swaymsg "output $main enable" && swaymsg mode "default"
+    bindsym 2 exec swaymsg "output $2nd enable" && swaymsg mode "default"
+    bindsym 3 exec swaymsg "output $3rd enable" && swaymsg mode "default"
     # Disabled
-    bindsym Shift+1 exec swaymsg "output eDP-1 disable" && swaymsg mode "default"
-    bindsym Shift+2 exec swaymsg "output DP-1 disable" && swaymsg mode "default"
-    bindsym Shift+3 exec swaymsg "output DP-2 disable" && swaymsg mode "default"
+    bindsym Shift+1 exec swaymsg "output $main disable" && swaymsg mode "default"
+    bindsym Shift+2 exec swaymsg "output $2nd disable" && swaymsg mode "default"
+    bindsym Shift+3 exec swaymsg "output $3rd disable" && swaymsg mode "default"
     # Exit mode
     bindsym Escape mode "default"
     bindsym Return mode "default"
@@ -232,8 +237,12 @@ bindsym $mod+Ctrl+Return exec swaymsg [app_id=$term] focus || \
                             $term --option window.opacity=0.94 --class $term
 # Scratchpad terminal
 set $termFloating term-floating
-bindsym $mod+Ctrl+b exec swaymsg [app_id=$termFloating] focus || \
+bindsym $mod+Ctrl+c exec swaymsg [app_id=$termFloating] focus || \
                             $term --option window.opacity=0.94 --class $termFloating
+
+# Browser (brave)
+bindsym $mod+Ctrl+b exec swaymsg [app_id="brave-browser"] focus || \
+                            exec brave-browser
 
 # Kill focused window
 bindsym $mod+Shift+q kill
@@ -312,21 +321,21 @@ bindsym $mod+Shift+Right move right
 # Switch to workspace
 
 ## Workspace in the main display TOP (external monitor)
-workspace 1 output DP-2
-workspace 2 output DP-2
-workspace 3 output DP-2
-workspace 4 output DP-2
-workspace 5 output DP-2
+workspace 1 output $2nd
+workspace 2 output $2nd
+workspace 3 output $2nd
+workspace 4 output $2nd
+workspace 5 output $2nd
 
 # If not connected no problem
-workspace 6 output DP-1
-workspace 7 output DP-1
+workspace 6 output $3rd
+workspace 7 output $3rd
 
-workspace 8 output DP-2
-workspace 9 output DP-2
-
-workspace 8 output eDP-1
-workspace 9 output eDP-1
+workspace 8 output $2nd
+workspace 9 output $2nd
+workspace 8 output $main
+workspace 9 output $main
+workspace 0 output $main
 
 bindsym $mod+1 workspace number 1
 bindsym $mod+2 workspace number 2
