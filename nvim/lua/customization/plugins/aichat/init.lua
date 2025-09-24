@@ -4,6 +4,9 @@ local M = {}
 -- List your local code agents here so :AICodeAgent offers them as completions.
 local code_agent_suggestions = {
   "codex",
+  "cursor-agent",
+  "claude-code",
+  "crush",
   -- Add more entries, e.g. "windsurf", "claude", etc.
 }
 
@@ -110,15 +113,47 @@ function M.send_to_aichat(prompt)
   print("Aichat response: " .. result)
 end
 
-function M.send_to_codex(prompt)
+local function resolve_agent_executable(agent_label)
+  if not agent_label or agent_label == "" then
+    return false, ""
+  end
+
+  local sanitized = agent_label:gsub("[^%w_]", "_")
+  local candidate_keys = {
+    sanitized .. "_bin",
+    agent_label ~= sanitized and (agent_label .. "_bin") or nil,
+    "aichat_" .. sanitized .. "_bin",
+  }
+
+  local override_miss
+  for _, key in ipairs(candidate_keys) do
+    if key then
+      local override = vim.g[key]
+      if type(override) == "string" and override ~= "" then
+        if vim.fn.executable(override) == 1 then
+          return true, override
+        end
+        override_miss = override_miss or override
+      end
+    end
+  end
+
+  if vim.fn.executable(agent_label) == 1 then
+    return true, agent_label
+  end
+
+  return false, override_miss or agent_label
+end
+
+function M.start_agent_session(agent_label, prompt)
   if not prompt or prompt == "" then
     print("Please provide a prompt")
     return
   end
 
-  local available, bin = resolve_executable("codex_bin", "codex")
+  local available, bin = resolve_agent_executable(agent_label)
   if not available then
-    print("codex command not found, skipping agent startup")
+    print(string.format("%s command not found (tried '%s'), skipping agent startup", agent_label, bin))
     return
   end
 
@@ -137,14 +172,14 @@ function M.send_to_codex(prompt)
 
   local job_id = vim.fn.termopen(command)
   if job_id <= 0 then
-    print("Failed to start codex agent")
+    print(string.format("Failed to start %s agent", agent_label))
     vim.api.nvim_win_close(agent_win, true)
     vim.api.nvim_set_current_win(original_win)
     return
   end
 
   vim.cmd("startinsert")
-  print("Started Codex agent in terminal split")
+  print(string.format("Started %s agent in terminal split", agent_label))
 end
 
 vim.api.nvim_create_user_command("AIChatExplain", function()
@@ -228,7 +263,7 @@ vim.api.nvim_create_user_command("AIAgent", function(opts)
     "\nRespond with a clear plan, any clarifying questions, and proposed changes referencing the target file."
   })
 
-  M.send_to_codex(prompt)
+  M.start_agent_session(agent_label, prompt)
 end, {
   nargs = "+",
   complete = function(arg_lead, cmd_line, _)
