@@ -1,6 +1,22 @@
 local M = {}
 -- print("Loading aichat.nvim")
 
+-- List your local code agents here so :AICodeAgent offers them as completions.
+local code_agent_suggestions = {
+  "codex",
+  -- Add more entries, e.g. "windsurf", "claude", etc.
+}
+
+local function complete_code_agent(arg_lead)
+  local matches = {}
+  for _, agent in ipairs(code_agent_suggestions) do
+    if vim.startswith(agent, arg_lead) then
+      table.insert(matches, agent)
+    end
+  end
+  return matches
+end
+
 local function get_selected_text()
   local mode = vim.fn.visualmode()
   local start_pos = vim.fn.getpos("'<")
@@ -183,10 +199,21 @@ end, {
   range = "%"
 })
 
-vim.api.nvim_create_user_command("AICodeAgent", function(opts)
-  local instruction = table.concat(opts.fargs or {}, " ")
+vim.api.nvim_create_user_command("AIAgent", function(opts)
+  local fargs = opts.fargs or {}
+  local agent_label = fargs[1] or ""
+  if agent_label == "" then
+    print("Please provide a code agent suggestion, e.g. :AICodeAgent codex implement feature")
+    return
+  end
+
+  local instructions = {}
+  for i = 2, #fargs do
+    instructions[#instructions + 1] = fargs[i]
+  end
+  local instruction = table.concat(instructions, " ")
   if instruction == "" then
-    print("Please provide instructions for the code agent, e.g. :AICodeAgent implement feature")
+    print("Please provide instructions after the agent suggestion, e.g. :AICodeAgent codex implement feature")
     return
   end
 
@@ -196,13 +223,24 @@ vim.api.nvim_create_user_command("AICodeAgent", function(opts)
   local prompt = table.concat({
     "Start a Codex-style code agent session.",
     "\nTarget file: ", resolved_path,
+    "\nSelected code agent: ", agent_label,
     "\nInstructions: ", instruction,
     "\nRespond with a clear plan, any clarifying questions, and proposed changes referencing the target file."
   })
 
   M.send_to_codex(prompt)
 end, {
-  nargs = "+"
+  nargs = "+",
+  complete = function(arg_lead, cmd_line, _)
+    local parts = vim.split(cmd_line, "\\s+", { trimempty = true })
+    if #parts <= 1 then
+      return complete_code_agent(arg_lead)
+    end
+    if #parts == 2 and cmd_line:sub(-1) ~= " " then
+      return complete_code_agent(arg_lead)
+    end
+    return {}
+  end,
 })
 
 return M
