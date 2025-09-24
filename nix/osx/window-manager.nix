@@ -386,6 +386,10 @@ in {
           }
         ];
 
+        exec-on-workspace-change = ["/bin/bash" "-c"
+          "aerospace-scratchpad workspace-handler $AEROSPACE_FOCUSED_WORKSPACE"
+        ];
+
         # Makes accordion layout like fullscreen
         accordion-padding = 1;
 
