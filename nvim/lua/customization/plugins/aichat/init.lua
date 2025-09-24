@@ -63,9 +63,10 @@ local function get_selected_text()
   return table.concat(text, "\n")
 end
 
-local function is_aichat_available()
-  local aichat_bin = vim.g.aichat_bin or "aichat"
-  return vim.fn.executable(aichat_bin) == 1, aichat_bin
+local function resolve_executable(global_key, fallback)
+  local override = vim.g[global_key]
+  local executable = override ~= nil and override or fallback
+  return vim.fn.executable(executable) == 1, executable
 end
 
 function M.send_to_aichat(prompt)
@@ -74,7 +75,7 @@ function M.send_to_aichat(prompt)
     return
   end
 
-  local available, bin = is_aichat_available()
+  local available, bin = resolve_executable("aichat_bin", "aichat")
   if not available then
     print("aichat command not found, skipping commands")
     return
@@ -91,6 +92,43 @@ function M.send_to_aichat(prompt)
   handle:close()
 
   print("Aichat response: " .. result)
+end
+
+function M.send_to_codex(prompt)
+  if not prompt or prompt == "" then
+    print("Please provide a prompt")
+    return
+  end
+
+  local available, bin = resolve_executable("codex_bin", "codex")
+  if not available then
+    print("codex command not found, skipping agent startup")
+    return
+  end
+
+  local command = { bin }
+  if prompt ~= "" then
+    table.insert(command, prompt)
+  end
+
+  local original_win = vim.api.nvim_get_current_win()
+  vim.cmd("vsplit")
+  local agent_win = vim.api.nvim_get_current_win()
+
+  vim.cmd("enew")
+  local term_buf = vim.api.nvim_get_current_buf()
+  vim.bo[term_buf].buflisted = false
+
+  local job_id = vim.fn.termopen(command)
+  if job_id <= 0 then
+    print("Failed to start codex agent")
+    vim.api.nvim_win_close(agent_win, true)
+    vim.api.nvim_set_current_win(original_win)
+    return
+  end
+
+  vim.cmd("startinsert")
+  print("Started Codex agent in terminal split")
 end
 
 vim.api.nvim_create_user_command("AIChatExplain", function()
@@ -143,6 +181,28 @@ vim.api.nvim_create_user_command("AIRefactor", function(opts)
 end, {
   nargs = "+",
   range = "%"
+})
+
+vim.api.nvim_create_user_command("AICodeAgent", function(opts)
+  local instruction = table.concat(opts.fargs or {}, " ")
+  if instruction == "" then
+    print("Please provide instructions for the code agent, e.g. :AICodeAgent implement feature")
+    return
+  end
+
+  local buf_name = vim.api.nvim_buf_get_name(0)
+  local resolved_path = buf_name ~= "" and vim.fn.fnamemodify(buf_name, ":p") or "[No file path]"
+
+  local prompt = table.concat({
+    "Start a Codex-style code agent session.",
+    "\nTarget file: ", resolved_path,
+    "\nInstructions: ", instruction,
+    "\nRespond with a clear plan, any clarifying questions, and proposed changes referencing the target file."
+  })
+
+  M.send_to_codex(prompt)
+end, {
+  nargs = "+"
 })
 
 return M
