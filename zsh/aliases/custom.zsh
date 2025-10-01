@@ -19,3 +19,6 @@ alias rgh='rg --hidden'
 
 # Use zoxide  
 alias cdd='z'
+
+# Osx Brew arch -arm64 alias
+alias abrew='arch -arm64 brew'
