@@ -261,7 +261,7 @@ vim.api.nvim_create_user_command("AIAgent", function(opts)
   local fargs = opts.fargs or {}
   local agent_label = fargs[1] or ""
   if agent_label == "" then
-    print("Please provide a code agent suggestion, e.g. :AICodeAgent codex implement feature")
+    print("Please provide a code agent suggestion, e.g. :AIAgent codex implement feature")
     return
   end
 
