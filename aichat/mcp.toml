@@ -1,0 +1,14 @@
+[mcp_servers]
+  ["sequential-thinking"]
+  command = "npx"
+  args = ["-y", "@modelcontextprotocol/server-sequential-thinking"]
+
+  ["taskmaster-ai"]
+  command = "npx"
+  args = ["-y", "--package=task-master-ai", "task-master-ai"]
+  env = { OPENAI_API_KEY = "{{YOUR_OPENAI_API_KEY}}" }
+
+  ["git-mcp-server"]
+  command = "npx"
+  args = ["@cyanheads/git-mcp-server"]
+  env = { MCP_LOG_LEVEL = "info", GIT_SIGN_COMMITS = "false" }
