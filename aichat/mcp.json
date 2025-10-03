@@ -21,6 +21,10 @@
         "MCP_LOG_LEVEL": "debug",
         "GIT_SIGN_COMMITS": "false"
       }
+    },
+    "nixos": {
+      "command": "uvx",
+      "args": ["mcp-nixos"]
     }
   }
 }
