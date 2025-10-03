@@ -11,7 +11,7 @@
       "command": "npx",
       "args": ["-y", "--package=task-master-ai", "task-master-ai"],
       "env": {
-        "OPENAI_API_KEY": "<YOUR_OPENAI_API_KEY>"
+        "OPENAI_API_KEY": "{{YOUR_OPENAI_API_KEY}}"
       }
     },
     "git-mcp-server": {
