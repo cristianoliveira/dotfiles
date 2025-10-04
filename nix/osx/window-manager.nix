@@ -384,6 +384,14 @@ in {
             "if".app-name-regex-substring = "Picture.*Picture"; 
             run = [ "layout floating" ];
           }
+
+          # Ensure all windows on workspace 2 (the workspace where contains the terminal)
+          # are in h_accordion layout, so it is presented like a fullscreen transparent terminal 
+          # and the other apps behind it
+          {
+            "if".workspace = "2";
+            run = [ "layout h_accordion" ];
+          }
         ];
 
         exec-on-workspace-change = ["/bin/bash" "-c"
