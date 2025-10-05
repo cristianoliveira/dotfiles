@@ -7,6 +7,7 @@ vmap("<leader>d", "\"_c")
 
 -- system clipboard
 vmap('<Leader>y', '"+y')
+vmap('<C-c>', '"+y')
 -- FIXME In quarentine delete if not missed.
 -- vmap <Leader>d "+d
 -- nmap <Leader>p "+p
