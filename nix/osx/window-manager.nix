@@ -341,7 +341,7 @@ in {
           AEROSPACE_SCRATCHPAD_LOGS_LEVEL = "DEBUG";
           AEROSPACE_MARKS_LOGS_LEVEL = "DEBUG";
           
-          PATH = "/opt/homebrew/bin:\${HOME}/golang/bin:/run/current-system/sw/bin:\${PATH}";
+          PATH = "\${HOME}/golang/bin:/opt/homebrew/bin:/run/current-system/sw/bin:\${PATH}";
         };
 
         workspace-to-monitor-force-assignment = {
