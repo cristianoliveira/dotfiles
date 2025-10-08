@@ -402,12 +402,18 @@ bindsym $mod+F2 \
             | xargs -I {} ~/.dotfiles/nix/nixos/sway/bin/sway-resize.sh {}
 
 # Mark the current window with $mod+Ctrl+Shift+1
+# Left hand quick access
 bindsym $mod+Ctrl+1 [con_mark="1"] scratchpad show; focus
 bindsym $mod+Ctrl+2 [con_mark="2"] scratchpad show; focus
 bindsym $mod+Ctrl+3 [con_mark="3"] scratchpad show; focus
 bindsym $mod+Ctrl+4 [con_mark="4"] scratchpad show; focus
 bindsym $mod+Ctrl+5 [con_mark="5"] scratchpad show; focus
 bindsym $mod+Ctrl+6 [con_mark="6"] scratchpad show; focus
+
+# Right hand quick access
+bindsym $mod+Ctrl+7 [con_mark="7"] scratchpad show; focus
+bindsym $mod+Ctrl+8 [con_mark="8"] scratchpad show; focus
+bindsym $mod+Ctrl+9 [con_mark="9"] scratchpad show; focus
 
 ## Things that I access less often ctrl-shift-cmd-<number>
 bindsym $mod+Shift+Ctrl+7 exec swaymsg '[class="Bitwarden"] scratchpad show; focus' || exec bitwarden

@@ -184,7 +184,7 @@ in {
           '';
 
           # SCRATCHPAD DYNAMIC BINDINGS
-          # Quick generic marks
+          # Left hand quick access
           cmd-ctrl-1 = [
             ''exec-and-forget aerospace-scratchpad show \
                             "$(aerospace-marks get 1 -a)"''
@@ -204,6 +204,20 @@ in {
           cmd-ctrl-5 = [
             ''exec-and-forget aerospace-scratchpad show \
                             "$(aerospace-marks get 5 -a)"''
+          ];
+
+          # Right hand quick access
+          cmd-ctrl-7 = [
+            ''exec-and-forget aerospace-scratchpad show \
+                            "$(aerospace-marks get 7 -a)"''
+          ];
+          cmd-ctrl-8 = [
+            ''exec-and-forget aerospace-scratchpad show \
+                            "$(aerospace-marks get 8 -a)"''
+          ];
+          cmd-ctrl-9 = [
+            ''exec-and-forget aerospace-scratchpad show \
+                            "$(aerospace-marks get 9 -a)"''
           ];
         };
 
