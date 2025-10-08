@@ -409,10 +409,14 @@ in {
           # Ensure all windows on workspace 2 (the workspace where contains the terminal)
           # are in h_accordion layout, so it is presented like a fullscreen transparent terminal 
           # and the other apps behind it
-          {
-            "if".workspace = "2";
-            run = [ "layout h_accordion" ];
-          }
+          # {
+          #   "if".workspace = "2";
+          #   run = [ "layout h_accordion" ];
+          # }
+        ];
+
+        on-focused-monitor-changed = [
+          "exec-and-forget aerospace-scratchpad wsh bring-scratchpad-to-monitor 0 0"
         ];
 
         # Makes accordion layout like fullscreen
