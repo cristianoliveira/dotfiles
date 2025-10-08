@@ -148,16 +148,18 @@ in {
           cmd-ctrl-o = "workspace-back-and-forth";
 
           ## SCRATCHPAD FIXED BINDINGS
-          cmd-ctrl-7 = ''
+          ## Things that I access less often ctrl-shift-cmd-<number>
+          cmd-shift-ctrl-7 = ''
             exec-and-forget aerospace-scratchpad show Bitwarden \
                          || open -a Bitwarden'';
-          cmd-ctrl-8 = ''
+          cmd-shift-ctrl-8 = ''
             exec-and-forget aerospace-scratchpad show WhatsApp \
                         ||  open -a WhatsApp'';
-          cmd-ctrl-9 = ''
+          cmd-shift-ctrl-9 = ''
             exec-and-forget aerospace-scratchpad show Spotify \
                          || open -a Spotify'';
 
+          ## Things that I access often ctrl-cmd-<number>
           cmd-ctrl-0 = ''
             exec-and-forget aerospace-scratchpad show Finder \
                          || open -a Finder'';
@@ -355,7 +357,7 @@ in {
           "8" = ["secondary" "main" "built-in"];
           "9" = ["built-in" "main"];
           "0" = ["built-in" "main"];
-          ".scratchpad" = ["deskpad" "secondary" "main" "built-in"];
+          # ".scratchpad" = "main";
         };
 
         on-window-detected = [
@@ -388,14 +390,18 @@ in {
           # Ensure all windows on workspace 2 (the workspace where contains the terminal)
           # are in h_accordion layout, so it is presented like a fullscreen transparent terminal 
           # and the other apps behind it
-          {
-            "if".workspace = "2";
-            run = [ "layout h_accordion" ];
-          }
+          # {
+          #   "if".workspace = "2";
+          #   run = [ "layout h_accordion" ];
+          # }
+        ];
+
+        on-focused-monitor-changed = [
+          "exec-and-forget aerospace-scratchpad wsh bring-scratchpad-to-monitor 0 0"
         ];
 
         exec-on-workspace-change = ["/bin/bash" "-c"
-          "aerospace-scratchpad workspace-handler $AEROSPACE_FOCUSED_WORKSPACE"
+          "aerospace-scratchpad wsh bring-window-to-workspace $AEROSPACE_PREV_WORKSPACE $AEROSPACE_FOCUSED_WORKSPACE"
         ];
 
         # Makes accordion layout like fullscreen
