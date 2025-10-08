@@ -5,4 +5,4 @@ variables:
 
 steps:
   - .role git-pr
-  - .file `git diff --cached` -- write a pul request description following the context -- {{args}}
+  - .file `git diff --cached --exit-code && git diff $MAIN_BRANCH` -- write a pul request description following the context -- {{args}}
