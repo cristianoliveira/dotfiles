@@ -1,6 +1,7 @@
 require("mason").setup()
 
 local lspconfig = require('lspconfig')
+local lsputils = require("lspconfig.util")
 local mason_lspconfig = require("mason-lspconfig")
 local capabilities = require('cmp_nvim_lsp')
   .default_capabilities(vim.lsp.protocol.make_client_capabilities())
@@ -30,13 +31,14 @@ local servers = {
       }
     },
   },
+
+  golangci_lint_ls = {},
 }
 
 mason_lspconfig.setup {
   automatic_installation = true,
   ensure_installed = vim.tbl_keys(servers)
 }
-
 
 mason_lspconfig.setup_handlers {
   function(server_name)
@@ -55,6 +57,19 @@ lspconfig.nixd.setup {
   cmd = { "/run/current-system/sw/bin/nixd" },
   capabilities = capabilities,
   on_attach = Lsp_on_attach, -- see ../mappings/lsp.lua
+  settings = {},
+  flags = lsp_flags,
+}
+
+lspconfig.golangci_lint_ls.setup {
+  root_dir = lsputils.root_pattern("go.work", "go.mod", ".git"),
+  cmd = { "golangci-lint-langserver" },
+  filetypes = { "go", "gomod", "gowork", "gotmpl" },
+  init_options = {
+    command = { 'golangci-lint', 'run', '--output.json.path=stdout', '--show-stats=false' },
+  },
+  capabilities = capabilities,
+  on_attach = Lsp_on_attach,
   settings = {},
   flags = lsp_flags,
 }
