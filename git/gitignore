@@ -30,6 +30,7 @@ __/
 .bin/
 .tmp/
 _tmp/
+_hidden/
 # Git worktree
 _wte/
 
@@ -67,3 +68,4 @@ pono.toml
 .cursor
 
 CRUSH.md
+AGENTS.md
