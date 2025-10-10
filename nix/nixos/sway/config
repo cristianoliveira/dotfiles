@@ -392,7 +392,7 @@ bindsym $lmod+apostrophe \
             exec ~/.dotfiles/nix/nixos/sway/bin/sway-marks.sh focus
 
 # Summon the marked window to current workspace
-bindsym $mod+Ctrl+Slash \
+bindsym $mod+Ctrl+semicolon \
             exec ~/.dotfiles/nix/nixos/sway/bin/sway-marks.sh summon
 
 # Resize widows with 

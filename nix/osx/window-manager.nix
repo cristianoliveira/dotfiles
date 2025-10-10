@@ -126,15 +126,18 @@ in {
           cmd-ctrl-g = "mode marks";
           cmd-g = "mode goto";
 
+          # MOD+CTRL+m to set a mark
           cmd-ctrl-m = ''
             exec-and-forget aerospace-marks mark \
               $(osascript -e 'text returned of (display dialog "mark" default answer "")')
           '';
+          # MOD+CTRL+' to focus a mark
           cmd-ctrl-quote = ''
             exec-and-forget aerospace-marks focus \
               $(osascript -e 'text returned of (display dialog "focus" default answer "")')
             '';
-          cmd-ctrl-slash = ''
+          # MOD+CTRL+;
+          cmd-ctrl-semicolon = ''
             exec-and-forget aerospace-marks summon \
               $(osascript -e 'text returned of (display dialog "summon" default answer "")')
           '';
