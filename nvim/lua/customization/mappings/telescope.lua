@@ -1,5 +1,46 @@
 local s = require('customization.functions.selection')
 
+local function git_default_branch()
+  local remote = 'origin'
+  local head_ref = string.format('refs/remotes/%s/HEAD', remote)
+  local head = vim.fn.systemlist({ 'git', 'symbolic-ref', head_ref })
+
+  if vim.v.shell_error == 0 and head[1] then
+    local branch = head[1]:match('^refs/remotes/' .. remote .. '/(.+)$')
+    if branch then
+      return branch
+    end
+  end
+
+  for _, branch in ipairs({ 'main', 'master' }) do
+    vim.fn.system({ 'git', 'rev-parse', '--verify', branch })
+    if vim.v.shell_error == 0 then
+      return branch
+    end
+  end
+
+  return nil
+end
+
+local function open_git_diff_files()
+  vim.fn.system({ 'git', 'rev-parse', '--is-inside-work-tree' })
+  if vim.v.shell_error ~= 0 then
+    vim.notify('Not inside a git repository', vim.log.levels.WARN)
+    return
+  end
+
+  local branch = git_default_branch()
+  if not branch then
+    vim.notify('Could not determine default git branch', vim.log.levels.WARN)
+    return
+  end
+
+  require('telescope.builtin').git_files {
+    prompt_title = string.format('Git Diff vs %s', branch),
+    git_command = { 'git', 'diff', '--name-only', branch },
+  }
+end
+
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
 require('telescope').setup {
@@ -39,6 +80,7 @@ vim.keymap.set('n', '<leader>/', function()
 end, { desc = '[/] Fuzzily search in current buffer' })
 
 vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_files, { desc = 'Search [G]it [F]iles' })
+vim.keymap.set('n', '<leader>gd', open_git_diff_files, { desc = 'Git diff changed files' })
 
 vim.keymap.set('n', '<C-p>', require('telescope.builtin').find_files, { desc = 'Search [G]it [F]iles' })
 vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
