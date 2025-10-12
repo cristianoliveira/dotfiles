@@ -20,6 +20,9 @@
   snapshot = !git stash save "snapshot: $(date)" && git stash apply "stash@{0}"
   snapshots = !git stash list --grep snapshot
 
+  tmp = !git stash save "tmp: $(date)" && git stash apply "stash@{0}"
+  tmps = !git stash list --grep snapshot
+
   #via http://stackoverflow.com/questions/5188320/how-can-i-get-a-list-of-git-branches-ordered-by-most-recent-commit
   recent-branches = !git for-each-ref --count=15 --sort=-committerdate refs/heads/ --format='%(refname:short)'
 
@@ -150,6 +153,10 @@
 
   bsg = bisect good
   bsgood = bisect good
+
+  # Small scripts
+  ignoreit = !git ls-files --others --exclude-standard >> .gitignore                  # Ignore the current untracked files
+
 [format]
   pretty = format:%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(blue)%s %C(magenta) [%an]%Creset
 [merge]
