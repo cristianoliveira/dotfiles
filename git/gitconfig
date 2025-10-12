@@ -157,6 +157,8 @@
   # Small scripts
   ignoreit = !git ls-files --others --exclude-standard >> .gitignore                  # Ignore the current untracked files
 
+  cpall = !git cherry ${2:-$MAIN_BRANCH} $1 --verbose | grep -Ev ' tmp:| temp:| delete:| wip:|WIP' | awk '{ print $2 }' | xargs git cherry-pick
+
 [format]
   pretty = format:%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(blue)%s %C(magenta) [%an]%Creset
 [merge]
