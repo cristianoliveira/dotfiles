@@ -54,10 +54,10 @@
   chs = !git checkout stage
 
   # cherry-pick
-  cp = cherry-pick -x               # grab a change from a branch
-  cpsp = cherry-pick --skip         # skip a commit during cherry-pick
+  cp   = cherry-pick -x             # grab a change from a branch
+  cps  = cherry-pick --skip         # skip a commit during cherry-pick
   cpab = cherry-pick --abort        # abort a cherry-pick
-  cpc = cherry-pick --continue      # continue a cherry-pick
+  cpc  = cherry-pick --continue     # continue a cherry-pick
 
   # diff
   d = difftool
@@ -90,12 +90,11 @@
   pf = push --force-with-lease      # similar to my old alias
 
   # rebase
-  rbs = rebase
-  rbsc = rebase --continue            # continue rebase
-  rbss = rebase --skip                # skip rebase
-  rbsa = rebase --abort
+  rs = rebase
+  rsc = rebase --continue            # continue rebase
+  rss = rebase --skip                # skip rebase
+  rsa = rebase --abort
   rbom = !git rebase "origin/$MAIN_BRANCH"   # rebase on origin main branch
-  rbsom = !git rebase "origin/$MAIN_BRANCH"   # rebase on origin main branch
 
   # remote
   rt = remote -v                     # show remotes (verbose)
@@ -103,7 +102,11 @@
   rtr = remote remove                # remove a remote
 
   # reset
-  rs = reset
+  res = reset
+  res1 = reset HEAD~1
+  res2 = reset HEAD~2
+  res3 = reset HEAD~3
+
   unstage = reset HEAD              # remove files from index (tracking)
   uncommit = reset --soft HEAD^     # go back before last commit, with files in uncommitted state
   filelog = log -u                  # show changes to a file
