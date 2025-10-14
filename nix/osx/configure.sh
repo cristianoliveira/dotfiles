@@ -203,4 +203,8 @@ echo; echo ">> Killing affected apps"
 for app in "Dock" "Finder" "SystemUIServer" "Safari" "Transmission" "iTerm"; do
   killall "${app}" > /dev/null 2>&1
 done
+
+echo "allow make nix without sudo"
+echo "$USER ALL=(ALL) NOPASSWD: $(which darwin-rebuild)" | sudo tee /etc/sudoers.d/darwin-rebuild
+
 echo "Done. Note that some of these changes require a logout/restart to take effect."
