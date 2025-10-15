@@ -562,6 +562,16 @@ def closing_par(snip, pos):
 
 endglobal
 
+# Ignore lint
+
+snippet nolint "ignore linting for the next line"
+ //nolint: ${1:all} // reason
+endsnippet
+
+snippet ignorelint "ignore linting for the next line"
+ //nolint: ${1:all} // reason
+endsnippet
+
 # variables declaration
 snippet fpll "fmt printf log -- for debugging"
 fmt.Printf("@@@@@@@@ $1 %+v \n", ${1:var})
