@@ -93,7 +93,7 @@
   rs = rebase
   rsc = rebase --continue            # continue rebase
   rss = rebase --skip                # skip rebase
-  rsa = rebase --abort
+  rsa = rebase --abort               # abort rebase
   rbom = !git rebase "origin/$MAIN_BRANCH"   # rebase on origin main branch
 
   # remote
@@ -103,9 +103,15 @@
 
   # reset
   res = reset
-  res1 = reset HEAD~1
-  res2 = reset HEAD~2
-  res3 = reset HEAD~3
+  res1 = reset HEAD~1 # reset to 1 commit ago
+  res2 = reset HEAD~2 # reset to 2 commits ago
+  res3 = reset HEAD~3 # reset to 3 commits ago
+  resh = reset --hard               # reset hard to HEAD
+
+  rz1 = reset HEAD~1 # reset to 1 commit ago
+  rz2 = reset HEAD~2 # reset to 2 commits ago
+  rz3 = reset HEAD~3 # reset to 3 commits ago
+  rzh = reset --hard               # reset hard to HEAD
 
   unstage = reset HEAD              # remove files from index (tracking)
   uncommit = reset --soft HEAD^     # go back before last commit, with files in uncommitted state
