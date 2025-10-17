@@ -63,9 +63,8 @@
 
     # AI and related 
     claude-code
-
     nur.repos.charmbracelet.crush
     unstable.aichat
-    unstable.aider-chat
+    codex
   ];
 }
