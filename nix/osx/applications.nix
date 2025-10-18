@@ -43,8 +43,6 @@
       # "mullvadvpn"
       # "tunnelblick" # VPN
       "google-drive"
-
-      "superproductivity" # Task management / Pomodoro timer
     ];
   };
 }
