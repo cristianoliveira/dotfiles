@@ -172,6 +172,7 @@
   cpchore = !git cherry ${2:-$MAIN_BRANCH} $1 --verbose | grep -E 'chore.*: ' | awk '{ print $2 }' | xargs git cherry-pick
   cpfeat = !git cherry ${2:-$MAIN_BRANCH} $1 --verbose | grep -E 'feat.*: ' | awk '{ print $2 }' | xargs git cherry-pick
   cpfix = !git cherry ${2:-$MAIN_BRANCH} $1 --verbose | grep -E 'fix.*: ' | awk '{ print $2 }' | xargs git cherry-pick
+  cpdocs = !git cherry ${2:-$MAIN_BRANCH} $1 --verbose | grep -E 'docs.*: ' | awk '{ print $2 }' | xargs git cherry-pick
 
 [format]
   pretty = format:%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(blue)%s %C(magenta) [%an]%Creset
