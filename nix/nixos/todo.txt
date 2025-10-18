@@ -1,3 +1,4 @@
 TODOs:
 
  - wm: I miss the CMD+` shortcut to switch between windows of the same application
+ - wm: I miss the CMD+Tab shortcut to switch between recently used applications
