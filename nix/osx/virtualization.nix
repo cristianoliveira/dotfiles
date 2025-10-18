@@ -1,13 +1,19 @@
 { pkgs ? import <nixpkgs> {}, ... }: {
   environment.systemPackages = with pkgs; [
+    kubectl
+
     colima
+
     docker
     docker-compose
   ];
-                                     
+
   # Enable virtualization with colima and launchd
-  launchd.agents."colima.default" = {
-    command = "${pkgs.colima}/bin/colima start --foreground";
+  launchd.user.agents."colima.default" = {
+    # When experiencing network issues
+    # colima start --network-address --dns 8.8.8.8
+    command = "${pkgs.colima}/bin/colima start --network-address";
+
     serviceConfig = {
       Label = "com.colima.default";
       RunAtLoad = true;
