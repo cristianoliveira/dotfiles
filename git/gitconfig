@@ -14,6 +14,8 @@
 [alias]
   # add
   a = add                           # add
+  aa = add .                        # add all
+  ap = add -p                       # add interactively (patch mode)
   chunkyadd = add --patch           # stage commits chunk by chunk
 
   # via http://blog.apiaxle.com/post/handy-git-tips-to-stop-you-getting-fired/
@@ -167,6 +169,9 @@
   ignoreit = !git ls-files --others --exclude-standard >> .gitignore                  # Ignore the current untracked files
 
   cpall = !git cherry ${2:-$MAIN_BRANCH} $1 --verbose | grep -Ev ' tmp:| temp:| delete:| wip:|WIP' | awk '{ print $2 }' | xargs git cherry-pick
+  cpchore = !git cherry ${2:-$MAIN_BRANCH} $1 --verbose | grep -E 'chore.*: ' | awk '{ print $2 }' | xargs git cherry-pick
+  cpfeat = !git cherry ${2:-$MAIN_BRANCH} $1 --verbose | grep -E 'feat.*: ' | awk '{ print $2 }' | xargs git cherry-pick
+  cpfix = !git cherry ${2:-$MAIN_BRANCH} $1 --verbose | grep -E 'fix.*: ' | awk '{ print $2 }' | xargs git cherry-pick
 
 [format]
   pretty = format:%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(blue)%s %C(magenta) [%an]%Creset
