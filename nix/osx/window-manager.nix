@@ -176,7 +176,7 @@ in {
           # Terminal s[c]rat[c]hpad
           ctrl-cmd-c = ''
             exec-and-forget aerospace-scratchpad show alacritty -F window-title='terminal-scratchpad' \
-                         || alacritty -t 'terminal-scratchpad'
+                         || alacritty -t 'terminal-scratchpad' --option window.opacity="0.9"
           '';
 
           # Specific marks
