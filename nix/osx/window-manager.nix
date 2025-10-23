@@ -180,12 +180,14 @@ in {
           '';
 
           # Specific marks
-          # [Z]oom/Google Meet/Teams remote call tool
+          # [Z]oom/Google Meet/Teams/Wire remote call tools
           cmd-ctrl-z = ''
             exec-and-forget aerospace-scratchpad show 'zoom.us|Meet|Teams' \
-                         || aerospace-scratchpad show 'Google' -F window-title='Meet'
+                         || aerospace-scratchpad show 'Google' -F window-title='Meet' \
+                         || aerospace-scratchpad show 'Wire' -F window-title='Call'
           '';
 
+# Sequoia
           # SCRATCHPAD DYNAMIC BINDINGS
           # Left hand quick access
           cmd-ctrl-1 = [
@@ -388,7 +390,7 @@ in {
           }
           {
             "if".app-name-regex-substring = 
-              "ChatGPT|Clock|WhatsApp|Spotify|Slack|Telegram|Google.Meet|Zoom|Teams|Finder";
+              "ChatGPT|Clock|WhatsApp|Spotify|Slack|Telegram|Google.Meet|Zoom|Teams|Finder|Wire";
             run = [
               "layout floating"
             ]; 
