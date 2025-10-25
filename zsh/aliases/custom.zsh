@@ -22,3 +22,8 @@ alias cdd='z'
 
 # Osx Brew arch -arm64 alias
 alias abrew='arch -arm64 brew'
+
+# If linux alias open
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  alias open="xdg-open"
+fi
