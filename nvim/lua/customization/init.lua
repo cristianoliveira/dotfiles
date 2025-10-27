@@ -30,6 +30,7 @@ require('customization/mappings/find_replace')
 require('customization/mappings/telescope')
 require('customization/mappings/obsidian')
 require('customization/mappings/curl')
+require('customization/mappings/argpoon')
 
 --> Settings
 require('customization/settings/lsp')
