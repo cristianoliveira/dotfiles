@@ -34,7 +34,12 @@
       # universalaccess.reduceMotion = true;
 
       # Dock configs
-      dock.autohide = true;
+      dock = {
+        autohide = true; # Automatically hide and show the Dock
+        mru-spaces = false; # Disable automatic rearrangement of Spaces based on most recent use
+        static-only = true; # Only show open applications in the Dock
+        tilesize = 12; # Set the icon size of Dock items (small but still usable)
+      };
 
       # Finder and file managment
       finder = {
