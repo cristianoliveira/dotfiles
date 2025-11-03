@@ -93,9 +93,13 @@
 
   # rebase
   rs = rebase
-  rsc = rebase --continue            # continue rebase
-  rss = rebase --skip                # skip rebase
-  rsa = rebase --abort               # abort rebase
+  rsc = rebase --continue                    # continue rebase
+  rss = rebase --skip                        # skip rebase
+  rsa = rebase --abort                       # abort rebase
+  rbs = rebase -i "$MAIN_BRANCH"             # interactive rebase on main branch
+  rbsc = rebase -i --continue                # continue interactive rebase
+  rbsa = rebase -i --abort                   # abort interactive rebase
+  rbss = rebase -i --skip                    # skip interactive rebase
   rbom = !git rebase "origin/$MAIN_BRANCH"   # rebase on origin main branch
 
   # remote
