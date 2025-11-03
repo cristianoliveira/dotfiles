@@ -12,6 +12,7 @@ in {
         theme = "${theme.theme}";
 
         wayland.enable = true;
+        settings.Theme.CursorTheme = "Adwaita";
       };
     };
   };
