@@ -48,6 +48,16 @@
     xwayland.enable = true;
   };
 
+  environment.sessionVariables = {
+    # Needed for some programs to work properly under wayland
+    XDG_SESSION_TYPE = "wayland";
+
+    XCURSOR_THEME = "Adwaita";
+    XCURSOR_SIZE = "24";
+
+    GTK_THEME = "Adwaita";
+  };
+
   ## This here isn't really necessary for the fix but let's ake sure
   # to explicitly enable and start the xdg-desktop-portal-* as services on login
   xdg.portal = {

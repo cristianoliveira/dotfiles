@@ -49,6 +49,9 @@ font pango:monospace 9
 titlebar_border_thickness 0                                                     
 titlebar_padding 0
 
+# Cursor theme
+seat seat0 xcursor_theme "posy-cursor-mono"
+
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in @datadir@/backgrounds/sway/)
