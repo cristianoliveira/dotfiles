@@ -265,7 +265,21 @@ require('lazy').setup({
         desc = 'Search Github (filename)',
       },
     },
-  }
+  },
+
+  ----------------------------------------------------------------------------
+  --- Debugging plugins
+  
+  -- Golang dap integration
+  {
+    'leoluz/nvim-dap-go',
+    dependencies = {
+      'mfussenegger/nvim-dap',
+    },
+    config = function()
+      require('dap-go').setup()
+    end,
+  },
 
 }, {})
 

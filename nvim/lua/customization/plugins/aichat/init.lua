@@ -1,3 +1,5 @@
+local common = require("customization.plugins.aichat.common")
+
 local M = {}
 -- print("Loading aichat.nvim")
 
@@ -9,16 +11,6 @@ local code_agent_suggestions = {
   "crush",
   -- Add more entries, e.g. "windsurf", "claude", etc.
 }
-
-local function complete_code_agent(arg_lead)
-  local matches = {}
-  for _, agent in ipairs(code_agent_suggestions) do
-    if vim.startswith(agent, arg_lead) then
-      table.insert(matches, agent)
-    end
-  end
-  return matches
-end
 
 local function get_selection()
   local mode = vim.fn.visualmode()
@@ -316,13 +308,15 @@ end, {
   complete = function(arg_lead, cmd_line, _)
     local parts = vim.split(cmd_line, "\\s+", { trimempty = true })
     if #parts <= 1 then
-      return complete_code_agent(arg_lead)
+      return common.complete_code_agent(arg_lead)
     end
     if #parts == 2 and cmd_line:sub(-1) ~= " " then
-      return complete_code_agent(arg_lead)
+      return common.complete_code_agent(arg_lead)
     end
     return {}
   end,
 })
+
+require("customization.plugins.aichat.airesearch")
 
 return M
