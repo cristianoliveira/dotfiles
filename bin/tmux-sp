@@ -56,7 +56,7 @@ selected_without_period=$(echo "$selected" | tr '.' '_')
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
   tmux new-session -s "$selected_without_period" -c "$path_to_project"
   # and create 3 new windows (same as ctrl-b c)
-  tmux new-window -c "$selected" vim # window 2 with vim
+  tmux new-window -c "$selected" -c "$path_to_project" nvim # window 2 with vim
   tmux new-window -c "$selected" # window 3
   tmux new-window -c "$selected" -t 9
   tmux new-window -c "$selected" -t 0
@@ -68,7 +68,7 @@ fi
 if ! tmux has-session -t="$selected_without_period" 2> /dev/null; then
   tmux new-session -ds "$selected_without_period" -c "$path_to_project"
   # and create 3 new windows (same as ctrl-b c)
-  tmux new-window -c "$selected" vim
+  tmux new-window -c "$selected" -c "$path_to_project" nvim # window 2 with vim
   tmux new-window -c "$selected" 
   tmux new-window -c "$selected" -t 9
   tmux new-window -c "$selected" -t 0
