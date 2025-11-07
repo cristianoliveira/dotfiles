@@ -59,20 +59,6 @@
       '';
 
       loginShellInit = ''
-        # See https://github.com/LnL7/nix-darwin/issues/122
-        # Workaround for macos because it sets the system path with higher priority
-        # than nix paths this will reverse the order of the path's sections
-        # PATH=$(echo $PATH | sed 's/:/\n/g' | tac | tr "\n" ":")
-        nixpaths=(
-          /nix/var/nix/profiles/default/bin
-          /nix/var/nix/profiles/system/sw/bin
-          /nix/var/nix/profiles/system/sw/sbin
-          /run/current-system/sw/bin
-          $HOME/.nix-profile/bin
-        )
-        for nixpath in $nixpaths[@]; do
-          PATH="$nixpath:$PATH"
-        done
         typeset -U path
       '';
     };
