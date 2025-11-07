@@ -65,6 +65,6 @@
     claude-code
     nur.repos.charmbracelet.crush
     unstable.aichat
-    codex
+    nightly.codex
   ];
 }

@@ -46,6 +46,8 @@
                 inherit system;
                 config = { allowUnfree = true; };
               };
+              # Nightly packages namespace - access via pkgs.nightly.codex
+              nightly = (import ./nightly-pkgs.nix) prev;
             })
 
             nixpkgsnur.overlays.default
@@ -69,6 +71,8 @@
                 inherit system;
                 config = { allowUnfree = true; };
               };
+              # Nightly packages namespace - access via pkgs.nightly.codex
+              nightly = (import ./nightly-pkgs.nix) prev;
             })
             nixpkgsnur.overlays.default
           ];
