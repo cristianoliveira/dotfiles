@@ -2,13 +2,12 @@
 approval_policy = "untrusted"
 sandbox_mode = "workspace-write"
 
+web_search_request = true
+
 [sandbox_workspace_write]
 # Allow the command being run inside the sandbox to make outbound network
 # requests. Disabled by default.
 network_access = true
-
-[tools] 
-web_search = true
 
 [mcp_servers."sequential-thinking"]
 command = "npx"
