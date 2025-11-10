@@ -26,7 +26,8 @@ set $2nd DP-8
 set $3rd DP-7
 
 # Your preferred terminal emulator
-set $term alacritty
+set $term $HOME/.dotfiles/nix/shared/alacritty/launcher.sh
+set $termMain term-main
 set $music_player spotify
 
 # Your preferred application launcher
@@ -233,12 +234,12 @@ input "type:keyboard" {
 #
 # Terminal
 # Set focus or open a new terminal on workspace 2
-bindsym $mod+Ctrl+Return exec swaymsg [app_id=$term] focus || \
-                            $term --option window.opacity=0.94 --class $term
+bindsym $mod+Ctrl+Return exec swaymsg [app_id=$termMain] focus || \
+                            $term $termMain
 # Scratchpad terminal
 set $termFloating term-floating
 bindsym $mod+Ctrl+c exec swaymsg [app_id=$termFloating] focus || \
-                            $term --option window.opacity=0.94 --class $termFloating
+                            $term $termFloating
 
 # Browser (brave)
 bindsym $mod+Ctrl+b exec swaymsg [app_id="brave-browser"] focus || \
@@ -360,7 +361,7 @@ bindsym $mod+Shift+9 move container to workspace number 9
 bindsym $mod+Shift+0 move container to workspace number 10
 
 ## Apps and specific workspaces
-assign [app_id=$term] workspace 2
+assign [app_id=$termMain] workspace 2
 
 # [SCRATCHPAD-RULES]
 for_window [instance="zapzap"] move to scratchpad
