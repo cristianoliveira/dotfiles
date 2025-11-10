@@ -5,13 +5,17 @@ pkgs: {
 
   codex = let
     version = "0.55.0"; # Update this version as needed
-    sha256 = "sha256-nY2AYS3zFittsXlvO9UulyedKk1p7bnED3Q2aSxch+M="; # Placeholder for the SHA256 hash of the binary
     # Determine the architecture-specific URL
     arch = if pkgs.stdenv.isDarwin then
       if pkgs.stdenv.isAarch64 then "aarch64-apple-darwin"
       else "x86_64-apple-darwin"
     else if pkgs.stdenv.isAarch64 then "aarch64-unknown-linux-gnu"
     else "x86_64-unknown-linux-gnu";
+
+    sha256 = if pkgs.stdenv.isDarwin then
+      "sha256-nY2AYS3zFittsXlvO9UulyedKk1p7bnED3Q2aSxch+M=" else 
+      "sha256-LfJuBC6BZV9CyS7QWiOAFRD5hzH4xopWhZyiq0DUn+A=";
+
     src = pkgs.fetchurl {
       url = "https://github.com/openai/codex/releases/download/rust-v${version}/codex-${arch}.zst";
       inherit sha256;
