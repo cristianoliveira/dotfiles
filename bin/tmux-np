@@ -34,7 +34,7 @@ tmux_running=$(pgrep tmux)
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
   tmux new-session -s "$selected_name" -c "$selected"
   # and create 4 new panels (same as ctrl-b c)
-  tmux new-window -c "$selected" -c "$selected" nvim
+  tmux new-window -c "$selected" nvim
   tmux new-window -c "$selected" 
   tmux new-window -c "$selected" -t 9
   tmux new-window -c "$selected" -t 0
@@ -46,7 +46,7 @@ fi
 if ! tmux has-session -t="$selected_name" 2> /dev/null; then
   tmux new-session -ds "$selected_name" -c "$selected"
   # and create 3 new windows (same as ctrl-b c)
-  tmux new-window -c "$selected" -c "$selected" nvim
+  tmux new-window -c "$selected" nvim
   tmux new-window -c "$selected" 
   tmux new-window -c "$selected" -t 9
   tmux new-window -c "$selected" -t 0
