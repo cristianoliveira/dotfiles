@@ -420,8 +420,9 @@ in {
           # }
         ];
 
-        on-focused-monitor-changed = [
-          "exec-and-forget aerospace-scratchpad wsh bring-scratchpad-to-monitor 0 0"
+        exec-on-workspace-change = [
+          "/bin/bash" "-c"
+          "aerospace-scratchpad wsh bring-window-to-workspace $AEROSPACE_PREV_WORKSPACE $AEROSPACE_FOCUSED_WORKSPACE"
         ];
 
         # Makes accordion layout like fullscreen
