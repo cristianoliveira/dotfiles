@@ -242,8 +242,12 @@ bindsym $mod+Ctrl+c exec swaymsg [app_id=$termFloating] focus || \
                             $term $termFloating
 
 # Browser (brave)
-bindsym $mod+Ctrl+b exec swaymsg [app_id="brave-browser"] focus || \
-                            exec brave-browser
+bindsym $mod+Ctrl+b exec swaymsg [app_id="brave-browser"] focus \
+                 || exec brave-browser
+
+# [Y]outube (video) - focus or open and mark with 'y'
+bindsym $mod+Ctrl+y exec swaymsg [con_mark="y"] focus \
+                 || exec youtube && swaymsg '[instance=".*.youtube.com"] mark "y"'
 
 # Kill focused window
 bindsym $mod+Shift+q kill

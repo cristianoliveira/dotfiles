@@ -45,6 +45,11 @@ in {
           ctrl-cmd-enter = "exec-and-forget open ~/Applications/Alacritty.app";
           ctrl-cmd-b = "exec-and-forget open '/Applications/Brave Browser.app'";
 
+          # [Y]outube (focus)
+          cmd-ctrl-y = ''
+            exec-and-forget aerospace-marks focus "$(aerospace-marks get y -a)" \
+                         || open -a YouTube.app && aerospace-marks mark y'';
+
           # See: https://nikitabobko.github.io/AeroSpace/commands#focus
           cmd-ctrl-h = "focus left";
           cmd-ctrl-j = "focus down";
@@ -187,7 +192,7 @@ in {
                          || aerospace-scratchpad show 'Wire' -F window-title='Call'
           '';
 
-# Sequoia
+          # Sequoia
           # SCRATCHPAD DYNAMIC BINDINGS
           # Left hand quick access
           cmd-ctrl-1 = [
@@ -427,3 +432,4 @@ in {
     };
   };
 }
+
