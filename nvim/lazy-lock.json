@@ -14,7 +14,7 @@
   "mason.nvim": { "branch": "main", "commit": "fc98833b6da5de5a9c5b1446ac541577059555be" },
   "neodev.nvim": { "branch": "main", "commit": "46aa467dca16cf3dfe27098042402066d2ae242d" },
   "nvim-cmp": { "branch": "main", "commit": "059e89495b3ec09395262f16b1ad441a38081d04" },
-  "nvim-dap": { "branch": "master", "commit": "4c0e3a98465fac963dfde898cc8b878094153a43" },
+  "nvim-dap": { "branch": "master", "commit": "e97dc47e134ffb33da008658fecfae8f8547c528" },
   "nvim-dap-go": { "branch": "main", "commit": "b4421153ead5d726603b02743ea40cf26a51ed5f" },
   "nvim-lspconfig": { "branch": "master", "commit": "94dda50b2d9a29d0b76562a9027029538840e2d7" },
   "nvim-treesitter": { "branch": "master", "commit": "0e21ee8df6235511c02bab4a5b391d18e165a58d" },
