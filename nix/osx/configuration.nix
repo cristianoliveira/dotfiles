@@ -1,6 +1,6 @@
-{ pkgs, ... }:
-
-{
+{ pkgs, ... }: let
+  primaryUser = "cristianoliveira";
+in {
   # Referecence:
   # https://github.com/LnL7/nix-darwin/tree/master
   imports =
@@ -64,7 +64,11 @@
     };
   };
 
-  system.primaryUser = "cristianoliveira";
+  # User configuration
+  system.primaryUser = primaryUser;
+  environment.etc."sudoers.d/darwin-rebuild".text = ''
+    ${primaryUser} ALL=(ALL) NOPASSWD: /run/current-system/sw/bin/darwin-rebuild
+  '';
 
   # Auto upgrade nix package and the daemon service.
   nix.enable = true;
