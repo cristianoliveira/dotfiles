@@ -32,6 +32,8 @@ __/
 _tmp/
 _hidden/
 # Git worktree
+.gwt/
+.wte/
 _wte/
 
 # fzz related

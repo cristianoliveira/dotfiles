@@ -148,11 +148,13 @@
 
   wip = !git add . && git commit -m WIP
 
-  # worktree add branch
-  wab = worktree add
+  # add worktree
+  wta = worktree add
   # delete branch
-  wrb = worktree remove
-  wdb = worktree remove
+  wtr = worktree remove
+  wtd = worktree remove
+  # list worktrees
+  wtl = worktree list
 
   # Bisec commands
   #
