@@ -19,3 +19,6 @@ setup_main_branch() {
 }
 add-zsh-hook chpwd setup_main_branch
 setup_main_branch
+
+# Remote main branch
+export REMOTE_MAIN_BRANCH=origin/$LOCAL_MAIN_BRANCH
