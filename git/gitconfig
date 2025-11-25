@@ -37,10 +37,9 @@
   bmdd = !git branch --merged | grep -v "\\*\\|$MAIN_BRANCH\\|dev" | xargs -n 1 git branch -d
 
   # commit
-  c = commit -m                     # commit with message
+  c = commit                        # commit
+  cm = commit -m                    # commit with message
   ca = commit -am                   # commit all with message
-  ci = commit                       # commit
-  cm = commit                       # commit
   amd = commit --amend              # ammend your last commit
   amdf = commit --amend --no-edit   # ammend your last commit without editing the message
   amend = commit --amend            # ammend your last commit
@@ -107,29 +106,24 @@
   rta = remote add                   # add a remote
   rtr = remote remove                # remove a remote
 
-  # reset
-  res = reset
-  res1 = reset HEAD~1 # reset to 1 commit ago
-  res2 = reset HEAD~2 # reset to 2 commits ago
-  res3 = reset HEAD~3 # reset to 3 commits ago
-  resh = reset --hard               # reset hard to HEAD
-
-  rz1 = reset HEAD~1 # reset to 1 commit ago
-  rz2 = reset HEAD~2 # reset to 2 commits ago
-  rz3 = reset HEAD~3 # reset to 3 commits ago
-  rzh = reset --hard               # reset hard to HEAD
+  # reset (rezet :P)
+  rz = reset                                      # reset to 1 commit ago
+  rz1 = reset HEAD~1                              # reset to 1 commit ago
+  rz2 = reset HEAD~2                              # reset to 2 commits ago
+  rz3 = reset HEAD~3                              # reset to 3 commits ago
+  rzh = reset --hard                              # reset hard to HEAD
+  rzhom = !git reset --hard origin/"$MAIN_BRANCH" # reset to origin main branch
 
   unstage = reset HEAD              # remove files from index (tracking)
   uncommit = reset --soft HEAD^     # go back before last commit, with files in uncommitted state
   filelog = log -u                  # show changes to a file
   mt = mergetool                    # fire up the merge tool
-  rshom = !git reset --hard origin/"$MAIN_BRANCH" # reset to origin main branch
 
   # stash
-  ss = stash                        # stash changes
-  sl = stash list                   # list stashes
-  sa = stash apply                  # apply stash (restore changes)
-  sd = stash drop                   # drop stashes (destory changes)
+  sts = stash                        # stash changes
+  stl = stash list                   # list stashes
+  sta = stash apply                  # apply stash (restore changes)
+  std = stash drop                   # drop stashes (destory changes)
 
   # status
   s = status                        # status
@@ -174,6 +168,7 @@
   # Small scripts
   ignoreit = !git ls-files --others --exclude-standard >> .gitignore                  # Ignore the current untracked files
 
+  # Cherry-pick by semantic commit type
   cpall = !git cherry ${2:-$MAIN_BRANCH} $1 --verbose | grep -Ev ' tmp:| temp:| delete:| wip:|WIP' | awk '{ print $2 }' | xargs git cherry-pick
   cpchore = !git cherry ${2:-$MAIN_BRANCH} $1 --verbose | grep -E 'chore.*: ' | awk '{ print $2 }' | xargs git cherry-pick
   cpfeat = !git cherry ${2:-$MAIN_BRANCH} $1 --verbose | grep -E 'feat.*: ' | awk '{ print $2 }' | xargs git cherry-pick
