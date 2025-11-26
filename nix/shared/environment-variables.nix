@@ -37,6 +37,6 @@
     # Xcode path for command line tools
     # Make sure to install Xcode from the App Store
     # FIXME Add this to ~/.env
-    # DEVELOPER_DIR="/Applications/Xcode.app/Contents/Developer";
+    # DEVELOPER_DIR="/Library/Developer/CommandLineTools"; # When installed with xcode-select --install
   };
 }
