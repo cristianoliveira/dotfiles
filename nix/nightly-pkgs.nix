@@ -4,7 +4,10 @@
 pkgs: {
 
   codex = let
-    version = "0.55.0"; # Update this version as needed
+    # NOTE: Update this version as needed and adjust sha256 accordingly
+    # If you are not sure about the sha256, just use empty string ""
+    # and nix will tell you the correct one
+    version = "0.63.0";
     # Determine the architecture-specific URL
     arch = if pkgs.stdenv.isDarwin then
       if pkgs.stdenv.isAarch64 then "aarch64-apple-darwin"
@@ -13,8 +16,8 @@ pkgs: {
     else "x86_64-unknown-linux-gnu";
 
     sha256 = if pkgs.stdenv.isDarwin then
-      "sha256-nY2AYS3zFittsXlvO9UulyedKk1p7bnED3Q2aSxch+M=" else 
-      "sha256-LfJuBC6BZV9CyS7QWiOAFRD5hzH4xopWhZyiq0DUn+A=";
+      "sha256-omm9GvTHYOSIFmdmtpq7eC+6h6vD889geLoMDGw4pu4=" else 
+      ""; # FIXME for linux
 
     src = pkgs.fetchurl {
       url = "https://github.com/openai/codex/releases/download/rust-v${version}/codex-${arch}.zst";
