@@ -4,5 +4,13 @@ variables:
     default: "no more context"
 
 steps:
+  - .session
   - .role git-pr
-  - .file `git diff --cached --exit-code && git diff $MAIN_BRANCH` -- write a pul request description following the context -- {{args}}
+  # The commits diff between the current branch and the main branch
+  - .file `git log $MAIN_BRANCH..HEAD --summary --pretty=oneline` -- recent commits summary
+  - .continue
+  - .file `git diff $MAIN_BRANCH` -- diff with main branch
+  - .continue
+  - .file `git diff --cached` -- diff of staged changes 
+  - .continue
+  - now write a Pull Request description in a professional tone. DO NOT EXPLAIN THE WHYS of the changes, just focus on WHAT has been changed. If a phrase goes in "for x,y and z" DON'T USE IT
