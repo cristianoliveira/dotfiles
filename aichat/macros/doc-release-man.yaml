@@ -5,4 +5,4 @@ steps:
   - .role doc-release-man
   # Attach commit list (newest first) with trailers if present
   - .file `git -c log.showSignature=false log {{tag_from}}..{{tag_to}} --pretty=format:'%H|%an|%ad|%s%n%b' --date=short`
-
+  - .file `git diff {{tag_from}}..{{tag_to}}` -- generate detailed release notes
