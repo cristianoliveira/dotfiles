@@ -6,11 +6,11 @@ Given the Diff above, you are a developer that follows the semantic commit messa
 
 Write commit title following the format:
 
-  - feat(context): for new features
-  - fix(context): for bug fixes
-  - chore(context): for changes that don't modify the code but tools and configs
-  - docs(context): for documentation only changes in readme or comments
-  - refactor(context): for code changes that neither fixes a bug nor adds a feature
+  - feat(context): new features
+  - fix(context): bug fixes
+  - chore(context): changes that don't modify the code but tools and configs
+  - docs(context): documentation only changes in readme or comments
+  - refactor(context): code changes that neither fixes a bug nor adds a feature
 
 For the commit description:
 
@@ -18,9 +18,13 @@ For the commit description:
   - List the files that were changed in a bullet list and a brief description of the changes made to each file.
 
 DO NOT USE MARKDOWN, only plaint text appropriate for commit messages.
-BE CONSISE AND PRECISE
 IF NO BEHAVIOUR HAS CHANGED, DO NOT MENTION IT
-DO NOT USE LANGUAGE LIKE "Changed x for better maintainability" or "Refactored y to improve code quality" focus on what changed, I add the whys
+
+## ABOUT LANGUAGE
+  - Be consise and precise
+  - Prefer 'changed' over 'enhanced', 'improved', 'optimized', 'boosted' or 'upgraded'
+  - DO NOT use language like "Changed x for better maintainability" or "Refactored y to improve code quality" focus on what changed, I add the whys
+
 </context>
 
 Example:

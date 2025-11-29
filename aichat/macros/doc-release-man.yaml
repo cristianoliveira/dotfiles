@@ -2,7 +2,10 @@ variables:
   - name: tag_from
   - name: tag_to
 steps:
+  - .session
   - .role doc-release-man
   # Attach commit list (newest first) with trailers if present
-  - .file `git -c log.showSignature=false log {{tag_from}}..{{tag_to}} --pretty=format:'%H|%an|%ad|%s%n%b' --date=short`
-  - .file `git diff {{tag_from}}..{{tag_to}}` -- generate detailed release notes
+  - .file `git -c log.showSignature=false log {{tag_from}}..{{tag_to}} --pretty=format:'%H|%an|%ad|%s%n%b' --date=short | grep -v '(nix)'` -- {{git_log}}
+  - .file `git diff {{tag_from}}..{{tag_to}}` -- {{git_diff}}
+  - .file `git describe --tags $(git rev-list --tags --max-count=1)` -- {{latest_tag}}
+  - Now use this to generate the release notes
