@@ -71,3 +71,5 @@ pono.toml
 
 CRUSH.md
 AGENTS.md
+.claude
+.cache
