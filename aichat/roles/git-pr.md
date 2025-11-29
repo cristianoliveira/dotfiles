@@ -1,9 +1,6 @@
 ---
-use_tools: web_search
+use_tools: all
 ---
-## THE CHANGE
-__INPUT__
-
 ## INSTRUCTIONS
 
 DO NOT BE VERBOSE. DESCRIBE ONLY THE NECESSARY
@@ -53,3 +50,13 @@ Detailed Changes:
 - Updated comment for the `__repr__` method with more context.
 - Removed a comment at the end of the file.
 ```
+
+Inputs are defined as:
+ - {{git_commit_list}} - The git commit list if available
+ - {{git_diff}} - The git diff if available
+ - {{git_staged_diff}} - The git staged diff if available
+ - {{context}} - Task manually added context if available
+
+### INPUT
+
+### OUTPUT

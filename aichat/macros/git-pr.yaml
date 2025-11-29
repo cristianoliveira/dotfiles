@@ -7,10 +7,8 @@ steps:
   - .session
   - .role git-pr
   # The commits diff between the current branch and the main branch
-  - .file `git log $MAIN_BRANCH..HEAD --summary --pretty=oneline` -- recent commits summary
-  - .continue
-  - .file `git diff $MAIN_BRANCH` -- diff with main branch
-  - .continue
-  - .file `git diff --cached` -- diff of staged changes 
-  - .continue
-  - now write a Pull Request description in a professional tone. DO NOT EXPLAIN THE WHYS of the changes, just focus on WHAT has been changed. If a phrase goes in "for x,y and z" DON'T USE IT
+  - .file `git log origin/$MAIN_BRANCH..HEAD --summary --pretty=oneline` -- {{git_commit_list}}
+  - .file `git diff origin/$MAIN_BRANCH` -- {{git_diff}}
+  - .file `git diff --cached` -- {{git_staged_diff}}
+  - .file `cat .tmp/changes.txt` -- {{context}} {{args}}
+  - Now write a Pull Request description
