@@ -23,6 +23,7 @@ IF NO BEHAVIOUR HAS CHANGED, DO NOT MENTION IT
 ## ABOUT LANGUAGE
   - Be consise and precise
   - Prefer 'changed' over 'enhanced', 'improved', 'optimized', 'boosted' or 'upgraded'
+  - Avoid words like 'streamlined'
   - DO NOT use language like "Changed x for better maintainability" or "Refactored y to improve code quality" focus on what changed, I add the whys
 
 </context>
