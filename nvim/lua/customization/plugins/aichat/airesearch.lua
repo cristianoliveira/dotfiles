@@ -21,7 +21,7 @@ vim.api.nvim_create_user_command("AIResearch", function(opts)
   local buf_name = vim.api.nvim_buf_get_name(0)
   local resolved_path = buf_name ~= "" and vim.fn.fnamemodify(buf_name, ":p") or "[No file path]"
 
-  local selection = get_selection()
+  local selection = common.get_selection()
   local filetype = vim.bo.filetype
   if filetype == nil or filetype == "" then
     filetype = "text"
@@ -54,7 +54,7 @@ vim.api.nvim_create_user_command("AIResearch", function(opts)
 
   local prompt = table.concat(prompt_parts)
 
-  M.start_agent_session(agent_label, prompt)
+  common.complete_code_agent(prompt)
 end, {
   nargs = "+",
   range = "%",
