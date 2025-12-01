@@ -23,7 +23,6 @@ require('customization/mappings/buffers')
 require('customization/mappings/tabs')
 require('customization/mappings/macros')
 require('customization/mappings/netrw')
-require('customization/mappings/copilot')
 require('customization/mappings/grep')
 require('customization/mappings/marks')
 require('customization/mappings/find_replace')
@@ -31,6 +30,9 @@ require('customization/mappings/telescope')
 require('customization/mappings/obsidian')
 require('customization/mappings/curl')
 require('customization/mappings/argpoon')
+
+-- require('customization/mappings/copilot')
+require('customization/mappings/codeium')
 
 --> Settings
 require('customization/settings/lsp')
