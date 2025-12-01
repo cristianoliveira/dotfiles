@@ -36,32 +36,22 @@ local servers = {
 }
 
 mason_lspconfig.setup {
+  automatic_enable = false,
   automatic_installation = true,
   ensure_installed = vim.tbl_keys(servers)
 }
 
-mason_lspconfig.setup_handlers {
-  function(server_name)
-    lspconfig[server_name].setup {
-      capabilities = capabilities,
-      on_attach = Lsp_on_attach, -- see ../mappings/lsp.lua
-      settings = servers[server_name],
-      flags = lsp_flags,
-    }
-  end,
-}
-
 -- NOTE: Nixd requires to be installed with nix
 -- see also "../../../../nix/shared/developer-tools.nix"
-lspconfig.nixd.setup {
+vim.lsp.config("nixd",  {
   cmd = { "/run/current-system/sw/bin/nixd" },
   capabilities = capabilities,
   on_attach = Lsp_on_attach, -- see ../mappings/lsp.lua
   settings = {},
   flags = lsp_flags,
-}
+})
 
-lspconfig.golangci_lint_ls.setup {
+vim.lsp.config("golangci_lint_ls",  {
   root_dir = lsputils.root_pattern("go.work", "go.mod", ".git"),
   cmd = { "golangci-lint-langserver" },
   filetypes = { "go", "gomod", "gowork", "gotmpl" },
@@ -72,4 +62,4 @@ lspconfig.golangci_lint_ls.setup {
   on_attach = Lsp_on_attach,
   settings = {},
   flags = lsp_flags,
-}
+})
