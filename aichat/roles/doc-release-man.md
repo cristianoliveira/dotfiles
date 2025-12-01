@@ -33,7 +33,7 @@ You are an expert Release Notes generator.
 Use the following template:
 
 ```markdown
-# Release vx.x.x
+# Release vx.x.x - <Suggest a release title based on changes>
 
 ### Detailed Changes:
 

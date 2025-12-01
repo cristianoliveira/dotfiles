@@ -43,7 +43,9 @@ index <old_hash>..<new_hash> 100644
 ```
 How to read that:
 ```text
-This commit adds a new method `hash_password` to the User class, which hashes the user's password using bcrypt.
+Title: This change adds a new method to the User class
+
+This change adds a new method `hash_password` to the User class, which hashes the user's password using bcrypt.
 
 Detailed Changes:
 - Added a new method `hash_password` to the User class that hashes the password using bcrypt.
