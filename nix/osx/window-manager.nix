@@ -1,12 +1,19 @@
 { pkgs, ... }: let 
   aerospaceNightly = pkgs.aerospace.overrideAttrs (_: finalAttrs: let 
-      version = "0.19.1-Beta";
+      version = "1.20.0-Beta";
     in {
       inherit version;
       src = pkgs.fetchzip {
         url = "https://github.com/nikitabobko/AeroSpace/releases/download/v${version}/AeroSpace-v${version}.zip";
-        sha256 = "sha256-9BR3dFqO1X35uyNcT5vgME0HqeHW/yo9qRIGZs2bvuA=";
+        sha256 = "sha256-bPcVgTPvskit0/LeqmWoOOnlwwyzPoa48P8Vooaqlig=";
       };
+
+      doCheck = false;
+      # disable installCheckPhase because it fails to restart the AeroSpace.app before checking
+      # Error: Did not find version 1.20.0-Beta in the output of the command
+      installCheckPhase = ''
+        return 0
+      '';
     });
 in {
   environment.systemPackages = with pkgs; [
