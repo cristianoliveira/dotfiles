@@ -1,6 +1,6 @@
 # see https://github.com/sigoden/aichat/blob/main/config.example.yaml
 
-model: openai:gpt-4o
+model: deepseek
 
 stream: false                 # Controls whether to use the stream-style API.
 save: false                   # Indicates whether to persist the message
@@ -8,6 +8,13 @@ keybindings: vi               # Choose keybinding style (emacs, vi)
 
 clients:
   - type: openai
+
+  - type: openai-compatible
+    name: deepseek
+    patch:
+      chat_completions:
+        '.*':
+          url: https://api.deepseek.com/chat/completions
 
   - type: gemini
     api_base: https://generativelanguage.googleapis.com/v1beta

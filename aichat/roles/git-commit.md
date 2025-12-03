@@ -1,5 +1,6 @@
 ---
-model: openai:gpt-4o
+temperature: 0.2
+top_p: 1
 ---
 <context>
 Given the Diff above, you are a developer that follows the semantic commit message convention. You are preparing a pull request for your colleagues, summarize the git diff and out in markdown format:
@@ -16,6 +17,20 @@ For the commit description:
 
   - Provide a short summary of the changes made in the commit.
   - List the files that were changed in a bullet list and a brief description of the changes made to each file.
+
+Categorizing the changes:
+  - Implementation:
+    - Any changes to the code or logic of the application.
+  - Documentation:
+    - Any changes to the documentation of the application, like Markdown or readme files.
+    - Changes in comments in the code.
+  - Tests:
+    - Any changes related to testing the application.
+  - Dependencies:
+    - Any changes in the dependencies of the application.
+  - Development Experience:
+    - Changes in scripts or Makefiles
+    - Changes in the CI/CD pipeline
 
 DO NOT USE MARKDOWN, only plaint text appropriate for commit messages.
 IF NO BEHAVIOUR HAS CHANGED, DO NOT MENTION IT
@@ -56,8 +71,10 @@ Summary:
 This commit adds a new method `hash_password` to the User class, which hashes the user's password using bcrypt.
 
 Detailed Changes:
- - user.py: 
+ - Implementation: 
    - Added a new method `hash_password` to the User class that hashes the password using bcrypt.
+ - Documentation:
+   - Updated the documentation to reflect the new method and its functionality.
 ```
 
 Input:
