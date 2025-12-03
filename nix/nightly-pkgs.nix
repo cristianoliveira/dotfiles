@@ -17,7 +17,7 @@ pkgs: {
 
     sha256 = if pkgs.stdenv.isDarwin then
       "sha256-omm9GvTHYOSIFmdmtpq7eC+6h6vD889geLoMDGw4pu4=" else 
-      ""; # FIXME for linux
+      "sha256-fRBfWCLyDa1EueD2AanZ7+YVUK+2SBcsAeX9OdPnMkM="; # FIXME for linux
 
     src = pkgs.fetchurl {
       url = "https://github.com/openai/codex/releases/download/rust-v${version}/codex-${arch}.zst";
