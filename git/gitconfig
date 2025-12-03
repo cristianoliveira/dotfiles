@@ -91,15 +91,16 @@
   pf = push --force-with-lease      # similar to my old alias
 
   # rebase
-  rs = rebase
+  rs = rebase                                # rebase alias
+  rbs = rebase                               # rebase alias
   rsc = rebase --continue                    # continue rebase
   rss = rebase --skip                        # skip rebase
   rsa = rebase --abort                       # abort rebase
-  rbs = rebase -i "$MAIN_BRANCH"             # interactive rebase on main branch
-  rbsc = rebase -i --continue                # continue interactive rebase
-  rbsa = rebase -i --abort                   # abort interactive rebase
-  rbss = rebase -i --skip                    # skip interactive rebase
-  rbom = !git rebase "origin/$MAIN_BRANCH"   # rebase on origin main branch
+  rbsi = rebase -i                           # interactive rebase on main branch
+  rbsc = rebase --continue                   # continue interactive rebase
+  rbsa = rebase --abort                      # abort interactive rebase
+  rbss = rebase --skip                       # skip interactive rebase
+  rbsom = !git rebase "origin/$MAIN_BRANCH"  # rebase on origin main branch
 
   # remote
   rt = remote -v                     # show remotes (verbose)
