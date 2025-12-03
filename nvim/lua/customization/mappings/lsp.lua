@@ -13,7 +13,9 @@ nmap("<C-]>", "<C-]>zz")
 
 -- Use a on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
-Lsp_on_attach = function(_, bufnr)
+Lsp_on_attach = function(event)
+  bufnr = event.buf
+
   local lspnmap = function(keys, func, desc)
     if desc then
       desc = 'LSP: ' .. desc
@@ -46,3 +48,8 @@ Lsp_on_attach = function(_, bufnr)
   lspnmap('K', vim.lsp.buf.hover, 'Hover Documentation')
   lspnmap('<C-K>', vim.lsp.buf.signature_help, 'Signature Documentation')
 end
+
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('user-lsp-attach', { clear = true }),
+  callback = Lsp_on_attach,
+})

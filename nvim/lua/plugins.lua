@@ -129,6 +129,7 @@ require('lazy').setup({
       -- Automatically install LSPs to stdpath for neovim
       { 'mason-org/mason.nvim', config = true },
       'mason-org/mason-lspconfig.nvim',
+      'WhoIsSethDaniel/mason-tool-installer.nvim',
 
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
