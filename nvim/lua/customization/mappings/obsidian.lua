@@ -12,17 +12,6 @@ vim.api.nvim_create_autocmd('VimEnter', {
     -- Set wrap true and textwidth 80
     vim.o.wrap = true
     vim.o.textwidth = 80
-
-    local date = os.date('%d-%m-%Y')
-    local daily_note = 'daily/' .. date .. '.md'
-
-    -- if current buffer is the daily note, do nothing
-    local current_buffer = vim.fn.expand('%:p')
-    print(current_buffer)
-    if vim.fn.expand('%:p') == daily_note then
-      return
-    end
-    vim.cmd('e ' .. daily_note)
   end,
   group = obsmd,
   pattern = '*',
