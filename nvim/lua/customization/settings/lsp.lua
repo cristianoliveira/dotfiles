@@ -26,7 +26,24 @@ local servers = {
     },
   },
 
-  golangci_lint_ls = {},
+  golangci_lint_ls = {
+    root_dir = lsputils.root_pattern("go.work", "go.mod", ".git"),
+    cmd = { "golangci-lint-langserver" },
+    filetypes = { "go", "gomod", "gowork", "gotmpl" },
+    init_options = {
+      command = { 'golangci-lint', 'run', '--output.json.path=stdout', '--show-stats=false' },
+    },
+    capabilities = capabilities,
+    settings = {},
+  },
+
+  -- NOTE: Nixd requires to be installed with nix
+  -- see also "../../../../nix/shared/developer-tools.nix"
+  nixd = {
+    cmd = { "/run/current-system/sw/bin/nixd" },
+    capabilities = capabilities,
+    settings = {},
+  },
 }
 
 require('mason-tool-installer').setup { ensure_installed = ensure_installed }
@@ -45,22 +62,3 @@ mason_lspconfig.setup {
   ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
   automatic_installation = false,
 }
-
--- NOTE: Nixd requires to be installed with nix
--- see also "../../../../nix/shared/developer-tools.nix"
-vim.lsp.config("nixd",{
-  cmd = { "/run/current-system/sw/bin/nixd" },
-  capabilities = capabilities,
-  settings = {},
-})
-
-vim.lsp.config("golangci_lint_ls",{
-  root_dir = lsputils.root_pattern("go.work", "go.mod", ".git"),
-  cmd = { "golangci-lint-langserver" },
-  filetypes = { "go", "gomod", "gowork", "gotmpl" },
-  init_options = {
-    command = { 'golangci-lint', 'run', '--output.json.path=stdout', '--show-stats=false' },
-  },
-  capabilities = capabilities,
-  settings = {},
-})
