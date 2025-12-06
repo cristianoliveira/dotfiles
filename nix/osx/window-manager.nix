@@ -124,10 +124,24 @@ in {
           ## Scratchpad workspace
           # This allows me to have a scratchpad workspace similart to i3
           # cmd-ctrl-backslash = "workspace scratchpad";
-          cmd-m = "exec-and-forget aerospace-scratchpad move";
-          cmd-shift-m = "exec-and-forget aerospace-scratchpad move --all-matching";
-          cmd-ctrl-shift-m = "exec-and-forget aerospace-scratchpad move --all-floating";
-          cmd-ctrl-minus = "exec-and-forget aerospace-scratchpad next";
+          cmd-m = ''
+            exec-and-forget aerospace-scratchpad move -o json | \
+              jq -r .window_id | xargs queue.sh spd push
+          '';
+          cmd-shift-m = ''
+            exec-and-forget aerospace-scratchpad move --all-matching | \
+              jq -r .window_id | \
+              xargs -I {} queue.sh spd push {}
+          '';
+          cmd-ctrl-shift-m = ''
+            exec-and-forget aerospace-scratchpad move --all-floating -o json | \
+              jq -r .window_id | \
+              xargs -I {} queue.sh spd push {}
+          '';
+          cmd-ctrl-minus = ''
+            exec-and-forget aerospace-scratchpad show "." \
+              --filter window-id="^$(queue.sh spd pop)"
+          '';
 
           # See: https://nikitabobko.github.io/AeroSpace/commands#layout
           cmd-ctrl-s = "layout v_accordion";
@@ -317,23 +331,23 @@ in {
           enter = "mode main";
 
           u = [
-            "exec-and-forget ~/.dotfiles/bin/osx-win-move topleft"
+            "exec-and-forget osx-win-move topleft"
             "mode main"
           ];
           i = [
-            "exec-and-forget ~/.dotfiles/bin/osx-win-move center"
+            "exec-and-forget osx-win-move center"
             "mode main"
           ];
           o = [
-            "exec-and-forget ~/.dotfiles/bin/osx-win-move topright"
+            "exec-and-forget osx-win-move topright"
             "mode main"
           ];
           j = [
-            "exec-and-forget ~/.dotfiles/bin/osx-win-move bottomleft"
+            "exec-and-forget osx-win-move bottomleft"
             "mode main"
           ];
           k = [
-            "exec-and-forget ~/.dotfiles/bin/osx-win-move bottomcenter"
+            "exec-and-forget osx-win-move bottomcenter"
             "mode main"
           ];
           l = [
@@ -347,27 +361,27 @@ in {
           enter = "mode main";
 
           u = [
-            "exec-and-forget ~/.dotfiles/bin/osx-win-resize w1/2"
+            "exec-and-forget osx-win-resize w1/2"
             "mode main"
           ];
           i = [
-            "exec-and-forget ~/.dotfiles/bin/osx-win-resize w1/3"
+            "exec-and-forget osx-win-resize w1/3"
             "mode main"
           ];
           o = [
-            "exec-and-forget ~/.dotfiles/bin/osx-win-resize w1/4"
+            "exec-and-forget osx-win-resize w1/4"
             "mode main"
           ];
           j = [
-            "exec-and-forget ~/.dotfiles/bin/osx-win-resize h1/2"
+            "exec-and-forget osx-win-resize h1/2"
             "mode main"
           ];
           k = [
-            "exec-and-forget ~/.dotfiles/bin/osx-win-resize h1/3"
+            "exec-and-forget osx-win-resize h1/3"
             "mode main"
           ];
           l = [
-            "exec-and-forget ~/.dotfiles/bin/osx-win-resize h1/4"
+            "exec-and-forget osx-win-resize h1/4"
             "mode main"
           ];
         };
@@ -376,7 +390,7 @@ in {
           AEROSPACE_SCRATCHPAD_LOGS_LEVEL = "DEBUG";
           AEROSPACE_MARKS_LOGS_LEVEL = "DEBUG";
           
-          PATH = "\${HOME}/golang/bin:/opt/homebrew/bin:/run/current-system/sw/bin:\${PATH}";
+          PATH = "\${HOME}/.dotfiles/bin:\${HOME}/golang/bin:/opt/homebrew/bin:/run/current-system/sw/bin:\${PATH}";
         };
 
         workspace-to-monitor-force-assignment = {
