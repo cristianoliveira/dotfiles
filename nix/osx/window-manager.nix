@@ -139,7 +139,9 @@ in {
               xargs -I {} queue.sh spd push {}
           '';
           cmd-ctrl-minus = ''
-            exec-and-forget aerospace-scratchpad show "." \
+            exec-and-forget aerospace-scratchpad move --all-floating -o json | \
+                jq -r .window_id | xargs -I {} queue.sh spd push {} && \
+              aerospace-scratchpad show "." \
               --filter window-id="^$(queue.sh spd pop)"
           '';
 
@@ -171,7 +173,7 @@ in {
           '';
 
           cmd-f1 = "mode relocate";
-          cmd-f2 = ''exec-and-forget ~/.dotfiles/bin/osx-win-resize \
+          cmd-f2 = ''exec-and-forget osx-win-resize.sh \
               $(osascript -e \
                   'text returned of (display dialog "resize w%/h% (Eg. w50)" default answer "")')
           '';
@@ -331,27 +333,27 @@ in {
           enter = "mode main";
 
           u = [
-            "exec-and-forget osx-win-move topleft"
+            "exec-and-forget osx-win-move.sh topleft"
             "mode main"
           ];
           i = [
-            "exec-and-forget osx-win-move center"
+            "exec-and-forget osx-win-move.sh center"
             "mode main"
           ];
           o = [
-            "exec-and-forget osx-win-move topright"
+            "exec-and-forget osx-win-move.sh topright"
             "mode main"
           ];
           j = [
-            "exec-and-forget osx-win-move bottomleft"
+            "exec-and-forget osx-win-move.sh bottomleft"
             "mode main"
           ];
           k = [
-            "exec-and-forget osx-win-move bottomcenter"
+            "exec-and-forget osx-win-move.sh bottomcenter"
             "mode main"
           ];
           l = [
-            "exec-and-forget ~/.dotfiles/bin/osx-win-move bottomright"
+            "exec-and-forget osx-win-move.sh bottomright"
             "mode main"
           ];
         };
@@ -361,23 +363,23 @@ in {
           enter = "mode main";
 
           u = [
-            "exec-and-forget osx-win-resize w1/2"
+            "exec-and-forget osx-win-resize.sh w1/2"
             "mode main"
           ];
           i = [
-            "exec-and-forget osx-win-resize w1/3"
+            "exec-and-forget osx-win-resize.sh w1/3"
             "mode main"
           ];
           o = [
-            "exec-and-forget osx-win-resize w1/4"
+            "exec-and-forget osx-win-resize.sh w1/4"
             "mode main"
           ];
           j = [
-            "exec-and-forget osx-win-resize h1/2"
+            "exec-and-forget osx-win-resize.sh h1/2"
             "mode main"
           ];
           k = [
-            "exec-and-forget osx-win-resize h1/3"
+            "exec-and-forget osx-win-resize.sh h1/3"
             "mode main"
           ];
           l = [
