@@ -125,7 +125,8 @@ in {
           # This allows me to have a scratchpad workspace similart to i3
           # cmd-ctrl-backslash = "workspace scratchpad";
           cmd-m = "exec-and-forget aerospace-scratchpad move";
-          cmd-shift-m = "exec-and-forget aerospace-scratchpad move --all";
+          cmd-shift-m = "exec-and-forget aerospace-scratchpad move --all-matching";
+          cmd-ctrl-shift-m = "exec-and-forget aerospace-scratchpad move --all-floating";
           cmd-ctrl-minus = "exec-and-forget aerospace-scratchpad next";
 
           # See: https://nikitabobko.github.io/AeroSpace/commands#layout
@@ -418,17 +419,19 @@ in {
             run = [ "layout floating" ];
           }
 
-          # FIXME: Ensure all windows on workspace 2 (the workspace where contains the terminal)
-          # are in h_accordion layout, so it is presented like a fullscreen transparent terminal 
-          # and the other apps behind it
-          # {
-          #   "if".workspace = "8";
-          #   run = [ "layout h_accordion" ];
-          # }
-          # {
-          #   "if".workspace = "2";
-          #   run = [ "layout h_accordion" ];
-          # }
+          # Workspace 2 is my (code context) terminal and other dev tools windows
+          # like Playwright ui or database explorer. This make all windows fullscreen
+          # and accessible by mod+ctrl+(hjlk)
+          {
+            "if".workspace = "2";
+            run = [ "layout h_accordion" ];
+          }
+          # Workspace 8 is usually on the second monitor and contains all
+          # auxiliar windows like Jira/Figma/Etc or sometimes Youtube
+          {
+            "if".workspace = "8";
+            run = [ "layout h_accordion" ];
+          }
         ];
 
         exec-on-workspace-change = [
