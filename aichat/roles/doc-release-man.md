@@ -35,32 +35,28 @@ Use the following template:
 ```markdown
 # Release vx.x.x - <Suggest a release title based on changes>
 
-### Detailed Changes:
+### Highlights
 
-**Highlights:**
    - Added feature x to solve problem y.
    - Fixed bug z that caused crash in scenario w.
    - Improved user experience in feature x.
+   - <more highlights>
+
+## **Breaking Changes:** <if any>
+   - **title:** description 
+   - **output:** changed error output from x to y which may breaks z.
 
 ## **Features:**
    - **title:** description 
 
-## **Refactors:**
-    - **title:** description 
-
-##  **Tests:**
-    - **title:** description
-
-## **Chores:**
-    - **title:** description
-
 ##  **Documentation:**
    - Updated documentation to cover new features like filter flag usage and dry-run mode.
 
-## List of commits:
-   `git log --oneline <tag_from>..<tag_to>`
-   - commit_hash1: Commit message 1 (link)
-   - commit_hash2: Commit message 2 (link)
+## **Refactors:**
+    - **title:** description 
+
+## **Development experience:** <any cicd, devx, build, etc>
+    - **title:** description
 ```
 
 The inputs will be
