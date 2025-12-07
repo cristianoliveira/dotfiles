@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 QUEUE_NAME=$1
 COMMAND=$2
@@ -6,6 +6,10 @@ VALUE=$3
 
 QUEUE="$HOME/.local/state/queue-$QUEUE_NAME"
 touch "$QUEUE" 2>/dev/null || true
+
+function make_uniq {
+  cat "$QUEUE" | uniq > "$QUEUE.tmp" && mv "$QUEUE.tmp" "$QUEUE"
+}
 
 if [ -z "$COMMAND" ]; then
   echo "Usage: $0 [queue-name] <push|pop|clear|shift> [value]"
@@ -15,6 +19,7 @@ fi
 if [ "$COMMAND" = "push" ]; then
   # Push IDs of moved windows
   echo "$VALUE" >> "$QUEUE"
+  make_uniq
   exit 0
 fi
 
@@ -22,7 +27,8 @@ if [ "$COMMAND" = "pop" ]; then
   # Pop oldest window ID and summon it back
   if [ -s "$QUEUE" ]; then
     wid=$(head -n1 "$QUEUE")
-    tail -n +2 "$QUEUE" > "$QUEUE.tmp" && mv "$QUEUE.tmp" "$QUEUE"
+    tail -n +2 "$QUEUE" > "$QUEUE.tmp" && cat "$QUEUE.tmp" | uniq > "$QUEUE"
+    rm "$QUEUE.tmp"
     echo "$wid"
   else
     echo "__EMPTY__"
@@ -38,7 +44,8 @@ fi
 if [ "$COMMAND" = "shift" ]; then
   if [ -s "$QUEUE" ]; then
     wid=$(tail -n1 "$QUEUE")
-    head -n -1 "$QUEUE" > "$QUEUE.tmp" && mv "$QUEUE.tmp" "$QUEUE"
+    head -n +2 "$QUEUE" > "$QUEUE.tmp" && cat "$QUEUE.tmp" | uniq > "$QUEUE"
+    rm "$QUEUE.tmp"
     echo "$wid"
   else
     echo "__EMPTY__"

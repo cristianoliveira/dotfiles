@@ -128,24 +128,26 @@ in {
           # This allows me to have a scratchpad workspace similart to i3
           # cmd-ctrl-backslash = "workspace scratchpad";
           cmd-m = ''
-            exec-and-forget aerospace-scratchpad move -o json | \
-              jq -r .window_id | xargs queue.sh spd push
+            exec-and-forget aerospace-scratchpad move -o json \
+              | jq -r .window_id | xargs queue.sh spd push
           '';
           cmd-shift-m = ''
-            exec-and-forget aerospace-scratchpad move --all-matching | \
-              jq -r .window_id | \
-              xargs -I {} queue.sh spd push {}
+            exec-and-forget aerospace-scratchpad move --all-matching -o json \
+              | jq -r 'select(.result=="ok") | .window_id' \
+              | xargs -I {} queue.sh spd push {} \
           '';
           cmd-ctrl-shift-m = ''
-            exec-and-forget aerospace-scratchpad move --all-floating -o json | \
-              jq -r .window_id | \
-              xargs -I {} queue.sh spd push {}
+            exec-and-forget aerospace-scratchpad move --all-floating -o json \
+              | jq -r 'select(.result=="ok") | .window_id' \
+              | xargs -I {} queue.sh spd push {} \
           '';
+
+          # - JSON: `aerospace-scratchpad move --output=json | jq -r 'select(.result==\"ok\") | .window_id'`
           cmd-ctrl-minus = ''
-            exec-and-forget aerospace-scratchpad move --all-floating -o json | \
-                jq -r .window_id | xargs -I {} queue.sh spd push {} && \
-              aerospace-scratchpad show "." \
-              --filter window-id="^$(queue.sh spd pop)"
+            exec-and-forget aerospace-scratchpad move --all-floating -o json \
+            | jq -r 'select(.result=="ok") | .window_id' \
+            | xargs -I {} queue.sh spd push {} \
+            && aerospace-scratchpad show "." --filter window-id="^$(queue.sh spd pop)"
           '';
 
           # See: https://nikitabobko.github.io/AeroSpace/commands#layout
