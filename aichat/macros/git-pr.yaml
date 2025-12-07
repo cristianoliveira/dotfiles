@@ -4,11 +4,5 @@ variables:
     default: "no more context"
 
 steps:
-  - .session
   - .role git-pr
-  # The commits diff between the current branch and the main branch
-  - .file `git log origin/$MAIN_BRANCH..HEAD --summary --pretty=oneline` -- {{git_commit_list}}
-  - .file `git diff origin/$MAIN_BRANCH` -- summarize as {{git_diff}}
-  - .file `git diff --cached` -- summarize as {{git_staged_diff}}
-  - .file `cat .tmp/changes.txt | echo "no more context"` -- {{context}} {{args}}
-  - Now write a Pull Request description
+  - .file `bash ~/.dotfiles/aichat/scripts/git-pr-context.sh` -- more context -- {{args}}

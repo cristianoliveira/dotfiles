@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 echo "These are the last commits on the changed files. Use the same pattern for your commit message:"
 echo "---"
