@@ -1,4 +1,4 @@
-{ pkgs, ... }: let 
+{ pkgs, lib, ... }: let 
   aerospaceNightly = pkgs.aerospace.overrideAttrs (_: finalAttrs: let 
       version = "1.20.0-Beta";
     in {
@@ -121,6 +121,9 @@ in {
           ];
           # cmd-ctrl-space = "toggle float";
 
+          # GOTO-MARKS
+          cmd-quote = "mode jump";
+
           ## Scratchpad workspace
           # This allows me to have a scratchpad workspace similart to i3
           # cmd-ctrl-backslash = "workspace scratchpad";
@@ -151,10 +154,6 @@ in {
 
           cmd-h = []; # Disable "hide application"
           cmd-alt-h = []; # Disable "hide others"
-
-          # Goto marks
-          cmd-ctrl-g = "mode marks";
-          cmd-g = "mode goto";
 
           # MOD+CTRL+m to set a mark
           cmd-ctrl-m = ''
@@ -256,76 +255,37 @@ in {
           ];
         };
 
-        # Goto marks mode
-        # cmd-g + <mark> to focus a mark
-        mode.goto.binding = let
-          h = [
-            "exec-and-forget aerospace-marks focus h"
-            "mode main"
-          ];
+        # GOTO-MARKS
+        mode.mark.binding = (lib.lists.foldl' (
+          acc: letter:
+          acc
+          // {
+            "${letter}" = [
+              "exec-and-forget aerospace-marks mark ${letter}"
+              "mode main"
+            ];
+          }
+        ) { } (lib.strings.stringToCharacters "1234567890abcdefghijklmnopqrstuvwxyz"))
+        // {
+          esc = [ "mode main" ];
+          shift-enter = [ "mode main" ];
+        };
 
-          j = [
-            "exec-and-forget aerospace-marks focus j"
-            "mode main"
-          ];
-
-          k = [
-            "exec-and-forget aerospace-marks focus k"
-            "mode main"
-          ];
-
-          l = [
-            "exec-and-forget aerospace-marks focus l"
-            "mode main"
-          ];
-
-          f = [
-            "exec-and-forget aerospace-marks focus f"
-            "mode main"
-          ];
-
-          d = [
-            "exec-and-forget aerospace-marks focus d"
-            "mode main"
-          ];
-
-          s = [
-            "exec-and-forget aerospace-marks focus s"
-            "mode main"
-          ];
-
-          a = [
-            "exec-and-forget aerospace-marks focus a"
-            "mode main"
-          ];
-
-          g = [
-            "exec-and-forget aerospace-marks focus g"
-            "mode main"
-          ];
-        in {
-          esc = "mode main";
-          enter = "mode main";
-          cmd-space = "mode main";
-
-          inherit h;
-          cmd-h = h;
-          inherit j;
-          cmd-j = j;
-          inherit k;
-          cmd-k = k;
-          inherit l;
-          cmd-l = l;
-          inherit f;
-          cmd-f = f;
-          inherit d;
-          cmd-d = d;
-          inherit s;
-          cmd-s = s;
-          inherit a;
-          cmd-a = a;
-          inherit g;
-          cmd-g = g;
+        # Jump marks mode
+        # cmd-' + <mark> to focus a mark
+        mode.jump.binding = (lib.lists.foldl' (
+          acc: letter:
+          acc
+          // {
+            "${letter}" = [
+              "exec-and-forget aerospace-marks focus ${letter}"
+              "mode main"
+            ];
+          }
+        ) { } (lib.strings.stringToCharacters "1234567890qwertyuiopasdfghjklzxcvbnm"))
+        // {
+          esc = [ "mode main" ];
+          shift-enter = [ "mode main" ];
         };
 
         mode.relocate.binding = {
