@@ -5,4 +5,4 @@ variables:
 
 steps:
   - .role git-commit
-  - .file `git diff --cached` -- more context -- {{args}}
+  - .file `bash ~/.dotfiles/aichat/scripts/git-commit-context.sh` -- more context -- {{args}}
