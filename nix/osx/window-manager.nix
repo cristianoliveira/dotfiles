@@ -152,7 +152,7 @@ in {
             '';
           # MOD+CTRL+;
           cmd-ctrl-semicolon = ''
-            exec-and-forget aerospace-marks summon \
+            exec-and-forget aerospace-marks summon --focus \
               $(osascript -e 'text returned of (display dialog "summon" default answer "")')
           '';
 
