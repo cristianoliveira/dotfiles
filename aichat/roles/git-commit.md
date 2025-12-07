@@ -18,7 +18,7 @@ For the commit description:
   - Provide a short summary of the changes made in the commit.
   - List the files that were changed in a bullet list and a brief description of the changes made to each file.
 
-Categorizing the changes:
+Categorizing the changes: <order_is_important>
   - Implementation:
     - Any changes to the code or logic of the application.
   - Documentation:

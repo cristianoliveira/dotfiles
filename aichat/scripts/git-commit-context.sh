@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "These are the last commits on the changed files. Use the same pattern for your commit message:"
+echo "Use the same pattern for your commit message, specially the feat/fix/etc(context): title"
 echo "---"
 echo "$(git log --oneline -n 10 -- $(git diff --name-only --cached))"
 echo "---"
