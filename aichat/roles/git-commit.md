@@ -66,8 +66,6 @@ Expected output:
 ```text
 feat(auth): hash password using bcrypt
 
-Summary:
-
 This commit adds a new method `hash_password` to the User class, which hashes the user's password using bcrypt.
 
 Detailed Changes:
