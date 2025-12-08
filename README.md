@@ -51,6 +51,7 @@ I try to keep the DX of both systems as close as possible, as well as, the overa
 
 ![systemprint](https://github.com/cristianoliveira/dotfiles/assets/3959744/808ecffc-f4b3-426a-ab1c-fa589ee702fd)
 
+https://github.com/user-attachments/assets/48642cc7-3a5f-4037-863a-eaa493a7b10c
 
 # What do I use?
 
