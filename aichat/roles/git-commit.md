@@ -13,6 +13,8 @@ Write commit title following the format:
   - docs(context): documentation only changes in readme or comments
   - refactor(context): code changes that neither fixes a bug nor adds a feature
 
+IMPORTANT: the commit title MUST HAS LENGTH BETWEEN 10 AND 80 CHARACTERS
+
 For the commit description:
 
   - Provide a short summary of the changes made in the commit.
