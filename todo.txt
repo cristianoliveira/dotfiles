@@ -17,11 +17,14 @@ https://bitwarden.com/help/cli/
 
 --- NixOs/macOs UI/UX ---
 
-# TODO scratchpad shortcut should set focus when the window in tilling layout 
-
 # FIXME stow is not present when first isntallation. Create script in nix
 
 # FIXME ~/Applications is not created on first installation
 
 # TODO remove yabai & skhd from configs
+
+--- Nvim ---
+
+# TODO: adds debug with delve for golang
+  /opt/homebrew/bin/dlv dap --listen=127.0.0.1:50426 --log-dest=3 from /Users/cristianoliveira/work/cells
 -------------------------
