@@ -136,7 +136,17 @@ require('lazy').setup({
       { 'j-hui/fidget.nvim',       tag = 'legacy', opts = {} },
 
       -- Additional lua configuration, makes nvim stuff amazing!
-      'folke/neodev.nvim',
+      {
+        "folke/lazydev.nvim",
+        ft = "lua", -- only load on lua files
+        opts = {
+          library = {
+            -- See the configuration section for more details
+            -- Load luvit types when the `vim.uv` word is found
+            { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+          },
+        },
+      },
     },
   },
 
@@ -153,6 +163,14 @@ require('lazy').setup({
     config = function()
       -- optional call to setup (see customization section)
       require("cmp_nvim_ultisnips").setup {}
+    end,
+
+    opts = function(_, opts)
+      opts.sources = opts.sources or {}
+      table.insert(opts.sources, {
+        name = "lazydev",
+        group_index = 0, -- set group index to 0 to skip loading LuaLS completions
+      })
     end,
   },
 
@@ -290,6 +308,3 @@ require('lazy').setup({
 }, {})
 
 require('solarized').setup({ theme = 'neo' })
-
--- Setup neovim lua configuration
-require('neodev').setup()
