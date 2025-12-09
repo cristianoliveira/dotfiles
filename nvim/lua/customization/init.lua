@@ -4,6 +4,7 @@
 require('customization/plugins')
 
 --> Custom Commands
+require('customization/autocmds')
 require('customization/commands')
 require('customization/commands/obsidian')
 
@@ -38,5 +39,4 @@ require('customization/mappings/codeium')
 require('customization/settings/lsp')
 require('customization/settings/projectionist')
 require('customization/settings/intellisense')
-require('customization/settings/autocmds')
 require('customization/settings/curl')
