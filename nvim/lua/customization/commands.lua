@@ -2,6 +2,7 @@
 --
 require("customization/commands/obsidian")
 require("customization/commands/aichat")
+require("customization/commands/vscode")
 
 vim.cmd("command! -nargs=0 CFormat lua vim.lsp.buf.format()")
 
@@ -22,30 +23,27 @@ vim.cmd("command! -nargs=0 Chx :!chmod +x %")
 --Format json file to pretty print
 vim.cmd("command! -nargs=0 JSONFormat :%!python -m json.tool")
 
---Relaod nvim config command
-vim.cmd("command! -nargs=0 NVIMReload :source $MYVIMRC")
-
-
-function ToggleRelativeNumber()
-  if vim.wo.relativenumber then
-    vim.wo.relativenumber = false
-    vim.wo.number = true
-  else
-    vim.wo.relativenumber = true
-    vim.wo.number = false
-  end
-end
-
 ----------------------------------------
 -- Custom nvim related commands
 --
 -- Toggle relative number
-vim.api.nvim_create_user_command("NVIMToggleRelativeNumber", ToggleRelativeNumber, {})
--- Edit nvim config
-vim.cmd("command! -nargs=0 NVIMEdit :e $MYVIMRC")
+vim.api.nvim_create_user_command('NvimToggleRelNum', function()
+  local current_value = vim.wo.relativenumber
 
--- Edit my nvim customization
-vim.cmd("command! -nargs=0 NVIMCustomizationEdit :e $HOME/.dotfiles/nvim/lua/customization/")
+  for _, tab in ipairs(vim.api.nvim_list_tabpages()) do
+    for _, win in ipairs(vim.api.nvim_tabpage_list_wins(tab)) do
+      vim.api.nvim_win_set_option(win, 'relativenumber', not current_value)
+    end
+  end
+
+  print('Relative numbers ' .. (not current_value and 'enabled' or 'disabled'))
+end, {})
+
+-- Edit nvim config
+vim.cmd("command! -nargs=0 NvimEdit :e $MYVIMRC")
+
+--Relaod nvim config command
+vim.cmd("command! -nargs=0 NvimReload :source $MYVIMRC")
 
 -- EXAMPLES
 --
@@ -60,3 +58,5 @@ vim.cmd("command! -nargs=0 NVIMCustomizationEdit :e $HOME/.dotfiles/nvim/lua/cus
 --     end
 --   })
 -- ```
+
+
