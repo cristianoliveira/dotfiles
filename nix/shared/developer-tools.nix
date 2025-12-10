@@ -15,7 +15,7 @@
     zoxide # Better cd inspired by z
     gh # GitHub CLI
 
-    # NOTE: not using it 
+    # NOTE: not using it
     # ngrok
 
     # NOTE: this is used by nvim settup
@@ -30,7 +30,7 @@
 
     # Nvim stuff
     vim
-    neovim 
+    neovim
     python311Packages.pynvim
     python311Packages.pip
     # For UltiSnips
@@ -58,13 +58,16 @@
     python3
     uv # Python package installer
     python311Packages.pip
-    go
     cargo #
 
-    # AI and related 
+    # AI and related
     claude-code
     nur.repos.charmbracelet.crush
     unstable.aichat
     nightly.codex
+  ];
+
+  imports = [
+    ./dev-tools/go.nix
   ];
 }

@@ -295,16 +295,7 @@ require('lazy').setup({
   --- Debugging plugins
   
   -- Golang dap integration
-  {
-    'leoluz/nvim-dap-go',
-    dependencies = {
-      'mfussenegger/nvim-dap',
-    },
-    config = function()
-      require('dap-go').setup()
-    end,
-  },
-
+  require('plugins/dap'),
 }, {})
 
 require('solarized').setup({ theme = 'neo' })
