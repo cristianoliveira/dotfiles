@@ -15,6 +15,10 @@ return {
       -- `arch -arm64 dlv` instead! It took me way too long to figure it out
       -- I hope it works for you, good luck :)
       --
+      -- Make sure to follow these instructions for the certification stuff:
+      -- https://github.com/go-delve/delve/tree/cfb04c4f816dee57b38d3b3959319fd7c36ed560/Documentation/installation#compiling-macos-native-backend
+      -- https://archive.is/bYqhx
+      --
       -- For nix users, I wrap dlv for darwin see: nix/shared/dev-tools/go.nix
       local dlv_bin = vim.fn.exepath("dlv")
       local dap   = require("dap")
