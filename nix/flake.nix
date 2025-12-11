@@ -37,10 +37,10 @@
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem rec {
       system = "x86_64-linux";
       modules = [
-        (_: { 
+        (_: {
           # Injects mypkgs into nixpkgs as pkgs.mypkgs
-          nixpkgs.overlays = [ 
-            (final: prev: { 
+          nixpkgs.overlays = [
+            (final: prev: {
               copkgs = copkgs.packages.x86_64-linux;
               unstable = import unstable {
                 inherit system;
@@ -51,6 +51,7 @@
             })
 
             nixpkgsnur.overlays.default
+            (import ./overlays/wrapped-pkgs.nix)
           ];
         })
         linkman.nixosModules.${system}.linkman
@@ -62,9 +63,9 @@
     darwinConfigurations.darwin = nix-darwin.lib.darwinSystem rec {
       system = "aarch64-darwin";
       modules = [
-        (_: { 
+        (_: {
           # Injects mypkgs into nixpkgs as pkgs.mypkgs
-          nixpkgs.overlays = [ 
+          nixpkgs.overlays = [
             (final: prev: {
               copkgs = copkgs.packages.aarch64-darwin;
               unstable = import unstable {
@@ -74,7 +75,9 @@
               # Nightly packages namespace - access via pkgs.nightly.codex
               nightly = (import ./nightly-pkgs.nix) prev;
             })
+
             nixpkgsnur.overlays.default
+            (import ./overlays/wrapped-pkgs.nix)
           ];
         })
 
