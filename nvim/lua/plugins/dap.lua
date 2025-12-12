@@ -5,7 +5,7 @@ return {
       "leoluz/nvim-dap-go",
       "rcarriga/nvim-dap-ui",
       "nvim-neotest/nvim-nio",
-      -- "theHamsta/nvim-dap-virtual-text",
+      "theHamsta/nvim-dap-virtual-text",
       -- "williamboman/mason.nvim",
     },
     config = function()
@@ -21,10 +21,16 @@ return {
       --
       -- For nix users, I wrap dlv for darwin see: nix/shared/dev-tools/go.nix
       local dlv_bin = vim.fn.exepath("dlv")
-      local dap   = require("dap")
+      local dap = require("dap")
       local dapui = require("dapui")
+      local dap_vt_text = require("nvim-dap-virtual-text")
+
       -- 1) dap-ui
       dapui.setup()
+
+      dap_vt_text.setup({
+        enabled = false, -- Enable with <leader>dt
+      })
 
       -- auto open/close UI
       dap.listeners.after.event_initialized["dapui_config"] = function()
@@ -78,6 +84,7 @@ return {
           program = function()
               return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
           end,
+          args = require("dap-go").get_arguments,
         },
         {
           type = "go",
@@ -86,6 +93,13 @@ return {
           program = "${file}",
           args = require("dap-go").get_arguments,
           buildFlags = require("dap-go").get_build_flags,
+        },
+        {
+          type = "go",
+          name = "Debug test (with go test -v <file>)",
+          request = "launch",
+          mode = "test",
+          program = "${file}",
         },
         {
           -- Must be "go" or it will be ignored by the plugin
@@ -97,21 +111,52 @@ return {
         }
       }
 
-      vim.keymap.set("n", "<F1>", dap.continue)
-      vim.keymap.set("n", "<F2>", dap.step_into)
-      vim.keymap.set("n", "<F3>", dap.step_over)
-      vim.keymap.set("n", "<F4>", dap.step_out)
-      vim.keymap.set("n", "<F5>", dap.step_back)
-      vim.keymap.set("n", "<F13>", dap.restart)
+      vim.keymap.set('n', '<F5>', dap.continue)
+      vim.keymap.set('n', '<F8>', dap.continue)
+      vim.keymap.set('n', '<F9>', dap.step_into)
+      vim.keymap.set('n', '<F10>', dap.step_over)
+      vim.keymap.set('n', '<F11>', dap.step_out)
+      vim.keymap.set("n", "<F12>", dap.step_back)
+      vim.keymap.set("n", "<F1>", dap.restart)
+
+      vim.keymap.set('n', '<leader>dc', dap.continue, {
+        desc = "Continue"
+      })
+      vim.keymap.set('n', '<leader>di', dap.step_into, {
+        desc = "Step into"
+      })
+      vim.keymap.set('n', '<leader>do', dap.step_over, {
+        desc = "Step over"
+      })
+      vim.keymap.set('n', '<leader>du', dap.step_out, {
+        desc = "Step out"
+      })
+      vim.keymap.set('n', '<leader>db', dap.step_back, {
+        desc = "Step back"
+      })
+      vim.keymap.set('n', '<leader>dr', dap.restart, {
+        desc = "Restart"
+      })
 
       vim.keymap.set("n", "<leader>b", dap.toggle_breakpoint)
+      -- Toggle virtual text
+      vim.keymap.set("n", "<leader>dt", dap_vt_text.toggle, {
+        desc = "Toggle virtual text"
+      })
+      -- Dap ui
       -- Eval to cursor
-      vim.keymap.set("n", "<leader>eb", dap.run_to_cursor)
+      vim.keymap.set("n", "<leader>dv", dapui.eval, {
+        desc = "Describe variable under cursor"
+      })
+      vim.keymap.set("n", "<leader>df", dapui.float_element, {
+        desc = "Float variable under cursor"
+      })
 
       -- Eval var under cursor
-      vim.keymap.set("n", "<leader>ev", function()
+      vim.keymap.set("n", "<leader>K", function()
         require("dapui").eval(nil, { enter = true })
       end)
     end,
   },
 }
+
