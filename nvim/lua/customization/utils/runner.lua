@@ -6,7 +6,7 @@ local M = {}
 ---@return table A table containing the lines of output from the command
 M.execute = function(command)
   -- Execute command and collect the output
-  local handle = io.popen(command)
+  local handle = io.popen(command, "r")
   if handle then
     local result = handle:read("*a")
 
