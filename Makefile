@@ -36,7 +36,7 @@ nixos: ## Rebuild the system using nix installing all the packages
 nixos-cleanup: ## Cleanup old generations of nixos (older than 5 days)
 	sudo nix-env --delete-generations --profile /nix/var/nix/profiles/system 5d
 
-.PHONY: sway-reload 
+.PHONY: sway-reload
 sway-reload: ## Reload sway configuration
 	swaymsg reload
 
@@ -51,3 +51,7 @@ stow: ## Create links for .config files using stow
 .PHONY: restow
 restow: ## Create links for .config files using stow
 	RESTOW=true bash ./stow/install.sh
+
+.PHONY: nvim
+nvim: ## Headless check that Neovim config loads cleanly
+	@./bin/nvim-check

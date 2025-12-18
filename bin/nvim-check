@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+INIT_LUA="$ROOT_DIR/nvim/init.lua"
+
+if ! command -v nvim >/dev/null 2>&1; then
+  echo "nvim is not available on PATH" >&2
+  exit 127
+fi
+
+if [ ! -f "$INIT_LUA" ]; then
+  echo "Unable to find Neovim config at $INIT_LUA" >&2
+  exit 1
+fi
+
+# Point XDG_CONFIG_HOME at the repo so stdpath('config') resolves here even if it
+# is not currently stowed into ~/.config.
+export XDG_CONFIG_HOME="$ROOT_DIR"
+
+LOG_FILE="$(mktemp -t nvim-check-XXXX.log)"
+echo "Running Neovim config check (log: $LOG_FILE)"
+
+if nvim --headless -u "$INIT_LUA" \
+  "+lua require('lazy').sync({ wait = true, show = false })" \
+  +qa >"$LOG_FILE" 2>&1; then
+  echo "Neovim config loaded without errors."
+  rm -f "$LOG_FILE"
+else
+  echo "Neovim config failed to load. Tail of log:"
+  tail -n 40 "$LOG_FILE"
+  echo "Full log: $LOG_FILE"
+  exit 1
+fi
