@@ -1,6 +1,7 @@
 # see https://github.com/sigoden/aichat/blob/main/config.example.yaml
 
 model: deepseek
+# model: openai:gpt-4o-mini
 
 stream: false                 # Controls whether to use the stream-style API.
 save: false                   # Indicates whether to persist the message
