@@ -10,6 +10,9 @@
     # Opens man pages in neovim with highlighting
     MANPAGER = "${EDITOR} +Man!";
 
+    # Disable telemetry everywhere?? *doubt meme*
+    DO_NOT_TRACK = "1";
+
     # Set a custom PATH
     # See https://github.com/LnL7/nix-darwin/issues/122
     # Workaround for macos because it sets the system path with higher priority
