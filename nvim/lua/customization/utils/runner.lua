@@ -24,4 +24,32 @@ M.execute = function(command)
   return {}
 end
 
+--- Command to run a command and stream lines to a callback while collecting them
+---
+---@param command string The shell command to run
+---@param on_line fun(line: string)|nil Callback invoked for each line as it arrives
+---@return table lines Collected lines from the command output
+---@return string|nil err Error message if the callback fails
+M.stream = function(command, on_line)
+  local handle = io.popen(command, "r")
+  if not handle then
+    return {}, "failed to start command"
+  end
+
+  local lines = {}
+  for line in handle:lines() do
+    table.insert(lines, line)
+    if on_line then
+      local ok, err = pcall(on_line, line)
+      if not ok then
+        handle:close()
+        return lines, err
+      end
+    end
+  end
+
+  handle:close()
+  return lines, nil
+end
+
 return M

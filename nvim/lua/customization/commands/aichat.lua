@@ -25,16 +25,22 @@ vim.api.nvim_create_user_command("AIMacro", function(opts)
   end
 
   local context = table.concat(opts.fargs, " ", 2)
-  local macro_cmd = string.format("aichat --macro %s \"%s\"", macro, context)
+  local macro_cmd = string.format("aichat -S --macro %s \"%s\"", macro, context)
   print("Running command: " .. macro_cmd)
 
-  local lines = fn.filter(runner.execute(macro_cmd), function(line)
-    return not string.match(line, ">>")
+  local lines = {}
+  local row = vim.api.nvim_win_get_cursor(0)[1]
+  runner.stream(macro_cmd, function(line)
+    if string.match(line, ">>") then
+      return
+    end
+    table.insert(lines, line)
+    vim.api.nvim_buf_set_lines(0, row, row + #lines - 1, false, lines)
   end)
 
   -- Insert lines at the current cursor position
-  local row = vim.api.nvim_win_get_cursor(0)[1]
-  vim.api.nvim_buf_set_lines(0, row, row, false, lines)
+  -- local row = vim.api.nvim_win_get_cursor(0)[1]
+  -- vim.api.nvim_buf_set_lines(0, row, row, false, lines)
 end, {
   -- it may contain 1 or more arguments
   nargs = "*",
