@@ -28,7 +28,7 @@ vim.api.nvim_create_autocmd('VimEnter', {
     if chance then
       return
     end
-    vim.cmd([[e todo.txt]])
+    vim.cmd([[vsplit todo.txt]])
   end,
   group = todo_group,
 })

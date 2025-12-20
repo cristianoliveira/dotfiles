@@ -31,6 +31,7 @@ require('customization/mappings/telescope')
 require('customization/mappings/obsidian')
 require('customization/mappings/curl')
 require('customization/mappings/argpoon')
+require('customization/mappings/terminal')
 
 -- require('customization/mappings/copilot')
 require('customization/mappings/codeium')
