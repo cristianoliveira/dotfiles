@@ -1,5 +1,4 @@
 ---
-temperature: 0.2
 top_p: 1
 ---
 <context>
@@ -71,7 +70,7 @@ feat(auth): hash password using bcrypt
 This commit adds a new method `hash_password` to the User class, which hashes the user's password using bcrypt.
 
 Detailed Changes:
- - Implementation: 
+ - Implementation:
    - Added a new method `hash_password` to the User class that hashes the password using bcrypt.
  - Documentation:
    - Updated the documentation to reflect the new method and its functionality.
