@@ -1,4 +1,5 @@
 priority 1
+
 snippet withoc "with HOC"
 const with$1 = WrappedComponent => props => {
 	return (
@@ -11,7 +12,7 @@ endsnippet
 
 snippet rcr	"react class render"
 render() {
-  const { ...props } = this.props;
+	const { ...props } = this.props;
 
 	return (<div>text</div>)
 }
@@ -155,3 +156,32 @@ snippet cn "place a className" w
 className="$1"
 endsnippet
 
+snippet rfc "react functional component"
+import React from "react"
+/**
+* @typedef import("react") React
+*
+* @typedef {{ children: React.ReactNode }} ${1:`!v expand('%:t:r')`}Props
+*/
+
+/**
+* $1 component
+*
+* @param {$1Props} props
+* @returns {React.ReactElement}
+*/
+export const $1 = (${2:props}) => {
+	return (
+		<div>
+			${3:${VISUAL}}
+		</div>
+	)
+}
+endsnippet
+
+snippet exd "export default"
+export default ${1}
+endsnippet
+
+# ==HOOKS==
+# See hooks.snippets

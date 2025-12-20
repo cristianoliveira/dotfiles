@@ -67,42 +67,6 @@ snippet expa "export * from" b
 export * from "$1"
 endsnippet
 
-snippet cl "console.log" w
-console.log($1)
-endsnippet
-
-snippet clv "console.log variable" w
-console.log("$1:", ${1:})
-endsnippet
-
-snippet ce "console.error" w
-console.error($1)
-endsnippet
-
-snippet cev "console.error variable" w
-console.error("$1: ", ${1:})
-endsnippet
-
-snippet cw "console.warn" w
-console.warn($1)
-endsnippet
-
-snippet cwv "console.warn variable" w
-console.warn("$1: ", ${1:})
-endsnippet
-
-snippet ct "console.table" w
-console.table($1)
-endsnippet
-
-snippet cd "console.debug" w
-console.debug($1)
-endsnippet
-
-snippet cdv "console.debug variable" w
-console.debug("$1: ", ${1:})
-endsnippet
-
 snippet dev "process.env.NODE_ENV !== 'production'" w
 process.env.NODE_ENV !== "production"
 endsnippet
@@ -133,14 +97,6 @@ describe("$2", () => {
 	it("$3", () => {
 		$0
 		expect(false).toBe(true); // TODO: implement test
-	})
-})
-endsnippet
-
-snippet desc "describe a test" b
-describe("$1", () => {
-	it("should $2", () => {
-		$0
 	})
 })
 endsnippet

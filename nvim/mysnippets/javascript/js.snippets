@@ -6,6 +6,42 @@ snippet cdd "console.debug(...)"
 console.debug('@@@@@@ $1')
 endsnippet
 
+snippet cl "console.log" w
+console.log($1)
+endsnippet
+
+snippet clv "console.log variable" w
+console.log("$1:", ${1:})
+endsnippet
+
+snippet cw "console.warn" w
+console.warn($1)
+endsnippet
+
+snippet cwv "console.warn variable" w
+console.warn("$1: ", ${1:})
+endsnippet
+
+snippet ce "console.error" w
+console.error($1)
+endsnippet
+
+snippet cev "console.error variable" w
+console.error("$1: ", ${1:})
+endsnippet
+
+snippet ct "console.table" w
+console.table($1)
+endsnippet
+
+snippet cd "console.debug" w
+console.debug($1)
+endsnippet
+
+snippet cdv "console.debug variable" w
+console.debug("$1: ", ${1:})
+endsnippet
+
 # Js Classes
 snippet cmbind "class method binding"
 	this.$1 = this.${2:$1}.bind(this)
@@ -19,4 +55,72 @@ snippet clsm "class method"
 	}
 endsnippet
 
+snippet af "arrow function"
+const ${1:name} = (${2:args}) => {
+	${0}
+};
+endsnippet
 
+snippet aaf "async arrow function"
+const ${1:name} = async (${2:args}) => {
+	${0}
+};
+endsnippet
+
+snippet fn "function declaration"
+function ${1:name}(${2:args}) {
+	${0}
+}
+endsnippet
+
+snippet tc "try/catch"
+try {
+	${1}
+} catch (${2:error}) {
+	${0}
+}
+endsnippet
+
+snippet fetchjson "fetch JSON with async/await"
+const ${1:fetchData} = async (${2:url}) => {
+	const response = await fetch(${2});
+	if (!response.ok) {
+		throw new Error(`HTTP ${response.status}`);
+	}
+	return response.json();
+};
+endsnippet
+
+snippet exp "export named"
+export { ${1} };
+endsnippet
+
+snippet exfn "export function"
+export function ${1:name}(${2:args}) {
+	${0}
+}
+endsnippet
+
+snippet expd "export default"
+export default ${1};
+endsnippet
+
+snippet desc "describe a test" b
+describe("$1", () => {
+	it("should $2", () => {
+		$0
+	})
+})
+endsnippet
+
+snippet it "it block"
+it('should ${1:do something}', () => {
+	${0}
+});
+endsnippet
+
+snippet bef "beforeEach hook"
+beforeEach(() => {
+	${0}
+});
+endsnippet

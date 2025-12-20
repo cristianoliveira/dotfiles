@@ -1,7 +1,8 @@
 -- UltiSnips
-vim.g.UltiSnipsExpandTrigger="<C-l>"
-vim.g.UltiSnipsListSnippets="<leader>us" -- <C-/>
-vim.g.UltiSnipsJumpForwardTrigger = "<c-j>"
-vim.g.UltiSnipsJumpBackwardTrigger = "<c-h>"
+vim.g.UltiSnipsExpandTrigger = "<C-l>"
+vim.g.UltiSnipsJumpForwardTrigger = "<C-k>"
+vim.g.UltiSnipsJumpBackwardTrigger = "<C-j>"
 
-vim.g.UltiSnipsSnippetDirectories={ "~/.dotfiles/nvim/mysnippets" }
+vim.g.UltiSnipsSnippetDirectories={
+  "~/.dotfiles/nvim/mysnippets",
+}

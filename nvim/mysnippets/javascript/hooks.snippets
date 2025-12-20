@@ -1,4 +1,39 @@
 priority 1
+
+snippet us "useState hook" w
+const [${1:state}, set${1/^./\u&/}] = useState(${2:null})
+endsnippet
+
+snippet ue "useEffect hook" w
+useEffect(() => {
+	${0}
+}, [${1}])
+endsnippet
+
+snippet uec "useEffect with cleanup" w
+useEffect(() => {
+	${1}
+
+	return () => {
+		${0}
+	}
+}, [${2}])
+endsnippet
+
+snippet ucb "useCallback hook" w
+const ${1:callback} = useCallback((${2:args}) => {
+	${0}
+}, [${3:deps}])
+endsnippet
+
+snippet um "useMemo hook" w
+const ${1:memo} = useMemo(() => ${2:compute}, [${3:deps}])
+endsnippet
+
+snippet uc "useContext hook" w
+const ${1:value} = useContext(${2:Context})
+endsnippet
+
 snippet uses "useState" w
 // import { useState } from 'react'
 // import { useState } from 'preact/hooks'
@@ -9,7 +44,7 @@ snippet usee "useEffect" w
 // import { useEffect } from 'react'
 // import { useEffect } from 'preact/hooks'
 useEffect(() => {
-  $1
+	$1
 }, [])${0:;}
 endsnippet
 

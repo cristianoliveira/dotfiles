@@ -21,14 +21,14 @@ endsnippet
 snippet tsha "shallow test (js)"
 const props = {};
 
-const component = shallow(<${1:component} {...props}/>)
+const component = shallow(<${1:`!v expand('%:t:r')`} {...props}/>)
 expect(component).toEqual('')
 endsnippet
 
 snippet tmou "mount test (js)"
 const props = {};
 
-const component = mount(<${1:component} {...props}/>)
+const component = mount(<${1:`!v expand('%:t:r')`} {...props}/>)
 
 expect(component).toEqual('')
 endsnippet
@@ -36,7 +36,7 @@ endsnippet
 snippet tren "render testing (js)"
 const props = {...defaultProps};
 
-const wrapper = render(<${1:component} {...props}/>)
+const wrapper = render(<${1:`!v expand('%:t:r')`} {...props}/>)
 
 expect(wrapper).toEqual('')
 endsnippet
@@ -46,18 +46,18 @@ import React from 'react';
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 
-import { $1 } from './${2:$1}';
+import { ${1:`!v expand('%:t:r')`} } from './${2:$1}';
 
 describe('${3:$1}', () => {
 	const defaultProps = {};
 
 	it('$4', () => {
-		const props = {...defaultProps};
+		const props = { ...defaultProps };
 
-		render(<${5:$1} {...props}/>)
+		render(<${5:$1} {...props}/>);
 
-    expect(screen.getByText('Pick an option')).toBeInTheDocument();
-    expect(screen.getByLabel('Date')).toBeInTheDocument();
+		expect(screen.getByText('Pick an option')).toBeInTheDocument();
+		expect(screen.getByLabel('Date')).toBeInTheDocument();
 	});
 });
 endsnippet
@@ -66,7 +66,7 @@ snippet tgc "test generic component (js)"
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 
-import $1 from './${2:$1}';
+import ${1:`!v expand('%:t:r')`} from './${2:$1}';
 
 describe('${3:$1}', () => {
 	const defaultprops = {};
@@ -76,7 +76,7 @@ describe('${3:$1}', () => {
 
 		render(<${5:$1} {...props}/>)
 
-    expect(screen.getByText('Pick an option')).toBeInTheDocument();
+		expect(screen.getByText('Pick an option')).toBeInTheDocument();
 	});
 });
 endsnippet
