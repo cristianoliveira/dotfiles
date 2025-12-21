@@ -6,7 +6,7 @@
 # To reload sway configuration, run `swaymsg reload`
 # To get the names of your outputs, run `swaymsg -t get_outputs`
 # To get the names of your inputs, run `swaymsg -t get_inputs`
-# To get the keysym for a key combination, run `swaymsg -t get_binding` 
+# To get the keysym for a key combination, run `swaymsg -t get_binding`
 # and to check the name: `nix run nixpkgs#wev`
 
 ### Variables
@@ -20,10 +20,10 @@ set $down j
 set $up k
 set $right l
 
-# Monitors
-set $main eDP-1
-set $2nd DP-8
-set $3rd DP-7
+# Monitors (match macOS naming: DP-10 main, DP-09 secondary, eDP-1 built-in)
+set $main DP-10
+set $2nd DP-9
+set $builtin eDP-1
 
 # Your preferred terminal emulator
 set $term $HOME/.dotfiles/nix/shared/alacritty/launcher.sh
@@ -42,40 +42,40 @@ set $widthMedium 40ppt
 set $heightLarge 60ppt
 set $widthLarge 60ppt
 
-# Bind the mod key 
+# Bind the mod key
 bindsym Mod4 bindsym $mod
 
 font pango:monospace 9
-titlebar_border_thickness 0                                                     
+titlebar_border_thickness 0
 titlebar_padding 0
 
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in @datadir@/backgrounds/sway/)
-output * bg $HOME/.dotfiles/resources/wallpaper.jpg stretch 
+output * bg $HOME/.dotfiles/resources/wallpaper.jpg stretch
 
 ## Set laptop output when lid is closed
 ## man 5 sway | grep bindswitch
 bindswitch --locked --reload {
-    lid:on output $main disable
-    lid:off output $main enable
+    lid:on output $builtin disable
+    lid:off output $builtin enable
 }
 
 # Setup 3 displays left, right and built-in
-output $3rd resolution 1920x1080 position 0 0
-output $2nd resolution 1920x1080 position 1920 0
-output $main resolution 1920x1200 position 1920 1080
+output $2nd resolution 1920x1080 position 0 0
+output $main resolution 1920x1080 position 1920 0
+output $builtin resolution 1920x1200 position 1920 1080
 
-set $displaysMode "Displays: [1] main, [2] 2nd, [3] 3rd (n=enable, Shift+n=disable)"
+set $displaysMode "Displays: [1] main (DP-10), [2] secondary (DP-09), [3] built-in (eDP-1) (n=enable, Shift+n=disable)"
 mode $displaysMode {
     # Mappings
     bindsym 1 exec swaymsg "output $main enable" && swaymsg mode "default"
     bindsym 2 exec swaymsg "output $2nd enable" && swaymsg mode "default"
-    bindsym 3 exec swaymsg "output $3rd enable" && swaymsg mode "default"
+    bindsym 3 exec swaymsg "output $builtin enable" && swaymsg mode "default"
     # Disabled
     bindsym Shift+1 exec swaymsg "output $main disable" && swaymsg mode "default"
     bindsym Shift+2 exec swaymsg "output $2nd disable" && swaymsg mode "default"
-    bindsym Shift+3 exec swaymsg "output $3rd disable" && swaymsg mode "default"
+    bindsym Shift+3 exec swaymsg "output $builtin disable" && swaymsg mode "default"
     # Exit mode
     bindsym Escape mode "default"
     bindsym Return mode "default"
@@ -220,7 +220,7 @@ input "type:keyboard" {
     xkb_layout us
     xkb_model pc104
     xkb_variant mac
-  
+
     # lv3:lalt_switch makes the left Alt key a third-level chooser key (keyd remaps Start to be Alt)
     xkb_options lv3:lwin_switch
 
@@ -325,22 +325,26 @@ bindsym $mod+Shift+Right move right
 #
 # Switch to workspace
 
-## Workspace in the main display TOP (external monitor)
-workspace 1 output $2nd
-workspace 2 output $2nd
-workspace 3 output $2nd
-workspace 4 output $2nd
-workspace 5 output $2nd
+## Workspace placement mirroring Aerospace (main → DP-10, secondary → DP-09, built-in → eDP-1)
+# Note: sway does not support explicit fallback lists; these map primary targets only.
+workspace 1 output $main
+workspace 2 output $main
+workspace 3 output $main
+workspace 4 output $main
+workspace 5 output $main
 
-# If not connected no problem
-workspace 6 output $3rd
-workspace 7 output $3rd
-
+# Prefer the secondary display for these; move manually if it is disconnected.
+workspace 6 output $2nd
+workspace 7 output $2nd
 workspace 8 output $2nd
-workspace 9 output $2nd
-workspace 8 output $main
-workspace 9 output $main
-workspace 0 output $main
+
+# Keep communication/aux workspaces on the laptop panel; they will appear on $main if $builtin is off.
+workspace 9 output $builtin
+workspace 0 output $builtin
+
+# Default layouts to mimic Aerospace accordion behavior
+workspace 2; layout tabbed
+workspace 8; layout tabbed
 
 bindsym $mod+1 workspace number 1
 bindsym $mod+2 workspace number 2
@@ -366,6 +370,8 @@ bindsym $mod+Shift+0 move container to workspace number 10
 
 ## Apps and specific workspaces
 assign [app_id=$termMain] workspace 2
+assign [app_id="(?i)(alacritty|terminal)"] workspace 2
+assign [class="Brave-browser"] workspace 1
 
 # [SCRATCHPAD-RULES]
 for_window [instance="zapzap"] move to scratchpad
@@ -382,8 +388,23 @@ bindgesture swipe:4:down move scratchpad; focus
 
 # Webapps with chromium
 assign [instance="chat.openai.com"] workspace 4
-assign [instance=".*.youtube.com"] workspace 5
+assign [instance=".*.youtube.com"] workspace 8
+# Brave PWAs/tabs with per-site app_id
+assign [app_id="brave-www.youtube.com__-Default"] workspace 8
+assign [app_id="brave-.*youtube.*"] workspace 8
+# Fallback for standard browser tabs (Brave/Chromium class/app_id) that don't expose the YouTube instance name
+assign [class="Brave-browser" title=".*YouTube.*"] workspace 8
+assign [app_id="brave-browser" title=".*YouTube.*"] workspace 8
+assign [title=".*YouTube.*"] workspace 8
 assign [instance="mail.google.com"] workspace 8
+
+# Move already-created YouTube windows if the assignment misses
+for_window [app_id="brave-www.youtube.com__-Default"] move container to workspace number 8
+for_window [app_id="brave-.*youtube.*"] move container to workspace number 8
+for_window [title=".*YouTube.*"] move container to workspace number 8
+
+# Float utility/comm apps similar to Aerospace rules
+for_window [class="^(ChatGPT|Clock|WhatsApp|Spotify|Slack|Telegram|Google\\.Meet|Zoom|Teams|Finder|Wire)$"] floating enable
 
 ## MARKS
 for_window [instance="zapzap"] mark "wap"
@@ -409,7 +430,7 @@ bindsym $lmod+apostrophe \
 bindsym $mod+Ctrl+semicolon \
             exec ~/.dotfiles/nix/nixos/sway/bin/sway-marks.sh summon
 
-# Resize widows with 
+# Resize widows with
 bindsym $mod+F2 \
             exec echo "w100\nw80\nw50\nw40\nw20\nh100\nh80\nh50\nh40\nh20" \
             | wofi -d -p "Resize window" \
@@ -440,7 +461,7 @@ bindsym $mod+Ctrl+0 exec swaymsg '[app_id="thunar"] scratchpad show; focus' || e
 # notes
 bindsym $mod+Ctrl+n exec swaymsg '[class="obsidian"] scratchpad show; focus' || exec obsidian
 
-# Goto modo with $mod+g 
+# Goto modo with $mod+g
 mode "goto" {
     # Mappings
     bindsym a exec swaymsg '[con_mark="a"] focus' && swaymsg mode "default"
@@ -468,7 +489,7 @@ bindsym $mod+g mode "goto"
 # We just use 1-10 as the default.
 
 # Move workspaces to different outputs (monitors) down and up
-# move the current workspace to the down output w or s 
+# move the current workspace to the down output w or s
 bindsym $mod+Ctrl+Shift+w move workspace to output up
 bindsym $mod+Ctrl+Shift+s move workspace to output down
 bindsym $mod+Ctrl+Shift+Up move workspace to output up
@@ -670,7 +691,7 @@ for_window [class="Bitwarden"] floating enable, move position center, sticky ena
 for_window [instance="zapzap"] floating enable, move position center, sticky enable
 for_window [instance="obsidian"] floating enable, move position center, sticky enable
 
-# Make bitwarden window on browser brave-browser width 1/4 of the screen and 
+# Make bitwarden window on browser brave-browser width 1/4 of the screen and
 # always on left side, not floating
 for_window [class="Brave-browser" title="^Bitwarden$"] move right, resize set width 18ppt
 
