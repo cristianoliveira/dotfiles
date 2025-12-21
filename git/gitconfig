@@ -169,6 +169,14 @@
   # Small scripts
   ignoreit = !git ls-files --others --exclude-standard >> .gitignore                  # Ignore the current untracked files
 
+  # Merge --ff-only
+  mg = merge
+  mff = merge --ff-only
+  mfffeat = !git merge --ff-only $(git log --oneline ${2:-$MAIN_BRANCH}..$1 | grep -E 'feat.*: ' | cut -d' ' -f1)
+  mfffix = !git merge --ff-only $(git log --oneline ${2:-$MAIN_BRANCH}..$1 | grep -E 'fix.*: ' | cut -d' ' -f1)
+  mffchore = !git merge --ff-only $(git log --oneline ${2:-$MAIN_BRANCH}..$1 | grep -E 'chore.*: ' | cut -d' ' -f1)
+  mffdocs = !git merge --ff-only $(git log --oneline ${2:-$MAIN_BRANCH}..$1 | grep -E 'docs.*: ' | cut -d' ' -f1)
+
   # Cherry-pick by semantic commit type
   cpall = !git log --oneline $1..${2:-$MAIN_BRANCH} | grep -Ev 'tmp:|temp:|delete:|wip:|WIP' | cut -d' ' -f1 | xargs git cherry-pick --empty=drop
   cpchore = !git cherry ${2:-$MAIN_BRANCH} $1 --verbose | grep -E 'chore.*: ' | awk '{ print $2 }' | xargs git cherry-pick --empty=drop
