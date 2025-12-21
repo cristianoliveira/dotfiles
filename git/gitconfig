@@ -170,7 +170,7 @@
   ignoreit = !git ls-files --others --exclude-standard >> .gitignore                  # Ignore the current untracked files
 
   # Cherry-pick by semantic commit type
-  cpall = !git cherry ${2:-$MAIN_BRANCH} $1 --verbose | grep -Ev ' tmp:| temp:| delete:| wip:|WIP' | awk '{ print $2 }' | xargs git cherry-pick
+  cpall = !git log --oneline $1..${2:-$MAIN_BRANCH} | grep -Ev 'tmp:|temp:|delete:|wip:|WIP' | cut -d' ' -f1 | xargs git cherry-pick --empty=drop
   cpchore = !git cherry ${2:-$MAIN_BRANCH} $1 --verbose | grep -E 'chore.*: ' | awk '{ print $2 }' | xargs git cherry-pick
   cpfeat = !git cherry ${2:-$MAIN_BRANCH} $1 --verbose | grep -E 'feat.*: ' | awk '{ print $2 }' | xargs git cherry-pick
   cpfix = !git cherry ${2:-$MAIN_BRANCH} $1 --verbose | grep -E 'fix.*: ' | awk '{ print $2 }' | xargs git cherry-pick
