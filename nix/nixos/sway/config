@@ -369,6 +369,7 @@ bindsym $mod+Shift+7 move container to workspace number 7
 bindsym $mod+Shift+8 move container to workspace number 8
 bindsym $mod+Shift+9 move container to workspace number 9
 bindsym $mod+Shift+0 move container to workspace number 10
+bindsym $mod+Ctrl+o workspace back_and_forth
 
 ## Apps and specific workspaces
 assign [app_id=$termMain] workspace 2
@@ -474,6 +475,24 @@ bindsym $mod+Ctrl+n exec swaymsg '[class="obsidian"] scratchpad show; focus' || 
 # Goto modo with $mod+g
 mode "goto" {
     # Mappings
+    bindsym 1 exec swaymsg '[con_mark="1"] focus' && swaymsg mode "default"
+    bindsym 2 exec swaymsg '[con_mark="2"] focus' && swaymsg mode "default"
+    bindsym 3 exec swaymsg '[con_mark="3"] focus' && swaymsg mode "default"
+    bindsym 4 exec swaymsg '[con_mark="4"] focus' && swaymsg mode "default"
+    bindsym 5 exec swaymsg '[con_mark="5"] focus' && swaymsg mode "default"
+    bindsym 6 exec swaymsg '[con_mark="6"] focus' && swaymsg mode "default"
+    bindsym 7 exec swaymsg '[con_mark="7"] focus' && swaymsg mode "default"
+    bindsym 8 exec swaymsg '[con_mark="8"] focus' && swaymsg mode "default"
+    bindsym 9 exec swaymsg '[con_mark="9"] focus' && swaymsg mode "default"
+    bindsym 0 exec swaymsg '[con_mark="0"] focus' && swaymsg mode "default"
+    bindsym q exec swaymsg '[con_mark="q"] focus' && swaymsg mode "default"
+    bindsym w exec swaymsg '[con_mark="w"] focus' && swaymsg mode "default"
+    bindsym e exec swaymsg '[con_mark="e"] focus' && swaymsg mode "default"
+    bindsym r exec swaymsg '[con_mark="r"] focus' && swaymsg mode "default"
+    bindsym u exec swaymsg '[con_mark="u"] focus' && swaymsg mode "default"
+    bindsym i exec swaymsg '[con_mark="i"] focus' && swaymsg mode "default"
+    bindsym o exec swaymsg '[con_mark="o"] focus' && swaymsg mode "default"
+    bindsym p exec swaymsg '[con_mark="p"] focus' && swaymsg mode "default"
     bindsym a exec swaymsg '[con_mark="a"] focus' && swaymsg mode "default"
     bindsym s exec swaymsg '[con_mark="s"] focus' && swaymsg mode "default"
     bindsym d exec swaymsg '[con_mark="d"] focus' && swaymsg mode "default"
@@ -487,12 +506,19 @@ mode "goto" {
 
     bindsym y exec swaymsg '[con_mark="y"] focus' && swaymsg mode "default"
     bindsym t exec swaymsg '[con_mark="t"] focus' && swaymsg mode "default"
+    bindsym z exec swaymsg '[con_mark="z"] focus' && swaymsg mode "default"
+    bindsym x exec swaymsg '[con_mark="x"] focus' && swaymsg mode "default"
+    bindsym c exec swaymsg '[con_mark="c"] focus' && swaymsg mode "default"
+    bindsym v exec swaymsg '[con_mark="v"] focus' && swaymsg mode "default"
+    bindsym b exec swaymsg '[con_mark="b"] focus' && swaymsg mode "default"
+    bindsym n exec swaymsg '[con_mark="n"] focus' && swaymsg mode "default"
 
     # Exit mode
     bindsym Escape mode "default"
     bindsym Return mode "default"
 }
-bindsym $mod+g mode "goto"
+# Goto mode (jump marks) with $mod+apostrophe, matching Aerospace cmd-quote
+bindsym $mod+apostrophe mode "goto"
 
 
 # Note: workspaces can have any name you want, not just numbers.
