@@ -171,10 +171,10 @@
 
   # Cherry-pick by semantic commit type
   cpall = !git log --oneline $1..${2:-$MAIN_BRANCH} | grep -Ev 'tmp:|temp:|delete:|wip:|WIP' | cut -d' ' -f1 | xargs git cherry-pick --empty=drop
-  cpchore = !git cherry ${2:-$MAIN_BRANCH} $1 --verbose | grep -E 'chore.*: ' | awk '{ print $2 }' | xargs git cherry-pick
-  cpfeat = !git cherry ${2:-$MAIN_BRANCH} $1 --verbose | grep -E 'feat.*: ' | awk '{ print $2 }' | xargs git cherry-pick
-  cpfix = !git cherry ${2:-$MAIN_BRANCH} $1 --verbose | grep -E 'fix.*: ' | awk '{ print $2 }' | xargs git cherry-pick
-  cpdocs = !git cherry ${2:-$MAIN_BRANCH} $1 --verbose | grep -E 'docs.*: ' | awk '{ print $2 }' | xargs git cherry-pick
+  cpchore = !git cherry ${2:-$MAIN_BRANCH} $1 --verbose | grep -E 'chore.*: ' | awk '{ print $2 }' | xargs git cherry-pick --empty=drop
+  cpfeat = !git cherry ${2:-$MAIN_BRANCH} $1 --verbose | grep -E 'feat.*: ' | awk '{ print $2 }' | xargs git cherry-pick --empty=drop
+  cpfix = !git cherry ${2:-$MAIN_BRANCH} $1 --verbose | grep -E 'fix.*: ' | awk '{ print $2 }' | xargs git cherry-pick --empty=drop
+  cpdocs = !git cherry ${2:-$MAIN_BRANCH} $1 --verbose | grep -E 'docs.*: ' | awk '{ print $2 }' | xargs git cherry-pick --empty=drop
 
 [format]
   pretty = format:%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(blue)%s %C(magenta) [%an]%Creset
