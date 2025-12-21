@@ -10,6 +10,8 @@ alias dcc='docker-compose'
 alias dccu='docker-compose up'
 alias dccd='docker-compose up'
 alias dccs='docker-compose stop'
+alias dcce='docker-compose exec'
+alias dccit='docker-compose exec -it'
 
 # Docker related but not docker
 alias dkrs='colima start --network-address' # docker runtime start
