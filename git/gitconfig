@@ -174,11 +174,11 @@
   mff = merge --ff-only
 
   # Cherry-pick by semantic commit type
-  cpall = !git log --oneline ${2:-$MAIN_BRANCH}..$1 | grep -Ev 'tmp:|temp:|delete:|wip:|WIP' | cut -d' ' -f1 | xargs git cherry-pick --empty=drop
-  cpchore = !git log --oneline ${2:-$MAIN_BRANCH}..$1 | grep -E 'chore.*: ' | cut -d' ' -f1 | xargs git cherry-pick --empty=drop
-  cpfeat = !git log --oneline ${2:-$MAIN_BRANCH}..$1 | grep -E 'feat.*: ' | cut -d' ' -f1 | xargs git cherry-pick --empty=drop
-  cpfix = !git log --oneline ${2:-$MAIN_BRANCH}..$1 | grep -E 'fix.*: ' | cut -d' ' -f1 | xargs git cherry-pick --empty=drop
-  cpdocs = !git log --oneline ${2:-$MAIN_BRANCH}..$1 | grep -E 'docs.*: ' | cut -d' ' -f1 | xargs git cherry-pick --empty=drop
+  cpall = !git log --reverse --oneline ${2:-$MAIN_BRANCH}..$1 | grep -Ev 'tmp:|temp:|delete:|wip:|WIP' | cut -d' ' -f1 | xargs git cherry-pick --empty=drop
+  cpchore = !git log --reverse --oneline ${2:-$MAIN_BRANCH}..$1 | grep -E 'chore.*: ' | cut -d' ' -f1 | xargs git cherry-pick --empty=drop
+  cpfeat = !git log --reverse --oneline ${2:-$MAIN_BRANCH}..$1 | grep -E 'feat.*: ' | cut -d' ' -f1 | xargs git cherry-pick --empty=drop
+  cpfix = !git log --reverse --oneline ${2:-$MAIN_BRANCH}..$1 | grep -E 'fix.*: ' | cut -d' ' -f1 | xargs git cherry-pick --empty=drop
+  cpdocs = !git log --reverse --oneline ${2:-$MAIN_BRANCH}..$1 | grep -E 'docs.*: ' | cut -d' ' -f1 | xargs git cherry-pick --empty=drop
 
 [format]
   pretty = format:%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(blue)%s %C(magenta) [%an]%Creset
