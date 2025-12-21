@@ -245,9 +245,11 @@ bindsym $mod+Ctrl+c exec swaymsg [app_id=$termFloating] focus || \
 bindsym $mod+Ctrl+b exec swaymsg [app_id="brave-browser"] focus \
                  || exec brave-browser
 
-# [Y]outube (video) - focus or open and mark with 'y'
+# [Y]outube (video) - focus existing YouTube window or open
 bindsym $mod+Ctrl+y exec swaymsg [con_mark="y"] focus \
-                 || exec youtube && swaymsg '[instance=".*.youtube.com"] mark "y"'
+                 || swaymsg '[app_id="brave-.*youtube.*"] focus' \
+                 || swaymsg '[title=".*YouTube.*"] focus' \
+                 || exec youtube
 
 # Kill focused window
 bindsym $mod+Shift+q kill
@@ -405,6 +407,9 @@ for_window [title=".*YouTube.*"] move container to workspace number 8
 
 # Float utility/comm apps similar to Aerospace rules
 for_window [class="^(ChatGPT|Clock|WhatsApp|Spotify|Slack|Telegram|Google\\.Meet|Zoom|Teams|Finder|Wire)$"] floating enable
+for_window [app_id="brave-www.youtube.com__-Default"] mark "y"
+for_window [app_id="brave-.*youtube.*"] mark "y"
+for_window [title=".*YouTube.*"] mark "y"
 
 ## MARKS
 for_window [instance="zapzap"] mark "wap"
