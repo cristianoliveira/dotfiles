@@ -374,6 +374,7 @@ bindsym $mod+Shift+0 move container to workspace number 10
 assign [app_id=$termMain] workspace 2
 assign [app_id="(?i)(alacritty|terminal)"] workspace 2
 assign [class="Brave-browser"] workspace 1
+assign [app_id="brave-browser"] workspace 1
 
 # [SCRATCHPAD-RULES]
 for_window [instance="zapzap"] move to scratchpad
@@ -410,6 +411,10 @@ for_window [class="^(ChatGPT|Clock|WhatsApp|Spotify|Slack|Telegram|Google\\.Meet
 for_window [app_id="brave-www.youtube.com__-Default"] mark "y"
 for_window [app_id="brave-.*youtube.*"] mark "y"
 for_window [title=".*YouTube.*"] mark "y"
+
+# Enforce tabbed (accordion-like) layout on workspaces 2 and 8
+for_window [workspace="2"] layout tabbed
+for_window [workspace="8"] layout tabbed
 
 ## MARKS
 for_window [instance="zapzap"] mark "wap"
