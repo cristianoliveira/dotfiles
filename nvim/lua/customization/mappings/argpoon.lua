@@ -1,60 +1,33 @@
 local argpoon = require('customization.plugins.argpoon')
 
-vim.keymap.set('n', '<leader>han', function()
+vim.keymap.set('n', '<leader>haa', function()
   argpoon.add_file()
-end, { desc = 'Add file to [H]arpoon [A]rgslist [N]ext' })
+end, { desc = '[H]arpoon [A]rgslist [A]dd current selected line' })
 
-vim.keymap.set('n', '<leader>hah', function()
-  argpoon.add_file_to_index(1)
-end, { desc = 'Add file to [H]arpoon [A]rgslist at [1][H]' })
+local range = {
+  [1] = '<leader>h',
+  [2] = '<leader>h',
+  [3] = '<leader>h',
+  [4] = '<leader>h',
+}
 
-vim.keymap.set('n', '<leader>haj', function()
-  argpoon.add_file_to_index(2)
-end, { desc = 'Add file to [H]arpoon [A]rgslist at [2][J]' })
+for i = 1, 4 do
+  local shortcut = range[i]..i
+  vim.keymap.set('n', shortcut, function()
+    argpoon.goto_file(i)
+  end, { desc = 'Go to [H]arpoon ' .. i })
+end
 
-vim.keymap.set('n', '<leader>hak', function()
-  argpoon.add_file_to_index(3)
-end, { desc = 'Add file to [H]arpoon [A]rgslist at [3][K]' })
-
-vim.keymap.set('n', '<leader>hal', function()
-  argpoon.add_file_to_index(4)
-end, { desc = 'Add file to [H]arpoon [A]rgslist at [4][L]' })
+for i = 1, 4 do
+  local shortcut = range[i]..'d'..i
+  vim.keymap.set('n', shortcut, function()
+    argpoon.delete_file(i)
+  end, { desc = '[H]arpoon [D]elete ' .. i })
+end
 
 vim.keymap.set('n', '<leader>hs', function()
   argpoon.show_files()
 end, { desc = 'Show [H]arpoon [S]tored files' })
-
-vim.keymap.set('n', '<leader>hh', function()
-  argpoon.goto_file(1)
-end, { desc = 'Go to [H]arpoon [H]1' })
-
-vim.keymap.set('n', '<leader>hj', function()
-  argpoon.goto_file(2)
-end, { desc = 'Go to [H]arpoon [J]2' })
-
-vim.keymap.set('n', '<leader>hk', function()
-  argpoon.goto_file(3)
-end, { desc = 'Go to [H]arpoon [K]3' })
-
-vim.keymap.set('n', '<leader>hl', function()
-  argpoon.goto_file(4)
-end, { desc = 'Go to [H]arpoon [L]4' })
-
-vim.keymap.set('n', '<leader>hdh', function()
-  argpoon.delete_file(1)
-end, { desc = 'Delete [H]arpoon [D]1' })
-
-vim.keymap.set('n', '<leader>hdj', function()
-  argpoon.delete_file(2)
-end, { desc = 'Delete [H]arpoon [D]2' })
-
-vim.keymap.set('n', '<leader>hdk', function()
-  argpoon.delete_file(3)
-end, { desc = 'Delete [H]arpoon [D]3' })
-
-vim.keymap.set('n', '<leader>hdl', function()
-  argpoon.delete_file(4)
-end, { desc = 'Delete [H]arpoon [D]4' })
 
 -- List in telescope
 -- Collect argslist files
