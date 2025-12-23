@@ -65,6 +65,7 @@ require('lazy').setup({
     build = ':TSUpdate',
   },
 
+  require('plugins/trouble'),
 
   ----------------------------------------------------------------------------
   -- Vim project navigation
