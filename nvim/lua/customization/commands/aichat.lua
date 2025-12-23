@@ -101,251 +101,88 @@ vim.api.nvim_create_user_command("AIRefactor", function(opts)
   end
 
   local cmd = string.format(
-    "%s -f %s --code %s",
+    "%s -r code-patch -f %s --code %s | tee %s",
     vim.fn.shellescape(ainchat_bin),
     vim.fn.shellescape(filepath),
-    vim.fn.shellescape(instruction .. range_hint)
+    vim.fn.shellescape(instruction .. range_hint),
+    vim.fn.shellescape(filepath..".new")
   )
   print("Running command: " .. cmd)
 
-  local lines = runner.execute(cmd)
-  if not lines or #lines == 0 then
-    print("AIRefactor produced no output")
-    return
-  end
 
-  local original_file = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-  local new_file = vim.list_extend({}, original_file)
-  for _ = target_start + 1, target_end do
-    table.remove(new_file, target_start + 1)
-  end
-  for idx, line in ipairs(lines) do
-    table.insert(new_file, target_start + idx, line)
-  end
+  local jobid = runner.async({
+    "sh",
+    "-c",
+    cmd
+  }, {
+    on_error = function(err)
+      print(err)
+      vim.notify("AIRefactor finished" , vim.log.levels.INFO)
+    end,
+    on_success = function(code, lines)
+      vim.schedule(function()
+        if code ~= 0 then
+          vim.notify(("AIRefactor failed (code %d): %s"):format(code, res.stderr or ""), vim.log.levels.ERROR)
+          return
+        end
+        vim.notify("AIRefactor finished" , vim.log.levels.INFO)
 
-  local original_text = table.concat(original_file, "\n")
-  local new_text = table.concat(new_file, "\n")
-  local diff_body = vim.diff(original_text, new_text, {
-    result_type = "unified",
-    algorithm = "histogram",
-    ctxlen = 3,
-  }) or ""
-
-  local header_path = vim.fn.fnamemodify(filepath, ":.")
-  if not header_path or header_path == "" then
-    header_path = filepath
-  end
-  if header_path:sub(1, 1) == "/" then
-    header_path = header_path:sub(2)
-  end
-
-  local patch_lines = {
-    "--- " .. header_path,
-    "+++ " .. header_path,
-  }
-  if diff_body ~= "" then
-    for line in diff_body:gmatch("[^\n]+") do
-      table.insert(patch_lines, line)
+        vim.cmd("tabnew " .. vim.fn.fnameescape(filepath))
+        vim.cmd("vert diffsplit " .. vim.fn.fnameescape(filepath .. ".new"))
+      end)
     end
-  else
-    patch_lines[#patch_lines + 1] = "@@ identical @@"
-  end
-
-  local diff_buf = vim.api.nvim_create_buf(false, true)
-  vim.api.nvim_buf_set_option(diff_buf, "buftype", "nofile")
-  vim.api.nvim_buf_set_option(diff_buf, "bufhidden", "wipe")
-  vim.api.nvim_buf_set_option(diff_buf, "filetype", "diff")
-  vim.api.nvim_buf_set_lines(diff_buf, 0, -1, false, patch_lines)
-
-  local current_win = vim.api.nvim_get_current_win()
-  vim.cmd("vsplit")
-  local diff_win = vim.api.nvim_get_current_win()
-  vim.api.nvim_win_set_buf(diff_win, diff_buf)
-  vim.api.nvim_set_current_win(current_win)
-
-  local patchfile = vim.fn.tempname() .. ".patch"
-  vim.fn.writefile(patch_lines, patchfile)
-  common.store_last_refactor_patch({
-    patchfile = patchfile,
-    filepath = filepath,
-    root_dir = vim.fn.getcwd(),
-    diff_buf = diff_buf,
-    diff_win = diff_win,
-    patch_lines = patch_lines,
   })
 
-  print(string.format("AIRefactor patch written to %s; diff opened in new split.", patchfile))
+  vim.notify(
+    ("AIRefactor started (job %d) it will open once its done..."):format(jobid.pid),
+    vim.log.levels.INFO
+  )
 end, {
   -- allow zero or more instruction arguments
   nargs = "*",
   range = "%",
 })
 
-vim.api.nvim_create_user_command("AIRefactorApply", function()
-  local last_refactor_patch = common.last_refactor_patch
-  if not last_refactor_patch or not last_refactor_patch.patchfile then
-    print("No AIRefactor patch available. Run :AIRefactor first.")
-    return
-  end
-
-  local patchfile = last_refactor_patch.patchfile
-  local filepath = last_refactor_patch.filepath
-  if vim.fn.filereadable(patchfile) ~= 1 then
-    print("AIRefactor patch file missing. Please rerun :AIRefactor.")
-    return
-  end
-
-  local ok, output = common.apply_patchfile(patchfile, last_refactor_patch.root_dir)
-  if not ok then
-    print("Failed to apply patch: " .. output)
+vim.api.nvim_create_user_command("AIRefactorCleanup", function()
+  local state = common.last_refactor_patch
+  if not state then
+    print("No AIRefactor state to clean.")
     return
   end
 
   common.close_last_refactor_diff()
 
-  print("Patch applied. Reloading buffer...")
-  vim.cmd("checktime")
-end, {
-  nargs = 0,
-  range = "%",
-})
+  local removed = {}
+  local failed = {}
 
-vim.api.nvim_create_user_command("AIRefactorApplyHunks", function(opts)
-  local last_refactor_patch = common.last_refactor_patch
-  if not last_refactor_patch or not last_refactor_patch.patch_lines then
-    print("No AIRefactor patch available. Run :AIRefactor first.")
-    return
-  end
-
-  local hunks = common.parse_hunks(last_refactor_patch.patch_lines)
-  if #hunks == 0 then
-    print("No hunks to apply.")
-    return
-  end
-
-  local selection = common.get_selection()
-  if not selection and opts.range and opts.range > 0 then
-    selection = {
-      start_line = opts.line1,
-      end_line = opts.line2,
-    }
-  end
-  local selected_hunks = hunks
-  if selection then
-    local sel_start = selection.start_line
-    local sel_end = selection.end_line
-    selected_hunks = {}
-    for _, hunk in ipairs(hunks) do
-      local hunk_old_start = hunk.old_start
-      local hunk_old_end = hunk.old_start + math.max(hunk.old_count - 1, 0)
-      if not (sel_end < hunk_old_start or sel_start > hunk_old_end) then
-        table.insert(selected_hunks, hunk)
-      end
+  local function try_delete(path)
+    if not path or path == "" then
+      return
     end
-    if #selected_hunks == 0 then
-      print(string.format("No hunks overlap selection (%d-%d). Showing all hunks.", sel_start, sel_end))
-      selected_hunks = hunks
+    if vim.fn.filereadable(path) == 1 then
+      local ok, err = pcall(vim.fn.delete, path)
+      if ok and err == 0 then
+        table.insert(removed, path)
+      else
+        table.insert(failed, path .. (err and (" (" .. tostring(err) .. ")") or ""))
+      end
     end
   end
 
-  local function apply_hunk(hunk)
-    local patch_lines = {
-      last_refactor_patch.patch_lines[1],
-      last_refactor_patch.patch_lines[2],
-      hunk.header,
-    }
-    for _, line in ipairs(hunk.lines) do
-      patch_lines[#patch_lines + 1] = line
-    end
+  try_delete(state.patchfile)
+  try_delete(state.newfile)
 
-    local patchfile = vim.fn.tempname() .. ".hunk.patch"
-    vim.fn.writefile(patch_lines, patchfile)
+  common.store_last_refactor_patch(nil)
 
-    local ok, output = common.apply_patchfile(patchfile, last_refactor_patch.root_dir)
-    if not ok then
-      print("Failed to apply hunk: " .. output)
-      return false
-    end
-    return true
+  if #removed > 0 then
+    print("AIRefactor cleanup removed: " .. table.concat(removed, ", "))
   end
-
-  local function close_diff()
-    common.close_last_refactor_diff()
+  if #failed > 0 then
+    print("AIRefactor cleanup failed to remove: " .. table.concat(failed, ", "))
   end
-
-  local function select_next()
-    local choices = {}
-    for idx, hunk in ipairs(selected_hunks) do
-      choices[idx] = string.format(
-        "Hunk %d: -%d,%d +%d,%d",
-        idx, hunk.old_start, hunk.old_count, hunk.new_start, hunk.new_count
-      )
-    end
-    choices[#choices + 1] = "[Done] keep diff"
-    choices[#choices + 1] = "[Done] close diff"
-
-    vim.ui.select(choices, { prompt = "Select hunk to apply (Esc to stop)" }, function(choice, choice_idx)
-      if not choice or not choice_idx then
-        print("Stopped applying hunks. Diff remains open; rerun :AIRefactorApplyHunks to continue.")
-        return
-      end
-
-      local done_keep = choice == "[Done] keep diff"
-      local done_close = choice == "[Done] close diff"
-      if done_keep or done_close then
-        if done_close then
-          close_diff()
-        end
-        return
-      end
-
-      local hunk = table.remove(selected_hunks, choice_idx)
-      if not hunk then
-        print("Invalid hunk selection.")
-        return
-      end
-
-      local ok = apply_hunk(hunk)
-      if not ok then
-        return
-      end
-
-      print(string.format("Applied %s", choice))
-      vim.cmd("checktime")
-
-      if #selected_hunks == 0 then
-        print("Selected hunks applied. Diff remains open; rerun :AIRefactorApplyHunks for other hunks.")
-        return
-      end
-
-      select_next()
-    end)
+  if #removed == 0 and #failed == 0 then
+    print("AIRefactor cleanup: nothing to remove.")
   end
-
-  select_next()
-end, {
-  nargs = 0,
-  range = "%",
-})
-
-vim.api.nvim_create_user_command("AIRefactorEditPatch", function()
-  local state = common.last_refactor_patch
-  if not state or not state.patch_lines then
-    print("No AIRefactor patch available. Run :AIRefactor first.")
-    return
-  end
-
-  local patchfile = state.patchfile
-  if not patchfile or patchfile == "" or vim.fn.filereadable(patchfile) ~= 1 then
-    patchfile = vim.fn.tempname() .. ".patch"
-    vim.fn.writefile(state.patch_lines, patchfile)
-    state.patchfile = patchfile
-    common.store_last_refactor_patch(state)
-  end
-
-  vim.cmd("edit " .. vim.fn.fnameescape(patchfile))
-  vim.bo.filetype = "diff"
-  print("Opened patch for editing: " .. patchfile)
 end, {
   nargs = 0,
 })

@@ -1,5 +1,3 @@
-local M = {}
-
 local M = {
   get_selection = nil,
   complete_code_agent = nil,
@@ -98,50 +96,6 @@ M.complete_code_agent = function (arg_lead)
     end
   end
   return matches
-end
-
----@param patch_lines string[]
----@return table hunks List of parsed hunks with header/lines/start/count info
-M.parse_hunks = function(patch_lines)
-  local hunks = {}
-  local current = nil
-  for _, line in ipairs(patch_lines) do
-    local old_start, old_count, new_start, new_count = line:match("^@@ %-(%d+),?(%d*) %+(%d+),?(%d*) @@")
-    if old_start then
-      if current then
-        table.insert(hunks, current)
-      end
-      current = {
-        header = line,
-        lines = {},
-        old_start = tonumber(old_start),
-        old_count = tonumber(old_count ~= "" and old_count or "1"),
-        new_start = tonumber(new_start),
-        new_count = tonumber(new_count ~= "" and new_count or "1"),
-      }
-    elseif current and (line:match("^[ +%-]") or line:match("^\\ No newline")) then
-      table.insert(current.lines, line)
-    end
-  end
-  if current then
-    table.insert(hunks, current)
-  end
-  return hunks
-end
-
----@param patchfile string
----@param root_dir string|nil Working directory for patch application
----@return boolean ok
----@return string output
-M.apply_patchfile = function(patchfile, root_dir)
-  local cmd
-  if root_dir and root_dir ~= "" then
-    cmd = string.format("patch -p0 -d %s < %s", vim.fn.shellescape(root_dir), vim.fn.shellescape(patchfile))
-  else
-    cmd = string.format("patch -p0 < %s", vim.fn.shellescape(patchfile))
-  end
-  local output = vim.fn.system(cmd)
-  return vim.v.shell_error == 0, output
 end
 
 M.close_last_refactor_diff = function()
