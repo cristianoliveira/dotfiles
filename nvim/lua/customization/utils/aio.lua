@@ -90,6 +90,111 @@ local await_all = function (defer)
   return co.yield(join(defer))
 end
 
+-- Example usage:
+--[[
+-- Example 1: Basic async function with await
+local function async_fetch_data(url)
+  return function(callback)
+    -- Simulate async operation (e.g., HTTP request)
+    vim.defer_fn(function()
+      callback("Data from " .. url)
+    end, 100)
+  end
+end
+
+local function example1()
+  local aio = require("customization.utils.aio")
+
+  local fetch = aio.wrap(async_fetch_data)
+  local fetch_thunk = fetch("https://api.example.com/data")
+
+  aio.sync(function()
+    local result = aio.wait(fetch_thunk)
+    print("Received:", result)
+  end)
+end
+
+-- Example 2: Multiple async operations with wait_all
+local function async_process_item(item, delay)
+  return function(callback)
+    vim.defer_fn(function()
+      callback("Processed: " .. item)
+    end, delay)
+  end
+end
+
+local function example2()
+  local aio = require("customization.utils.aio")
+
+  local process = aio.wrap(async_process_item)
+
+  aio.sync(function()
+    local thunks = {
+      process("item1", 100),
+      process("item2", 200),
+      process("item3", 150)
+    }
+
+    local results = aio.wait_all(thunks)
+    print("All items processed:")
+    for i, result in ipairs(results) do
+      print(i, unpack(result))
+    end
+  end)
+end
+
+-- Example 3: Chaining async operations
+local function example3()
+  local aio = require("customization.utils.aio")
+
+  local fetch_user = aio.wrap(function(user_id, callback)
+    vim.defer_fn(function()
+      callback({id = user_id, name = "User" .. user_id})
+    end, 100)
+  end)
+
+  local fetch_posts = aio.wrap(function(user, callback)
+    vim.defer_fn(function()
+      callback({"Post1", "Post2", "Post3"})
+    end, 150)
+  end)
+
+  aio.sync(function()
+    local user = aio.wait(fetch_user(123))
+    print("User fetched:", user.name)
+
+    local posts = aio.wait(fetch_posts(user))
+    print("User posts:", table.concat(posts, ", "))
+  end)
+end
+
+-- Example 4: Error handling
+local function example4()
+  local aio = require("customization.utils.aio")
+
+  local risky_operation = aio.wrap(function(callback)
+    vim.defer_fn(function()
+      -- Simulate an error
+      callback(nil, "Something went wrong")
+    end, 100)
+  end)
+
+  aio.sync(function()
+    local success, error_msg = aio.wait(risky_operation())
+    if error_msg then
+      print("Error:", error_msg)
+    else
+      print("Success:", success)
+    end
+  end)
+end
+
+-- To run examples:
+-- example1()
+-- example2()
+-- example3()
+-- example4()
+]]
 
 return {
   sync = wrap(pong),
