@@ -90,6 +90,24 @@ local await_all = function (defer)
   return co.yield(join(defer))
 end
 
+--- Creates a promise-like async operation
+-- @function promise
+-- @param executor Function that takes resolve and reject callbacks
+-- @return A thunk that can be awaited
+local promise = function (executor)
+  return function (step)
+    local function resolve(...)
+      step(...)
+    end
+
+    local function reject(...)
+      step(...)
+    end
+
+    executor(resolve, reject)
+  end
+end
+
 -- Example usage:
 --[[
 -- Example 1: Basic async function with await
@@ -189,11 +207,45 @@ local function example4()
   end)
 end
 
+-- Example 5: Using promise method
+local function example5()
+  local aio = require("customization.utils.aio")
+
+  aio.sync(function()
+    local result = aio.wait(aio.promise(function(resolve, reject)
+      vim.defer_fn(function()
+        resolve("Promise resolved successfully")
+      end, 100)
+    end))
+    print("Promise result:", result)
+  end)
+end
+
+-- Example 6: Promise with error handling
+local function example6()
+  local aio = require("customization.utils.aio")
+
+  aio.sync(function()
+    local success, error = aio.wait(aio.promise(function(resolve, reject)
+      vim.defer_fn(function()
+        reject("Something went wrong")
+      end, 100)
+    end))
+    if error then
+      print("Promise rejected:", error)
+    else
+      print("Promise resolved:", success)
+    end
+  end)
+end
+
 -- To run examples:
 -- example1()
 -- example2()
 -- example3()
 -- example4()
+-- example5()
+-- example6()
 ]]
 
 return {
@@ -201,4 +253,5 @@ return {
   wait = await,
   wait_all = await_all,
   wrap = wrap,
+  promise = promise,
 }

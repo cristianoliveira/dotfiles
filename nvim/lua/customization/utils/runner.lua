@@ -52,4 +52,67 @@ M.stream = function(command, on_line)
   return lines, nil
 end
 
+--- Run a command asynchronously using Neovim jobs.
+---
+--- @class runner.AsyncOptions
+--- @field on_success fun(code: integer, res: vim.SystemCompleted)|nil Callback invoked when the command completes successfully
+--- @field on_error fun(stderr: string, res: vim.SystemCompleted)|nil Callback invoked when the command fails
+---
+---@param command string[] Shell command to run
+---@param opts runner.AsyncOptions
+---@return vim.SystemObj|nil processInf The spawned job id, or nil on failure
+--
+-- Example (collecting output and reacting to completion):
+-- ```lua
+-- M.async("ls -la", {
+--   on_success = function(code, lines)
+--     print("job finished with code", code)
+--     print(table.concat(lines, "\n"))
+--   end,
+-- })
+--
+-- Example (stream stderr only, no collection):
+-- M.async("make", {
+--   collect_output = false,
+--   on_success = function(_,lines)
+--     vim.notify(table.concat(lines, "\n"), vim.log.levels.WARN)
+--   end,
+-- })
+-- ```
+M.async = function(command, opts)
+  opts = opts or {}
+  local function safe_call(fn, ...)
+    if not fn then
+      return true
+    end
+
+    local ok, err = pcall(fn, ...)
+    if not ok then
+      vim.notify("runner.async callback error: " .. tostring(err), vim.log.levels.ERROR)
+    end
+    return ok
+  end
+
+  local processInf = vim.system(command, { text = true }, function(res)
+    vim.schedule(function()
+      if res.code ~= 0 then
+        if opts.on_error then
+          safe_call(opts.on_error, res.stderr or {}, res)
+        end
+
+        return
+      end
+      if opts.on_success then
+        safe_call(opts.on_success, res.code, res)
+      end
+    end)
+  end)
+
+  if processInf.pid == nil then
+    return nil
+  end
+
+  return processInf
+end
+
 return M
