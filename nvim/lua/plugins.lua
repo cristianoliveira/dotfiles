@@ -87,40 +87,15 @@ require('lazy').setup({
       vim.g.UltiSnipsExpandTrigger = "<C-l>"
       vim.g.UltiSnipsJumpForwardTrigger = "<C-l>"
     end,
-    -- NOTE: added via nix in 
+    -- NOTE: added via nix in
     -- build = 'pip3 install --user --upgrade pynvim',
     dependencies = {
       'honza/vim-snippets',
     },
   },
 
-  -- {
-  --   "zbirenbaum/copilot.lua",
-  --   cmd = "Copilot",
-  --   event = "InsertEnter",
-  --   config = function()
-  --     require("copilot").setup({
-  --       filetypes = {
-  --         markdown = true,
-  --         yaml = true,
-  --       },
-  --       suggestion = {
-  --         enabled = true,
-  --         auto_trigger = true,
-  --         debounce = 75,
-  --         keymap = {
-  --           accept = "<Tab>",
-  --           next = "<C-h>",
-  --         },
-  --       },
-  --     })
-  --   end,
-  -- },
-
-  {
-    'Exafunction/windsurf.vim',
-    event = 'BufEnter'
-  },
+  require('plugins/copilot'),
+  -- require('plugins/windsurf'),
 
   {
     -- LSP Configuration & Plugins
@@ -293,7 +268,7 @@ require('lazy').setup({
 
   ----------------------------------------------------------------------------
   --- Debugging plugins
-  
+
   -- Golang dap integration
   require('plugins/dap'),
 }, {})
