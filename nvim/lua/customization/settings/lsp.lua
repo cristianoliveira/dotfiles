@@ -46,11 +46,9 @@ local servers = {
   },
 }
 
-require('mason-tool-installer').setup { ensure_installed = ensure_installed }
-
 -- Now setup those configurations
-for name, config in pairs(servers) do
-  local config = config or {}
+for name, cfg in pairs(servers) do
+  local config = cfg or {}
   -- This handles overriding only values explicitly passed
   -- by the server configuration above. Useful when disabling
   -- certain features of an LSP (for example, turning off formatting for ts_ls)
