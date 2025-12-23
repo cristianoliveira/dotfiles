@@ -119,17 +119,15 @@ vim.api.nvim_create_user_command("AIRefactor", function(opts)
       print(err)
       vim.notify("AIRefactor finished" , vim.log.levels.INFO)
     end,
-    on_success = function(code, lines)
-      vim.schedule(function()
-        if code ~= 0 then
-          vim.notify(("AIRefactor failed (code %d): %s"):format(code, res.stderr or ""), vim.log.levels.ERROR)
-          return
-        end
-        vim.notify("AIRefactor finished" , vim.log.levels.INFO)
+    on_success = function(code, res)
+      if code ~= 0 then
+        vim.notify(("AIRefactor failed (code %d): %s"):format(code, res.stderr or ""), vim.log.levels.ERROR)
+        return
+      end
+      vim.notify("AIRefactor finished" , vim.log.levels.INFO)
 
-        vim.cmd("tabnew " .. vim.fn.fnameescape(filepath))
-        vim.cmd("vert diffsplit " .. vim.fn.fnameescape(filepath .. ".new"))
-      end)
+      vim.cmd("tabnew " .. vim.fn.fnameescape(filepath))
+      vim.cmd("vert diffsplit " .. vim.fn.fnameescape(filepath .. ".new"))
     end
   })
 
