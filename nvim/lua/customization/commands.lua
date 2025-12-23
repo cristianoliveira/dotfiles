@@ -23,17 +23,6 @@ vim.cmd("command! -nargs=0 Chx :!chmod +x %")
 --Format json file to pretty print
 vim.cmd("command! -nargs=0 JSONFormat :%!python -m json.tool")
 
--- Copy current file path to system clipboard
-vim.api.nvim_create_user_command('CCopyFilePath', function()
-  local file_path = vim.fn.expand("%:p")
-  if file_path == "" then
-    print("No file path available")
-    return
-  end
-  vim.fn.setreg("+", file_path)
-  print("Copied file path to clipboard: " .. file_path)
-end, { nargs = 0 })
-
 ----------------------------------------
 -- Custom nvim related commands
 --
