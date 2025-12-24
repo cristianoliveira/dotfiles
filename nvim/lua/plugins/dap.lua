@@ -119,25 +119,6 @@ return {
       vim.keymap.set("n", "<F12>", dap.step_back)
       vim.keymap.set("n", "<F1>", dap.restart)
 
-      vim.keymap.set('n', '<leader>dc', dap.continue, {
-        desc = "Continue"
-      })
-      vim.keymap.set('n', '<leader>di', dap.step_into, {
-        desc = "Step into"
-      })
-      vim.keymap.set('n', '<leader>do', dap.step_over, {
-        desc = "Step over"
-      })
-      vim.keymap.set('n', '<leader>du', dap.step_out, {
-        desc = "Step out"
-      })
-      vim.keymap.set('n', '<leader>db', dap.step_back, {
-        desc = "Step back"
-      })
-      vim.keymap.set('n', '<leader>dr', dap.restart, {
-        desc = "Restart"
-      })
-
       vim.keymap.set("n", "<leader>b", dap.toggle_breakpoint)
       -- Toggle virtual text
       vim.keymap.set("n", "<leader>dt", dap_vt_text.toggle, {
@@ -148,13 +129,18 @@ return {
       vim.keymap.set("n", "<leader>dv", dapui.eval, {
         desc = "Describe variable under cursor"
       })
-      vim.keymap.set("n", "<leader>df", dapui.float_element, {
+      vim.keymap.set("n", "<leader>dk", dapui.float_element, {
         desc = "Float variable under cursor"
       })
 
       -- Eval var under cursor
       vim.keymap.set("n", "<leader>K", function()
-        require("dapui").eval(nil, { enter = true })
+        require("dapui").eval(nil, {
+          context = "hover",
+          height = 10,
+          width = 50,
+          enter = true,
+        })
       end)
     end,
   },

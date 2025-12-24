@@ -1,5 +1,3 @@
-local opts = { noremap = true, silent = true }
-
 -- Diff mode mappings (when in diff mode)
 vim.keymap.set('n', '<leader>dfg', ':diffget<CR>', { desc = 'Diff get (accept change from other buffer)' })
 vim.keymap.set('n', '<leader>dfp', ':diffput<CR>', { desc = 'Diff put (send change to other buffer)' })
@@ -12,3 +10,9 @@ vim.keymap.set('n', '<leader>dfb', ':diffget BASE<CR>', { desc = 'Get BASE chang
 
 -- Close all diff windows except current
 vim.keymap.set('n', '<leader>dfq', ':diffoff!<CR>', { desc = 'Close all diff windows' })
+
+-- Some commands aliases
+-- cnoreabbrev W w
+vim.cmd('cnoreabbrev Dfg diffget')
+vim.cmd('cnoreabbrev Dfp diffput')
+vim.cmd('cnoreabbrev Dfu diffupdate')
