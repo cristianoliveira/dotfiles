@@ -1,4 +1,5 @@
 local runner = require("customization.utils.runner")
+local buffer = require("customization.utils.vim").Buffer
 local common = require("customization.plugins.aichat.common")
 
 -- ignore commands if aichat is not present
@@ -41,15 +42,19 @@ vim.api.nvim_create_user_command("AIMacro", function(opts)
     vim.api.nvim_buf_set_lines(0, row, row + #lines - 1, false, lines)
   end)
 
+  buffer.prepend(lines)
+
   -- Insert lines at the current cursor position
   -- local row = vim.api.nvim_win_get_cursor(0)[1]
   -- vim.api.nvim_buf_set_lines(0, row, row, false, lines)
 end, {
   -- it may contain 1 or more arguments
   nargs = "*",
-  complete = function(fargs)
-    local macro = fargs or ".*"
-    return runner.execute("aichat --list-macros | grep " .. macro)
+  complete = function(initargs)
+    if #initargs == 0 then
+      return runner.execute("aichat --list-macros")
+    end
+    return runner.execute("aichat --list-macros | grep " .. initargs)
   end
 })
 
@@ -109,15 +114,10 @@ vim.api.nvim_create_user_command("AIRefactor", function(opts)
   )
   print("Running command: " .. cmd)
 
-
-  local jobid = runner.async({
-    "sh",
-    "-c",
-    cmd
-  }, {
+  local jobid = runner.async({ "sh", "-c", cmd }, {
     on_error = function(err)
       print(err)
-      vim.notify("AIRefactor finished" , vim.log.levels.INFO)
+      vim.notify("AIRefactor failed check with :messages" , vim.log.levels.ERROR)
     end,
     on_success = function(code, res)
       if code ~= 0 then
