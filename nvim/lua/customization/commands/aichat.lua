@@ -39,7 +39,6 @@ vim.api.nvim_create_user_command("AIMacro", function(opts)
       return
     end
     table.insert(lines, line)
-    vim.api.nvim_buf_set_lines(0, row, row + #lines - 1, false, lines)
   end)
 
   buffer.prepend(lines)
@@ -97,8 +96,6 @@ vim.api.nvim_create_user_command("AIRefactor", function(opts)
     start_line, end_line = 1, vim.api.nvim_buf_line_count(0)
   end
 
-  local target_start = start_line - 1
-  local target_end = end_line
   local buffer_line_count = vim.api.nvim_buf_line_count(0)
   local range_hint = ""
   if start_line ~= 1 or end_line ~= buffer_line_count then
@@ -184,3 +181,4 @@ vim.api.nvim_create_user_command("AIRefactorCleanup", function()
 end, {
   nargs = 0,
 })
+
