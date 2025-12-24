@@ -1,29 +1,30 @@
 local argpoon = require('customization.plugins.argpoon')
+local fn = require('customization.utils.fn')
 
 vim.keymap.set('n', '<leader>haa', function()
   argpoon.add_file()
 end, { desc = '[H]arpoon [A]rgslist [A]dd current selected line' })
 
-local range = {
+local mappings = {
   [1] = '<leader>h',
   [2] = '<leader>h',
   [3] = '<leader>h',
   [4] = '<leader>h',
 }
 
-for i = 1, 4 do
-  local shortcut = range[i]..i
+fn.for_each(mappings, function(mapping, idx)
+  -- <leader>h<n> to go to file
+  local shortcut = mapping..idx
   vim.keymap.set('n', shortcut, function()
-    argpoon.goto_file(i)
-  end, { desc = 'Go to [H]arpoon ' .. i })
-end
+    argpoon.goto_file(idx)
+  end, { desc = 'Go to [H]arpoon ' .. idx })
 
-for i = 1, 4 do
-  local shortcut = range[i]..'d'..i
-  vim.keymap.set('n', shortcut, function()
-    argpoon.delete_file(i)
-  end, { desc = '[H]arpoon [D]elete ' .. i })
-end
+  -- <leader>hd<n> to delete
+  local delete_shortcut = mapping..'d'..idx
+  vim.keymap.set('n', delete_shortcut, function()
+    argpoon.delete_file(idx)
+  end, { desc = '[H]arpoon [D]elete ' .. idx })
+end)
 
 vim.keymap.set('n', '<leader>hs', function()
   argpoon.show_files()
@@ -33,7 +34,7 @@ end, { desc = 'Show [H]arpoon [S]tored files' })
 -- Collect argslist files
 -- Show in telescope picker
 vim.keymap.set('n', '<leader>ht', function()
-  local argslist = vim.fn.argv()
+  local argslist = argpoon.get_files()
   if #argslist == 0 then
     print("Argslist is empty.")
     return

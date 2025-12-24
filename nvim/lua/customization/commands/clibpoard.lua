@@ -1,6 +1,6 @@
 -- Clipboard commands --
 
--- Select among these types
+-- Select among these types to copy:
 local types = {
   "file_path",
   "file_relative_path",

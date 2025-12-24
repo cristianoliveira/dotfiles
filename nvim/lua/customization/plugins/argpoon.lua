@@ -24,9 +24,13 @@ M.show_files = function()
   end
 
   print("Files in argslist:")
-  for i, file in ipairs(argslist) do
+  for i, file in argslist do
     print(i .. ": " .. file)
   end
+end
+
+M.get_files = function()
+  return vim.fn.argv()
 end
 
 M.goto_file = function(index)
