@@ -49,7 +49,9 @@ require('telescope').setup {
       i = {
         ['<C-u>'] = false,
         ['<C-d>'] = false,
-        ["<C-i>"] = require('telescope.actions').select_default,
+        -- FIXME: This messes up autocomplete all together
+        -- ["<C-i>"] = require('telescope.actions').select_default,
+        ["<C-space>"] = require('telescope.actions').select_default,
         ["<C-n>"] = require('telescope.actions').cycle_history_next,
         ["<C-p>"] = require('telescope.actions').cycle_history_prev,
         ["<C-k>"] = {
