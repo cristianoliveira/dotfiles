@@ -1,0 +1,7 @@
+require('customization/settings/lsp')
+require('customization/settings/projectionist')
+require('customization/settings/intellisense')
+require('customization/settings/curl')
+require('customization/settings/difftool')
+-- require('customization/mappings/copilot')
+require('customization/mappings/codeium')

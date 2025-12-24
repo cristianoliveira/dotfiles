@@ -1,45 +1,15 @@
---> Plugins custom settings
-
+-- Usually you don't need to change this file.
+-- Here is where all your customizations are loaded.
+--
 --> Local plugins
 require('customization/plugins')
-
 --> Custom Commands
-require('customization/autocmds')
 require('customization/commands')
-require('customization/commands/obsidian')
-
+--> Custom Autocommands
+require('customization/autocmds')
 --> Helper functions
-require('customization/functions/vimscript_to_lua')
-
+require('customization/functions')
 --> Mappings
-require('customization/mappings/ultisnips')
-require('customization/mappings/copy_paste')
-require('customization/mappings/visual_code_editing')
-require('customization/mappings/git')
-require('customization/mappings/fugitive')
-require('customization/mappings/panels')
-require('customization/mappings/defaults')
-require('customization/mappings/lsp')
-require('customization/mappings/buffers')
-require('customization/mappings/tabs')
-require('customization/mappings/macros')
-require('customization/mappings/netrw')
-require('customization/mappings/grep')
-require('customization/mappings/marks')
-require('customization/mappings/find_replace')
-require('customization/mappings/telescope')
-require('customization/mappings/obsidian')
-require('customization/mappings/curl')
-require('customization/mappings/argpoon')
-require('customization/mappings/terminal')
-require('customization/mappings/difftool')
-
--- require('customization/mappings/copilot')
-require('customization/mappings/codeium')
-
+require('customization/mappings')
 --> Settings
-require('customization/settings/lsp')
-require('customization/settings/projectionist')
-require('customization/settings/intellisense')
-require('customization/settings/curl')
-require('customization/settings/difftool')
+require('customization/settings')
