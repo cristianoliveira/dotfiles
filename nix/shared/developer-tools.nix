@@ -61,7 +61,7 @@
     cargo #
 
     # AI and related
-    claude-code
+    unstable.claude-code
     nur.repos.charmbracelet.crush
     unstable.aichat
     nightly.codex
