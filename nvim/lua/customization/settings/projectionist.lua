@@ -27,7 +27,7 @@ vim.g.projectionist_heuristics = {
     },
     ['*.spec.ts'] = {
       ['alternate'] = { '{}.ts' },
-      -- Run linter 
+      -- Run linter
     },
     ['*.test.ts'] = {
       ['alternate'] = { '{}.ts' },
@@ -97,6 +97,9 @@ vim.g.projectionist_heuristics = {
       ['alternate'] = { '{}_spec.lua' }
     },
     ['*_spec.lua'] = {
+      ['alternate'] = { '{}.lua' }
+    },
+    ['tests/*_spec.lua'] = {
       ['alternate'] = { '{}.lua' }
     }
   },
