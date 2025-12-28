@@ -4,6 +4,7 @@ require("customization/commands/obsidian")
 require("customization/commands/aichat")
 require("customization/commands/vscode")
 require("customization/commands/clipboard")
+require("customization/commands/diffquickfix")
 
 vim.cmd("command! -nargs=0 CFormat lua vim.lsp.buf.format()")
 
