@@ -26,7 +26,8 @@
     };
   };
 
-  outputs = { nixpkgs,
+  outputs = {
+    nixpkgs,
     unstable,
     nix-darwin,
     copkgs,
@@ -34,50 +35,37 @@
     nixpkgsnur,
     ...
   }: {
+
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem rec {
       system = "x86_64-linux";
       modules = [
         (_: {
           # Injects mypkgs into nixpkgs as pkgs.mypkgs
           nixpkgs.overlays = [
-            (final: prev: {
-              copkgs = copkgs.packages.x86_64-linux;
-              unstable = import unstable {
-                inherit system;
-                config = { allowUnfree = true; };
-              };
-              # Nightly packages namespace - access via pkgs.nightly.codex
-              nightly = (import ./nightly-pkgs.nix) prev;
-            })
-
             nixpkgsnur.overlays.default
-            (import ./overlays/wrapped-pkgs.nix)
+            (import ./overlays/default.nix {
+              inherit copkgs unstable system;
+            })
           ];
         })
+
         linkman.nixosModules.${system}.linkman
         ./nixos/linkman.nix
 
         ./nixos/configuration.nix
       ];
     };
+
     darwinConfigurations.darwin = nix-darwin.lib.darwinSystem rec {
       system = "aarch64-darwin";
       modules = [
         (_: {
           # Injects mypkgs into nixpkgs as pkgs.mypkgs
           nixpkgs.overlays = [
-            (final: prev: {
-              copkgs = copkgs.packages.aarch64-darwin;
-              unstable = import unstable {
-                inherit system;
-                config = { allowUnfree = true; };
-              };
-              # Nightly packages namespace - access via pkgs.nightly.codex
-              nightly = (import ./nightly-pkgs.nix) prev;
-            })
-
             nixpkgsnur.overlays.default
-            (import ./overlays/wrapped-pkgs.nix)
+            (import ./overlays/default.nix {
+              inherit copkgs unstable system;
+            })
           ];
         })
 
