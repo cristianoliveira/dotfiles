@@ -98,6 +98,7 @@ require('lazy').setup({
   require('plugins/supermaven'),
   -- require('plugins/copilot'),
   -- require('plugins/windsurf'),
+  require('plugins/dogmeat'),
 
   {
     -- LSP Configuration & Plugins
