@@ -59,15 +59,10 @@
     uv # Python package installer
     python311Packages.pip
     cargo #
-
-    # AI and related
-    unstable.claude-code
-    nur.repos.charmbracelet.crush
-    unstable.aichat
-    nightly.codex
   ];
 
   imports = [
     ./dev-tools/go.nix
+    ./dev-tools/ai.nix
   ];
 }
