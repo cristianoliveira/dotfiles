@@ -271,8 +271,8 @@ bindsym $mod+Ctrl+F12 reload
 # Print screen
 bindsym Print exec grim -g "$(slurp)"
 
-# Toggle between two most recently focused workspaces
-bindsym $mod+grave workspace back_and_forth
+# Cycle through windows of the same application
+bindsym $mod+grave exec ~/.dotfiles/bin/sway-cycle-app.sh
 
 # Exit sway (logs you out of your Wayland session)
 mode "exit: [l]ogout, [r]eboot, [s]hutdown" {
