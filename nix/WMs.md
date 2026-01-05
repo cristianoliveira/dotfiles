@@ -33,7 +33,7 @@ Purpose: how to mirror the macOS Aerospace workspace/output/app rules into `nix/
 - Relocate/resize modes: Aerospace `mode relocate` (u/i/o/j/k/l for window positions) and `mode resize` (u/i/o/j/k/l for fractional resize) can be mirrored with sway `mode relocate { bindsym u move position … }` and `mode resize { bindsym u resize set width 50ppt … }` if parity is desired; not present by default.
 - Scratchpad quick slots: Aerospace uses `cmd-ctrl-[1-9,0]` to show marks from scratchpad. Sway equivalent would be `bindsym $mod+Ctrl+<n> exec swaymsg [con_mark="<n>"] scratchpad show || <launch>`; currently not mirrored.
 - Dialog-based marks (Aerospace cmd-ctrl-m/quote/semicolon prompts) are not mirrored; sway uses fixed-mark keybindings instead.
-- Workspace back/forth: Aerospace `cmd-ctrl-o` is mirrored as `bindsym $mod+Ctrl+o workspace back_and_forth` (plus the existing `$mod+grave`).
+- Workspace back/forth: Aerospace `cmd-ctrl-o` is mirrored as `bindsym $mod+Ctrl+o workspace back_and_forth`. Window cycling (similar to macOS `Mod+`) is implemented as `bindsym $mod+grave exec ~/.dotfiles/bin/sway-cycle-app.sh`.
 - Jump mode: Aerospace `mode.jump` to focus marks is mirrored by sway `mode "goto"` bound to `$mod+apostrophe` (matching cmd-quote), covering digits and the QWERTY rows plus home row (`1-0, qwertyuiop, asdfghjkl, zxcvbn, t,y`).
 
 ## Floating utility apps (partial parity)

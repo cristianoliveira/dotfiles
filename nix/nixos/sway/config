@@ -538,7 +538,6 @@ bindsym $mod+Ctrl+Shift+Down move workspace to output down
 # bindsym $mod+Tab workspace next
 # bindsym $mod+Shift+Tab workspace prev
 
-bindsym $mod+Tab exec ~/.dotfiles/bin/sway-stack.sh
 bindsym $mod+Shift+Tab focus prev
 
 # bindsym $mod+Tab workspace current
