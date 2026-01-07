@@ -9,4 +9,4 @@ if vim.fn.isdirectory(vim.fn.expand('~/other/dogmeat.nvim')) then
   }
 end
 
-return {}
+return nil
