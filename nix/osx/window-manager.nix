@@ -1,5 +1,5 @@
-{ pkgs, lib, ... }: let 
-  aerospaceNightly = pkgs.aerospace.overrideAttrs (_: finalAttrs: let 
+{ pkgs, lib, ... }: let
+  aerospaceNightly = pkgs.aerospace.overrideAttrs (_: finalAttrs: let
       version = "1.20.0-Beta";
     in {
       inherit version;
@@ -18,8 +18,9 @@
 in {
   environment.systemPackages = with pkgs; [
     # Requires custom packages
-    copkgs.aerospace-marks
-    copkgs.aerospace-scratchpad
+    # FIXME: Issue "error: a 'x86_64-linux' with features {} is required to build"
+    # copkgs.aerospace-marks
+    # copkgs.aerospace-scratchpad
   ];
 
   services = {
@@ -29,7 +30,7 @@ in {
       # This is a placeholder for the actual service
       # package = pkgs.aerospace;
       # NOTE: To install the latest version of Aerospace
-      package = aerospaceNightly; 
+      package = aerospaceNightly;
 
       settings = {
         gaps = {
@@ -353,7 +354,7 @@ in {
         exec.env-vars = {
           AEROSPACE_SCRATCHPAD_LOGS_LEVEL = "DEBUG";
           AEROSPACE_MARKS_LOGS_LEVEL = "DEBUG";
-          
+
           PATH = "\${HOME}/.dotfiles/bin:\${HOME}/golang/bin:/opt/homebrew/bin:/run/current-system/sw/bin:\${PATH}";
         };
 
@@ -380,20 +381,20 @@ in {
             run = [ "move-node-to-workspace 8" ];
           }
           {
-            "if".app-name-regex-substring = 
+            "if".app-name-regex-substring =
               "ChatGPT|Clock|WhatsApp|Spotify|Slack|Telegram|Google.Meet|Zoom|Teams|Finder|Wire";
             run = [
               "layout floating"
-            ]; 
+            ];
           }
           {
             "if".app-name-regex-substring = "Brave";
             run = [
               "move-node-to-workspace 1"
-            ]; 
+            ];
           }
           {
-            "if".app-name-regex-substring = "Picture.*Picture"; 
+            "if".app-name-regex-substring = "Picture.*Picture";
             run = [ "layout floating" ];
           }
 
