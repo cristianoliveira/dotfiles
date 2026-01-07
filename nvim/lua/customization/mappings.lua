@@ -19,6 +19,7 @@ require('customization/mappings/curl')
 require('customization/mappings/argpoon')
 require('customization/mappings/terminal')
 require('customization/mappings/difftool')
+-- require('customization/mappings/supermaven')
 
 -- require('customization/mappings/copilot')
 -- require('customization/mappings/codeium')

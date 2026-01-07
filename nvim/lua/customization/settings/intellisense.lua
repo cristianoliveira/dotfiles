@@ -21,6 +21,7 @@ cmp.setup {
   sources = {
     { name = 'nvim_lsp' },
     { name = 'ultisnips' },
+    { name = 'supermaven' },
   },
   experimental = {
     ghost_text = false

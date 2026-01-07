@@ -1,5 +1,6 @@
 local completion_preview = require("supermaven-nvim.completion_preview")
 
+-- Tab or C-i to trigger completion
 vim.keymap.set(
   "i",
   "<Tab>",
