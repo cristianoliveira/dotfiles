@@ -22,3 +22,4 @@ require('customization/mappings/difftool')
 
 -- require('customization/mappings/copilot')
 -- require('customization/mappings/codeium')
+require('customization/mappings/supermaven')
