@@ -21,8 +21,8 @@ set $up k
 set $right l
 
 # Monitors (match macOS naming: DP-10 main, DP-09 secondary, eDP-1 built-in)
-set $main DP-10
-set $2nd DP-9
+set $main DP-8
+set $2nd DP-7
 set $builtin eDP-1
 
 # Your preferred terminal emulator
@@ -272,7 +272,10 @@ bindsym $mod+Ctrl+F12 reload
 bindsym Print exec grim -g "$(slurp)"
 
 # Cycle through windows of the same application
-bindsym $mod+grave exec ~/.dotfiles/bin/sway-cycle-app.sh
+bindsym $mod+grave exec ~/golang/bin/sway-compat cycle-forward
+bindsym $mod+Shift+grave exec ~/golang/bin/sway-compat cycle-backward
+
+bindsym $mod+Tab exec SWAY_COMPAT_LOGS_LEVEL=DEBUG ~/golang/bin/sway-compat stack toggle
 
 # Exit sway (logs you out of your Wayland session)
 mode "exit: [l]ogout, [r]eboot, [s]hutdown" {
@@ -745,7 +748,9 @@ exec_always autotiling -w 1 3 5 7 9 -sr 1.61
 
 exec_always $HOME/.dotfiles/nix/nixos/sway/bin/swayidle.sh &
 exec_always pkill -x sway-audio-idle-inhibit || true && sway-audio-idle-inhibit
-exec_always $HOME/.dotfiles/bin/sway-focus-tracker.sh &
+
+# Start the daemon on Sway launch
+exec_always SWAY_COMPAT_LOGS_LEVEL=DEBUG ~/golang/bin/sway-compat daemon
 
 # on Nixos 24.11 sysconfdir is not set
 # include @sysconfdir@/sway/config.d/*
