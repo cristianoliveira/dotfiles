@@ -63,6 +63,7 @@
   # diff
   d = difftool
   dc = diff --cached                # diff staged changes
+  dff = diff --name-only            # diff only files
   last = diff HEAD^                 # diff last committed change
 
   # git clean

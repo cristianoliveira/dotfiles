@@ -81,6 +81,8 @@ vim.keymap.set('n', '<leader>/', function()
   })
 end, { desc = '[/] Fuzzily search in current buffer' })
 
+vim.keymap.set('n', '<leader>tt', require('telescope.builtin').builtin, { desc = '[T]elescope [T]ree' })
+
 vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_files, { desc = 'Search [G]it [F]iles' })
 vim.keymap.set('n', '<leader>gd', open_git_diff_files, { desc = 'Git diff changed files' })
 
@@ -92,8 +94,6 @@ vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { de
 vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader>sk', require('telescope.builtin').keymaps, { desc = '[S]earch [K]Keymaps' })
-vim.keymap.set('n', '<leader>st', ":lua require('telescope.builtin')",
-  { desc = 'Prepare [S]earch command for [T]elescope' })
 
 vim.keymap.set('v', '<leader>k', function()
   require('telescope.builtin').grep_string({ search = s.selected_text() })
