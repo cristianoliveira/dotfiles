@@ -1,10 +1,10 @@
 -- Here is declared all Custom Commands, they all must start with C<Name>
 --
 require("customization/commands/obsidian")
-require("customization/commands/aichat")
 require("customization/commands/vscode")
 require("customization/commands/clipboard")
 require("customization/commands/diffquickfix")
+require("customization/commands/telescope")
 
 vim.cmd("command! -nargs=0 CFormat lua vim.lsp.buf.format()")
 
