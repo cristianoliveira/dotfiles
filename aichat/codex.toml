@@ -1,28 +1,22 @@
-# General configuration 
-approval_policy = "untrusted"
+# General configuration
+approval_policy = "on-failure"
 sandbox_mode = "workspace-write"
 
 web_search_request = true
+model = "gpt-5.1-codex-max"
 
 [sandbox_workspace_write]
 # Allow the command being run inside the sandbox to make outbound network
 # requests. Disabled by default.
 network_access = true
 
-[mcp_servers."sequential-thinking"]
-command = "npx"
-args = ["-y", "@modelcontextprotocol/server-sequential-thinking"]
-
-[mcp_servers."taskmaster-ai"]
-command = "npx"
-args = ["-y", "--package=task-master-ai", "task-master-ai"]
-env = { OPENAI_API_KEY = "{{YOUR_OPENAI_API_KEY}}" }
-
-[mcp_servers."git-mcp-server"]
-command = "npx"
-args = ["@cyanheads/git-mcp-server"]
-env = { MCP_LOG_LEVEL = "info", GIT_SIGN_COMMITS = "false" }
-
 [mcp_servers."nixos"]
 command = "uvx"
 args = ["mcp-nixos"]
+
+[mcp_servers."playwright"]
+command = "npx"
+args = ["@playwright/mcp", "--headless", "--browser=chromium"]
+
+[notice]
+"hide_gpt-5.1-codex-max_migration_prompt" = true
