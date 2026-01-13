@@ -14,6 +14,10 @@ network_access = true
 command = "uvx"
 args = ["mcp-nixos"]
 
+[mcp_servers."filesystem"]
+command = "npx"
+args = ["-y", "@modelcontextprotocol/server-filesystem", ".tmp/logs/", "/var/log/", "/tmp/"]
+
 [mcp_servers."playwright"]
 command = "npx"
 args = ["@playwright/mcp", "--headless", "--browser=chromium"]
