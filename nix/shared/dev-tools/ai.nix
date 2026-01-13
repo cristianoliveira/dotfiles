@@ -6,9 +6,9 @@
     # Agents
     nur.repos.charmbracelet.crush
     nightly.codex
+    nightly.opencode
 
     unstable.claude-code
-    unstable.opencode
     unstable.beads # Advanced todo list for AI
   ];
 }
