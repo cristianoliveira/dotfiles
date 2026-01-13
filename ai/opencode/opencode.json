@@ -3,21 +3,23 @@
   "theme": "catppuccin-macchiato",
   "autoupdate": true,
   "mcp": {
+    "nixos": {
+      "type": "local",
+      "command": ["uvx", "mcp-nixos"]
+    },
     "filesystem": {
       "type": "local",
-      "command": [
-        "npx", "-y",
-        "@modelcontextprotocol/server-filesystem",
-        ".tmp/logs/",
-        "/var/log/",
-        "/tmp/"
-      ]
+      "command": ["npx", "-y", "@modelcontextprotocol/server-filesystem", ".tmp/logs/", "/var/log/", "/tmp/"]
+    },
+    "playwright": {
+      "type": "local",
+      "command": ["npx", "@playwright/mcp", "--headless", "--browser=chromium"]
     }
   },
   "agent": {
     "researcher": {
       "description": "A research-focused agent that documents findings to .tmp/docs/<research-name>.md",
-      "prompt": "{file:~/.dotfiles/aichat/roles/doc-researcher.md}",
+      "prompt": "{file:~/.dotfiles/ai/aichat/roles/doc-researcher.md}",
       "tools": {
         "write": true,
         "edit": true,

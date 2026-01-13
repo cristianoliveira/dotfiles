@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "nixos": {
+      "command": "uvx",
+      "args": ["mcp-nixos"]
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", ".tmp/logs/", "/var/log/", "/tmp/"]
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp", "--headless", "--browser=chromium"]
+    }
+  }
+}

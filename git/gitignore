@@ -68,6 +68,7 @@ pono.toml
 .opencode
 .crush
 .cursor
+.mcp.json
 
 CRUSH.md
 AGENTS.md
