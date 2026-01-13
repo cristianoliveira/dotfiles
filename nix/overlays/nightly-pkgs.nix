@@ -7,7 +7,7 @@ pkgs: {
     # NOTE: Update this version as needed and adjust sha256 accordingly
     # If you are not sure about the sha256, just use empty string ""
     # and nix will tell you the correct one
-    version = "0.63.0";
+    version = "0.80.0"; # v0.80.0
     # Determine the architecture-specific URL
     arch = if pkgs.stdenv.isDarwin then
       if pkgs.stdenv.isAarch64 then "aarch64-apple-darwin"
@@ -15,9 +15,15 @@ pkgs: {
     else if pkgs.stdenv.isAarch64 then "aarch64-unknown-linux-gnu"
     else "x86_64-unknown-linux-gnu";
 
+    # To update sha256 hashes:
+    # 1. Fetch hash: nix-prefetch-url https://github.com/openai/codex/releases/download/rust-v${version}/codex-${arch}.zst
+    # 2. Convert to SRI: nix hash convert --hash-algo sha256 <hash-from-step-1>
+    # Example for Darwin aarch64:
+    #   nix-prefetch-url https://github.com/openai/codex/releases/download/rust-v0.80.0/codex-aarch64-apple-darwin.zst
+    #   nix hash convert --hash-algo sha256 06wg50zymn83a8irbw67nir9ahn2vqszqjibcw8gzpw3r6ds5xpj
     sha256 = if pkgs.stdenv.isDarwin then
-      "sha256-omm9GvTHYOSIFmdmtpq7eC+6h6vD889geLoMDGw4pu4=" else
-      "sha256-fRBfWCLyDa1EueD2AanZ7+YVUK+2SBcsAeX9OdPnMkM="; # FIXME for linux
+      "sha256-8vaim8mD3/8QZytK/DXewkKVcrTH8JUjUgPZ6j8ojxs=" else
+      "sha256-34+vBxhfxHZokKSNfjhltZcsqU1jk894gpd26WsbG3E=";
 
     src = pkgs.fetchurl {
       url = "https://github.com/openai/codex/releases/download/rust-v${version}/codex-${arch}.zst";
@@ -67,9 +73,10 @@ pkgs: {
 
     # Update sha256 as needed - use empty string "" and nix will tell you the correct one
     sha256 = if pkgs.stdenv.isDarwin then
-      "sha256-g+msHIjtF7ZY2qC/f0ry2QDN3tZeuedmJ81Y5j69xWw="
-      else
-      "sha256-0lsa30ylxldq5195pq950j2k31m9jh8g99f04c8zyin7bkyl6adw"
+      # nix-prefetch-url --unpack https://github.com/anomalyco/opencode/releases/download/v1.1.18/opencode-linux-x64.tar.gz
+      "sha256-g+msHIjtF7ZY2qC/f0ry2QDN3tZeuedmJ81Y5j69xWw=" else
+      # nix-prefetch-url --unpack https://github.com/anomalyco/opencode/releases/download/v1.1.18/opencode-linux-arm64.tar.gz
+      "sha256-0lsa30ylxldq5195pq950j2k31m9jh8g99f04c8zyin7bkyl6adw";
 
     src = pkgs.fetchurl {
       url = "https://github.com/anomalyco/opencode/releases/download/v${version}/${archFile}";
