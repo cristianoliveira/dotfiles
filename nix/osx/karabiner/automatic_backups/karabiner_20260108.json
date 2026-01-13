@@ -136,25 +136,9 @@
                             "to": [{ "key_code": "right_command" }]
                         }
                     ]
-                },
-                {
-                    "identifiers": {
-                        "is_keyboard": true,
-                        "is_pointing_device": true,
-                        "product_id": 1809,
-                        "vendor_id": 13364
-                    },
-                    "ignore": false,
-                    "simple_modifications": [
-                        {
-                            "from": { "key_code": "left_control" },
-                            "to": [{ "apple_vendor_top_case_key_code": "keyboard_fn" }]
-                        }
-                    ]
                 }
             ],
             "name": "Default profile",
-            "selected": true,
             "virtual_hid_keyboard": {
                 "country_code": 0,
                 "keyboard_type_v2": "ansi"
@@ -262,10 +246,6 @@
                             "to": [{ "key_code": "left_option" }]
                         },
                         {
-                            "from": { "key_code": "left_control" },
-                            "to": [{ "apple_vendor_top_case_key_code": "keyboard_fn" }]
-                        },
-                        {
                             "from": { "key_code": "left_option" },
                             "to": [{ "key_code": "left_command" }]
                         },
@@ -276,21 +256,16 @@
                         {
                             "from": { "key_code": "right_option" },
                             "to": [{ "key_code": "right_command" }]
+                        },
+                        {
+                            "from": { "key_code": "left_control" },
+                            "to": [{ "apple_vendor_top_case_key_code": "keyboard_fn" }]
                         }
                     ]
-                },
-                {
-                    "identifiers": {
-                        "is_keyboard": true,
-                        "is_pointing_device": true,
-                        "product_id": 1809,
-                        "vendor_id": 13364
-                    },
-                    "ignore": false,
-                    "treat_as_built_in_keyboard": true
                 }
             ],
             "name": "external-pc-keyboard",
+            "selected": true,
             "virtual_hid_keyboard": { "keyboard_type_v2": "ansi" }
         }
     ]
