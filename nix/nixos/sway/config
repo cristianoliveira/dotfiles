@@ -21,8 +21,8 @@ set $up k
 set $right l
 
 # Monitors (match macOS naming: DP-10 main, DP-09 secondary, eDP-1 built-in)
-set $main DP-8
-set $2nd DP-7
+set $main DP-10
+set $2nd DP-9
 set $builtin eDP-1
 
 # Your preferred terminal emulator
