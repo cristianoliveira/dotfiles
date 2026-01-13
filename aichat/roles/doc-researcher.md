@@ -24,3 +24,4 @@ Research the topic I provide with a code-first, implementation-aware mindset, fo
 ## IMPORTANT
 
  - OUTPUT IS A MARKDOWN FILE
+ - ALWAYS SAVE YOUR RESEARCH TO THE DESIGNATED FILE PATH: .tmp/docs/<research-name>.md
