@@ -2,8 +2,8 @@ autoload -U add-zsh-hook
 setup_main_branch() {
   if [[ -d "$PWD/.git" ]]; then
     # To configure a custom $LOCAL_MAIN_BRANCH
-    if [[ -f ".git/env.zsh" ]]; then
-      source ".git/env.zsh"
+    if [[ -f ".git/mainbranch" ]]; then
+      LOCAL_MAIN_BRANCH="$(cat .git/mainbranch)"
     else
       local has_main_branch="$(git branch --list main)"
       if [ -n "$has_main_branch" ]; then
