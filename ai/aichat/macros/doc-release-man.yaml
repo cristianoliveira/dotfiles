@@ -3,4 +3,4 @@ variables:
   - name: tag_to
 steps:
   - .role doc-release-man
-  - .file `bash ~/.dotfiles/aichat/scripts/git-release-context.sh {{tag_from}} {{tag_to}}`
+  - .file `bash ~/.dotfiles/ai/aichat/scripts/git-release-context.sh {{tag_from}} {{tag_to}}`
