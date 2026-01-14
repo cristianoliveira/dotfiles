@@ -6,4 +6,4 @@ variables:
 
 steps:
   - .role git-commit
-  - .file `bash ~/.dotfiles/aichat/scripts/git-append-context.sh {{tag_from}} {{tag_to}}`
+  - .file `bash ~/.dotfiles/ai/aichat/scripts/git-append-context.sh {{tag_from}} {{tag_to}}`

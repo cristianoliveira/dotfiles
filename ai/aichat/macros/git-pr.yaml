@@ -5,4 +5,4 @@ variables:
 
 steps:
   - .role git-pr
-  - .file `bash ~/.dotfiles/aichat/scripts/git-pr-context.sh` -- more context -- {{args}}
+  - .file `bash ~/.dotfiles/ai/aichat/scripts/git-pr-context.sh` -- more context -- {{args}}
