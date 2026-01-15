@@ -9,6 +9,8 @@ Search through specific provided logs to find specific information.
 
 ## Where to find logs
 
+If `$PWD/.logsrc` file is provided, read and use it as a primary source of logs.
+
 The predefined places to look for logs are:
 **relevant**
  - `$PWD/.tmp/logs/default/*.logs` - All will link relevant logs there.
