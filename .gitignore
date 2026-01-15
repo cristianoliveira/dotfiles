@@ -1,2 +1,4 @@
 .beads
 .system
+
+__pycache__/
