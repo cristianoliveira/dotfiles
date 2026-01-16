@@ -56,6 +56,7 @@
     # Languages
     nodejs_22 # npm set prefix ~/.npm-global
     python3
+    python311Packages.pyyaml
     uv # Python package installer
     python311Packages.pip
     cargo #
