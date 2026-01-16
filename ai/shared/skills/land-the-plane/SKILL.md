@@ -30,6 +30,11 @@ Jenkinsfile                 # Jenkins
 .travis.yml                 # Travis CI
 azure-pipelines.yml         # Azure DevOps
 ```
+Git hooks:
+```
+.githooks/pre-commit        # Git pre-commit hook
+.githooks/pre-push          # Git pre-push hook
+```
 
 ### 2. Discover Task Runners
 
