@@ -60,6 +60,9 @@
     uv # Python package installer
     python311Packages.pip
     cargo #
+
+    # Markdown
+    nightly.ferrite # Markdown viewer with
   ];
 
   imports = [
