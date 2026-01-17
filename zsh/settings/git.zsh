@@ -3,7 +3,9 @@ setup_main_branch() {
   if [[ -d "$PWD/.git" ]]; then
     # To configure a custom $LOCAL_MAIN_BRANCH
     if [[ -f ".git/mainbranch" ]]; then
-      LOCAL_MAIN_BRANCH="$(cat .git/mainbranch)"
+      LOCAL_MAIN_BRANCH="$(cat .git/mainbranch 2>/dev/null)"
+    elif [[ -f ".git/main-branch" ]]; then
+      LOCAL_MAIN_BRANCH="$(cat .git/main-branch 2>/dev/null)"
     else
       local has_main_branch="$(git branch --list main)"
       if [ -n "$has_main_branch" ]; then
