@@ -15,62 +15,27 @@ Final pre-merge validation: discover and run all CI checks locally to ensure cod
 
 ## Workflow
 
-### 1. Discover CI Configuration
+### BEFORE STARTING (IMPORTANT)
 
-Search for CI/CD definitions in order of priority:
+**DO NOT CHANGE CD TO ANOTHER DIRECTORY**
 
-```
-.github/workflows/*.yml     # GitHub Actions (primary)
-.gitlab-ci.yml              # GitLab CI
-.circleci/config.yml        # CircleCI
-Jenkinsfile                 # Jenkins
-.travis.yml                 # Travis CI
-azure-pipelines.yml         # Azure DevOps
-```
-Git hooks:
-```
-.githooks/pre-commit        # Git pre-commit hook
-.githooks/pre-push          # Git pre-push hook
+Start by checking if commands are already discovered:
+```bash
+$HOME/.dotfiles/ai/shared/skills/land-the-plane/scripts/commands.sh --list
 ```
 
-### 2. Discover Task Runners
+IF No commands are found, follow instructions in `instructions/COMMANDS_DISCOVERY.md`
 
-Also check for task definitions that CI might invoke:
-
-```
-Makefile / GNUmakefile      # Make targets
-package.json                # npm/yarn scripts
-justfile                    # Just command runner
-Taskfile.yml                # Task runner
-pyproject.toml              # Python (pytest, ruff, mypy)
-Cargo.toml                  # Rust (cargo test, cargo clippy)
-mix.exs                     # Elixir
-build.gradle / pom.xml      # Java/Kotlin
-```
-
-### 3. Extract Commands from CI
-
-Parse workflow files to identify:
-
-- **Linting**: eslint, ruff, rubocop, golangci-lint, clippy
-- **Type checking**: tsc, mypy, pyright
-- **Formatting**: prettier, black, gofmt, rustfmt
-- **Tests**: jest, pytest, go test, cargo test, mix test
-- **Build**: npm run build, cargo build, go build, make build
-
-Look for `run:` steps in GitHub Actions. Extract the actual shell commands.
-
-### 4. Run Commands in Parallel via plane-lander Subagent
+### 1. Run Commands in Parallel via plane-lander Subagent
 
 **IMPORTANT**: Delegate check execution to the `plane-lander` agent for parallel processing.
 
-Use the **Task** tool to launch the plane-lander agent with the discovered commands:
-
+Using the commands listed in the previous step, use the **Task** tool to launch the plane-lander agent with the discovered commands:
 ```
 Task(
   subagent_type="plane-lander",
   description="Run CI checks in parallel",
-  prompt="Run these CI validation commands in parallel using gob:
+  prompt="Run these CI validation commands in parallel using gob (cached: true/false):
     - npm run lint
     - npm run typecheck
     - npm test
@@ -86,7 +51,7 @@ The plane-lander agent will:
 
 This is significantly faster than sequential execution
 
-### 5. Report Summary
+### 2. Report Summary
 
 After all checks complete, provide a clear summary:
 
@@ -103,7 +68,7 @@ After all checks complete, provide a clear summary:
 Ready to merge: NO - fix failing tests first
 ```
 
-### 6. Offer to Fix (if failures)
+### 3. Offer to Fix (if failures)
 
 If any checks failed, use the **Question** tool to ask the user:
 
@@ -115,7 +80,7 @@ Options:
 
 If user chooses yes, fix the issues and re-run ONLY the previously failed checks to verify the fix. Repeat until all checks pass or user declines.
 
-### 7. Generate Commit Message (if all pass)
+### 4. Generate Commit Message (if all pass)
 
 Once all checks pass, prepare a commit message for the user:
 
@@ -152,13 +117,15 @@ Use **Question** tool to ask if user wants to commit now or just keep the messag
 - **Skip deployment steps** - only run validation/test steps
 - **Skip secrets-dependent steps** - skip steps requiring CI secrets/tokens
 - **Use plane-lander agent** - always delegate check execution for parallel processing
+- **Check command cache first** - use `commands.sh --list` before discovery to save tokens
+- **Cache discovered commands** - after discovery, cache commands with `commands.sh --cache`
 
 ## Tools
 
-- **Task**: Launch plane-lander agent for parallel check execution (primary tool for step 4)
+- **Task**: Launch plane-lander agent for parallel check execution (primary tool for step 6)
 - **Glob**: Find CI config files (`.github/workflows/*.yml`, `Makefile`, etc.)
 - **Read**: Parse workflow YAML and task runner configs
-- **Bash**: git diff/log for commit message generation
+- **Bash**: git diff/log for commit message generation, execute cache script (`commands.sh`)
 - **Write**: Save commit message to `.tmp/git/<task>-commit.txt`
 - **TodoWrite**: Track workflow progress
 - **Question**: Ask user if they want to fix failures or commit
