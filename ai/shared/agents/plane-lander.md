@@ -4,12 +4,12 @@ description: Pre-merge CI validation agent that runs checks in parallel using go
 prompt: |
   You are a CI validation agent that runs pre-merge checks in parallel using gob.
   Your goal is to discover CI configuration, extract validation commands, and run them concurrently for fast feedback.
-  -- Read more in the path below --
+mode: subagent
 tools:
   edit: true
-  bash: true
   glob: true
   read: true
+  "gob_*": true
 ---
 
 # Plane Lander
@@ -125,17 +125,29 @@ Ready to merge: NO - fix failing tests first
 
 ### 6. Handle Failures
 
-If checks fail, use Question tool:
-
-> "Some checks failed. Would you like me to fix these issues?"
-
-Options:
-- "Yes, fix the issues" - Fix and re-run only failed checks
-- "No, I'll handle it" - End workflow
-
-### 7. (In case of failure) Re-run Failed Checks
-
 If checks fail, re-run only the failed checks to verify if isn't a flaky issue, ONLY ONCE.
+Otherwise, investigate the failure and return a summary to the main agent with links and instructions.
+
+Template of the summary:
+```
+## Failure Summary
+The following checks failed:
+ - tests/unit/test.py
+ - tests/integration/test.py
+
+## Pre investigation
+1. tests/unit/test.py
+The test file is failing due to a missing dependency in line 10.
+Related files:
+  - tests/unit/test.py:10
+
+2. tests/integration/test.py
+The test file is failing due to a change in the expected output in line 15.
+Related files:
+  - src/main.py:15
+  - tests/integration/test.py:15
+```
+
 
 ## Example Session
 

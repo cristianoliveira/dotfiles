@@ -14,6 +14,10 @@
     "playwright": {
       "type": "local",
       "command": ["npx", "@playwright/mcp", "--headless", "--browser=chromium"]
+    },
+    "gob": {
+      "type": "local",
+      "command": ["gob", "mcp"]
     }
   },
   "keybinds": {

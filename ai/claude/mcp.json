@@ -11,6 +11,10 @@
     "playwright": {
       "command": "npx",
       "args": ["@playwright/mcp", "--headless", "--browser=chromium"]
+    },
+    "gob": {
+      "command": "gob",
+      "args": ["mcp"]
     }
   }
 }
