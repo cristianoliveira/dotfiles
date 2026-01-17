@@ -1,0 +1,101 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+NIX_DIR="$ROOT_DIR/nix"
+
+if ! command -v nix >/dev/null 2>&1; then
+  echo "nix is not available on PATH" >&2
+  exit 127
+fi
+
+if [ ! -d "$NIX_DIR" ]; then
+  echo "Unable to find Nix config directory at $NIX_DIR" >&2
+  exit 1
+fi
+
+echo "Checking Nix configuration..."
+
+# Check individual .nix files for syntax errors
+echo "Checking syntax of .nix files..."
+find "$NIX_DIR" -type f -name "*.nix" | while read -r file; do
+  echo "  Checking $file"
+  if ! nix eval --file "$file" >/dev/null 2>&1; then
+    echo "    ❌ Syntax error in $file"
+    nix eval --file "$file" 2>&1 | head -20
+    exit 1
+  fi
+done
+
+echo "✅ All .nix files have valid syntax"
+
+# Check flake outputs for both configurations
+echo "Checking flake outputs..."
+cd "$NIX_DIR"
+
+# Common nix command with flakes enabled
+NIX_ARGS=(--extra-experimental-features "nix-command flakes")
+
+# Check flake structure
+echo "  Checking flake structure..."
+if ! nix "${NIX_ARGS[@]}" flake show . >/dev/null 2>&1; then
+  echo "    ❌ Flake structure invalid"
+  nix "${NIX_ARGS[@]}" flake show . 2>&1 | head -30
+  exit 1
+fi
+echo "    ✅ Flake structure valid"
+
+# Helper function to run nix eval with timeout
+run_eval_with_timeout() {
+  local attribute="$1"
+  local system="${2:-}"
+  local timeout_cmd=""
+  
+  # Find timeout command (timeout or gtimeout on macOS)
+  if command -v timeout >/dev/null 2>&1; then
+    timeout_cmd="timeout 300"
+  elif command -v gtimeout >/dev/null 2>&1; then
+    timeout_cmd="gtimeout 300"
+  fi
+  
+  local cmd=(nix "${NIX_ARGS[@]}" eval)
+  if [ -n "$system" ]; then
+    cmd+=(--system "$system")
+  fi
+  cmd+=("$attribute")
+  
+  if [ -n "$timeout_cmd" ]; then
+    if ! $timeout_cmd "${cmd[@]}" >/dev/null 2>&1; then
+      echo "    ❌ Evaluation failed for $attribute (or timed out after 300s)"
+      $timeout_cmd "${cmd[@]}" 2>&1 | head -30
+      return 1
+    fi
+  else
+    # No timeout command available, run directly
+    if ! "${cmd[@]}" >/dev/null 2>&1; then
+      echo "    ❌ Evaluation failed for $attribute"
+      "${cmd[@]}" 2>&1 | head -30
+      return 1
+    fi
+  fi
+  return 0
+}
+
+# Check nixos configuration (for x86_64-linux)
+echo "  Checking nixos configuration (x86_64-linux)..."
+echo "    (this may take a minute)"
+if ! run_eval_with_timeout ".#nixosConfigurations.nixos" "x86_64-linux"; then
+  exit 1
+fi
+echo "    ✅ nixos configuration evaluates"
+
+# Check darwin configuration (for aarch64-darwin)
+echo "  Checking darwin configuration (aarch64-darwin)..."
+echo "    (this may take a minute)"
+if ! run_eval_with_timeout ".#darwinConfigurations.darwin" "aarch64-darwin"; then
+  exit 1
+fi
+echo "    ✅ darwin configuration evaluates"
+
+echo "✅ All Nix checks passed!"

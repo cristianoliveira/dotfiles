@@ -55,3 +55,7 @@ restow: ## Create links for .config files using stow
 .PHONY: nvim
 nvim: ## Headless check that Neovim config loads cleanly
 	@./bin/nvim-check
+
+.PHONY: check-nix
+check-nix: ## Validate Nix configuration syntax and flake evaluation
+	@./bin/nix-check
