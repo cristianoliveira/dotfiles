@@ -74,10 +74,8 @@ pkgs: {
 
     # Update sha256 as needed - use empty string "" and nix will tell you the correct one
     sha256 = if pkgs.stdenv.isDarwin then
-      # nix-prefetch-url --unpack https://github.com/anomalyco/opencode/releases/download/v1.1.18/opencode-linux-x64.tar.gz
       "sha256-g+msHIjtF7ZY2qC/f0ry2QDN3tZeuedmJ81Y5j69xWw=" else
-      # nix-prefetch-url --unpack https://github.com/anomalyco/opencode/releases/download/v1.1.18/opencode-linux-arm64.tar.gz
-      "sha256-0lsa30ylxldq5195pq950j2k31m9jh8g99f04c8zyin7bkyl6adw";
+      "sha256-vClD/VzHRv8RI8Cl9BCUqYYxhQQl4VtSKLjRTj0YSlM=";
 
     src = pkgs.fetchurl {
       url = "https://github.com/anomalyco/opencode/releases/download/v${version}/${archFile}";
