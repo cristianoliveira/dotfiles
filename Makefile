@@ -59,3 +59,7 @@ nvim: ## Headless check that Neovim config loads cleanly
 .PHONY: check-symlinks
 check-symlinks: ## Check for broken symlinks in the repository
 	@./bin/check-symlinks
+
+.PHONY: check-nix
+check-nix: ## Validate Nix configuration syntax and flake evaluation
+	@./bin/nix-check
