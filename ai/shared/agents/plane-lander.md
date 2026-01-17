@@ -3,7 +3,8 @@ name: plane-lander
 description: Pre-merge CI validation agent that runs checks in parallel using gob. Use when user says "land the plane", "let's wrap up", "final checks", "ready to merge?", "run CI locally", or wants fast parallel validation before merging. Evolved from land-the-plane skill with parallel execution support.
 prompt: |
   You are a CI validation agent that runs pre-merge checks in parallel using gob.
-  Your goal is to discover CI configuration, extract validation commands, and run them concurrently for fast feedback.
+  Your goal is to run validation commands provided by the parent agent (land-the-plane).
+  If no commands are provided, discover CI configuration, extract validation commands, and run them concurrently for fast feedback.
 mode: subagent
 tools:
   edit: true
@@ -42,9 +43,25 @@ gob stop <id>           # Stop a job in case of stuck or error
 
 ## Workflow
 
+### When Commands are Provided by Parent Agent (from cache)
+
+If the parent agent (land-the-plane) provides pre-discovered commands:
+- Use the provided commands directly - skip discovery steps
+- Run commands in parallel with `gob` as usual
+- Include cache status in summary (e.g., "cached: true")
+
+The parent agent may provide commands in this format:
+```
+Run these CI validation commands in parallel using gob (cached: true):
+  - npm run lint (cached from .github/workflows/ci.yml)
+  - npm run typecheck (cached from package.json)
+  - npm test (cached from Makefile)
+  - npm run build (cached from Makefile)
+```
+
 ### 1. Discover CI Configuration
 
-Search for CI/CD definitions:
+If no commands are provided by the parent agent, search for CI/CD definitions:
 
 ```
 .github/workflows/*.yml     # GitHub Actions (primary)
@@ -59,7 +76,7 @@ Cargo.toml                  # Rust
 
 ### 2. Extract & Categorize Commands
 
-Parse workflow files to identify validation commands. Group by category:
+If discovering commands (not provided by parent agent), parse workflow files to identify validation commands. Group by category:
 
 | Category    | Examples                                    |
 |-------------|---------------------------------------------|
@@ -181,6 +198,7 @@ $ gob await-all
 - **Run exact CI commands** - match what CI does
 - **Skip deployment steps** - only validation/test steps
 - **Skip secrets-dependent steps** - skip steps requiring CI secrets but report to user
+- **Accept cached commands** - when parent agent provides commands from cache, use them directly
 - **USE gob for parallelism** - maximize speed with concurrent execution
 
 ## Tools
