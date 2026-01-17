@@ -10,5 +10,6 @@
 
     unstable.claude-code
     unstable.beads # Advanced todo list for AI
+    nightly.gob # Parallel job runner for AI
   ];
 }

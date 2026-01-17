@@ -10,11 +10,8 @@ Final pre-merge validation: discover and run all CI checks locally to ensure cod
 ## Trigger Phrases
 
 - "land the plane"
-- "let's wrap up"
 - "final checks"
-- "ready to merge?"
-- "run CI locally"
-- "pre-merge validation"
+- "make ready to commit"
 
 ## Workflow
 
@@ -63,15 +60,31 @@ Parse workflow files to identify:
 
 Look for `run:` steps in GitHub Actions. Extract the actual shell commands.
 
-### 4. Run Commands Sequentially
+### 4. Run Commands in Parallel via plane-lander Subagent
 
-Execute each discovered check, reporting results as you go:
+**IMPORTANT**: Delegate check execution to the `plane-lander` agent for parallel processing.
 
-1. Format/lint checks first (fastest feedback)
-2. Type checking
-3. Unit tests
-4. Build/compile
-5. Integration tests (if any)
+Use the **Task** tool to launch the plane-lander agent with the discovered commands:
+
+```
+Task(
+  subagent_type="plane-lander",
+  description="Run CI checks in parallel",
+  prompt="Run these CI validation commands in parallel using gob:
+    - npm run lint
+    - npm run typecheck
+    - npm test
+    - npm run build
+  Report results as they complete. Return a summary table with pass/fail status for each."
+)
+```
+
+The plane-lander agent will:
+1. Start all checks simultaneously with `gob add`
+2. Collect results as they finish with `gob await-any`
+3. Return a summary of all results
+
+This is significantly faster than sequential execution
 
 ### 5. Report Summary
 
@@ -138,12 +151,14 @@ Use **Question** tool to ask if user wants to commit now or just keep the messag
 - **Run exact CI commands** - match what CI does, don't improvise
 - **Skip deployment steps** - only run validation/test steps
 - **Skip secrets-dependent steps** - skip steps requiring CI secrets/tokens
+- **Use plane-lander agent** - always delegate check execution for parallel processing
 
 ## Tools
 
+- **Task**: Launch plane-lander agent for parallel check execution (primary tool for step 4)
 - **Glob**: Find CI config files (`.github/workflows/*.yml`, `Makefile`, etc.)
 - **Read**: Parse workflow YAML and task runner configs
-- **Bash**: Execute validation commands (lint, test, build), git diff/log
+- **Bash**: git diff/log for commit message generation
 - **Write**: Save commit message to `.tmp/git/<task>-commit.txt`
-- **TodoWrite**: Track which checks to run and their status
+- **TodoWrite**: Track workflow progress
 - **Question**: Ask user if they want to fix failures or commit
