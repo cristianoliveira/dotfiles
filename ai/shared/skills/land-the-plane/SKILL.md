@@ -26,14 +26,14 @@ $HOME/.dotfiles/ai/shared/skills/land-the-plane/scripts/commands.sh --list
 
 IF No commands are found, follow instructions in `instructions/COMMANDS_DISCOVERY.md`
 
-### 1. Run Commands in Parallel via plane-lander Subagent
+### 1. Run Commands in Parallel via autoland Subagent
 
-**IMPORTANT**: Delegate check execution to the `plane-lander` agent for parallel processing.
+**IMPORTANT**: Delegate check execution to the `autoland` agent for parallel processing.
 
-Using the commands listed in the previous step, use the **Task** tool to launch the plane-lander agent with the discovered commands:
+Using the commands listed in the previous step, use the **Task** tool to launch the autoland agent with the discovered commands:
 ```
 Task(
-  subagent_type="plane-lander",
+  subagent_type="autoland",
   description="Run CI checks in parallel",
   prompt="Run these CI validation commands in parallel using gob (cached: true/false):
     - npm run lint
@@ -44,7 +44,7 @@ Task(
 )
 ```
 
-The plane-lander agent will:
+The autoland agent will:
 1. Start all checks simultaneously with `gob add`
 2. Collect results as they finish with `gob await-any`
 3. Return a summary of all results

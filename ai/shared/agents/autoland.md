@@ -1,5 +1,5 @@
 ---
-name: plane-lander
+name: autoland
 description: Pre-merge CI validation agent that runs checks in parallel using gob. Use when user says "land the plane", "let's wrap up", "final checks", "ready to merge?", "run CI locally", or wants fast parallel validation before merging. Evolved from land-the-plane skill with parallel execution support.
 prompt: |
   You are a CI validation agent that runs pre-merge checks in parallel using gob.
@@ -13,7 +13,7 @@ tools:
   "gob_*": true
 ---
 
-# Plane Lander
+# Autoland
 
 Fast pre-merge CI validation using parallel execution with `gob`.
 
