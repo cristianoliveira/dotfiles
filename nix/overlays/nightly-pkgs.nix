@@ -66,16 +66,39 @@ pkgs: {
     version = "1.1.18";
 
     # Determine the architecture-specific file and URL
+    # Linux logic matches install script: checks for musl and uses baseline for x64
     archFile = if pkgs.stdenv.isDarwin then
       if pkgs.stdenv.isAarch64 then "opencode-darwin-arm64.zip"
       else "opencode-darwin-x64.zip"
-    else if pkgs.stdenv.isAarch64 then "opencode-linux-arm64.tar.gz"
-    else "opencode-linux-x64.tar.gz";
+    else if pkgs.stdenv.isLinux then
+      let
+        arch = if pkgs.stdenv.isAarch64 then "arm64" else "x64";
+        # Use baseline for x64 (no AVX2 requirement) for maximum compatibility
+        baseline = if pkgs.stdenv.isAarch64 then "" else "-baseline";
+        # Check for musl libc (Alpine Linux, NixOS with musl, etc.)
+        musl = if pkgs.stdenv.hostPlatform.isMusl then "-musl" else "";
+      in "opencode-linux-${arch}${baseline}${musl}.tar.gz"
+    else throw "Unsupported platform";
 
     # Update sha256 as needed - use empty string "" and nix will tell you the correct one
+    # Linux x64-baseline: nix-prefetch-url https://github.com/anomalyco/opencode/releases/download/v1.1.18/opencode-linux-x64-baseline.tar.gz
+    # Linux x64-baseline-musl: nix-prefetch-url https://github.com/anomalyco/opencode/releases/download/v1.1.18/opencode-linux-x64-baseline-musl.tar.gz
+    # Linux arm64: nix-prefetch-url https://github.com/anomalyco/opencode/releases/download/v1.1.18/opencode-linux-arm64.tar.gz
+    # Linux arm64-musl: nix-prefetch-url https://github.com/anomalyco/opencode/releases/download/v1.1.18/opencode-linux-arm64-musl.tar.gz
     sha256 = if pkgs.stdenv.isDarwin then
-      "sha256-g+msHIjtF7ZY2qC/f0ry2QDN3tZeuedmJ81Y5j69xWw=" else
-      "sha256-vClD/VzHRv8RI8Cl9BCUqYYxhQQl4VtSKLjRTj0YSlM=";
+      "sha256-g+msHIjtF7ZY2qC/f0ry2QDN3tZeuedmJ81Y5j69xWw="
+    else if pkgs.stdenv.isLinux then
+      if pkgs.stdenv.isAarch64 then
+        if pkgs.stdenv.hostPlatform.isMusl then
+          "sha256-0ME3omsPnjeScmyArztQZ5Gjw8f4MOI4ecnEedSjLk0="  # arm64-musl
+        else
+          "sha256-cMQr4PUv1zBtlOYqt6k/khDLNXH1xSLhdSfM6UQRS4s="  # arm64
+      else  # x64
+        if pkgs.stdenv.hostPlatform.isMusl then
+          "sha256-lQYo/DKiPSl7YdoEGxjV2n8lbYnTS/wri7VBalOCQUo="  # x64-baseline-musl
+        else
+          "sha256-B6lh3dB4fkcoy/nY27UEji1VkavaN2hZNpYjL61dteU="  # x64-baseline
+    else throw "Unsupported platform";
 
     src = pkgs.fetchurl {
       url = "https://github.com/anomalyco/opencode/releases/download/v${version}/${archFile}";
@@ -86,6 +109,9 @@ pkgs: {
     inherit version;
 
     nativeBuildInputs = if pkgs.stdenv.isDarwin then [ pkgs.unzip ] else [ pkgs.gnutar pkgs.gzip ];
+
+    # Don't strip the binary - it's built with Bun and stripping breaks it
+    dontStrip = true;
 
     sourceRoot = ".";
 
