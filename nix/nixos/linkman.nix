@@ -25,7 +25,7 @@ _: {
       { source = ../../zsh/zshrc; target = "${home}.zshrc"; }
       { source = ../../git/gitignore; target = "${home}.gitignore"; }
       { source = ../../git/gitconfig; target = "${home}.gitconfig"; }
-      { source = ../../aichat; target = config; }
+      { source = ../../ai/aichat; target = config; }
       { source = ../../ctags; target = "${ctags}/default.ctags"; }
 
       # Shared
