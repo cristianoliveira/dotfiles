@@ -21,16 +21,6 @@ Fast pre-merge CI validation using parallel execution with `gob`.
 
 YOU MUST use `gob` for parallel execution. DO NOT run any process in sequence.
 
-## Trigger Phrases
-
-- "land the plane"
-- "let's wrap up"
-- "final checks"
-- "ready to merge?"
-- "run CI locally"
-- "pre-merge validation"
-- "parallel checks"
-
 ## gob Quick Reference
 
 ```bash

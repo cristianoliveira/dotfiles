@@ -80,52 +80,6 @@ Options:
 
 If user chooses yes, fix the issues and re-run ONLY the previously failed checks to verify the fix. Repeat until all checks pass or user declines.
 
-### 4. Generate Commit Message (if all pass)
+### 4. Git Commit (if all pass)
 
-Once all checks pass, prepare a commit message for the user:
-
-1. Run `git diff --staged` and `git diff` to see all changes
-2. Run `git log -5 --oneline` to understand the repo's commit style
-3. Analyze the changes and conversation context to understand what was done
-4. Write a commit message following Conventional Commits format:
-   - `type(scope): summary` (e.g., `feat(auth): add OAuth2 login flow`)
-   - Include a body if changes are complex (the "why", not the "what")
-5. Save to `.tmp/git/<task>-commit.txt` where `<task>` is a short slug (e.g., `add-oauth-login`)
-6. Present the commit message to the user and let them know the file location
-
-Example output:
-```
-All checks passed! Ready to commit.
-
-Suggested commit message (saved to .tmp/git/add-oauth-login-commit.txt):
-
-feat(auth): add OAuth2 login flow
-
-Implement Google and GitHub OAuth providers with token refresh
-handling. Includes new middleware for session validation.
-
-Would you like me to commit with this message?
-```
-
-Use **Question** tool to ask if user wants to commit now or just keep the message for later.
-
-## Important Notes
-
-- **Do NOT commit** - this skill only validates, user decides when to commit
-- **Do NOT push** - no remote operations
-- **Run exact CI commands** - match what CI does, don't improvise
-- **Skip deployment steps** - only run validation/test steps
-- **Skip secrets-dependent steps** - skip steps requiring CI secrets/tokens
-- **Use plane-lander agent** - always delegate check execution for parallel processing
-- **Check command cache first** - use `commands.sh --list` before discovery to save tokens
-- **Cache discovered commands** - after discovery, cache commands with `commands.sh --cache`
-
-## Tools
-
-- **Task**: Launch plane-lander agent for parallel check execution (primary tool for step 6)
-- **Glob**: Find CI config files (`.github/workflows/*.yml`, `Makefile`, etc.)
-- **Read**: Parse workflow YAML and task runner configs
-- **Bash**: git diff/log for commit message generation, execute cache script (`commands.sh`)
-- **Write**: Save commit message to `.tmp/git/<task>-commit.txt`
-- **TodoWrite**: Track workflow progress
-- **Question**: Ask user if they want to fix failures or commit
+Delegate to the `git-committer` agent to prepare a commit message for the user.

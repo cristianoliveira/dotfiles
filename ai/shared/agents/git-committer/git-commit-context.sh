@@ -1,0 +1,1 @@
+../../../aichat/scripts/git-commit-context.sh
