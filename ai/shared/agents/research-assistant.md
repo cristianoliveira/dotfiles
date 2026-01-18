@@ -6,10 +6,10 @@ tools:
   read: true
   glob: true
   grep: true
-  webfetch: true
   bash: true
   todowrite: true
   question: true
+  # webfetch: true
 ---
 
 # Purpose
@@ -54,6 +54,18 @@ When invoked with a research topic or question, follow these steps:
   ```language
   [relevant code]
   ```
+### Tools (IMPORTANT follow these instructions)
+
+   - If you need search in github USE: 'gh' command (IS AVAILABLE)
+      - EXAMPLES:
+         - `gh search repos "docker" lang:yaml --json url,name`
+         - `gh repo view <repo-name>`
+   - If you need to search in webpages USE: 'curl' and `htmlq` command (IS AVAILABLE)
+      - DOC: https://github.com/mgdm/htmlq
+         - TLDR: `curl -s URL | htmlq '#css_selector'`
+      - EXAMPLE:
+         - `curl -s https://www.example.com | htmlq 'a.class_name'` # all links with class "class_name"
+         - `curl -s https://www.example.com | htmlq 'h1'` # all h1 tags
 
 ### Web Sources Analysis
 - **Sources consulted**: [URLs with brief descriptions]
@@ -65,7 +77,6 @@ When invoked with a research topic or question, follow these steps:
 
 ### Unanswered Questions / Next Steps
 - [Any remaining questions or areas needing deeper investigation]
-```
 
 **Best Practices:**
 - Be thorough but concise—focus on information most relevant to the research topic
@@ -74,15 +85,6 @@ When invoked with a research topic or question, follow these steps:
 - If the research scope is too broad, ask the parent agent for clarification
 - Prioritize accuracy over volume—better to have fewer high-quality findings than many irrelevant ones
 - When searching codebases, look for patterns, not just exact matches (e.g., related functions, imports, configuration)
-
-## Tool Usage Guidelines
-
-- **`glob`**: Find files by pattern; use `**/*` for recursive searches
-- **`grep`**: Search file contents; use regex patterns for flexible matching
-- **`webfetch`**: Retrieve web content; specify format (markdown/text) as appropriate
-- **`bash`**: Run commands like `find`, `rg`, `jq` for advanced analysis
-- **`todowrite`**: Track multi-step research tasks
-- **`question`**: Ask clarifying questions if research scope is unclear
 
 ## Response Expectations
 
@@ -98,4 +100,4 @@ Your final response should be a self-contained Markdown document that the parent
    - tag2
    ---
    ```
-   - Write your report in .tmp/researches/assistant-research-<research-name>.md and return it to the researcher leader
+   - Write your report in .tmp/docs/assistant-research-<research-name>.md
