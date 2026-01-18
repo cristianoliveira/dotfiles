@@ -23,6 +23,8 @@
   "keybinds": {
     "agent_cycle": "<leader>tab",
     "agent_cycle_reverse": "<leader>shift+tab",
+    "session_child_cycle": "<leader>k",
+    "session_child_cycle_reverse": "<leader>j",
 
     "leader": "ctrl+x",
     "app_exit": "ctrl+c,ctrl+d,<leader>q",
@@ -43,8 +45,6 @@
     "session_unshare": "none",
     "session_interrupt": "escape",
     "session_compact": "<leader>c",
-    "session_child_cycle": "<leader>right",
-    "session_child_cycle_reverse": "<leader>left",
     "session_parent": "<leader>up",
     "messages_page_up": "pageup",
     "messages_page_down": "pagedown",
