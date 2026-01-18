@@ -36,6 +36,16 @@ stow -d stow -t ~ --restow ai
 | Crush | `~/.config/crush/` | `ai/crush/` |
 | OpenCode | `~/.config/opencode/{opencode.json,agent,skills}` | `ai/opencode/*` & `ai/shared/*` |
 
+## Stow Layout
+
+Stowing `ai` creates these links:
+- `~/.claude/{agents,settings.json,mcp.json,plugins,skills}` → `stow/ai/.claude/*` → `ai/claude/*` (agents/skills are already symlinked to `ai/shared`).
+- `~/.config/aichat` → `stow/ai/.config/aichat` → `ai/aichat`.
+- `~/.config/crush` → `stow/ai/.config/crush` → `ai/crush`.
+- `~/.config/opencode` → `stow/ai/.config/opencode` → `ai/opencode`.
+- `~/.config/shared/agents` → `stow/ai/.config/shared/agents` → `ai/shared/agents` (via the `ai/claude/agents` link).
+- On macOS, `stow/ai/after_install.sh` also links `~/Library/Application Support/aichat` to `~/.config/aichat` when missing.
+
 ## MCP Servers (Aligned Across All Tools)
 
 All tools use the same three MCP servers:

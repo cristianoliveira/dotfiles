@@ -1,7 +1,11 @@
-# Ai/Shared
+# ai/shared
 
-Here you find some shared configs for the AI agents and other AI related CLIs.
-Example of such shared configs are:
+Shared resources consumed by the AI tools and stow links.
 
- - Skills - Which are used by `claude` and `opencode`.
- - Roles - Which can be used by `opencode` as subagents and `aichat`.
+- `agents/`: used by Claude, OpenCode, and stowed at `~/.config/shared/agents`.
+- `skills/`: shared skill definitions consumed by Claude and OpenCode.
+- `commands/`: reusable command packs for OpenCode.
+- `plugins/`: shared plugin assets.
+- `todo.txt`: scratchpad for upcoming shared work.
+
+Agents and skills are referenced via symlinks in `ai/claude` and `ai/opencode`, so keep paths stable when adding new assets.
