@@ -9,7 +9,6 @@ tools:
   bash: true
   todowrite: true
   question: true
-  # webfetch: true
 ---
 
 # Purpose
@@ -100,4 +99,4 @@ Your final response should be a self-contained Markdown document that the parent
    - tag2
    ---
    ```
-   - Write your report in .tmp/docs/assistant-research-<research-name>.md
+   - Write your report in .tmp/researches/assistant-research-<research-name>.md and return it to the researcher leader

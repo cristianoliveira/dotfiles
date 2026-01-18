@@ -28,7 +28,7 @@ IF No commands are found, follow instructions in `instructions/COMMANDS_DISCOVER
 
 2) **YOU DO NOT LAND THE PLANE, USE AUTOLAND INSTEAD**
 
-Use the `autoland` subagent to land the plane, is safer and faster.
+Use the `autoland` sub-agent to land the plane, is safer and faster.
 
 ### 1. Run Commands in Parallel via autoland Subagent
 
