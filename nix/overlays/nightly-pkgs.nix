@@ -253,4 +253,60 @@ pkgs: {
     };
   };
 
+  beads = let
+    version = "0.47.1";
+
+    # Determine the architecture-specific file
+    archFile = if pkgs.stdenv.isDarwin then
+      if pkgs.stdenv.isAarch64 then "beads_${version}_darwin_arm64.tar.gz"
+      else "beads_${version}_darwin_amd64.tar.gz"
+    else if pkgs.stdenv.isAarch64 then "beads_${version}_linux_arm64.tar.gz"
+    else "beads_${version}_linux_amd64.tar.gz";
+
+    # Update sha256 as needed - use empty string "" and nix will tell you the correct one
+    # nix-prefetch-url https://github.com/steveyegge/beads/releases/download/v${version}/beads_${version}_darwin_arm64.tar.gz
+    # nix-prefetch-url https://github.com/steveyegge/beads/releases/download/v${version}/beads_${version}_darwin_amd64.tar.gz
+    # nix-prefetch-url https://github.com/steveyegge/beads/releases/download/v${version}/beads_${version}_linux_arm64.tar.gz
+    # nix-prefetch-url https://github.com/steveyegge/beads/releases/download/v${version}/beads_${version}_linux_amd64.tar.gz
+    sha256 = if pkgs.stdenv.isDarwin then
+      if pkgs.stdenv.isAarch64 then "sha256-EK+HlbSdbaSqT+aykw3/xpKscW1ZAD48iTEp7iOYtjk="
+      else "sha256-WHzJrumgvX31dyBA09as8DlxyTmjxKlKOg3a3Zkkp7E="
+    else if pkgs.stdenv.isAarch64 then "sha256-kLttUPrOMvtAstlPtrpBWv5tpgeMgj7rWVZVG4Usrwc="
+    else "sha256-YAPjcy+9s1aWrKos22iDu4BCnjH4R0qhAnzYt17pr4s=";
+
+    src = pkgs.fetchurl {
+      url = "https://github.com/steveyegge/beads/releases/download/v${version}/${archFile}";
+      inherit sha256;
+    };
+  in pkgs.stdenv.mkDerivation {
+    pname = "beads";
+    inherit version;
+
+    nativeBuildInputs = [ pkgs.gnutar pkgs.gzip ];
+
+    sourceRoot = ".";
+
+    unpackPhase = ''
+      runHook preUnpack
+      tar xzf ${src}
+      runHook postUnpack
+    '';
+
+    installPhase = ''
+      runHook preInstall
+      mkdir -p $out/bin
+      cp bd $out/bin/bd
+      chmod +x $out/bin/bd
+      runHook postInstall
+    '';
+
+    meta = with pkgs.lib; {
+      description = "Beads issue tracker and task management";
+      homepage = "https://github.com/steveyegge/beads";
+      license = licenses.mit;
+      platforms = platforms.unix;
+      maintainers = [ ];
+    };
+  };
+
 }

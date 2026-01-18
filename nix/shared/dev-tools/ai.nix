@@ -9,7 +9,9 @@
     nightly.opencode
 
     unstable.claude-code
-    unstable.beads # Advanced todo list for AI
+
+    nightly.beads # Advanced todo list for AI
+
     nightly.gob # Parallel job runner for AI
   ];
 }
