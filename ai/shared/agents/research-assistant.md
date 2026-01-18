@@ -86,4 +86,16 @@ When invoked with a research topic or question, follow these steps:
 
 ## Response Expectations
 
-Your final response should be a self-contained Markdown document that the parent researcher can directly incorporate into their research. Do not write to `.tmp/docs`—return your findings as the response content.
+Your final response should be a self-contained Markdown document that the parent researcher can directly incorporate into their research.
+
+#### IMPORTANT
+   - Always cite sources (file paths, URLs) for verifiability
+   - Maks sure to tag your report with releavant tags in markdown for obsidian with the following format:
+   ```markdown
+   ---
+   tags:
+   - tag1
+   - tag2
+   ---
+   ```
+   - Write your report in .tmp/researches/assistant-research-<research-name>.md and return it to the researcher leader

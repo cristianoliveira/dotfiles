@@ -8,7 +8,6 @@ tools:
   write: true
   edit: true
   bash: true
-  webfetch: true
   todowrite: true
   Task: true
 ---

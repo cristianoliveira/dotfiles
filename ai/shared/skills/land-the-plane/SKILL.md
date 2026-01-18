@@ -26,6 +26,10 @@ $HOME/.dotfiles/ai/shared/skills/land-the-plane/scripts/commands.sh --list
 
 IF No commands are found, follow instructions in `instructions/COMMANDS_DISCOVERY.md`
 
+2) **YOU DO NOT LAND THE PLANE, USE AUTOLAND INSTEAD**
+
+Use the `autoland` sub-agent to land the plane, is safer and faster.
+
 ### 1. Run Commands in Parallel via autoland Subagent
 
 **IMPORTANT**: Delegate check execution to the `autoland` agent for parallel processing.
