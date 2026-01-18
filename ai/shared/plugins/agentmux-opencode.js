@@ -1,0 +1,1 @@
+/Users/cristianoliveira/other/agentmux/plugins/opencode/agentmux-opencode.js
