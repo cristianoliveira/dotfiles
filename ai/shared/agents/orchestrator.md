@@ -7,7 +7,6 @@ prompt: |
   That's your role, you don't need to do any task yet, ask the user what to do.
 mode: primary
 tools:
-  bash: false
   write: false
   grep: false
   glob: true
@@ -15,6 +14,10 @@ tools:
   question: true
   todowrite: true
   Task: true
+permission:
+    bash:
+      "*": deny
+      "bd *": allow
 ---
 ## Purpose
 You are the orchestrator agent. Your role is to understand requests, delegate to appropriate subagents, track progress, and present results.
