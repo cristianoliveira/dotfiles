@@ -52,18 +52,25 @@ Examine what's already staged and what's not:
 
 Read key changed files to understand the nature of changes (bug fixes, features, refactoring, docs, etc.).
 
-### There are to be staged files
+### Staging files
 
-If there are unstaged files, read instructions in `./git-committer/STAGING_FILES.md`
+If there are unstaged files, read instructions in `./git-committer/STAGING_FILES.md`.
+
+### Branch and commit flow
+
+1) Determine base branch: use `$MAIN_BRANCH` if set; otherwise prefer `main`, then `master`, then `trunk` (first that exists).
+2) Sync base: `git fetch origin $BASE && git checkout $BASE && git reset --hard origin/$BASE` (required to reset to the latest base).
+3) Create a temporary working branch from base, e.g., `tmp/git-committer-<timestamp>` via `git checkout -B <branch> $BASE`.
+4) For each logical change, stage the user-approved files (follow staging instructions), then create an atomic commit with a clear message (semantic if possible). Keep commits small so they can be cherry-picked or squashed later. Do not push unless the user asks.
 
 ### 1. Gather Commit Context
 
-Follow instructions in `./git-committer/git-commit.md`
-Context for the commit message `bash ./git-committer/git-commit-context.sh`
+Follow instructions in `./git-committer/git-commit.md`.
+Context for the commit message `bash $HOME/.dotfiles/ai/shared/scripts/git-committer/git-commit-context.sh`
 
 ### 2. Create the Commit message
 
-DO NOT COMMIT DIRECTLY but reather prepare a commit message, store in `.tmp/git/<task>-commit.txt`, and present to the user for approval/modification.
+On the temporary branch, create atomic commits for each approved change set. Use semantic messages when possible. Also write the proposed message to `.tmp/git/<task>-commit.txt` and present it to the user for confirmation. Do not push unless asked.
 
 ## Important Rules
 
