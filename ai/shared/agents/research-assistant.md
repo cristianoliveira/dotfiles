@@ -10,6 +10,8 @@ tools:
   bash: true
   todowrite: true
   question: true
+  Skill: false
+  Skills: false
 ---
 
 # Purpose
@@ -85,6 +87,7 @@ When invoked with a research topic or question, follow these steps:
 - If the research scope is too broad, ask the parent agent for clarification
 - Prioritize accuracy over volume—better to have fewer high-quality findings than many irrelevant ones
 - When searching codebases, look for patterns, not just exact matches (e.g., related functions, imports, configuration)
+- **DO NOT use skills** - work directly with tools and commands only. Never invoke or load skills.
 
 ## Response Expectations
 

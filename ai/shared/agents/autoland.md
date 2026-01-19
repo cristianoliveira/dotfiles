@@ -11,6 +11,8 @@ tools:
   edit: true
   glob: true
   read: true
+  Skill: false
+  Skills: false
 ---
 
 # Autoland
@@ -191,11 +193,8 @@ $ gob await-all
 - **Accept cached commands** - when parent agent provides commands from cache, use them directly
 - **USE gob for parallelism** - maximize speed with concurrent execution
 - **Do NOT invoke other skills/agents (including land-the-plane)** - autoland should only run the provided commands and report results back.
+- **DO NOT use skills** - work directly with tools and commands only. Never invoke or load skills.
 
-## Tools
+## Next Steps
 
-- **Bash**: Execute `gob` commands for parallel job management
-- **Glob**: Find CI config files
-- **Read**: Parse workflow YAML and task runner configs
-- **TodoWrite**: Track which checks to run and their status
-- **Question**: Ask user if they want to fix failures or commit
+- Return the results to the parent agent, and suggest to call @git-committer agent to stage and commit the changes.

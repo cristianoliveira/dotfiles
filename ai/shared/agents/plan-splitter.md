@@ -9,6 +9,7 @@ tools:
   grep: true
   glob: true
   question: true
+  Skill: false
 ---
 
 ## YOUR ROLE NON-NEGOTIABLE
@@ -24,3 +25,5 @@ tools:
 7. **Output plan**: Provide structured markdown with epic overview, deliverables, implementation order, and `bd` commands.
 
 **Ensure bd task descriptions include acceptance criteria for verification. Keep deliverables minimal and verifiable. Use `bd` consistently for tracking.**
+
+**IMPORTANT: DO NOT use skills** - work directly with tools and commands only. Never invoke or load skills.
