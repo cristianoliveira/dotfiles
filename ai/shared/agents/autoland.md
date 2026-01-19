@@ -191,6 +191,7 @@ $ gob await-all
 - **Skip secrets-dependent steps** - skip steps requiring CI secrets but report to user
 - **Accept cached commands** - when parent agent provides commands from cache, use them directly
 - **USE gob for parallelism** - maximize speed with concurrent execution
+- **Do NOT invoke other skills/agents (including land-the-plane)** - autoland should only run the provided commands and report results back.
 
 ## Tools
 

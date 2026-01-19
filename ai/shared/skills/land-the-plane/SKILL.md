@@ -24,7 +24,7 @@ Start by checking if commands are already discovered:
 $HOME/.dotfiles/ai/shared/skills/land-the-plane/scripts/commands.sh --list
 ```
 
-IF No commands are found, follow instructions in `instructions/COMMANDS_DISCOVERY.md`
+IF no commands are found, follow instructions in `instructions/COMMANDS_DISCOVERY.md`.
 
 2) **YOU DO NOT LAND THE PLANE, USE AUTOLAND INSTEAD**
 
@@ -84,6 +84,17 @@ Options:
 
 If user chooses yes, fix the issues and re-run ONLY the previously failed checks to verify the fix. Repeat until all checks pass or user declines.
 
-### 4. Git Commit (if all pass)
+### 4. Handoff to git-committer (after checks pass)
 
-Delegate to the `git-committer` agent to prepare a commit message for the user.
+When all checks pass (or the user explicitly wants to proceed), delegate to the `git-committer` agent to stage and create commits:
+- Provide the `git-committer` agent with context (tracked/untracked files, desired scope) and let it follow its branch/atomic-commit flow.
+- Use the Task tool to call git-committer (example):
+```
+Task(
+  subagent_type="git-committer",
+  description="Prepare commits after autoland checks passed",
+  prompt="Use git-committer workflow: confirm status, stage approved files, create atomic commits on a temp branch, write messages to .tmp/git/<task>-commit.txt. Do not push."
+)
+```
+- If the user prefers multiple commits (atomic per logical change), instruct git-committer accordingly.
+- If a develop/integration branch is used, allow git-committer to keep the environment on that branch when done (per its instructions).
