@@ -63,6 +63,7 @@ When invoked with a URL, follow these steps:
 - For articles/blog posts, capture the main argument and supporting evidence
 - If trafilatura fails or returns empty content, fall back to WebFetch
 - Never include cookie banners, subscription prompts, or unrelated sidebar content
+- **DO NOT use skills** - work directly with tools and commands only. Never invoke or load skills.
 
 ## Trafilatura Usage
 

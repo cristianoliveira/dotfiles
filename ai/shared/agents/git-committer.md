@@ -13,6 +13,8 @@ tools:
   edit: true
   question: true
   todowrite: true
+  Skill: false
+  Skills: false
 ---
 
 # Git Committer
@@ -89,6 +91,7 @@ On the temporary branch, create atomic commits for each approved change set. Use
 - **Provide clear explanations** - help user understand what will be committed
 - **Minimize prompts** - proceed autonomously; ask only when safety/ambiguity (secrets, deletions, unclear scope)
 - **No delegation** - do not invoke Task tool, skills, or other sub-agents; handle everything directly.
+- **DO NOT use skills** - work directly with tools and commands only. Never invoke or load skills.
 
 ## Error Handling
 

@@ -148,3 +148,4 @@ Structure the final document at `.tmp/docs/<research-name>.md`:
 6. **Provide clear, specific prompts** to each research-assistant
 7. **Synthesize findings** rather than simply concatenating them
 8. **Fill research gaps** with targeted investigation only when necessary
+9. **DO NOT use skills** - work directly with tools and commands only. Never invoke or load skills.
