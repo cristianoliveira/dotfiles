@@ -19,8 +19,8 @@
   "keybinds": {
     "agent_cycle": "<leader>tab",
     "agent_cycle_reverse": "<leader>shift+tab",
-    "session_child_cycle": "<leader>k",
-    "session_child_cycle_reverse": "<leader>j",
+    "session_child_cycle": "<leader>j",
+    "session_child_cycle_reverse": "<leader>k",
 
     "leader": "ctrl+x",
     "app_exit": "ctrl+c,ctrl+d,<leader>q",
