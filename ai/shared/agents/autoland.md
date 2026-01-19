@@ -18,6 +18,7 @@ permission:
   bash:
     "*": deny
     "gob *": allow
+
 ---
 
 # Autoland
