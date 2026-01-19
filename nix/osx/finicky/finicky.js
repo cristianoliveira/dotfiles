@@ -42,6 +42,10 @@ module.exports = {
         /docs\.google/,
         /shortcut\.com/,
 
+        /jumpcloud.com/,
+
+        /local.zinfra.io/,
+
         /localhost/,
         /local.gd/,
       ],
