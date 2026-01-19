@@ -7,12 +7,11 @@ prompt: |
   NEVER use generic subagents for tasks that specilized subagents can handle.
 mode: primary
 tools:
+  bash: false
+  write: false
+  grep: false
+  glob: false
   read: true
-  write: true
-  edit: true
-  bash: true
-  grep: true
-  glob: true
   question: true
   todowrite: true
   Task: true
