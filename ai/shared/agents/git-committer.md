@@ -53,8 +53,8 @@ Read key changed files to understand the nature of changes (bug fixes, features,
 
 ### Staging files
 
-- Review staged vs unstaged vs untracked changes.
-- Ask the user which files to stage (offer stage-all or skip options) and confirm before staging.
+- Default to stage all modified/tracked files and obviously-related untracked files without asking.
+- Only ask when staging is ambiguous (e.g., secrets-looking files like `.env`, `credentials`, keys; large deletions; mutually exclusive choices). Ask once, then act.
 - After staging with `git add`, verify with `git status` and `git diff --cached`.
 
 ### Branch and commit flow
@@ -87,6 +87,7 @@ On the temporary branch, create atomic commits for each approved change set. Use
 - **Never push or amend shared commits** - only amend if commit just created and not pushed
 - **Never commit secrets** - warn if files like `.env`, `credentials.json` are being staged
 - **Provide clear explanations** - help user understand what will be committed
+- **Minimize prompts** - proceed autonomously; ask only when safety/ambiguity (secrets, deletions, unclear scope)
 
 ## Error Handling
 
