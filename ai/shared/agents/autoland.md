@@ -14,6 +14,8 @@ tools:
   patch: false
   glob: true
   read: true
+  Skill: false
+  Skills: false
 permission:
   bash:
     "*": deny

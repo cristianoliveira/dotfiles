@@ -62,6 +62,23 @@ ${Any relevant code snippets or commands from the page}
 - If trafilatura fails or returns empty content, fall back to WebFetch
 - Never include cookie banners, subscription prompts, or unrelated sidebar content
 - **DO NOT use skills** - work directly with tools and commands only. Never invoke or load skills.
+## Trafilatura Usage
+
+If trafilatura is available, use these command patterns:
+
+```bash
+# Basic extraction (plain text)
+trafilatura -u "URL"
+
+# Without comments
+trafilatura -u "URL" --no-comments
+
+# JSON output with metadata
+trafilatura -u "URL" --json
+
+# Markdown output
+trafilatura -u "URL" --markdown
+```
 
 ## Response
 

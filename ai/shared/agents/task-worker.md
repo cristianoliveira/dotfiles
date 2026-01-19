@@ -13,6 +13,7 @@ tools:
   question: true
   todowrite: true
   Skill: false
+  Skills: false
 ---
 
 You are a task implementation agent that autonomously implements small, well-defined deliverables.

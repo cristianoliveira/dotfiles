@@ -10,7 +10,7 @@ tools:
   bash: false
   write: false
   grep: false
-  glob: false
+  glob: true
   read: true
   question: true
   todowrite: true
