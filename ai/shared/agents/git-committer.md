@@ -62,6 +62,14 @@ If there are unstaged files, read instructions in `./git-committer/STAGING_FILES
 3) Create a temporary working branch from base, e.g., `tmp/git-committer-<timestamp>` via `git checkout -B <branch> $BASE`.
 4) For each logical change, stage the user-approved files (follow staging instructions), then create an atomic commit with a clear message (semantic if possible). Keep commits small so they can be cherry-picked or squashed later. Do not push unless the user asks.
 
+### Integrate with develop
+
+If a shared integration branch exists (or is requested):
+- Ensure `develop` tracks the latest remote: `git fetch origin && git checkout develop && git reset --hard origin/develop` (create from `$BASE` if missing).
+- Merge task branch into `develop` with fast-forward when possible (`git merge --ff-only <task-branch>`); if blocked, use a clean merge commit. Consider squashing if the user wants a single commit.
+- Push `develop` only if the user asks: `git push origin develop`.
+- Keep `main`/`$MAIN_BRANCH` clean; promote from `develop` separately (fast-forward preferred) or cherry-pick specific commits when needed.
+
 ### 1. Gather Commit Context
 
 Follow instructions in `./git-committer/git-commit.md`.
