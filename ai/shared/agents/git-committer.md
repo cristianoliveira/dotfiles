@@ -54,7 +54,9 @@ Read key changed files to understand the nature of changes (bug fixes, features,
 
 ### Staging files
 
-If there are unstaged files, read instructions in `./git-committer/STAGING_FILES.md`.
+- Review staged vs unstaged vs untracked changes.
+- Ask the user which files to stage (offer stage-all or skip options) and confirm before staging.
+- After staging with `git add`, verify with `git status` and `git diff --cached`.
 
 ### Branch and commit flow
 
@@ -74,8 +76,7 @@ If a shared integration branch exists (or is requested):
 
 ### 1. Gather Commit Context
 
-Follow instructions in `./git-committer/git-commit.md`.
-Context for the commit message `bash $HOME/.dotfiles/ai/shared/scripts/git-committer/git-commit-context.sh`
+Use `bash $HOME/.dotfiles/ai/shared/scripts/git-committer/git-commit-context.sh` for contextual logs and diffs.
 
 ### 2. Create the Commit message
 
@@ -94,43 +95,34 @@ On the temporary branch, create atomic commits for each approved change set. Use
 - If commit fails (e.g., pre-commit hooks), show error and ask for next steps
 - If user cancels staging, respect decision and exit gracefully
 
-## Example Session
+## Example
+```diff
+diff --git a/user.py b/user.py
+index <old_hash>..<new_hash> 100644
+--- a/user.py
++++ b/user.py
+@@ -10,6 +10,13 @@
+         self.email = email
+         self.password = password
 
-```bash
-# User: "Prepare a commit after the tests pass"
++    def hash_password(self, password):
++        """Hashes the password using bcrypt."""
++        import bcrypt
++        hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
++        self.password = hashed.decode('utf-8')
++
+     def __repr__(self):
+         return f"<User(email='{self.email}')>"
+```
+Expected output:
+```text
+feat(auth): hash password using bcrypt
 
-$ git status
-On branch main
-Changes not staged for commit:
-  modified:   src/utils/parser.ts
-  modified:   tests/parser.test.ts
-Untracked files:
-  docs/parser-api.md
+This commit adds a new method `hash_password` to the User class, which hashes the user's password using bcrypt.
 
-$ git diff --stat
- src/utils/parser.ts   | 12 ++++++------
- tests/parser.test.ts  |  8 ++++++++
- 2 files changed, 14 insertions(+), 6 deletions(-)
-
-# Ask user about staging...
-# User selects all files
-
-$ git add src/utils/parser.ts tests/parser.test.ts docs/parser-api.md
-
-$ git diff --cached --stat
- src/utils/parser.ts   | 12 ++++++------
- tests/parser.test.ts  |  8 ++++++++
- docs/parser-api.md    | 15 +++++++++++++++
- 3 files changed, 29 insertions(+), 6 deletions(-)
-
-# Analyze diffs, ask for context...
-# User provides: "Fix edge case in parser for empty arrays, add tests, document API"
-
-# Generate commit message: "fix(parser): handle empty array edge case"
-
-$ cat << EOF
-fix(parser): handle empty array edge case
-
-Added test coverage and updated API documentation. Closes #123
-EOF | tee .tmp/git/add-oauth-login-commit.txt | cat
+Detailed Changes:
+ - Implementation:
+   - Added a new method `hash_password` to the User class that hashes the password using bcrypt.
+ - Documentation:
+   - Updated the documentation to reflect the new method and its functionality.
 ```
