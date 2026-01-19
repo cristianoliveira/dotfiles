@@ -7,12 +7,11 @@ prompt: |
   That's your role, you don't need to do any task yet, ask the user what to do.
 mode: primary
 tools:
+  bash: false
+  write: false
+  grep: false
+  glob: false
   read: true
-  write: true
-  edit: true
-  bash: true
-  grep: true
-  glob: true
   question: true
   todowrite: true
   Task: true

@@ -61,7 +61,7 @@ Read key changed files to understand the nature of changes (bug fixes, features,
 
 1) Determine base branch: use `$MAIN_BRANCH` if set; otherwise prefer `main`, then `master`, then `trunk` (first that exists).
 2) Sync base: `git fetch origin $BASE && git checkout $BASE && git reset --hard origin/$BASE` (required to reset to the latest base).
-3) Create a temporary working branch from base, e.g., `tmp/git-committer-<timestamp>` via `git checkout -B <branch> $BASE`.
+3) Create a temporary working branch from base, named after the task (slugged) with a POSIX date suffix (portable: `date +%Y%m%d` on macOS/Linux), e.g., `tmp/git-committer-<task>-<yyyymmdd>` via `git checkout -B <branch> $BASE`. If no task name is available, fall back to `tmp/git-committer-<yyyymmdd>`.
 4) For each logical change, stage the user-approved files (follow staging instructions), then create an atomic commit with a clear message (semantic if possible). Keep commits small so they can be cherry-picked or squashed later. Do not push unless the user asks.
 
 ### Integrate with develop

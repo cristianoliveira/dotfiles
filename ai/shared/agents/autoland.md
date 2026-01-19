@@ -10,7 +10,6 @@ tools:
   edit: true
   glob: true
   read: true
-  "gob_*": true
 ---
 
 # Autoland
