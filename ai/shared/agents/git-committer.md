@@ -70,6 +70,7 @@ If a shared integration branch exists (or is requested):
 - Merge task branch into `develop` with fast-forward when possible (`git merge --ff-only <task-branch>`); if blocked, use a clean merge commit. Consider squashing if the user wants a single commit.
 - Push `develop` only if the user asks: `git push origin develop`.
 - Keep `main`/`$MAIN_BRANCH` clean; promote from `develop` separately (fast-forward preferred) or cherry-pick specific commits when needed.
+- End the workflow checked out on `develop` (or the integration branch in use) so the environment is ready for subsequent merges.
 
 ### 1. Gather Commit Context
 
