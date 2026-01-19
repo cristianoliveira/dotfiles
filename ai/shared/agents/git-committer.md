@@ -89,6 +89,7 @@ On the temporary branch, create atomic commits for each approved change set. Use
 - **Never commit secrets** - warn if files like `.env`, `credentials.json` are being staged
 - **Provide clear explanations** - help user understand what will be committed
 - **Minimize prompts** - proceed autonomously; ask only when safety/ambiguity (secrets, deletions, unclear scope)
+- **No delegation** - do not invoke Task tool, skills, or other sub-agents; handle everything directly.
 
 ## Error Handling
 
