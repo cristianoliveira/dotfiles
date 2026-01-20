@@ -7,13 +7,15 @@ Unified structure for all AI tool configurations with shared resources.
 ```
 ai/
 ├── shared/           # Shared agents & skills across all tools
-│   ├── agents/      # Reusable agent prompts
-│   └── skills/      # Reusable skills (look-at-the-logs, gh-address-comments)
-├── aichat/          # AIChat (config, macros, roles, scripts)
-├── claude/          # Claude Code (settings, mcp, plugins, skills→shared)
-├── codex/           # OpenAI Codex CLI (config.toml, skills→shared)
-├── crush/           # Crush (crush.json, commands)
-└── opencode/        # OpenCode (opencode.json, agent→shared, skills→shared)
+│   ├── agents/       # 8 reusable agent prompts (orchestrator, task-worker, etc.)
+│   ├── skills/       # 9 reusable skills (db-explorer, land-the-plane, etc.)
+│   ├── commands/     # Shared commands (beads-tasks, prime-leader)
+│   └── plugins/      # Shared plugins (agentmux-opencode.js)
+├── aichat/           # AIChat (config.yaml, mcp.json, roles/, macros/, scripts/)
+├── claude/           # Claude Code (settings.json, mcp.json, plugins/, agents→shared, skills→shared)
+├── codex/            # OpenAI Codex CLI (config.toml, skills→shared)
+├── opencode/         # OpenCode (opencode.json, agent→shared, skills→shared, commands→shared)
+└── .tmp/             # Temporary files (docs/, researches/, git/)
 ```
 
 ## Installation
@@ -33,31 +35,33 @@ stow -d stow -t ~ --restow ai
 | Claude | `~/.claude/{settings.json,mcp.json,plugins,agents,skills}` | `ai/claude/*` & `ai/shared/*` |
 | Codex | `~/.codex/{config.toml,skills}` | `ai/codex/*` & `ai/shared/*` |
 | AIChat | `~/.config/aichat/` | `ai/aichat/` |
-| Crush | `~/.config/crush/` | `ai/crush/` |
-| OpenCode | `~/.config/opencode/{opencode.json,agent,skills}` | `ai/opencode/*` & `ai/shared/*` |
+| OpenCode | `~/.config/opencode/{opencode.json,agent,skills,commands,plugins}` | `ai/opencode/*` & `ai/shared/*` |
 
 ## Stow Layout
 
 Stowing `ai` creates these links:
 - `~/.claude/{agents,settings.json,mcp.json,plugins,skills}` → `stow/ai/.claude/*` → `ai/claude/*` (agents/skills are already symlinked to `ai/shared`).
+- `~/.codex/{config.toml,skills}` → `stow/ai/.codex/*` → `ai/codex/*` (skills are already symlinked to `ai/shared`).
 - `~/.config/aichat` → `stow/ai/.config/aichat` → `ai/aichat`.
-- `~/.config/crush` → `stow/ai/.config/crush` → `ai/crush`.
 - `~/.config/opencode` → `stow/ai/.config/opencode` → `ai/opencode`.
 - `~/.config/shared/agents` → `stow/ai/.config/shared/agents` → `ai/shared/agents` (via the `ai/claude/agents` link).
 - On macOS, `stow/ai/after_install.sh` also links `~/Library/Application Support/aichat` to `~/.config/aichat` when missing.
 
 ## MCP Servers (Aligned Across All Tools)
 
-All tools use the same three MCP servers:
+All tools use the same three core MCP servers:
 - **nixos**: NixOS documentation (`uvx mcp-nixos`)
 - **filesystem**: Log access (`npx @modelcontextprotocol/server-filesystem`)
-- **playwright**: Browser automation (`npx @playwright/mcp`)
+- **playwright**: Browser automation (`npx @playwright/mcp --headless --browser=chromium`)
+
+Claude Code also includes:
+- **gob**: Additional MCP server (`gob mcp`)
 
 Configured in:
 - `ai/aichat/mcp.json`
 - `ai/claude/mcp.json`
-- `ai/codex/config.toml`
-- `ai/opencode/opencode.json`
+- `ai/codex/config.toml` (via `[mcp_servers]` sections)
+- `ai/opencode/opencode.json` (via `mcp` object)
 
 ## Adding New Resources
 
