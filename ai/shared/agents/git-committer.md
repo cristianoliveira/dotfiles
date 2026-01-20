@@ -15,7 +15,6 @@ tools:
   question: true
   todowrite: true
   Skill: false
-  Skills: false
 ---
 # Git Committer
 Specialized agent for staging changes and creating well-crafted commits after validation passes.
