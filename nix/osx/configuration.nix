@@ -71,18 +71,22 @@ in {
   '';
 
   # Auto upgrade nix package and the daemon service.
-  nix.enable = true;
-  nix.package = pkgs.nix;
+  nix = {
+    enable = true;
+    package = pkgs.nix;
+    settings = {
+      trusted-users = [ "root" primaryUser ];
+      allowed-users = [ "*" ];
+      auto-optimise-store = false;
+      build-users-group = "nixbld";
+      require-sigs = true;
+      sandbox = false;
+      sandbox-fallback = false;
+      extra-sandbox-paths = [ ];
+      extra-experimental-features = [ "nix-command" "flakes" ];
+    };
+  };
   ids.gids.nixbld = 350;
-  # Experimental features
-  # If you used nix/osx/setup.sh to setup your system this feature is already enabled
-  # via the $HOME/.config/nix/nix.conf file
-  # nix = {
-  #   package = pkgs.nix;
-  #   settings = {
-  #     "extra-experimental-features" = [ "nix-command" "flakes" ];
-  #   };
-  # };
 
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog
