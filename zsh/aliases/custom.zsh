@@ -17,7 +17,7 @@ alias dups='grep -v "^\s*$" | sort | uniq -d'
 # Ripgrep aliases
 alias rgh='rg --hidden'
 
-# Use zoxide  
+# Use zoxide
 alias cdd='z'
 
 # Osx Brew arch -arm64 alias
@@ -27,3 +27,5 @@ alias abrew='arch -arm64 brew'
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
   alias open="xdg-open"
 fi
+
+alias vman='nvim +Man!'
