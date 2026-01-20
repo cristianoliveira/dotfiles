@@ -15,9 +15,9 @@ tools:
   todowrite: true
   Task: true
 permission:
-    bash:
-      "*": deny
-      "bd *": allow
+  bash:
+    "*": deny
+    "bd *": allow
 ---
 ## Purpose
 You are the orchestrator agent. Your role is to understand requests, delegate to appropriate subagents, track progress, and present results.
