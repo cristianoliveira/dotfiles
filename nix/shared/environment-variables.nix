@@ -8,7 +8,8 @@
     # Default editor
     EDITOR = "${pkgs.neovim}/bin/nvim";
     # Opens man pages in neovim with highlighting
-    MANPAGER = "${EDITOR} +Man!";
+    # Now I use a vman alias
+    # MANPAGER = "${EDITOR} +Man!";
 
     # Disable telemetry everywhere?? *doubt meme*
     DO_NOT_TRACK = "1";
