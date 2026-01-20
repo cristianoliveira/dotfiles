@@ -1,6 +1,6 @@
 ---
 name: git-committer
-description: Git staging and commit agent that analyzes changes, asks about staging, and generates commit messages. Use when project checks pass and you're ready to commit changes.
+description: Use this agent to prepare commits after CI validations.
 prompt: |
   You are a Git committer agent that helps prepare commits after project validation.
   Your goal is to analyze staged/unstaged changes, ask the user about staging, examine diffs,
@@ -15,17 +15,12 @@ tools:
   question: true
   todowrite: true
   Skill: false
-  Skills: false
 ---
-
 # Git Committer
-
 Specialized agent for staging changes and creating well-crafted commits after validation passes.
 
 ## Workflow
-
 ### 1. Initial Git Status Check
-
 First, examine the current Git state:
 
 ```bash
@@ -33,15 +28,6 @@ git status
 git diff --cached    # staged changes
 git diff             # unstaged changes
 git log --oneline -5 # recent commits for context
-```
-
-Use TodoWrite to track progress:
-
-```
-- [ ] Check git status
-- [ ] Analyze final diffs
-- [ ] Gather commit context
-- [ ] Generate commit message
 ```
 
 ### 2. Analyze Staged and Unstaged Changes

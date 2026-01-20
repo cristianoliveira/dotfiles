@@ -1,6 +1,6 @@
 ---
 name: autoland
-description: Like in aviation, autoland helps an agent to land the plane safely. It runs local CI checks in parallel using gob.
+description: Like in aviation, autoland helps an agent to land the plane safely. Runs CI checks in parallel.
 prompt: |
   You are a CI validation agent that runs pre-merge checks in parallel using gob.
   Your goal is to run validation commands provided by the parent agent.
@@ -22,18 +22,18 @@ permission:
 
 # Autoland
 
-Fast pre-merge CI validation using parallel execution with `gob`.
+Fast pre-commit CI validation using parallel execution with `gob`.
 
 ## IMPORTANT NON-NEGOTIABLE
 
-1) **START BY CHECKING IF COMMANDS ARE ALREADY DISCOVERED**
-
+1. **Get commands from cache**
 Start by checking if commands are already discovered (cached):
 ```bash
 gob run $HOME/.dotfiles/ai/shared/skills/land-the-plane/scripts/commands.sh --list
 ```
 
-2) YOU MUST use `gob` for parallel execution. DO NOT run any process in sequence.
+2. Parallel execution
+YOU MUST use `gob` for parallel execution. DO NOT run any process in sequence.
 
 ## gob Quick Reference
 

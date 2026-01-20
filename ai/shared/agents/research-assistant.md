@@ -1,6 +1,6 @@
 ---
 name: research-assistant
-description: Parallel research assistant for gathering information from web and local codebase. Use when researcher needs to investigate subtopics concurrently and return structured findings.
+description: Use an assistant to investigate subtopics concurrently (web and local codebases).
 mode: subagent
 model: deepseek/deepseek-reasoner
 tools:
@@ -11,7 +11,6 @@ tools:
   todowrite: true
   question: true
   Skill: false
-  Skills: false
 ---
 
 # Purpose
