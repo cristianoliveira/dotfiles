@@ -31,6 +31,11 @@
   # branch
   b = branch -v                     # branch (verbose)
   bls = branch --list --format='%(refname:short)'
+  br = branch -r                    # list remote branches
+  bv = branch -vv                   # list branches with upstream
+  bd = branch -d                    # delete branch (safe)
+  bD = branch -D                    # force delete branch
+  bu = branch --set-upstream-to     # set upstream
 
   # branches that can be deleted
   bmd = !git branch --merged | grep -v "\\*\\|$MAIN_BRANCH\\|dev"
@@ -38,6 +43,7 @@
 
   # commit
   c = commit                        # commit
+  cf = commit --no-verify           # commit force
   cm = commit -m                    # commit with message
   ca = commit -am                   # commit all with message
   amd = commit --amend              # ammend your last commit
@@ -79,6 +85,10 @@
   follow = log --follow
   # Format to be easily 'pipeable' with commit hash on the first position
   lgp = log --no-merges --pretty=format:"%h %s (%cn) %cr"
+  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+  ll = log --oneline -10
+  ld = log --graph --decorate --stat
+  lp = log --patch
 
   # pull
   pl = pull                         # pull
@@ -118,6 +128,9 @@
 
   unstage = reset HEAD              # remove files from index (tracking)
   uncommit = reset --soft HEAD^     # go back before last commit, with files in uncommitted state
+  undo = reset --soft HEAD^         # undo last commit, keep changes staged
+  ud = reset --soft HEAD^           # undo last commit, keep changes staged
+  udh = reset --hard HEAD^          # undo last commit, keep changes staged
   filelog = log -u                  # show changes to a file
   mt = mergetool                    # fire up the merge tool
 
@@ -126,6 +139,9 @@
   stl = stash list                   # list stashes
   sta = stash apply                  # apply stash (restore changes)
   std = stash drop                   # drop stashes (destory changes)
+  stp = stash pop                    # apply and remove top stash
+  stc = stash clear                  # remove all stashes
+  stske = stash -k                   # stash keeping index
 
   # status
   s = status                        # status
