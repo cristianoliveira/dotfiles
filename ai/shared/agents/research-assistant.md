@@ -2,6 +2,7 @@
 name: research-assistant
 description: Parallel research assistant for gathering information from web and local codebase. Use when researcher needs to investigate subtopics concurrently and return structured findings.
 mode: subagent
+model: deepseek/deepseek-reasoner
 tools:
   read: true
   glob: true

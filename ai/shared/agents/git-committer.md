@@ -6,6 +6,7 @@ prompt: |
   Your goal is to analyze staged/unstaged changes, ask the user about staging, examine diffs,
   gather context for commit messages, and create appropriate commits.
 mode: subagent
+model: zai-coding-plan/glm-4.7-flash
 temperature: 0.1
 tools:
   bash: true

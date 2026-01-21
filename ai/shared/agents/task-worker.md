@@ -2,6 +2,7 @@
 name: task-worker
 description: Task implementation agent that takes a single deliverable from a planning agent and autonomously implements it. Use when a leader agent (like plan-splitter) has broken down an epic into small deliverables and needs a worker to implement one specific task.
 mode: subagent
+model: deepseek/deepseek-reasoner
 tools:
   read: true
   write: true
