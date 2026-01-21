@@ -2,6 +2,7 @@
 name: research-assistant
 description: Use an assistant to investigate subtopics concurrently (web and local codebases).
 mode: subagent
+model: deepseek/deepseek-reasoner
 tools:
   read: true
   glob: true

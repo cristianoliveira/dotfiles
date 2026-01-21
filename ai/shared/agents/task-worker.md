@@ -2,6 +2,7 @@
 name: task-worker
 description: Use this agent for simple implementation focued on a single task.
 mode: subagent
+model: deepseek/deepseek-reasoner
 tools:
   read: true
   write: true
