@@ -3,20 +3,14 @@
   "theme": "catppuccin-macchiato",
   "autoupdate": true,
   "mcp": {
-    "nixos": {
-      "type": "local",
-      "command": ["uvx", "mcp-nixos"]
-    },
-    "filesystem": {
-      "type": "local",
-      "command": ["npx", "-y", "@modelcontextprotocol/server-filesystem", ".tmp/logs/", "/var/log/", "/tmp/"]
-    },
     "playwright": {
       "type": "local",
       "command": ["npx", "@playwright/mcp", "--headless", "--browser=chromium"]
     }
   },
   "keybinds": {
+    "app_exit": "<leader>q",
+    "session_interrupt": "ctrl+q",
     "agent_cycle": "<leader>tab",
     "agent_cycle_reverse": "<leader>shift+tab",
     "session_parent": "<leader>p",
@@ -24,7 +18,6 @@
     "session_child_cycle_reverse": "<leader>k",
 
     "leader": "ctrl+x",
-    "app_exit": "ctrl+c,ctrl+d,<leader>q",
     "editor_open": "<leader>e",
     "theme_list": "<leader>t",
     "sidebar_toggle": "<leader>b",
@@ -40,7 +33,6 @@
     "session_rename": "none",
     "session_share": "none",
     "session_unshare": "none",
-    "session_interrupt": "escape",
     "session_compact": "<leader>c",
     "messages_page_up": "pageup",
     "messages_page_down": "pagedown",
