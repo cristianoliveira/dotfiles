@@ -316,6 +316,7 @@ def search_content(args):
     """Execute content search."""
     headers = get_auth_headers(args.debug_auth)
     cql = args.cql
+
     if args.fuzzy:
         import re
         # Add wildcards between words in text~ queries for fuzzy matching
@@ -388,6 +389,11 @@ def search_content(args):
             if not any(p.startswith("body.") for p in parts):
                 expand = expand + ",body.view"
     args.expand = expand
+    status_filter = args.status
+    if status_filter:
+        sys.stderr.write(f"Warning: --status filter applied client-side (Confluence Cloud API does not support server-side status filtering).\n")
+        sys.stderr.write(f"         Results will be filtered locally for status='{status_filter}'.\n")
+        sys.stderr.write(f"         Pagination may be affected; consider using label={status_filter} in CQL instead.\n")
 
     params = {
         "cql": cql,
@@ -397,7 +403,8 @@ def search_content(args):
         "excludeCurrentSpaces": args.exclude_current_spaces,
         "excerpt": args.excerpt,
         "expand": args.expand,
-        "status": args.status,
+        # status parameter removed because Confluence Cloud API ignores it
+        # Client-side filtering will be applied after fetching results
         "sort": args.sort,
     }
     # Convert booleans to lowercase strings
@@ -411,6 +418,26 @@ def search_content(args):
     url = build_url(domain, "/content/search", params)
 
     data = make_request(url, headers, args.debug)
+    
+    # Client-side status filtering if requested
+    if status_filter:
+        original_results = data.get("results", [])
+        filtered_results = []
+        for result in original_results:
+            result_status = result.get("status", "").lower()
+            if result_status == status_filter.lower():
+                filtered_results.append(result)
+        
+        if args.debug:
+            sys.stderr.write(f"DEBUG: Status filter '{status_filter}' matched {len(filtered_results)} of {len(original_results)} results on this page.\n")
+        
+        # Update results and size (page-level only)
+        data["results"] = filtered_results
+        # Note: total size across all pages for filtered status is unknown
+        # We set size to filtered count for this page only
+        data["size"] = len(filtered_results)
+        # Keep _links.next unchanged - cursor will fetch next page of unfiltered results
+    
     output_results(data, args.output_format, "content", args.debug, full_urls=args.full_urls, domain=domain, snippet_length=args.snippet_length)
 
 def search_users(args):
@@ -979,7 +1006,7 @@ CONFLUENCE CLI BEST PRACTICES
       - --boost-title: Automatically boost title matches (Cloud compatible workaround)
      - --fuzzy: Add wildcards between words for flexible matching (may trigger circuit breaker; limited to 4 words)
      - --sort: Sort by relevance, modified, created, title
-     - --status: Filter by current, draft, archived
+     - --status: Filter by current, draft, archived (client-side only; consider using label=status in CQL for server-side filtering)
 
    Workflow Optimization:
      # Step 1: Broad search with excerpts
@@ -1151,7 +1178,7 @@ https://developer.atlassian.com/server/confluence/advanced-searching-using-cql/
       --fuzzy                     Add wildcards (*) between words in text~ queries for fuzzy matching
       --expand                    Expand additional fields (e.g., body.view,space)
       --full-urls                 Show full URLs in text output
-      --status                    Filter by status (current, draft, archived)
+      --status                    Filter by status (current, draft, archived) (client-side only; consider label=status in CQL)
       --sort                      Sort order: relevance, created-date, modified-date, title
        --boost-title               Boost title matches in CQL (adds ^2 to title~ patterns; Cloud compatible: strips boost and adds title~ OR text~)
 
@@ -1178,7 +1205,7 @@ https://developer.atlassian.com/server/confluence/advanced-searching-using-cql/
     content_parser.add_argument("--fuzzy", action="store_true", help="Add wildcards (*) between words in text~ queries for fuzzy matching. For phrases longer than 4 words, only a trailing wildcard is added to prevent server overload. May trigger circuit breaker errors.")
     content_parser.add_argument("--expand", help="Comma-separated list of properties to expand (e.g., body.view,space)")
     content_parser.add_argument("--full-urls", action="store_true", help="Show full URLs in text output")
-    content_parser.add_argument("--status", choices=["current", "draft", "archived"], help="Filter by status")
+    content_parser.add_argument("--status", choices=["current", "draft", "archived"], help="Filter by status (client-side only; Confluence Cloud API does not support server-side status filtering). Consider using label=status in CQL for server-side filtering.")
     content_parser.add_argument("--sort", choices=["relevance", "created-date", "modified-date", "title"], default="relevance", help="Sort order (default: relevance)")
     content_parser.add_argument("--boost-title", action="store_true", help="Boost title matches in CQL (adds ^2 to title~ patterns; Cloud compatible: strips boost and adds title~ OR text~)")
     content_parser.set_defaults(func=search_content)
