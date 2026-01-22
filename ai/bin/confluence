@@ -1,0 +1,393 @@
+#!/usr/bin/env python3
+"""
+Minimal Confluence REST API tool for read-only search queries.
+
+Supports search-content and search-users subcommands using Confluence Query Language (CQL).
+Authentication via environment variables: CONFLUENCE_DOMAIN, CONFLUENCE_EMAIL, CONFLUENCE_API_TOKEN.
+"""
+
+import argparse
+import base64
+import json
+import os
+import sys
+import urllib.error
+import urllib.parse
+import urllib.request
+from typing import Any, Dict, List, Optional
+
+# Default values
+DEFAULT_LIMIT = 25
+BASE_PATH = "/wiki/rest/api"
+
+def sanitize_domain(domain: str) -> str:
+    """Remove protocol prefix and trailing slashes from domain."""
+    # Remove http:// or https://
+    if domain.startswith("http://"):
+        domain = domain[7:]
+    elif domain.startswith("https://"):
+        domain = domain[8:]
+    # Remove trailing slashes
+    domain = domain.rstrip("/")
+    # Remove any leading/trailing whitespace
+    domain = domain.strip()
+    return domain
+
+
+def get_domain(debug: bool = False) -> str:
+    """Read and sanitize CONFLUENCE_DOMAIN environment variable."""
+    raw_domain = os.environ.get("CONFLUENCE_DOMAIN", "")
+    if not raw_domain:
+        sys.stderr.write("Error: CONFLUENCE_DOMAIN environment variable is not set.\n")
+        sys.exit(1)
+    sanitized = sanitize_domain(raw_domain)
+    if sanitized != raw_domain:
+        if debug:
+            sys.stderr.write(f"DEBUG: Domain sanitized from '{raw_domain}' to '{sanitized}'\n")
+        else:
+            sys.stderr.write(f"Warning: CONFLUENCE_DOMAIN contains protocol or extra slashes; automatically sanitized.\n")
+            sys.stderr.write(f"        Please use just the domain (e.g., 'your-domain.atlassian.net') without 'https://'.\n")
+    return sanitized
+
+
+def get_auth_headers() -> Dict[str, str]:
+    """Read environment variables and return Basic auth headers."""
+    domain = os.environ.get("CONFLUENCE_DOMAIN")
+    email = os.environ.get("CONFLUENCE_EMAIL")
+    token = os.environ.get("CONFLUENCE_API_TOKEN")
+    
+    missing = []
+    if not domain:
+        missing.append("CONFLUENCE_DOMAIN")
+    if not email:
+        missing.append("CONFLUENCE_EMAIL")
+    if not token:
+        missing.append("CONFLUENCE_API_TOKEN")
+    if missing:
+        sys.stderr.write(f"Error: Missing environment variables: {', '.join(missing)}\n")
+        sys.stderr.write("Please set them before running this tool.\n")
+        sys.exit(1)
+    
+    auth_str = f"{email}:{token}"
+    encoded = base64.b64encode(auth_str.encode()).decode()
+    return {
+        "Authorization": f"Basic {encoded}",
+        "Accept": "application/json",
+        "User-Agent": "Confluence-CLI/1.0",
+    }
+
+def build_url(domain: str, endpoint: str, params: Dict[str, Any]) -> str:
+    """Construct full URL with query parameters."""
+    url = f"https://{domain}{BASE_PATH}{endpoint}"
+    if params:
+        query = urllib.parse.urlencode(params, doseq=True)
+        url = f"{url}?{query}"
+    return url
+
+def make_request(url: str, headers: Dict[str, str], debug: bool = False) -> Dict[str, Any]:
+    """Make HTTP GET request and parse JSON response."""
+    if debug:
+        sys.stderr.write(f"DEBUG: Request URL: {url}\n")
+        sys.stderr.write(f"DEBUG: Headers: {headers}\n")
+    
+    req = urllib.request.Request(url, headers=headers)
+    try:
+        with urllib.request.urlopen(req) as response:
+            body = response.read().decode()
+            if debug:
+                sys.stderr.write(f"DEBUG: Response status: {response.status}\n")
+                sys.stderr.write(f"DEBUG: Response body (first 500 chars): {body[:500]}\n")
+            return json.loads(body)
+    except urllib.error.HTTPError as e:
+        sys.stderr.write(f"HTTP Error {e.code}: {e.reason}\n")
+        try:
+            error_body = e.read().decode()
+            error_json = json.loads(error_body)
+            sys.stderr.write(f"Details: {json.dumps(error_json, indent=2)}\n")
+        except:
+            pass
+        sys.exit(1)
+    except urllib.error.URLError as e:
+        sys.stderr.write(f"URL Error: {e.reason}\n")
+        if "SSL" in str(e.reason) or "TLS" in str(e.reason):
+            sys.stderr.write("Hint: This might be due to incorrect CONFLUENCE_DOMAIN format.\n")
+            sys.stderr.write("      Ensure it's just the domain (e.g., 'your-domain.atlassian.net') without 'https://'.\n")
+            sys.stderr.write(f"      Request URL was: {url}\n")
+        sys.exit(1)
+    except json.JSONDecodeError as e:
+        sys.stderr.write(f"Invalid JSON response: {e}\n")
+        sys.exit(1)
+
+def format_text_content(result: Dict[str, Any]) -> str:
+    """Format a single content result for human-readable output."""
+    title = result.get("title", "No title")
+    url = result.get("_links", {}).get("webui", "")
+    excerpt = result.get("excerpt", "").replace("\n", " ").strip()
+    last_modified = result.get("version", {}).get("when", "")
+    return f"{title}\n  URL: {url}\n  Excerpt: {excerpt[:200]}{'...' if len(excerpt) > 200 else ''}\n  Last modified: {last_modified}\n"
+
+def format_text_user(result: Dict[str, Any]) -> str:
+    """Format a single user result for human-readable output."""
+    username = result.get("username", "")
+    display_name = result.get("displayName", "")
+    email = result.get("email", "")
+    return f"{display_name} (@{username})\n  Email: {email}\n"
+
+def extract_cursor(next_url: str) -> Optional[str]:
+    """Extract cursor parameter from next URL."""
+    if not next_url:
+        return None
+    parsed = urllib.parse.urlparse(next_url)
+    query = urllib.parse.parse_qs(parsed.query)
+    cursor_list = query.get("cursor")
+    if cursor_list:
+        return cursor_list[0]
+    return None
+
+def output_results(data: Dict[str, Any], output_format: str, result_type: str, debug: bool = False):
+    """Output results in JSON or text format."""
+    if output_format == "json":
+        print(json.dumps(data, indent=2))
+        return
+    
+    # Text format
+    results = data.get("results", [])
+    total = data.get("size", len(results))
+    limit = data.get("limit", DEFAULT_LIMIT)
+    start = data.get("start", 0)
+    
+    print(f"Found {total} results (showing {len(results)} from {start}):")
+    print("-" * 80)
+    for result in results:
+        if result_type == "content":
+            print(format_text_content(result))
+        elif result_type == "user":
+            print(format_text_user(result))
+        else:
+            print(json.dumps(result, indent=2))
+        print()
+    
+    # Pagination hint
+    links = data.get("_links", {})
+    if "next" in links:
+        cursor = extract_cursor(links.get("next"))
+        if cursor:
+            print(f"To fetch next page, use --cursor \"{cursor}\"")
+        else:
+            print("More results available (see _links.next in JSON output)")
+
+def search_content(args):
+    """Execute content search."""
+    headers = get_auth_headers()
+    params = {
+        "cql": args.cql,
+        "limit": args.limit,
+        "cursor": args.cursor,
+        "includeArchivedSpaces": args.include_archived_spaces,
+        "excludeCurrentSpaces": args.exclude_current_spaces,
+        "excerpt": args.excerpt,
+    }
+    # Convert booleans to lowercase strings
+    for key, value in params.items():
+        if isinstance(value, bool):
+            params[key] = str(value).lower()
+    # Remove None values
+    params = {k: v for k, v in params.items() if v is not None}
+
+    domain = get_domain(args.debug)
+    url = build_url(domain, "/content/search", params)
+
+    data = make_request(url, headers, args.debug)
+    output_results(data, args.output_format, "content", args.debug)
+
+def search_users(args):
+    """Execute user search."""
+    headers = get_auth_headers()
+    params = {
+        "cql": args.cql,
+        "limit": args.limit,
+        "cursor": args.cursor,
+        "expand": args.expand,
+    }
+    params = {k: v for k, v in params.items() if v is not None}
+
+    domain = get_domain(args.debug)
+    url = build_url(domain, "/user/search", params)
+
+    data = make_request(url, headers, args.debug)
+    output_results(data, args.output_format, "user", args.debug)
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="""Confluence REST API CLI tool for search queries using Confluence Query Language (CQL).
+
+Supports search-content and search-users subcommands. Authentication via environment variables.""",
+        epilog="""
+ENVIRONMENT VARIABLES
+
+  CONFLUENCE_DOMAIN    Your Confluence domain (e.g., your-domain.atlassian.net) without 'https://'
+  CONFLUENCE_EMAIL     Email address for authentication
+  CONFLUENCE_API_TOKEN API token (generate from Atlassian account security)
+
+EXAMPLES
+
+  Basic content search:
+    %(prog)s search-content --cql "type=page" --limit 10
+    %(prog)s search-content --cql "type=blogpost" --limit 5
+    %(prog)s search-content --cql 'text~"keyword"' --output-format text
+    %(prog)s search-content --cql 'space=DEV and type=page' --limit 20
+
+  User search:
+    %(prog)s search-users --cql "type=user" --limit 5
+    %(prog)s search-users --cql 'user.fullname~"John"' --limit 10
+
+  Pagination with cursor:
+    %(prog)s search-content --cql "type=page" --cursor "raNDoMsTRiNg"
+
+CQL QUICK REFERENCE
+
+  Common operators:
+    =          Equality (type=page, space=DEV)
+    ~          Contains (text~"keyword")
+    >, <, >=, <=  Date comparisons (lastModified>="-7d")
+    and, or    Logical operators
+    not        Negation
+
+  Content fields:
+    type       page, blogpost, comment, attachment
+    space      Space key
+    creator    User accountId
+    lastModified Date range
+    text       Full-text search
+
+  User fields:
+    type=user
+    user="accountId"
+    user.fullname~"partial"
+    user.accountid="123"
+
+PAGINATION
+
+  Results are paginated with a cursor. When more results are available, the tool
+  prints a cursor value. Use --cursor "value" to fetch the next page.
+
+DEBUGGING
+
+  Use --debug flag to see request URLs, headers, and response details.
+  Helpful for troubleshooting authentication and CQL syntax errors.
+
+TROUBLESHOOTING
+
+  SSL errors: Ensure CONFLUENCE_DOMAIN does not include https:// prefix.
+  Authentication failures: Verify environment variables are set correctly.
+  CQL syntax errors: Check CQL documentation for correct field names and operators.
+  Rate limiting: Confluence API may throttle requests; wait and retry.
+  Pagination issues: Cursor may expire; fetch next page promptly.
+
+For more CQL documentation, see:
+https://developer.atlassian.com/server/confluence/advanced-searching-using-cql/
+""",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    
+    subparsers = parser.add_subparsers(dest="command", required=True, help="Subcommand")
+    
+    # Common arguments for both subcommands
+    common_parent = argparse.ArgumentParser(add_help=False)
+    common_parent.add_argument("--cql", required=True, help="CQL query string")
+    common_parent.add_argument("--limit", type=int, default=DEFAULT_LIMIT, help=f"Number of results (default: {DEFAULT_LIMIT})")
+    common_parent.add_argument("--cursor", help="Pagination cursor from previous response")
+    common_parent.add_argument("--output-format", choices=["json", "text"], default="json", help="Output format (default: json)")
+    common_parent.add_argument("--debug", action="store_true", help="Print debug information")
+    
+    # Content search subcommand
+    content_parser = subparsers.add_parser(
+        "search-content",
+        parents=[common_parent],
+        help="Search for content using CQL",
+        description="Search Confluence content (pages, blogposts, etc.) using CQL queries.",
+        epilog="""
+CQL EXAMPLES FOR CONTENT SEARCH
+
+  Basic searches:
+    type=page                    All pages
+    type=blogpost               All blog posts
+    text~"keyword"              Full-text search for keyword
+    space=DEV                   Content in space with key DEV
+    creator=currentUser()       Pages created by current user
+    lastModified>="-7d"         Modified in last 7 days
+
+  Combined queries:
+    type=page and text~"API" and space=DEV
+    type=blogpost and creator=currentUser()
+    (type=page or type=blogpost) and lastModified>="-30d"
+
+  Using special parameters:
+    --include-archived-spaces   Include archived spaces in results
+    --exclude-current-spaces    Exclude current spaces (archived only)
+    --excerpt highlight         Include highlighted excerpts in results
+
+PAGINATION
+
+  Use --cursor with value from previous response to fetch next page.
+
+OUTPUT FORMATS
+
+  --output-format json   Full JSON response (default)
+  --output-format text   Human-readable summary
+
+DEBUGGING
+
+  Use --debug to see request details and diagnose errors.
+""",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    content_parser.add_argument("--include-archived-spaces", action="store_true", help="Include archived spaces in results")
+    content_parser.add_argument("--exclude-current-spaces", action="store_true", help="Exclude current spaces from results")
+    content_parser.add_argument("--excerpt", choices=["highlight", "none"], help="Excerpt strategy")
+    content_parser.set_defaults(func=search_content)
+    
+    # User search subcommand
+    user_parser = subparsers.add_parser(
+        "search-users",
+        parents=[common_parent],
+        help="Search for users using CQL",
+        description="Search Confluence users using CQL queries.",
+        epilog="""
+CQL EXAMPLES FOR USER SEARCH
+
+  Basic searches:
+    type=user                    All users
+    user="accountId"            Specific user by account ID
+    user.fullname~"John"        Partial name match
+    user.accountid="123"        By account ID (numeric)
+    user.email="user@example.com" By email address
+
+  Field limitations:
+    - Email and profilePicture fields may be null depending on permissions.
+    - Only active users are returned by default.
+
+OUTPUT FORMATS
+
+  --output-format json   Full JSON response (default)
+  --output-format text   Human-readable summary with display name, username, email.
+
+EXPAND PARAMETER
+
+  Use --expand to include additional properties (e.g., "groups,personalSpace").
+  See Confluence REST API documentation for available expand options.
+
+DEBUGGING
+
+  Use --debug to see request details and diagnose errors.
+""",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    user_parser.add_argument("--expand", help="Comma-separated list of properties to expand")
+    user_parser.set_defaults(func=search_users)
+    
+    args = parser.parse_args()
+    args.func(args)
+
+if __name__ == "__main__":
+    main()
