@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+set -e
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+# Counters
+BROKEN_COUNT=0
+FIXED_COUNT=0
+
+echo -e "${YELLOW}Checking for broken symlinks...${NC}"
+
+# Find all broken symlinks, excluding .git and .gwt directories
+BROKEN_SYMLINKS=$(find . -type l -not -path "./.git/*" -not -path "./.gwt/*" -exec sh -c 'if [ ! -e "$1" ]; then echo "$1"; fi' _ {} \;)
+
+if [ -z "$BROKEN_SYMLINKS" ]; then
+  echo -e "${GREEN}✓ No broken symlinks found${NC}"
+  exit 0
+fi
+
+# Report broken symlinks
+echo -e "${RED}✗ Found broken symlinks:${NC}"
+echo "$BROKEN_SYMLINKS" | while read -r link; do
+  [ -n "$link" ] || continue
+  BROKEN_COUNT=$((BROKEN_COUNT + 1))
+  TARGET=$(readlink "$link")
+  echo -e "  ${RED}${BROKEN_COUNT}.${NC} ${link} → ${YELLOW}${TARGET}${NC}"
+done
+
+echo ""
+echo -e "${YELLOW}Total broken symlinks: ${BROKEN_COUNT}${NC}"
+exit 1

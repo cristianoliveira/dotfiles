@@ -55,3 +55,7 @@ restow: ## Create links for .config files using stow
 .PHONY: nvim
 nvim: ## Headless check that Neovim config loads cleanly
 	@./bin/nvim-check
+
+.PHONY: check-symlinks
+check-symlinks: ## Check for broken symlinks in the repository
+	@./bin/check-symlinks
