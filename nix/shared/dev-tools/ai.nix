@@ -4,7 +4,6 @@
     unstable.aichat
 
     # Agents
-    nur.repos.charmbracelet.crush
     nightly.codex
     nightly.opencode
 

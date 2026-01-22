@@ -38,7 +38,9 @@
   change: 'tmux/**'
 
 - name: reload stow
-  run: make stow
+  run:
+    - make check-symlinks
+    - make stow
   change: 'stow/**'
 
 - name: adds to git
