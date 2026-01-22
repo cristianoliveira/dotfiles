@@ -311,13 +311,34 @@ def search_content(args):
         if cql != args.cql:
             sys.stderr.write(f"DEBUG: Fuzzy CQL: {cql}\n")
     if args.boost_title:
-        # Boost title matches by adding ^2 to title~ patterns
+        # Cloud-compatible workaround: strip boost factors and add title~ patterns for text~ patterns
         import re
-        # Match title~"something" with optional existing boost
-        cql = re.sub(r'title\s*~\s*"([^"]+)"(?:\s*\^[0-9.]+)*', r'title~"\1"^2', cql)
-        cql = re.sub(r"title\s*~\s*'([^']+)'(?:\s*\^[0-9.]+)*", r"title~'\1'^2", cql)
+        
+        # Strip boost factors from title~ patterns (Cloud incompatible with ^ syntax)
+        def strip_boost(match):
+            prefix = match.group(1)
+            quote = match.group(2)
+            inner = match.group(3)
+            return f'{prefix}{quote}{inner}{quote}'
+        # Match title~"something"^2 or title~'something'^3
+        cql = re.sub(r'(title\s*~\s*)(")([^"]+)"(?:\s*\^[0-9.]+)*', strip_boost, cql)
+        cql = re.sub(r"(title\s*~\s*)(')([^']+)'(?:\s*\^[0-9.]+)*", strip_boost, cql)
+        
+        # Add title~ patterns for each text~ pattern using OR logic for prioritization
+        def add_title_or(match):
+            prefix = match.group(1)
+            quote = match.group(2)
+            inner = match.group(3)
+            # Convert "text" prefix to "title" prefix while preserving spacing
+            title_prefix = prefix.replace('text', 'title')
+            # Return (title~"inner") OR (text~"inner") preserving original prefix spacing
+            return f'({title_prefix}{quote}{inner}{quote} OR {prefix}{quote}{inner}{quote})'
+        # Match text~"..." and text~'...'
+        cql = re.sub(r'(text\s*~\s*)(")([^"]+)"(?:\s*\^[0-9.]+)*', add_title_or, cql)
+        cql = re.sub(r"(text\s*~\s*)(')([^']+)'(?:\s*\^[0-9.]+)*", add_title_or, cql)
+        
         if cql != args.cql:
-            sys.stderr.write(f"DEBUG: Boosted CQL: {cql}\n")
+            sys.stderr.write(f"DEBUG: Boost-title transformation (Cloud compatible): {cql}\n")
     
     # Ensure we have body content for fallback if excerpts might be empty
     expand = args.expand
@@ -902,7 +923,7 @@ CONFLUENCE CLI BEST PRACTICES
      - label=bugfix filters by label
 
    CLI Features for Precision:
-     - --boost-title: Automatically boost title matches
+      - --boost-title: Automatically boost title matches (Cloud compatible workaround)
      - --fuzzy: Add wildcards between words for flexible matching
      - --sort: Sort by relevance, modified, created, title
      - --status: Filter by current, draft, archived
@@ -1058,7 +1079,7 @@ https://developer.atlassian.com/server/confluence/advanced-searching-using-cql/
     Relevance boosting with CQL:
       title~"API"^2               Boost title matches (higher relevance)
       title~"API"^2 OR text~"API" Boost title matches over content matches
-      Use --boost-title flag to automatically add ^2 to title~ patterns
+       Use --boost-title flag to automatically add ^2 to title~ patterns (Cloud compatible workaround: strips boost and adds title~ OR text~)
 
     Wildcard and fuzzy matching with CQL:
       text~"create*team*account"  Match words with wildcards (*) anywhere
@@ -1079,7 +1100,7 @@ https://developer.atlassian.com/server/confluence/advanced-searching-using-cql/
       --full-urls                 Show full URLs in text output
       --status                    Filter by status (current, draft, archived)
       --sort                      Sort order: relevance, created-date, modified-date, title
-      --boost-title               Boost title matches in CQL (adds ^2 to title~ patterns)
+       --boost-title               Boost title matches in CQL (adds ^2 to title~ patterns; Cloud compatible: strips boost and adds title~ OR text~)
 
  PAGINATION
 
@@ -1106,7 +1127,7 @@ https://developer.atlassian.com/server/confluence/advanced-searching-using-cql/
     content_parser.add_argument("--full-urls", action="store_true", help="Show full URLs in text output")
     content_parser.add_argument("--status", choices=["current", "draft", "archived"], help="Filter by status")
     content_parser.add_argument("--sort", choices=["relevance", "created-date", "modified-date", "title"], default="relevance", help="Sort order (default: relevance)")
-    content_parser.add_argument("--boost-title", action="store_true", help="Boost title matches in CQL (adds ^2 to title~ patterns)")
+    content_parser.add_argument("--boost-title", action="store_true", help="Boost title matches in CQL (adds ^2 to title~ patterns; Cloud compatible: strips boost and adds title~ OR text~)")
     content_parser.set_defaults(func=search_content)
     
     # User search subcommand
