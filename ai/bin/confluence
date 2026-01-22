@@ -64,6 +64,28 @@ def get_domain(debug: bool = False) -> str:
     return sanitized
 
 
+def make_absolute_url(domain: str, result: Dict[str, Any]) -> str:
+    """Convert relative webui link to absolute URL, or construct from data."""
+    # Try _links.webui first
+    webui = result.get("_links", {}).get("webui", "")
+    if webui:
+        if webui.startswith(("http://", "https://")):
+            return webui
+        # Assume relative path starting with /
+        return f"https://{domain}{webui}"
+    # Fallback construction based on type
+    space_key = result.get("space", {}).get("key")
+    content_id = result.get("id")
+    if not space_key or not content_id:
+        return ""
+    content_type = result.get("type", "page")
+    if content_type == "blogpost":
+        return f"https://{domain}/wiki/spaces/{space_key}/blog/{content_id}"
+    else:
+        # page, attachment, comment, etc. Use pages path (Confluence uses /pages/ for most content)
+        return f"https://{domain}/wiki/spaces/{space_key}/pages/{content_id}"
+
+
 def get_auth_headers(debug_auth: bool = False) -> Dict[str, str]:
     """Read environment variables and return Basic auth headers."""
     domain = os.environ.get("CONFLUENCE_DOMAIN")
@@ -213,10 +235,9 @@ def format_text_content(result: Dict[str, Any], domain: str = None, full_urls: b
     title = result.get("title", "No title")
     url = result.get("_links", {}).get("webui", "")
     if full_urls and domain:
-        space_key = result.get("space", {}).get("key")
-        page_id = result.get("id")
-        if space_key and page_id:
-            url = f"https://{domain}/wiki/spaces/{space_key}/pages/{page_id}"
+        absolute = make_absolute_url(domain, result)
+        if absolute:
+            url = absolute
     # Try excerpt field first
     excerpt = strip_html_tags(result.get("excerpt", ""))
     # If empty, check excerpts dict (Confluence may return excerpts.highlight or excerpts.indexed)
@@ -455,8 +476,10 @@ def get_content(args):
         version = data.get("version", {}).get("number", "")
         created = data.get("version", {}).get("when", "")
         url = data.get("_links", {}).get("webui", "")
-        if args.full_urls and space_key and page_id:
-            url = f"https://{domain}/wiki/spaces/{space_key}/pages/{page_id}"
+        if args.full_urls:
+            absolute = make_absolute_url(domain, data)
+            if absolute:
+                url = absolute
         print(f"Title: {title}")
         print(f"ID: {page_id}")
         print(f"Space: {space_key}")
@@ -507,8 +530,10 @@ def get_content(args):
         version = data.get("version", {}).get("number", "")
         created = data.get("version", {}).get("when", "")
         url = data.get("_links", {}).get("webui", "")
-        if args.full_urls and space_key and page_id:
-            url = f"https://{domain}/wiki/spaces/{space_key}/pages/{page_id}"
+        if args.full_urls:
+            absolute = make_absolute_url(domain, data)
+            if absolute:
+                url = absolute
         print(f"# {title}\n")
         print(f"> ID: {page_id} | Space: {space_key} | Version: {version} | Created: {created}")
         if url:
