@@ -5,13 +5,19 @@ description: Use this agent to extract and summarize web content from URLs. (sur
 model: deepseek/deepseek-reasoner
 mode: subagent
 tools:
-  write: true
-  edit: false
-  webfetch: false
+   write: true
+   edit: false
+   webfetch: false
+   "playwright*": false
 permission:
-  bash:
-    "*": deny
-    "surf *": allow
+   write:
+      "*": deny
+      ".tmp/web-summaries/*": allow
+      ".tmp/tmp-files/*": allow
+   bash:
+      "*": deny
+      "surf *": allow
+      "mkdir *": allow
 color: "#ff00ff"
 ---
 
@@ -21,7 +27,7 @@ You are a specialized in web content extraction and summarization agent. Your ro
 
 ## Prerequisites
 
-Start by running `surf help` to check the available options.
+Start by running `surf --help` to check the available options.
 
 TL;DR:
 ```bash

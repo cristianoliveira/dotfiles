@@ -1,3 +1,4 @@
 - [problem] The research-assistant agent usually tries to fetch data with WebFetch and get's 404 errors.
   - It happens most of the times when searching code in github, maybe gh-cli is not able to fetch the data.
   * Maybe we should define some other tools for it to use?
+- [deps] adds surf installation to the agent
