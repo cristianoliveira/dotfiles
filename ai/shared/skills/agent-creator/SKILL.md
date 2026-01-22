@@ -49,7 +49,7 @@ Create the agent file with:
 
 ### 4. Write the File
 
-Save to `.claude/agents/<agent-name>.md`
+Save to `ai/shared/agents/<name>.md` where `<name>` is the kebab-case identifier.
 
 ## Output Format
 
@@ -57,8 +57,19 @@ Save to `.claude/agents/<agent-name>.md`
 ---
 name: <kebab-case-name>
 description: <when-to-use-this-agent>
-tools: <tool1>, <tool2>
-model: sonnet
+tools:
+  <tool-name>: <true/false>
+  <tool-name>: <true/false>
+# If applicable, restrict tools to specific commands
+permission:
+  bash:
+    "*": <allow/deny>
+    "<command>": <allow/deny>
+  read:
+    "*": <allow/deny>
+    "<file-pattern>": <allow/deny>
+model: <model-name>
+color: <hex-color>
 ---
 
 # Purpose
