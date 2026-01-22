@@ -815,15 +815,15 @@ def list_children(args):
     if args.limit:
         params["limit"] = args.limit
     # Expand metadata based on type
-    if args.type == "page":
+    if args.type in ["page", "folder"]:
         params["expand"] = "space,version"
     else:
         params["expand"] = "version"
     
     domain = get_domain(args.debug)
     
-    if args.type != "page" and args.recursive:
-        sys.stderr.write("Warning: Recursive flag only supported for type 'page'. Ignoring --recursive.\n")
+    if args.type not in ["page", "folder"] and args.recursive:
+        sys.stderr.write("Warning: Recursive flag only supported for type 'page' and 'folder'. Ignoring --recursive.\n")
         args.recursive = False
     
     # Recursive fetch with depth limit (only for pages)
@@ -837,7 +837,7 @@ def list_children(args):
         for child in children:
             child["_depth"] = depth
             all_children.append(child)
-            if args.recursive and args.type == "page":
+            if args.recursive and args.type in ["page", "folder"]:
                 grandchildren = fetch_children(child.get("id"), depth+1, args.depth)
                 all_children.extend(grandchildren)
         return all_children
@@ -866,7 +866,7 @@ def list_children(args):
         child_id = child.get("id", "")
         space_key = child.get("space", {}).get("key", "")
         version = child.get("version", {}).get("number", 1)
-        if args.type == "page":
+        if args.type in ["page", "folder", "whiteboard", "database", "embed"]:
             print(f"{indent}{title} (ID: {child_id}, Space: {space_key}, v{version})")
         else:
             # For attachments/comments, show extra info
@@ -1336,7 +1336,7 @@ EXAMPLES
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     children_parser.add_argument("--id", required=True, help="Page ID")
-    children_parser.add_argument("--type", choices=["page", "attachment", "comment"], default="page", help="Type of children to list (default: page)")
+    children_parser.add_argument("--type", choices=["page", "attachment", "comment", "folder", "whiteboard", "database", "embed"], default="page", help="Type of children to list (default: page)")
     children_parser.add_argument("--limit", type=positive_int, help="Maximum number of children per page, must be > 0")
     children_parser.add_argument("--output-format", choices=["json", "text"], default="json", help="Output format (default: json)")
     children_parser.add_argument("--recursive", action="store_true", help="Fetch nested descendants recursively")
