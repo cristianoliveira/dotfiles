@@ -63,3 +63,7 @@ check-symlinks: ## Check for broken symlinks in the repository
 .PHONY: check-nix
 check-nix: ## Validate Nix configuration syntax and flake evaluation
 	@./bin/nix-check
+
+.PHONY: check-symlinks
+check-symlinks: ## Check for broken symlinks in the repository
+	@./bin/check-symlinks
