@@ -163,6 +163,10 @@ def make_request(url: str, headers: Dict[str, str], debug: bool = False, method:
                 # Try to extract message from Confluence error format
                 message = error_json.get('message', str(error_json))
                 sys.stderr.write(f"Details: {message}\n")
+                # Check for Hystrix circuit breaker errors
+                if "Hystrix" in message or "circuit short-circuited" in message:
+                    sys.stderr.write("\nHint: This error may be caused by fuzzy search with wildcards.\n")
+                    sys.stderr.write("      Try removing the --fuzzy flag or using simpler search terms.\n")
                 if 'data' in error_json and 'errors' in error_json['data']:
                     for err in error_json['data']['errors']:
                         sys.stderr.write(f"  - {err.get('message', str(err))}\n")
@@ -304,12 +308,22 @@ def search_content(args):
             parts = [p.strip() for p in inner.split() if p.strip()]
             if not parts:
                 return match.group(0)  # empty string, keep as is
-            new_inner = '*'.join(parts)
+            # Limit wildcard usage to prevent server overload
+            max_words = 4
+            if len(parts) > max_words:
+                # Too many words for wildcard-between-words; use trailing wildcard only
+                new_inner = ' '.join(parts) + '*'
+                if args.debug:
+                    sys.stderr.write(f"DEBUG: Fuzzy search limited to trailing wildcard for {len(parts)} words.\n")
+            else:
+                new_inner = '*'.join(parts)
             return f'text~{quote}{new_inner}{quote}'
         # Match text~"..." and text~'...' capturing the quote
         cql = re.sub(r'text~(["\'])([^"\']+)\1', replace_with_wildcards, cql)
         if cql != args.cql:
             sys.stderr.write(f"DEBUG: Fuzzy CQL: {cql}\n")
+            sys.stderr.write("Note: Fuzzy search adds wildcards between words which may trigger server circuit breaker.\n")
+            sys.stderr.write("      If you encounter 'Hystrix circuit short-circuited' errors, try removing --fuzzy flag.\n")
     if args.boost_title:
         # Cloud-compatible workaround: strip boost factors and add title~ patterns for text~ patterns
         import re
@@ -938,7 +952,7 @@ CONFLUENCE CLI BEST PRACTICES
 
    CLI Features for Precision:
       - --boost-title: Automatically boost title matches (Cloud compatible workaround)
-     - --fuzzy: Add wildcards between words for flexible matching
+     - --fuzzy: Add wildcards between words for flexible matching (may trigger circuit breaker; limited to 4 words)
      - --sort: Sort by relevance, modified, created, title
      - --status: Filter by current, draft, archived
 
@@ -1136,7 +1150,7 @@ https://developer.atlassian.com/server/confluence/advanced-searching-using-cql/
     content_parser.add_argument("--excerpt", choices=["highlight", "indexed", "none"], default="highlight", help="Excerpt strategy: highlight (matched text), indexed (static excerpt), or none (default: highlight). Note: Confluence Cloud may not return excerpt fields; body content will be used as fallback when snippet-length > 0 (automatically expands body.view when needed).")
     content_parser.add_argument("--no-excerpt", action="store_const", const="none", dest="excerpt", help="Disable excerpts (sets excerpt=none)")
     content_parser.add_argument("--snippet-length", type=positive_int, default=200, help="Maximum length of excerpt snippet (or fallback body snippet) in text output, must be > 0 (default: 200)")
-    content_parser.add_argument("--fuzzy", action="store_true", help="Add wildcards (*) between words in text~ queries for fuzzy matching")
+    content_parser.add_argument("--fuzzy", action="store_true", help="Add wildcards (*) between words in text~ queries for fuzzy matching. For phrases longer than 4 words, only a trailing wildcard is added to prevent server overload. May trigger circuit breaker errors.")
     content_parser.add_argument("--expand", help="Comma-separated list of properties to expand (e.g., body.view,space)")
     content_parser.add_argument("--full-urls", action="store_true", help="Show full URLs in text output")
     content_parser.add_argument("--status", choices=["current", "draft", "archived"], help="Filter by status")
