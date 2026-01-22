@@ -13,6 +13,9 @@
     nightly.beads # Advanced todo list for AI
     nightly.beads_viewer # Beads viewer for visualizing beads data
 
-    nightly.gob # Parallel job runner for AI
+    ## TOOLS (mostly for AI agents)
+    nightly.gob                      # Parallel job runner for AI
+    nightly.confluence-cli           # Allow agent to access confluence
+    unstable.jira-cli-go             # Allow agent to access jira
   ];
 }
