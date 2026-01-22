@@ -369,6 +369,11 @@ in {
           "8" = ["secondary" "built-in" "main" ];
           "9" = ["built-in" "main"];
           "0" = ["built-in" "main"];
+
+          # Scratchpad workspaces
+          ".scratchpad.1" = "main";
+          ".scratchpad.2" = "secondary";
+          ".scratchpad.3" = "tertiary";
         };
 
         on-window-detected = [
