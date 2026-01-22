@@ -2,3 +2,6 @@
   - It happens most of the times when searching code in github, maybe gh-cli is not able to fetch the data.
   * Maybe we should define some other tools for it to use?
 - [deps] adds surf installation to the agent
+
+- [problem] Sometimes I need to fetch data from Figma like images or text from the threads, search on those threads, or text from the design
+  - I need a cli tool to fetch data from figma
