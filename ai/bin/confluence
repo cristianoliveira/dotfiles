@@ -239,8 +239,8 @@ def format_text_content(result: Dict[str, Any], domain: str = None, full_urls: b
 
 def format_text_user(result: Dict[str, Any]) -> str:
     """Format a single user result for human-readable output."""
-    username = result.get("username", "")
-    display_name = result.get("displayName", "")
+    username = result.get("username") or result.get("publicName", "")
+    display_name = result.get("displayName") or result.get("publicName", "")
     email = result.get("email", "")
     return f"{display_name} (@{username})\n  Email: {email}\n"
 
@@ -390,9 +390,23 @@ def search_users(args):
     params = {k: v for k, v in params.items() if v is not None}
 
     domain = get_domain(args.debug)
-    url = build_url(domain, "/user/search", params)
+    url = build_url(domain, "/search", params)
 
     data = make_request(url, headers, args.debug)
+    # Transform search results: extract user objects, filter out non-user results
+    if 'results' in data:
+        transformed = []
+        for item in data['results']:
+            if 'user' in item:
+                transformed.append(item['user'])
+            elif args.debug:
+                sys.stderr.write(f'DEBUG: Skipping non-user result: {item.get("entityType", "unknown")}\n')
+        if transformed:
+            data['results'] = transformed
+            data['size'] = len(transformed)
+        else:
+            data['results'] = []
+            data['size'] = 0
     output_results(data, args.output_format, "user", args.debug)
 
 def get_content(args):
