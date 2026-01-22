@@ -11,6 +11,7 @@ import base64
 import json
 import os
 import sys
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -85,43 +86,71 @@ def build_url(domain: str, endpoint: str, params: Dict[str, Any]) -> str:
     return url
 
 def make_request(url: str, headers: Dict[str, str], debug: bool = False) -> Dict[str, Any]:
-    """Make HTTP GET request and parse JSON response."""
-    if debug:
-        sys.stderr.write(f"DEBUG: Request URL: {url}\n")
-        sys.stderr.write(f"DEBUG: Headers: {headers}\n")
+    """Make HTTP GET request and parse JSON response with retry for rate limiting."""
+    max_retries = 3
+    base_delay = 1  # seconds
     
-    req = urllib.request.Request(url, headers=headers)
-    try:
-        with urllib.request.urlopen(req) as response:
-            body = response.read().decode()
-            if debug:
-                sys.stderr.write(f"DEBUG: Response status: {response.status}\n")
-                sys.stderr.write(f"DEBUG: Response body (first 500 chars): {body[:500]}\n")
-            return json.loads(body)
-    except urllib.error.HTTPError as e:
-        sys.stderr.write(f"HTTP Error {e.code}: {e.reason}\n")
+    for attempt in range(max_retries):
+        if debug:
+            sys.stderr.write(f"DEBUG: Request URL: {url}\n")
+            sys.stderr.write(f"DEBUG: Headers: {headers}\n")
+            if attempt > 0:
+                sys.stderr.write(f"DEBUG: Retry attempt {attempt}\n")
+        
+        req = urllib.request.Request(url, headers=headers)
         try:
-            error_body = e.read().decode()
-            error_json = json.loads(error_body)
-            sys.stderr.write(f"Details: {json.dumps(error_json, indent=2)}\n")
-        except:
-            pass
-        sys.exit(1)
-    except urllib.error.URLError as e:
-        sys.stderr.write(f"URL Error: {e.reason}\n")
-        if "SSL" in str(e.reason) or "TLS" in str(e.reason):
-            sys.stderr.write("Hint: This might be due to incorrect CONFLUENCE_DOMAIN format.\n")
-            sys.stderr.write("      Ensure it's just the domain (e.g., 'your-domain.atlassian.net') without 'https://'.\n")
-            sys.stderr.write(f"      Request URL was: {url}\n")
-        sys.exit(1)
-    except json.JSONDecodeError as e:
-        sys.stderr.write(f"Invalid JSON response: {e}\n")
-        sys.exit(1)
+            with urllib.request.urlopen(req) as response:
+                body = response.read().decode()
+                if debug:
+                    sys.stderr.write(f"DEBUG: Response status: {response.status}\n")
+                    sys.stderr.write(f"DEBUG: Response body (first 500 chars): {body[:500]}\n")
+                return json.loads(body)
+        except urllib.error.HTTPError as e:
+            if e.code in (429, 503) and attempt < max_retries - 1:
+                # Rate limited or service unavailable, retry after delay
+                retry_after = e.headers.get('Retry-After')
+                if retry_after:
+                    try:
+                        delay = int(retry_after)
+                    except ValueError:
+                        delay = base_delay * (2 ** attempt)  # exponential backoff
+                else:
+                    delay = base_delay * (2 ** attempt)
+                sys.stderr.write(f"HTTP Error {e.code}: {e.reason}. Retrying in {delay} seconds...\n")
+                time.sleep(delay)
+                continue
+            sys.stderr.write(f"HTTP Error {e.code}: {e.reason}\n")
+            try:
+                error_body = e.read().decode()
+                error_json = json.loads(error_body)
+                sys.stderr.write(f"Details: {json.dumps(error_json, indent=2)}\n")
+            except:
+                pass
+            sys.exit(1)
+        except urllib.error.URLError as e:
+            sys.stderr.write(f"URL Error: {e.reason}\n")
+            if "SSL" in str(e.reason) or "TLS" in str(e.reason):
+                sys.stderr.write("Hint: This might be due to incorrect CONFLUENCE_DOMAIN format.\n")
+                sys.stderr.write("      Ensure it's just the domain (e.g., 'your-domain.atlassian.net') without 'https://'.\n")
+                sys.stderr.write(f"      Request URL was: {url}\n")
+            sys.exit(1)
+        except json.JSONDecodeError as e:
+            sys.stderr.write(f"Invalid JSON response: {e}\n")
+            sys.exit(1)
+    
+    # Should never reach here (exit on failure)
+    sys.stderr.write("Max retries exceeded\n")
+    sys.exit(1)
 
-def format_text_content(result: Dict[str, Any]) -> str:
+def format_text_content(result: Dict[str, Any], domain: str = None, full_urls: bool = False) -> str:
     """Format a single content result for human-readable output."""
     title = result.get("title", "No title")
     url = result.get("_links", {}).get("webui", "")
+    if full_urls and domain:
+        space_key = result.get("space", {}).get("key")
+        page_id = result.get("id")
+        if space_key and page_id:
+            url = f"https://{domain}/wiki/spaces/{space_key}/pages/{page_id}"
     excerpt = result.get("excerpt", "").replace("\n", " ").strip()
     last_modified = result.get("version", {}).get("when", "")
     return f"{title}\n  URL: {url}\n  Excerpt: {excerpt[:200]}{'...' if len(excerpt) > 200 else ''}\n  Last modified: {last_modified}\n"
@@ -144,7 +173,7 @@ def extract_cursor(next_url: str) -> Optional[str]:
         return cursor_list[0]
     return None
 
-def output_results(data: Dict[str, Any], output_format: str, result_type: str, debug: bool = False):
+def output_results(data: Dict[str, Any], output_format: str, result_type: str, debug: bool = False, full_urls: bool = False, domain: str = None):
     """Output results in JSON or text format."""
     if output_format == "json":
         print(json.dumps(data, indent=2))
@@ -160,7 +189,7 @@ def output_results(data: Dict[str, Any], output_format: str, result_type: str, d
     print("-" * 80)
     for result in results:
         if result_type == "content":
-            print(format_text_content(result))
+            print(format_text_content(result, domain=domain, full_urls=full_urls))
         elif result_type == "user":
             print(format_text_user(result))
         else:
@@ -186,6 +215,8 @@ def search_content(args):
         "includeArchivedSpaces": args.include_archived_spaces,
         "excludeCurrentSpaces": args.exclude_current_spaces,
         "excerpt": args.excerpt,
+        "expand": args.expand,
+        "status": args.status,
     }
     # Convert booleans to lowercase strings
     for key, value in params.items():
@@ -198,7 +229,7 @@ def search_content(args):
     url = build_url(domain, "/content/search", params)
 
     data = make_request(url, headers, args.debug)
-    output_results(data, args.output_format, "content", args.debug)
+    output_results(data, args.output_format, "content", args.debug, full_urls=args.full_urls, domain=domain)
 
 def search_users(args):
     """Execute user search."""
@@ -216,6 +247,71 @@ def search_users(args):
 
     data = make_request(url, headers, args.debug)
     output_results(data, args.output_format, "user", args.debug)
+
+def get_content(args):
+    """Fetch content by ID."""
+    headers = get_auth_headers()
+    params = {}
+    expand = args.expand
+    # For raw output, ensure body.storage is expanded
+    if args.output_format == "raw":
+        if not expand:
+            expand = "body.storage"
+        elif "body.storage" not in expand:
+            expand = expand + ",body.storage"
+    if expand:
+        params["expand"] = expand
+    if args.status:
+        params["status"] = args.status
+    if args.version:
+        params["version"] = args.version
+    
+    domain = get_domain(args.debug)
+    url = build_url(domain, f"/content/{args.id}", params)
+    
+    data = make_request(url, headers, args.debug)
+    
+    # Handle raw output format
+    if args.output_format == "raw":
+        # Try to extract body content
+        body = data.get("body", {})
+        storage = body.get("storage")
+        if storage:
+            print(storage.get("value", ""))
+        else:
+            # Maybe body.view or other representation
+            view = body.get("view")
+            if view:
+                print(view.get("value", ""))
+            else:
+                sys.stderr.write("Error: No body content found. Try using --expand body.storage or body.view\n")
+                sys.exit(1)
+        return
+    elif args.output_format == "text":
+        # Custom text formatting for single content
+        title = data.get("title", "No title")
+        space_key = data.get("space", {}).get("key", "")
+        page_id = data.get("id", "")
+        version = data.get("version", {}).get("number", "")
+        created = data.get("version", {}).get("when", "")
+        url = data.get("_links", {}).get("webui", "")
+        if args.full_urls and space_key and page_id:
+            url = f"https://{domain}/wiki/spaces/{space_key}/pages/{page_id}"
+        print(f"Title: {title}")
+        print(f"ID: {page_id}")
+        print(f"Space: {space_key}")
+        print(f"Version: {version}")
+        print(f"Created: {created}")
+        print(f"URL: {url}")
+        # Print expanded fields if present
+        if expand:
+            for field in expand.split(","):
+                if field in data:
+                    print(f"{field}: {json.dumps(data[field], indent=2)}")
+        return
+    
+    # Default JSON output
+    print(json.dumps(data, indent=2))
 
 def main():
     parser = argparse.ArgumentParser(
@@ -325,7 +421,11 @@ CQL EXAMPLES FOR CONTENT SEARCH
   Using special parameters:
     --include-archived-spaces   Include archived spaces in results
     --exclude-current-spaces    Exclude current spaces (archived only)
-    --excerpt highlight         Include highlighted excerpts in results
+    --excerpt highlight         Include highlighted excerpts in results (default)
+    --no-excerpt                Disable excerpts
+    --expand                    Expand additional fields (e.g., body.view,space)
+    --full-urls                 Show full URLs in text output
+    --status                    Filter by status (current, draft, archived)
 
 PAGINATION
 
@@ -344,7 +444,11 @@ DEBUGGING
     )
     content_parser.add_argument("--include-archived-spaces", action="store_true", help="Include archived spaces in results")
     content_parser.add_argument("--exclude-current-spaces", action="store_true", help="Exclude current spaces from results")
-    content_parser.add_argument("--excerpt", choices=["highlight", "none"], help="Excerpt strategy")
+    content_parser.add_argument("--excerpt", choices=["highlight", "none"], default="highlight", help="Excerpt strategy (default: highlight)")
+    content_parser.add_argument("--no-excerpt", action="store_const", const="none", dest="excerpt", help="Disable excerpts (sets excerpt=none)")
+    content_parser.add_argument("--expand", help="Comma-separated list of properties to expand (e.g., body.view,space)")
+    content_parser.add_argument("--full-urls", action="store_true", help="Show full URLs in text output")
+    content_parser.add_argument("--status", choices=["current", "draft", "archived"], help="Filter by status")
     content_parser.set_defaults(func=search_content)
     
     # User search subcommand
@@ -385,6 +489,37 @@ DEBUGGING
     )
     user_parser.add_argument("--expand", help="Comma-separated list of properties to expand")
     user_parser.set_defaults(func=search_users)
+    
+    # Get content by ID subcommand
+    get_parser = subparsers.add_parser(
+        "get-content",
+        help="Fetch content by ID",
+        description="Fetch Confluence content by page ID with optional expansion.",
+        epilog="""
+EXAMPLES
+
+  Get page content as JSON:
+    %(prog)s --id 123456
+
+  Get page body in raw storage format:
+    %(prog)s --id 123456 --expand body.storage --output-format raw
+
+  Get page with specific version:
+    %(prog)s --id 123456 --version 3
+
+  Get page with space and version expanded:
+    %(prog)s --id 123456 --expand "space,version" --output-format text
+""",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    get_parser.add_argument("--id", required=True, help="Page ID")
+    get_parser.add_argument("--expand", help="Comma-separated list of properties to expand (e.g., body.storage,space,version)")
+    get_parser.add_argument("--status", choices=["current", "draft", "archived"], help="Filter by status")
+    get_parser.add_argument("--version", type=int, help="Specific version number")
+    get_parser.add_argument("--output-format", choices=["json", "text", "raw"], default="json", help="Output format (default: json)")
+    get_parser.add_argument("--full-urls", action="store_true", help="Show full URLs in text output")
+    get_parser.add_argument("--debug", action="store_true", help="Print debug information")
+    get_parser.set_defaults(func=get_content)
     
     args = parser.parse_args()
     args.func(args)
