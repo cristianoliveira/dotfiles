@@ -323,6 +323,20 @@ def search_content(args):
         if cql != args.cql:
             sys.stderr.write(f"DEBUG: Boosted CQL: {cql}\n")
     
+    # Ensure we have body content for fallback if excerpts might be empty
+    expand = args.expand
+    if args.snippet_length > 0 and args.excerpt != "none":
+        # Add body.view expansion if not already present
+        if not expand:
+            expand = "body.view"
+        else:
+            # Parse comma-separated list
+            parts = [p.strip() for p in expand.split(",")]
+            # Check if any body.* expansion exists
+            if not any(p.startswith("body.") for p in parts):
+                expand = expand + ",body.view"
+    args.expand = expand
+
     params = {
         "cql": cql,
         "limit": args.limit,
@@ -846,11 +860,93 @@ def list_spaces(args):
         if cursor:
             print(f"To fetch next page, use --cursor \"{cursor}\"")
 
+def print_best_practices():
+    """Print comprehensive best practices guide for Confluence CLI."""
+    guide = """
+CONFLUENCE CLI BEST PRACTICES
+=============================
+
+1. TOKEN-SAVING STRATEGIES
+   - Use --output-format text for human reading (cleaner, fewer tokens)
+   - Use --output-format json only for programmatic processing
+   - Use --output-format markdown for content export
+   - Use --snippet-length 150 (default 200) to limit excerpt size
+   - Use --excerpt indexed for static excerpts (no HTML tags) vs highlight (has tags)
+   - Use --no-excerpt when you only need metadata
+   - Be specific with CQL: type=page and space=DEV and created>2024-01-01
+   - Use --limit 10 instead of default 25 when exploring
+    - Use type=page in CQL to filter out attachments/comments
+   - Only use --expand when needed (increases response size)
+   - Default search returns minimal fields
+   - Use get-content for full content only after identifying relevant pages
+
+2. GREP/AI INTEGRATION
+   Pipeline Examples:
+      # Search and pipe to Grep for summarization
+      confluence search-content --cql "type=page" --excerpt indexed --snippet-length 100 --limit 5 --output-format text | grep summarize
+     
+     # Get page as Markdown for AI analysis
+      confluence get-content --id 123 --output-format markdown | grep analyze
+     
+     # Extract clean text for token-efficient processing
+     confluence get-content --id 456 --output-format text | wc -c
+
+   Clean Output for AI:
+     - --output-format text strips HTML tags
+     - --excerpt indexed avoids highlight tags
+     - Use --snippet-length to control input size to AI
+
+3. PRECISE SEARCH TECHNIQUES
+   CQL Mastery:
+     - title~"keyword" searches titles only
+     - text~"keyword" searches full content
+     - title~"word"^2 OR text~"word" boosts title matches
+     - type=page and space=KEY filters by space
+     - created>="2024-01-01" filters by date
+     - label=bugfix filters by label
+
+   CLI Features for Precision:
+     - --boost-title: Automatically boost title matches
+     - --fuzzy: Add wildcards between words for flexible matching
+     - --sort: Sort by relevance, modified, created, title
+     - --status: Filter by current, draft, archived
+
+   Workflow Optimization:
+     # Step 1: Broad search with excerpts
+     confluence search-content --cql "API documentation" --excerpt indexed --limit 20
+     
+     # Step 2: Get full content only for relevant pages
+     confluence get-content --id 123 --output-format markdown > api_doc.md
+     
+     # Step 3: Extract attachments if needed
+     confluence list-attachments --id 123 --media-type image/ --download
+
+4. ATTACHMENT MANAGEMENT
+   - Use --media-type image/ to filter images only
+   - Use --download only when needed (saves bandwidth)
+   - Preview with list-attachments before downloading
+
+5. ERROR AVOIDANCE
+   - Check --debug flag when commands fail
+   - Use --debug-auth for authentication issues
+   - Handle rate limits with automatic retries (built-in)
+
+Run 'confluence --help' for all options.
+"""
+    print(guide.strip())
+    sys.exit(0)
+
+
 def main():
+    # Early detection for --help-best-practices flag regardless of position
+    if "--help-best-practices" in sys.argv:
+        print_best_practices()
+    
     parser = argparse.ArgumentParser(
         description="""Confluence REST API CLI tool for search queries using Confluence Query Language (CQL).
 
-Supports search-content and search-users subcommands. Authentication via environment variables.""",
+Supports search-content and search-users subcommands. Authentication via environment variables.
+Use --help-best-practices for token-saving tips and Grep integration.""",
         epilog="""
 ENVIRONMENT VARIABLES
 
@@ -924,8 +1020,14 @@ https://developer.atlassian.com/server/confluence/advanced-searching-using-cql/
     )
     
     parser.add_argument("--debug-auth", action="store_true", help="Show authentication details (masks token) for debugging")
+    parser.add_argument("--help-best-practices", action="store_true", help="Show best practices for efficient Confluence research")
     
-    subparsers = parser.add_subparsers(dest="command", required=True, help="Subcommand")
+    # Global arguments that should be recognized by all subcommands
+    global_parent = argparse.ArgumentParser(add_help=False)
+    global_parent.add_argument("--debug-auth", action="store_true", help="Show authentication details (masks token) for debugging")
+    global_parent.add_argument("--help-best-practices", action="store_true", help="Show best practices for efficient Confluence research")
+    
+    subparsers = parser.add_subparsers(dest="command", required=False, help="Subcommand")
     
     # Common arguments for both subcommands
     common_parent = argparse.ArgumentParser(add_help=False)
@@ -938,7 +1040,7 @@ https://developer.atlassian.com/server/confluence/advanced-searching-using-cql/
     # Content search subcommand
     content_parser = subparsers.add_parser(
         "search-content",
-        parents=[common_parent],
+        parents=[common_parent, global_parent],
         help="Search for content using CQL",
         description="Search Confluence content (pages, blogposts, etc.) using CQL queries.",
         epilog="""
@@ -971,8 +1073,8 @@ https://developer.atlassian.com/server/confluence/advanced-searching-using-cql/
      Using special parameters:
       --include-archived-spaces   Include archived spaces in results
       --exclude-current-spaces    Exclude current spaces (archived only)
-      --excerpt highlight         Include highlighted excerpts in results (default)
-      --excerpt indexed           Include static excerpts (first lines of content)
+       --excerpt highlight         Include highlighted excerpts (body fallback if empty) (default)
+       --excerpt indexed           Include static excerpts (body fallback if empty)
       --excerpt none              Disable excerpts
       --no-excerpt                Disable excerpts
       --snippet-length <chars>    Maximum length of excerpt snippet (default: 200)
@@ -1000,9 +1102,9 @@ https://developer.atlassian.com/server/confluence/advanced-searching-using-cql/
     )
     content_parser.add_argument("--include-archived-spaces", action="store_true", help="Include archived spaces in results")
     content_parser.add_argument("--exclude-current-spaces", action="store_true", help="Exclude current spaces from results")
-    content_parser.add_argument("--excerpt", choices=["highlight", "indexed", "none"], default="highlight", help="Excerpt strategy: highlight (matched text), indexed (static excerpt), or none (default: highlight)")
+    content_parser.add_argument("--excerpt", choices=["highlight", "indexed", "none"], default="highlight", help="Excerpt strategy: highlight (matched text), indexed (static excerpt), or none (default: highlight). Note: Confluence Cloud may not return excerpt fields; body content will be used as fallback when snippet-length > 0 (automatically expands body.view when needed).")
     content_parser.add_argument("--no-excerpt", action="store_const", const="none", dest="excerpt", help="Disable excerpts (sets excerpt=none)")
-    content_parser.add_argument("--snippet-length", type=positive_int, default=200, help="Maximum length of excerpt snippet in text output, must be > 0 (default: 200)")
+    content_parser.add_argument("--snippet-length", type=positive_int, default=200, help="Maximum length of excerpt snippet (or fallback body snippet) in text output, must be > 0 (default: 200)")
     content_parser.add_argument("--fuzzy", action="store_true", help="Add wildcards (*) between words in text~ queries for fuzzy matching")
     content_parser.add_argument("--expand", help="Comma-separated list of properties to expand (e.g., body.view,space)")
     content_parser.add_argument("--full-urls", action="store_true", help="Show full URLs in text output")
@@ -1014,7 +1116,7 @@ https://developer.atlassian.com/server/confluence/advanced-searching-using-cql/
     # User search subcommand
     user_parser = subparsers.add_parser(
         "search-users",
-        parents=[common_parent],
+        parents=[common_parent, global_parent],
         help="Search for users using CQL",
         description="Search Confluence users using CQL queries.",
         epilog="""
@@ -1053,6 +1155,7 @@ DEBUGGING
     # Get content by ID subcommand
     get_parser = subparsers.add_parser(
         "get-content",
+        parents=[global_parent],
         help="Fetch content by ID",
         description="Fetch Confluence content by page ID with optional expansion.",
         epilog="""
@@ -1086,6 +1189,7 @@ EXAMPLES
     # List attachments subcommand
     attachments_parser = subparsers.add_parser(
         "list-attachments",
+        parents=[global_parent],
         help="List attachments for a page",
         description="List attachments (files, images) attached to a Confluence page.",
         epilog="""
@@ -1114,6 +1218,7 @@ EXAMPLES
     # List children subcommand
     children_parser = subparsers.add_parser(
         "list-children",
+        parents=[global_parent],
         help="List child pages of a page",
         description="List child pages (or other content types) of a Confluence page, optionally recursively.",
         epilog="""
@@ -1145,6 +1250,7 @@ EXAMPLES
     # Download attachment subcommand
     download_parser = subparsers.add_parser(
         "download-attachment",
+        parents=[global_parent],
         help="Download an attachment by ID",
         description="Download a specific attachment by its ID.",
         epilog="""
@@ -1168,6 +1274,7 @@ EXAMPLES
     # List spaces subcommand
     spaces_parser = subparsers.add_parser(
         "list-spaces",
+        parents=[global_parent],
         help="List Confluence spaces",
         description="List spaces in the Confluence instance.",
         epilog="""
@@ -1190,6 +1297,11 @@ EXAMPLES
     spaces_parser.set_defaults(func=list_spaces)
 
     args = parser.parse_args()
+    if args.help_best_practices:
+        print_best_practices()
+    if args.command is None:
+        parser.print_help()
+        sys.exit(1)
     args.func(args)
 
 if __name__ == "__main__":
