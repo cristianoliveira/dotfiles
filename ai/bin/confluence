@@ -185,13 +185,20 @@ def make_request(url: str, headers: Dict[str, str], debug: bool = False, method:
     sys.exit(1)
 
 def strip_html_tags(html_text: str) -> str:
-    """Remove HTML tags and decode entities."""
+    """Remove HTML tags and decode entities.
+    
+    Strips all XML/HTML tags including Confluence macros (<ac:...>),
+    highlight tags (<hit>, <strong>), and other formatting.
+    Also removes XML comments and collapses whitespace.
+    """
     import re
     if not html_text:
         return ""
     # Decode HTML entities
     decoded = html.unescape(html_text)
-    # Remove tags
+    # Remove XML comments
+    decoded = re.sub(r'<!--.*?-->', '', decoded, flags=re.DOTALL)
+    # Remove all tags (including self-closing)
     stripped = re.sub(r'<[^>]+>', '', decoded)
     # Collapse whitespace
     stripped = re.sub(r'\s+', ' ', stripped)
@@ -207,13 +214,13 @@ def format_text_content(result: Dict[str, Any], domain: str = None, full_urls: b
         if space_key and page_id:
             url = f"https://{domain}/wiki/spaces/{space_key}/pages/{page_id}"
     # Try excerpt field first
-    excerpt = result.get("excerpt", "").replace("\n", " ").strip()
+    excerpt = strip_html_tags(result.get("excerpt", ""))
     # If empty, check excerpts dict (Confluence may return excerpts.highlight or excerpts.indexed)
     if not excerpt:
         excerpts = result.get("excerpts")
         if isinstance(excerpts, dict):
             # Prefer highlight, then indexed
-            excerpt = excerpts.get("highlight", excerpts.get("indexed", "")).replace("\n", " ").strip()
+            excerpt = strip_html_tags(excerpts.get("highlight", excerpts.get("indexed", "")))
     # Fallback to body content if excerpt still empty and body is expanded
     if not excerpt and snippet_length > 0:
         body = result.get("body", {})
@@ -362,8 +369,8 @@ def get_content(args):
     headers = get_auth_headers(args.debug_auth)
     params = {}
     expand = args.expand
-    # For raw or markdown output, ensure body.storage is expanded
-    if args.output_format in ("raw", "markdown"):
+    # For markdown output, ensure body.storage is expanded
+    if args.output_format == "markdown":
         if not expand:
             expand = "body.storage"
         elif "body.storage" not in expand:
@@ -380,23 +387,8 @@ def get_content(args):
     
     data = make_request(url, headers, args.debug)
     
-    # Handle raw output format
-    if args.output_format == "raw":
-        # Try to extract body content
-        body = data.get("body", {})
-        storage = body.get("storage")
-        if storage:
-            print(storage.get("value", ""))
-        else:
-            # Maybe body.view or other representation
-            view = body.get("view")
-            if view:
-                print(view.get("value", ""))
-            else:
-                sys.stderr.write("Error: No body content found. Try using --expand body.storage or body.view\n")
-                sys.exit(1)
-        return
-    elif args.output_format == "text":
+
+    if args.output_format == "text":
         # Custom text formatting for single content
         title = data.get("title", "No title")
         space_key = data.get("space", {}).get("key", "")
@@ -481,15 +473,12 @@ def html_to_markdown(html_text: str) -> str:
     # Work on a copy
     text = html_text
     
-    # Replace confluence macros with placeholders (simplify)
-    # Macro pattern: <ac:structured-macro ...>...</ac:structured-macro>
-    # We'll remove them for now
     import re
     
-    # Remove confluence macros
-    text = re.sub(r'<ac:[^>]+>.*?</ac:[^>]+>', '', text, flags=re.DOTALL)
-    # Remove empty macro tags
+    # Remove empty confluence macro tags (self-closing)
     text = re.sub(r'<ac:[^>]+/>', '', text)
+    # Note: Non-empty macro tags will be stripped by the final tag removal step,
+    # preserving inner text content.
     
     # Replace HTML entities
     text = html.unescape(text)
@@ -1072,8 +1061,8 @@ EXAMPLES
   Get page content as JSON:
     %(prog)s --id 123456
 
-  Get page body in raw storage format:
-    %(prog)s --id 123456 --expand body.storage --output-format raw
+  Get page body as Markdown:
+    %(prog)s --id 123456 --expand body.storage --output-format markdown
 
   Get page with specific version:
     %(prog)s --id 123456 --version 3
@@ -1087,7 +1076,7 @@ EXAMPLES
     get_parser.add_argument("--expand", help="Comma-separated list of properties to expand (e.g., body.storage,space,version)")
     get_parser.add_argument("--status", choices=["current", "draft", "archived"], help="Filter by status")
     get_parser.add_argument("--version", type=int, help="Specific version number")
-    get_parser.add_argument("--output-format", choices=["json", "text", "raw", "markdown"], default="json", help="Output format (default: json)")
+    get_parser.add_argument("--output-format", choices=["json", "text", "markdown"], default="json", help="Output format (default: json)")
     get_parser.add_argument("--conversion-format", choices=["storage", "editor", "view", "export_view"], default="storage", help="Source representation for markdown conversion (default: storage)")
     get_parser.add_argument("--no-conversion-api", action="store_true", help="Disable conversion API and use local HTML-to-Markdown conversion")
     get_parser.add_argument("--full-urls", action="store_true", help="Show full URLs in text output")
