@@ -22,14 +22,17 @@ if [ -z "$BROKEN_SYMLINKS" ]; then
   exit 0
 fi
 
-# Report broken symlinks
+# Count and report broken symlinks
+BROKEN_COUNT=$(echo "$BROKEN_SYMLINKS" | wc -l | tr -d ' ')
 echo -e "${RED}✗ Found broken symlinks:${NC}"
-echo "$BROKEN_SYMLINKS" | while read -r link; do
+
+COUNT=0
+while IFS= read -r link; do
   [ -n "$link" ] || continue
-  BROKEN_COUNT=$((BROKEN_COUNT + 1))
+  COUNT=$((COUNT + 1))
   TARGET=$(readlink "$link")
-  echo -e "  ${RED}${BROKEN_COUNT}.${NC} ${link} → ${YELLOW}${TARGET}${NC}"
-done
+  echo -e "  ${RED}${COUNT}.${NC} ${link} → ${YELLOW}${TARGET}${NC}"
+done <<< "$BROKEN_SYMLINKS"
 
 echo ""
 echo -e "${YELLOW}Total broken symlinks: ${BROKEN_COUNT}${NC}"

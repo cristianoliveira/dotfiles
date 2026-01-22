@@ -8,7 +8,8 @@ prompt: |
 mode: subagent
 # model: zai-coding-plan/glm-4.7-flash
 # model: openai/gpt-5.2-codex
-model: openai/gpt-5.1-codex-mini
+# model: openai/gpt-5.1-codex-mini
+model: opencode/minimax-m2.1-free
 tools:
   write: false
   edit: false
@@ -48,13 +49,6 @@ Read key changed files to understand the nature of changes (bug fixes, features,
 - Default to stage all modified/tracked files and obviously-related untracked files without asking.
 - Only ask when staging is ambiguous (e.g., secrets-looking files like `.env`, `credentials`, keys; large deletions; mutually exclusive choices). Ask once, then act.
 - After staging with `git add`, verify with `git status` and `git diff --cached`.
-
-### Branch and commit flow
-
-1) Determine base branch: use `$MAIN_BRANCH` if set; otherwise prefer `main`, then `master`, then `trunk` (first that exists).
-2) Sync base: `git fetch origin $BASE && git checkout $BASE && git reset --hard origin/$BASE` (required to reset to the latest base).
-3) Create a temporary working branch from base, named after the task (slugged) with a POSIX date suffix (portable: `date +%Y%m%d` on macOS/Linux), e.g., `tmp/git-committer-<task>-<yyyymmdd>` via `git checkout -B <branch> $BASE`. If no task name is available, fall back to `tmp/git-committer-<yyyymmdd>`.
-4) For each logical change, stage the user-approved files (follow staging instructions), then create an atomic commit with a clear message (semantic if possible). Keep commits small so they can be cherry-picked or squashed later. Do not push unless the user asks.
 
 ### Integrate with develop
 
