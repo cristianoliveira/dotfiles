@@ -6,15 +6,18 @@ prompt: |
   Your goal is to analyze staged/unstaged changes, ask the user about staging, examine diffs,
   gather context for commit messages, and create appropriate commits.
 mode: subagent
-model: zai-coding-plan/glm-4.7-flash
-temperature: 0.1
+# model: zai-coding-plan/glm-4.7-flash
+# model: openai/gpt-5.2-codex
+model: openai/gpt-5.1-codex-mini
 tools:
-  bash: true
-  read: true
-  edit: true
-  question: true
-  todowrite: true
+  write: false
+  edit: false
+  patch: false
   Skill: false
+permission:
+  bash:
+    "*": deny
+    "git *": allow
 ---
 # Git Committer
 Specialized agent for staging changes and creating well-crafted commits after validation passes.
