@@ -8,14 +8,27 @@ Authentication via environment variables: CONFLUENCE_DOMAIN, CONFLUENCE_EMAIL, C
 
 import argparse
 import base64
+import html
 import json
 import os
+import re
+import shutil
 import sys
 import time
 import urllib.error
 import urllib.parse
 import urllib.request
 from typing import Any, Dict, List, Optional
+
+def positive_int(value: str) -> int:
+    """Validate that value is a positive integer > 0."""
+    try:
+        ivalue = int(value)
+    except ValueError:
+        raise argparse.ArgumentTypeError(f"'{value}' is not a valid integer")
+    if ivalue <= 0:
+        raise argparse.ArgumentTypeError(f"{ivalue} must be a positive integer (> 0)")
+    return ivalue
 
 # Default values
 DEFAULT_LIMIT = 25
@@ -51,7 +64,7 @@ def get_domain(debug: bool = False) -> str:
     return sanitized
 
 
-def get_auth_headers() -> Dict[str, str]:
+def get_auth_headers(debug_auth: bool = False) -> Dict[str, str]:
     """Read environment variables and return Basic auth headers."""
     domain = os.environ.get("CONFLUENCE_DOMAIN")
     email = os.environ.get("CONFLUENCE_EMAIL")
@@ -69,6 +82,12 @@ def get_auth_headers() -> Dict[str, str]:
         sys.stderr.write("Please set them before running this tool.\n")
         sys.exit(1)
     
+    if debug_auth:
+        sys.stderr.write(f"DEBUG_AUTH: Domain: {domain}\n")
+        sys.stderr.write(f"DEBUG_AUTH: Email: {email}\n")
+        sys.stderr.write(f"DEBUG_AUTH: Token (first 8 chars): {token[:8]}...\n")
+        sys.stderr.write(f"DEBUG_AUTH: Full auth string: {email}:{token[:8]}...\n")
+    
     auth_str = f"{email}:{token}"
     encoded = base64.b64encode(auth_str.encode()).decode()
     return {
@@ -85,19 +104,29 @@ def build_url(domain: str, endpoint: str, params: Dict[str, Any]) -> str:
         url = f"{url}?{query}"
     return url
 
-def make_request(url: str, headers: Dict[str, str], debug: bool = False) -> Dict[str, Any]:
-    """Make HTTP GET request and parse JSON response with retry for rate limiting."""
+def make_request(url: str, headers: Dict[str, str], debug: bool = False, method: str = "GET", data: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    """Make HTTP request and parse JSON response with retry for rate limiting."""
     max_retries = 3
     base_delay = 1  # seconds
     
     for attempt in range(max_retries):
         if debug:
             sys.stderr.write(f"DEBUG: Request URL: {url}\n")
+            sys.stderr.write(f"DEBUG: Method: {method}\n")
             sys.stderr.write(f"DEBUG: Headers: {headers}\n")
+            if data:
+                sys.stderr.write(f"DEBUG: Data: {json.dumps(data)}\n")
             if attempt > 0:
                 sys.stderr.write(f"DEBUG: Retry attempt {attempt}\n")
         
-        req = urllib.request.Request(url, headers=headers)
+        # Prepare request
+        req_headers = headers.copy()
+        data_bytes = None
+        if data is not None:
+            data_bytes = json.dumps(data).encode('utf-8')
+            req_headers["Content-Type"] = "application/json"
+        
+        req = urllib.request.Request(url, data=data_bytes, headers=req_headers, method=method)
         try:
             with urllib.request.urlopen(req) as response:
                 body = response.read().decode()
@@ -119,11 +148,24 @@ def make_request(url: str, headers: Dict[str, str], debug: bool = False) -> Dict
                 sys.stderr.write(f"HTTP Error {e.code}: {e.reason}. Retrying in {delay} seconds...\n")
                 time.sleep(delay)
                 continue
-            sys.stderr.write(f"HTTP Error {e.code}: {e.reason}\n")
+            # Provide specific error messages for common status codes
+            if e.code == 401:
+                sys.stderr.write("Error 401: Invalid credentials - check CONFLUENCE_EMAIL and CONFLUENCE_API_TOKEN\n")
+            elif e.code == 403:
+                sys.stderr.write("Error 403: Permission denied - check user has access to this content\n")
+            elif e.code == 404:
+                sys.stderr.write("Error 404: Content not found - check page ID exists\n")
+            else:
+                sys.stderr.write(f"HTTP Error {e.code}: {e.reason}\n")
             try:
                 error_body = e.read().decode()
                 error_json = json.loads(error_body)
-                sys.stderr.write(f"Details: {json.dumps(error_json, indent=2)}\n")
+                # Try to extract message from Confluence error format
+                message = error_json.get('message', str(error_json))
+                sys.stderr.write(f"Details: {message}\n")
+                if 'data' in error_json and 'errors' in error_json['data']:
+                    for err in error_json['data']['errors']:
+                        sys.stderr.write(f"  - {err.get('message', str(err))}\n")
             except:
                 pass
             sys.exit(1)
@@ -142,7 +184,20 @@ def make_request(url: str, headers: Dict[str, str], debug: bool = False) -> Dict
     sys.stderr.write("Max retries exceeded\n")
     sys.exit(1)
 
-def format_text_content(result: Dict[str, Any], domain: str = None, full_urls: bool = False) -> str:
+def strip_html_tags(html_text: str) -> str:
+    """Remove HTML tags and decode entities."""
+    import re
+    if not html_text:
+        return ""
+    # Decode HTML entities
+    decoded = html.unescape(html_text)
+    # Remove tags
+    stripped = re.sub(r'<[^>]+>', '', decoded)
+    # Collapse whitespace
+    stripped = re.sub(r'\s+', ' ', stripped)
+    return stripped.strip()
+
+def format_text_content(result: Dict[str, Any], domain: str = None, full_urls: bool = False, snippet_length: int = 200) -> str:
     """Format a single content result for human-readable output."""
     title = result.get("title", "No title")
     url = result.get("_links", {}).get("webui", "")
@@ -151,9 +206,29 @@ def format_text_content(result: Dict[str, Any], domain: str = None, full_urls: b
         page_id = result.get("id")
         if space_key and page_id:
             url = f"https://{domain}/wiki/spaces/{space_key}/pages/{page_id}"
+    # Try excerpt field first
     excerpt = result.get("excerpt", "").replace("\n", " ").strip()
+    # If empty, check excerpts dict (Confluence may return excerpts.highlight or excerpts.indexed)
+    if not excerpt:
+        excerpts = result.get("excerpts")
+        if isinstance(excerpts, dict):
+            # Prefer highlight, then indexed
+            excerpt = excerpts.get("highlight", excerpts.get("indexed", "")).replace("\n", " ").strip()
+    # Fallback to body content if excerpt still empty and body is expanded
+    if not excerpt and snippet_length > 0:
+        body = result.get("body", {})
+        # Try view first, then storage
+        html_content = None
+        if "view" in body:
+            html_content = body["view"].get("value", "")
+        elif "storage" in body:
+            html_content = body["storage"].get("value", "")
+        if html_content:
+            plain = strip_html_tags(html_content)
+            if plain:
+                excerpt = plain
     last_modified = result.get("version", {}).get("when", "")
-    return f"{title}\n  URL: {url}\n  Excerpt: {excerpt[:200]}{'...' if len(excerpt) > 200 else ''}\n  Last modified: {last_modified}\n"
+    return f"{title}\n  URL: {url}\n  Excerpt: {excerpt[:snippet_length]}{'...' if len(excerpt) > snippet_length else ''}\n  Last modified: {last_modified}\n"
 
 def format_text_user(result: Dict[str, Any]) -> str:
     """Format a single user result for human-readable output."""
@@ -173,7 +248,7 @@ def extract_cursor(next_url: str) -> Optional[str]:
         return cursor_list[0]
     return None
 
-def output_results(data: Dict[str, Any], output_format: str, result_type: str, debug: bool = False, full_urls: bool = False, domain: str = None):
+def output_results(data: Dict[str, Any], output_format: str, result_type: str, debug: bool = False, full_urls: bool = False, domain: str = None, snippet_length: int = 200):
     """Output results in JSON or text format."""
     if output_format == "json":
         print(json.dumps(data, indent=2))
@@ -189,7 +264,7 @@ def output_results(data: Dict[str, Any], output_format: str, result_type: str, d
     print("-" * 80)
     for result in results:
         if result_type == "content":
-            print(format_text_content(result, domain=domain, full_urls=full_urls))
+            print(format_text_content(result, domain=domain, full_urls=full_urls, snippet_length=snippet_length))
         elif result_type == "user":
             print(format_text_user(result))
         else:
@@ -207,9 +282,42 @@ def output_results(data: Dict[str, Any], output_format: str, result_type: str, d
 
 def search_content(args):
     """Execute content search."""
-    headers = get_auth_headers()
+    headers = get_auth_headers(args.debug_auth)
+    cql = args.cql
+    if args.fuzzy:
+        import re
+        # Add wildcards between words in text~ queries for fuzzy matching
+        def replace_with_wildcards(match):
+            # match.group(1) is the quote character (" or ')
+            # match.group(2) is the inner string
+            quote = match.group(1)
+            inner = match.group(2)
+            # Replace spaces with * (multiple spaces become single *)
+            # Also trim extra spaces
+            parts = [p.strip() for p in inner.split() if p.strip()]
+            if not parts:
+                return match.group(0)  # empty string, keep as is
+            new_inner = '*'.join(parts)
+            return f'text~{quote}{new_inner}{quote}'
+        # Match text~"..." and text~'...' capturing the quote
+        cql = re.sub(r'text~(["\'])([^"\']+)\1', replace_with_wildcards, cql)
+        if cql != args.cql:
+            sys.stderr.write(f"DEBUG: Fuzzy CQL: {cql}\n")
+    if args.boost_title:
+        # Boost title matches by adding ^2 to title~ patterns
+        import re
+        # Match title~"something" and replace with title~"something"^2
+        # Handle both double and single quotes (CQL uses double quotes)
+        def boost_title(match):
+            return match.group(0) + "^2"
+        # Pattern for title~"..." (double quotes) and title~'...' (single quotes)
+        cql = re.sub(r'title~"([^"]+)"', r'title~"\1"^2', cql)
+        cql = re.sub(r"title~'([^']+)'", r"title~'\1'^2", cql)
+        if cql != args.cql:
+            sys.stderr.write(f"DEBUG: Boosted CQL: {cql}\n")
+    
     params = {
-        "cql": args.cql,
+        "cql": cql,
         "limit": args.limit,
         "cursor": args.cursor,
         "includeArchivedSpaces": args.include_archived_spaces,
@@ -217,6 +325,7 @@ def search_content(args):
         "excerpt": args.excerpt,
         "expand": args.expand,
         "status": args.status,
+        "sort": args.sort,
     }
     # Convert booleans to lowercase strings
     for key, value in params.items():
@@ -229,11 +338,11 @@ def search_content(args):
     url = build_url(domain, "/content/search", params)
 
     data = make_request(url, headers, args.debug)
-    output_results(data, args.output_format, "content", args.debug, full_urls=args.full_urls, domain=domain)
+    output_results(data, args.output_format, "content", args.debug, full_urls=args.full_urls, domain=domain, snippet_length=args.snippet_length)
 
 def search_users(args):
     """Execute user search."""
-    headers = get_auth_headers()
+    headers = get_auth_headers(args.debug_auth)
     params = {
         "cql": args.cql,
         "limit": args.limit,
@@ -250,11 +359,11 @@ def search_users(args):
 
 def get_content(args):
     """Fetch content by ID."""
-    headers = get_auth_headers()
+    headers = get_auth_headers(args.debug_auth)
     params = {}
     expand = args.expand
-    # For raw output, ensure body.storage is expanded
-    if args.output_format == "raw":
+    # For raw or markdown output, ensure body.storage is expanded
+    if args.output_format in ("raw", "markdown"):
         if not expand:
             expand = "body.storage"
         elif "body.storage" not in expand:
@@ -309,9 +418,444 @@ def get_content(args):
                 if field in data:
                     print(f"{field}: {json.dumps(data[field], indent=2)}")
         return
+    elif args.output_format == "markdown":
+        # Extract HTML content
+        body = data.get("body", {})
+        storage = body.get("storage")
+        if storage:
+            html_content = storage.get("value", "")
+            representation = "storage"
+        else:
+            view = body.get("view")
+            if view:
+                html_content = view.get("value", "")
+                representation = "view"
+            else:
+                sys.stderr.write("Error: No body content found. Try using --expand body.storage or body.view\n")
+                sys.exit(1)
+        
+        # Use conversion API unless disabled
+        markdown_content = None
+        if not args.no_conversion_api:
+            if args.debug:
+                sys.stderr.write(f"DEBUG: Attempting conversion via API (representation: {representation})...\n")
+            markdown_content = convert_to_markdown_via_api(
+                domain, headers, html_content, representation=representation, debug=args.debug
+            )
+        
+        # Fallback to local conversion
+        if markdown_content is None:
+            if args.debug:
+                sys.stderr.write("DEBUG: Using local HTML-to-Markdown conversion.\n")
+            markdown_content = html_to_markdown(html_content)
+        
+        # Include metadata as frontmatter or header
+        title = data.get("title", "")
+        space_key = data.get("space", {}).get("key", "")
+        page_id = data.get("id", "")
+        version = data.get("version", {}).get("number", "")
+        created = data.get("version", {}).get("when", "")
+        url = data.get("_links", {}).get("webui", "")
+        if args.full_urls and space_key and page_id:
+            url = f"https://{domain}/wiki/spaces/{space_key}/pages/{page_id}"
+        print(f"# {title}\n")
+        print(f"> ID: {page_id} | Space: {space_key} | Version: {version} | Created: {created}")
+        if url:
+            print(f"> URL: {url}")
+        print()
+        print(markdown_content)
+        return
     
     # Default JSON output
     print(json.dumps(data, indent=2))
+
+def html_to_markdown(html_text: str) -> str:
+    """Convert Confluence storage HTML to clean Markdown.
+    
+    Handles basic formatting: headings, lists, links, bold/italic,
+    code blocks, tables (simplified). Strips remaining HTML tags.
+    """
+    if not html_text:
+        return ""
+    
+    # Work on a copy
+    text = html_text
+    
+    # Replace confluence macros with placeholders (simplify)
+    # Macro pattern: <ac:structured-macro ...>...</ac:structured-macro>
+    # We'll remove them for now
+    import re
+    
+    # Remove confluence macros
+    text = re.sub(r'<ac:[^>]+>.*?</ac:[^>]+>', '', text, flags=re.DOTALL)
+    # Remove empty macro tags
+    text = re.sub(r'<ac:[^>]+/>', '', text)
+    
+    # Replace HTML entities
+    text = html.unescape(text)
+    
+    # Headings: <h1> -> #, up to h6
+    for i in range(1, 7):
+        text = re.sub(f'<h{i}[^>]*>(.*?)</h{i}>', lambda m: '#'*i + ' ' + m.group(1).strip() + '\n\n', text, flags=re.DOTALL)
+    
+    # Paragraphs: <p> -> add newline
+    text = re.sub(r'<p[^>]*>(.*?)</p>', r'\1\n\n', text, flags=re.DOTALL)
+    
+    # Bold: <b>, <strong> -> **
+    text = re.sub(r'<(?:b|strong)[^>]*>(.*?)</(?:b|strong)>', r'**\1**', text, flags=re.DOTALL)
+    
+    # Italic: <i>, <em> -> *
+    text = re.sub(r'<(?:i|em)[^>]*>(.*?)</(?:i|em)>', r'*\1*', text, flags=re.DOTALL)
+    
+    # Code: <code> -> ` (inline)
+    text = re.sub(r'<code[^>]*>(.*?)</code>', r'`\1`', text, flags=re.DOTALL)
+    
+    # Preformatted blocks: <pre> -> ```\n...\n```
+    text = re.sub(r'<pre[^>]*>(.*?)</pre>', r'```\n\1\n```', text, flags=re.DOTALL)
+    
+    # Lists: <ul>/<li> and <ol>/<li>
+    # Simple approach: replace <li> with "- "
+    # We'll handle nesting later
+    lines = text.split('\n')
+    in_list = False
+    for idx, line in enumerate(lines):
+        if '<li>' in line:
+            line = line.replace('<li>', '- ')
+            line = line.replace('</li>', '')
+            lines[idx] = line
+            in_list = True
+        elif '</ul>' in line or '</ol>' in line:
+            in_list = False
+            lines[idx] = line.replace('</ul>', '').replace('</ol>', '')
+        elif in_list and line.strip() and not line.startswith('- '):
+            # Continuation of list item
+            lines[idx] = '  ' + line
+    text = '\n'.join(lines)
+    # Remove remaining list tags
+    text = re.sub(r'<(?:ul|ol)[^>]*>', '', text)
+    
+    # Links: <a href="url">text</a> -> [text](url)
+    text = re.sub(r'<a[^>]+href="([^"]+)"[^>]*>(.*?)</a>', r'[\2](\1)', text, flags=re.DOTALL)
+    
+    # Images: <img src="url" alt="alt"> -> ![alt](url)
+    text = re.sub(r'<img[^>]+src="([^"]+)"[^>]*alt="([^"]*)"[^>]*>', r'![\2](\1)', text, flags=re.DOTALL)
+    text = re.sub(r'<img[^>]+alt="([^"]*)"[^>]+src="([^"]+)"[^>]*>', r'![\1](\2)', text, flags=re.DOTALL)
+    text = re.sub(r'<img[^>]+src="([^"]+)"[^>]*>', r'![](\1)', text, flags=re.DOTALL)
+    
+    # Tables: basic table conversion (remove tags, keep pipe separators)
+    # We'll just strip table tags for now
+    text = re.sub(r'<table[^>]*>', '', text)
+    text = re.sub(r'</table>', '', text)
+    text = re.sub(r'<tr[^>]*>', '', text)
+    text = re.sub(r'</tr>', '\n', text)
+    text = re.sub(r'<td[^>]*>', '| ', text)
+    text = re.sub(r'</td>', ' ', text)
+    text = re.sub(r'<th[^>]*>', '| **', text)
+    text = re.sub(r'</th>', '** ', text)
+    
+    # Remove any remaining HTML tags (non-nested)
+    text = re.sub(r'<[^>]+>', '', text)
+    
+    # Collapse multiple newlines
+    text = re.sub(r'\n{3,}', '\n\n', text)
+    
+    # Trim leading/trailing whitespace
+    return text.strip()
+
+def convert_to_markdown_via_api(domain: str, headers: Dict[str, str], html_content: str, representation: str = "storage", debug: bool = False) -> str:
+    """Convert Confluence HTML to Markdown using Confluence conversion API.
+    
+    Uses POST /wiki/rest/api/contentbody/convert/async/export_view
+    with polling for async task completion.
+    """
+    import time
+    endpoint = "/wiki/rest/api/contentbody/convert/async/export_view"
+    url = f"https://{domain}{endpoint}"
+    
+    # Request body
+    data = {
+        "value": html_content,
+        "representation": representation,
+        "allowCache": True
+    }
+    
+    if debug:
+        sys.stderr.write(f"DEBUG: Converting HTML to Markdown via API (representation: {representation})...\n")
+    
+    # Start conversion task
+    try:
+        task_response = make_request(url, headers, debug, method="POST", data=data)
+    except Exception as e:
+        sys.stderr.write(f"Warning: Conversion API request failed: {e}. Falling back to local HTML conversion.\n")
+        return None
+    
+    task_id = task_response.get("id")
+    if not task_id:
+        sys.stderr.write("Warning: Conversion API didn't return task ID. Falling back.\n")
+        return None
+    
+    # Poll for completion
+    poll_url = f"{url}/{task_id}"
+    max_attempts = 10
+    poll_interval = 1  # seconds
+    for attempt in range(max_attempts):
+        time.sleep(poll_interval)
+        if debug:
+            sys.stderr.write(f"DEBUG: Polling conversion task {task_id} (attempt {attempt+1})...\n")
+        try:
+            poll_response = make_request(poll_url, headers, debug, method="GET")
+        except Exception as e:
+            sys.stderr.write(f"Warning: Polling failed: {e}. Falling back.\n")
+            return None
+        
+        status = poll_response.get("status")
+        if status == "complete":
+            result = poll_response.get("result")
+            if result and "value" in result:
+                return result["value"]
+            else:
+                sys.stderr.write("Warning: Conversion completed but no result value. Falling back.\n")
+                return None
+        elif status == "failed":
+            sys.stderr.write("Warning: Conversion task failed. Falling back to local HTML conversion.\n")
+            return None
+        # else "in_progress", continue
+    
+    sys.stderr.write("Warning: Conversion timed out after {} seconds. Falling back.\n".format(max_attempts * poll_interval))
+    return None
+
+def list_attachments(args):
+    """List attachments for a page."""
+    headers = get_auth_headers(args.debug_auth)
+    params = {}
+    if args.limit:
+        params["limit"] = args.limit
+    # Expand metadata
+    params["expand"] = "version"
+    
+    domain = get_domain(args.debug)
+    url = build_url(domain, f"/content/{args.id}/child/attachment", params)
+    
+    data = make_request(url, headers, args.debug)
+    
+    # Filter by media type if specified
+    results = data.get("results", [])
+    if args.media_type:
+        filtered = []
+        for att in results:
+            media_type = att.get("extensions", {}).get("mediaType", "")
+            if media_type.startswith(args.media_type):
+                filtered.append(att)
+        results = filtered
+    
+    # Download attachments if requested
+    if args.download:
+        output_dir = args.output_dir or "."
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir, exist_ok=True)
+        downloaded = 0
+        for att in results:
+            filename = att.get("title", "unnamed")
+            download_url = att.get("_links", {}).get("download", "")
+            if not download_url:
+                sys.stderr.write(f"Warning: No download URL for {filename}\n")
+                continue
+            if not download_url.startswith("http"):
+                download_url = f"https://{domain}{download_url}"
+            output_path = os.path.join(output_dir, filename)
+            sys.stderr.write(f"Downloading {filename}... ")
+            try:
+                req = urllib.request.Request(download_url, headers=headers)
+                with urllib.request.urlopen(req) as response:
+                    with open(output_path, 'wb') as f:
+                        shutil.copyfileobj(response, f)
+                sys.stderr.write(f"OK ({os.path.getsize(output_path)} bytes)\n")
+                downloaded += 1
+            except Exception as e:
+                sys.stderr.write(f"FAILED: {e}\n")
+        sys.stderr.write(f"Downloaded {downloaded} file(s) to {output_dir}\n")
+    
+    if args.output_format == "json":
+        # Include filtered results in JSON output
+        data["results"] = results
+        data["size"] = len(results)
+        print(json.dumps(data, indent=2))
+        return
+    
+    # Text format
+    total = len(results)
+    print(f"Found {total} attachments:" + (f" (filtered by media type: {args.media_type})" if args.media_type else ""))
+    print("-" * 80)
+    for att in results:
+        filename = att.get("title", "unnamed")
+        size = att.get("extensions", {}).get("fileSize", 0)
+        media_type = att.get("extensions", {}).get("mediaType", "unknown")
+        download_url = att.get("_links", {}).get("download", "")
+        if download_url and not download_url.startswith("http"):
+            download_url = f"https://{domain}{download_url}"
+        version = att.get("version", {}).get("number", 1)
+        print(f"{filename}")
+        print(f"  Size: {size} bytes")
+        print(f"  Type: {media_type}")
+        print(f"  Version: {version}")
+        print(f"  Download URL: {download_url}")
+        print()
+    
+    # Pagination hint
+    links = data.get("_links", {})
+    if "next" in links:
+        cursor = extract_cursor(links.get("next"))
+        if cursor:
+            print(f"To fetch next page, use --cursor \"{cursor}\"")
+
+def list_children(args):
+    """List child pages (or other content types) of a page."""
+    headers = get_auth_headers(args.debug_auth)
+    params = {}
+    if args.limit:
+        params["limit"] = args.limit
+    # Expand metadata based on type
+    if args.type == "page":
+        params["expand"] = "space,version"
+    else:
+        params["expand"] = "version"
+    
+    domain = get_domain(args.debug)
+    
+    if args.type != "page" and args.recursive:
+        sys.stderr.write("Warning: Recursive flag only supported for type 'page'. Ignoring --recursive.\n")
+        args.recursive = False
+    
+    # Recursive fetch with depth limit (only for pages)
+    def fetch_children(page_id, depth=0, max_depth=1):
+        if max_depth is not None and depth >= max_depth:
+            return []
+        url = build_url(domain, f"/content/{page_id}/child/{args.type}", params)
+        data = make_request(url, headers, args.debug)
+        children = data.get("results", [])
+        all_children = []
+        for child in children:
+            child["_depth"] = depth
+            all_children.append(child)
+            if args.recursive and args.type == "page":
+                grandchildren = fetch_children(child.get("id"), depth+1, args.depth)
+                all_children.extend(grandchildren)
+        return all_children
+    
+    children = fetch_children(args.id, max_depth=args.depth if args.depth else None)
+    
+    if args.output_format == "json":
+        # Return structured data with depth
+        output = {
+            "results": children,
+            "size": len(children),
+            "type": args.type,
+            "depth": args.depth if args.depth else 1,
+            "recursive": args.recursive
+        }
+        print(json.dumps(output, indent=2))
+        return
+    
+    # Text format with indentation
+    print(f"Found {len(children)} child {args.type}s:")
+    print("-" * 80)
+    for child in children:
+        depth = child.get("_depth", 0)
+        indent = "  " * depth
+        title = child.get("title", "No title")
+        child_id = child.get("id", "")
+        space_key = child.get("space", {}).get("key", "")
+        version = child.get("version", {}).get("number", 1)
+        if args.type == "page":
+            print(f"{indent}{title} (ID: {child_id}, Space: {space_key}, v{version})")
+        else:
+            # For attachments/comments, show extra info
+            media_type = child.get("extensions", {}).get("mediaType", "")
+            if media_type:
+                print(f"{indent}{title} (ID: {child_id}, Type: {media_type}, v{version})")
+            else:
+                print(f"{indent}{title} (ID: {child_id}, v{version})")
+    print()
+
+def download_attachment(args):
+    """Download an attachment by ID."""
+    headers = get_auth_headers(args.debug_auth)
+    domain = get_domain(args.debug)
+    
+    # Optional page ID validation (if provided)
+    if args.page_id:
+        # Verify attachment belongs to page (optional)
+        # Not implemented - could fetch page attachments and check
+        pass
+    
+    # First get attachment metadata
+    url = build_url(domain, f"/content/{args.attachment_id}", {"expand": "version"})
+    data = make_request(url, headers, args.debug)
+    
+    download_url = data.get("_links", {}).get("download", "")
+    if not download_url:
+        sys.stderr.write("Error: No download URL found for attachment\n")
+        sys.exit(1)
+    if not download_url.startswith("http"):
+        download_url = f"https://{domain}{download_url}"
+    
+    filename = data.get("title", "unnamed")
+    if args.output_filename:
+        filename = args.output_filename
+    elif args.output_dir:
+        # Ensure output directory exists
+        if not os.path.exists(args.output_dir):
+            os.makedirs(args.output_dir, exist_ok=True)
+        filename = os.path.join(args.output_dir, filename)
+    
+    # Progress indicator
+    sys.stderr.write(f"Downloading attachment {args.attachment_id} to {filename}... ")
+    
+    # Download the file (handles 302 redirects automatically)
+    req = urllib.request.Request(download_url, headers=headers)
+    try:
+        with urllib.request.urlopen(req) as response:
+            with open(filename, 'wb') as f:
+                shutil.copyfileobj(response, f)
+        sys.stderr.write(f"OK ({os.path.getsize(filename)} bytes)\n")
+        print(f"Downloaded: {filename}")
+    except Exception as e:
+        sys.stderr.write(f"FAILED: {e}\n")
+        sys.exit(1)
+
+def list_spaces(args):
+    """List Confluence spaces."""
+    headers = get_auth_headers(args.debug_auth)
+    params = {"limit": args.limit}
+    domain = get_domain(args.debug)
+    url = build_url(domain, "/space", params)
+    data = make_request(url, headers, args.debug)
+    
+    if args.output_format == "json":
+        print(json.dumps(data, indent=2))
+        return
+    
+    # Text format
+    results = data.get("results", [])
+    total = data.get("size", len(results))
+    print(f"Found {total} spaces:")
+    print("-" * 80)
+    for space in results:
+        key = space.get("key", "")
+        name = space.get("name", "")
+        type_ = space.get("type", "")
+        description = space.get("description", "")
+        print(f"{name} (Key: {key}, Type: {type_})")
+        if description:
+            print(f"  Description: {description[:100]}{'...' if len(description) > 100 else ''}")
+        print()
+    
+    # Pagination hint
+    links = data.get("_links", {})
+    if "next" in links:
+        cursor = extract_cursor(links.get("next"))
+        if cursor:
+            print(f"To fetch next page, use --cursor \"{cursor}\"")
 
 def main():
     parser = argparse.ArgumentParser(
@@ -327,11 +871,13 @@ ENVIRONMENT VARIABLES
 
 EXAMPLES
 
-  Basic content search:
-    %(prog)s search-content --cql "type=page" --limit 10
-    %(prog)s search-content --cql "type=blogpost" --limit 5
-    %(prog)s search-content --cql 'text~"keyword"' --output-format text
-    %(prog)s search-content --cql 'space=DEV and type=page' --limit 20
+   Basic content search:
+     %(prog)s search-content --cql "type=page" --limit 10
+     %(prog)s search-content --cql "type=blogpost" --limit 5
+     %(prog)s search-content --cql 'text~"keyword"' --output-format text
+     %(prog)s search-content --cql 'text~"create*team*account"' --limit 10
+     %(prog)s search-content --cql 'space=DEV and type=page' --limit 20
+     %(prog)s search-content --cql 'text~"create team account"' --fuzzy --limit 10
 
   User search:
     %(prog)s search-users --cql "type=user" --limit 5
@@ -342,12 +888,14 @@ EXAMPLES
 
 CQL QUICK REFERENCE
 
-  Common operators:
-    =          Equality (type=page, space=DEV)
-    ~          Contains (text~"keyword")
-    >, <, >=, <=  Date comparisons (lastModified>="-7d")
-    and, or    Logical operators
-    not        Negation
+   Common operators:
+     =          Equality (type=page, space=DEV)
+     ~          Contains (text~"keyword")
+     *          Wildcard in quoted strings (text~"create*team*account")
+     ?          Single-character wildcard (text~"create????account")
+     >, <, >=, <=  Date comparisons (lastModified>="-7d")
+     and, or    Logical operators
+     not        Negation
 
   Content fields:
     type       page, blogpost, comment, attachment
@@ -386,12 +934,14 @@ https://developer.atlassian.com/server/confluence/advanced-searching-using-cql/
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     
+    parser.add_argument("--debug-auth", action="store_true", help="Show authentication details (masks token) for debugging")
+    
     subparsers = parser.add_subparsers(dest="command", required=True, help="Subcommand")
     
     # Common arguments for both subcommands
     common_parent = argparse.ArgumentParser(add_help=False)
     common_parent.add_argument("--cql", required=True, help="CQL query string")
-    common_parent.add_argument("--limit", type=int, default=DEFAULT_LIMIT, help=f"Number of results (default: {DEFAULT_LIMIT})")
+    common_parent.add_argument("--limit", type=positive_int, default=DEFAULT_LIMIT, help=f"Number of results, must be > 0 (default: {DEFAULT_LIMIT})")
     common_parent.add_argument("--cursor", help="Pagination cursor from previous response")
     common_parent.add_argument("--output-format", choices=["json", "text"], default="json", help="Output format (default: json)")
     common_parent.add_argument("--debug", action="store_true", help="Print debug information")
@@ -403,52 +953,73 @@ https://developer.atlassian.com/server/confluence/advanced-searching-using-cql/
         help="Search for content using CQL",
         description="Search Confluence content (pages, blogposts, etc.) using CQL queries.",
         epilog="""
-CQL EXAMPLES FOR CONTENT SEARCH
+ CQL EXAMPLES FOR CONTENT SEARCH
 
-  Basic searches:
-    type=page                    All pages
-    type=blogpost               All blog posts
-    text~"keyword"              Full-text search for keyword
-    space=DEV                   Content in space with key DEV
-    creator=currentUser()       Pages created by current user
-    lastModified>="-7d"         Modified in last 7 days
+   Basic searches:
+     type=page                    All pages
+     type=blogpost               All blog posts
+     text~"keyword"              Full-text search for keyword
+     space=DEV                   Content in space with key DEV
+     creator=currentUser()       Pages created by current user
+     lastModified>="-7d"         Modified in last 7 days
 
-  Combined queries:
-    type=page and text~"API" and space=DEV
-    type=blogpost and creator=currentUser()
-    (type=page or type=blogpost) and lastModified>="-30d"
+   Combined queries:
+     type=page and text~"API" and space=DEV
+     type=blogpost and creator=currentUser()
+     (type=page or type=blogpost) and lastModified>="-30d"
 
-  Using special parameters:
-    --include-archived-spaces   Include archived spaces in results
-    --exclude-current-spaces    Exclude current spaces (archived only)
-    --excerpt highlight         Include highlighted excerpts in results (default)
-    --no-excerpt                Disable excerpts
-    --expand                    Expand additional fields (e.g., body.view,space)
-    --full-urls                 Show full URLs in text output
-    --status                    Filter by status (current, draft, archived)
+    Relevance boosting with CQL:
+      title~"API"^2               Boost title matches (higher relevance)
+      title~"API"^2 OR text~"API" Boost title matches over content matches
+      Use --boost-title flag to automatically add ^2 to title~ patterns
 
-PAGINATION
+    Wildcard and fuzzy matching with CQL:
+      text~"create*team*account"  Match words with wildcards (*) anywhere
+      text~"create????account"    Single-character wildcards (?)
+      Use --fuzzy flag to automatically add * between words in text~ queries
+      Example: text~"create team account" with --fuzzy becomes text~"create*team*account"
 
-  Use --cursor with value from previous response to fetch next page.
+     Using special parameters:
+      --include-archived-spaces   Include archived spaces in results
+      --exclude-current-spaces    Exclude current spaces (archived only)
+      --excerpt highlight         Include highlighted excerpts in results (default)
+      --excerpt indexed           Include static excerpts (first lines of content)
+      --excerpt none              Disable excerpts
+      --no-excerpt                Disable excerpts
+      --snippet-length <chars>    Maximum length of excerpt snippet (default: 200)
+      --fuzzy                     Add wildcards (*) between words in text~ queries for fuzzy matching
+      --expand                    Expand additional fields (e.g., body.view,space)
+      --full-urls                 Show full URLs in text output
+      --status                    Filter by status (current, draft, archived)
+      --sort                      Sort order: relevance, created-date, modified-date, title
+      --boost-title               Boost title matches in CQL (adds ^2 to title~ patterns)
 
-OUTPUT FORMATS
+ PAGINATION
 
-  --output-format json   Full JSON response (default)
-  --output-format text   Human-readable summary
+   Use --cursor with value from previous response to fetch next page.
 
-DEBUGGING
+ OUTPUT FORMATS
 
-  Use --debug to see request details and diagnose errors.
+   --output-format json   Full JSON response (default)
+   --output-format text   Human-readable summary
+
+ DEBUGGING
+
+   Use --debug to see request details and diagnose errors.
 """,
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     content_parser.add_argument("--include-archived-spaces", action="store_true", help="Include archived spaces in results")
     content_parser.add_argument("--exclude-current-spaces", action="store_true", help="Exclude current spaces from results")
-    content_parser.add_argument("--excerpt", choices=["highlight", "none"], default="highlight", help="Excerpt strategy (default: highlight)")
+    content_parser.add_argument("--excerpt", choices=["highlight", "indexed", "none"], default="highlight", help="Excerpt strategy: highlight (matched text), indexed (static excerpt), or none (default: highlight)")
     content_parser.add_argument("--no-excerpt", action="store_const", const="none", dest="excerpt", help="Disable excerpts (sets excerpt=none)")
+    content_parser.add_argument("--snippet-length", type=positive_int, default=200, help="Maximum length of excerpt snippet in text output, must be > 0 (default: 200)")
+    content_parser.add_argument("--fuzzy", action="store_true", help="Add wildcards (*) between words in text~ queries for fuzzy matching")
     content_parser.add_argument("--expand", help="Comma-separated list of properties to expand (e.g., body.view,space)")
     content_parser.add_argument("--full-urls", action="store_true", help="Show full URLs in text output")
     content_parser.add_argument("--status", choices=["current", "draft", "archived"], help="Filter by status")
+    content_parser.add_argument("--sort", choices=["relevance", "created-date", "modified-date", "title"], default="relevance", help="Sort order (default: relevance)")
+    content_parser.add_argument("--boost-title", action="store_true", help="Boost title matches in CQL (adds ^2 to title~ patterns)")
     content_parser.set_defaults(func=search_content)
     
     # User search subcommand
@@ -516,11 +1087,119 @@ EXAMPLES
     get_parser.add_argument("--expand", help="Comma-separated list of properties to expand (e.g., body.storage,space,version)")
     get_parser.add_argument("--status", choices=["current", "draft", "archived"], help="Filter by status")
     get_parser.add_argument("--version", type=int, help="Specific version number")
-    get_parser.add_argument("--output-format", choices=["json", "text", "raw"], default="json", help="Output format (default: json)")
+    get_parser.add_argument("--output-format", choices=["json", "text", "raw", "markdown"], default="json", help="Output format (default: json)")
+    get_parser.add_argument("--conversion-format", choices=["storage", "editor", "view", "export_view"], default="storage", help="Source representation for markdown conversion (default: storage)")
+    get_parser.add_argument("--no-conversion-api", action="store_true", help="Disable conversion API and use local HTML-to-Markdown conversion")
     get_parser.add_argument("--full-urls", action="store_true", help="Show full URLs in text output")
     get_parser.add_argument("--debug", action="store_true", help="Print debug information")
     get_parser.set_defaults(func=get_content)
-    
+
+    # List attachments subcommand
+    attachments_parser = subparsers.add_parser(
+        "list-attachments",
+        help="List attachments for a page",
+        description="List attachments (files, images) attached to a Confluence page.",
+        epilog="""
+EXAMPLES
+
+  List attachments for page ID 123:
+    %(prog)s --id 123
+
+  List images only and download them:
+    %(prog)s --id 123 --media-type image/ --download --output-dir ./images
+
+  Limit results and show in text format:
+    %(prog)s --id 123 --limit 10 --output-format text
+""",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    attachments_parser.add_argument("--id", required=True, help="Page ID")
+    attachments_parser.add_argument("--limit", type=positive_int, help="Maximum number of attachments to list, must be > 0")
+    attachments_parser.add_argument("--output-format", choices=["json", "text"], default="json", help="Output format (default: json)")
+    attachments_parser.add_argument("--media-type", help="Filter by media type (e.g., image/png, application/pdf). Prefix matches allowed (e.g., image/).")
+    attachments_parser.add_argument("--download", action="store_true", help="Download attachments (requires --output-dir)")
+    attachments_parser.add_argument("--output-dir", help="Directory to download attachments (default: current directory)")
+    attachments_parser.add_argument("--debug", action="store_true", help="Print debug information")
+    attachments_parser.set_defaults(func=list_attachments)
+
+    # List children subcommand
+    children_parser = subparsers.add_parser(
+        "list-children",
+        help="List child pages of a page",
+        description="List child pages (or other content types) of a Confluence page, optionally recursively.",
+        epilog="""
+EXAMPLES
+
+  List direct child pages:
+    %(prog)s --id 123
+
+  List recursively up to depth 3:
+    %(prog)s --id 123 --recursive --depth 3
+
+  List attachments instead of pages:
+    %(prog)s --id 123 --type attachment
+
+  Limit results and show in text format:
+    %(prog)s --id 123 --limit 50 --output-format text
+""",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    children_parser.add_argument("--id", required=True, help="Page ID")
+    children_parser.add_argument("--type", choices=["page", "attachment", "comment"], default="page", help="Type of children to list (default: page)")
+    children_parser.add_argument("--limit", type=positive_int, help="Maximum number of children per page, must be > 0")
+    children_parser.add_argument("--output-format", choices=["json", "text"], default="json", help="Output format (default: json)")
+    children_parser.add_argument("--recursive", action="store_true", help="Fetch nested descendants recursively")
+    children_parser.add_argument("--depth", type=int, help="Maximum recursion depth (default: unlimited)")
+    children_parser.add_argument("--debug", action="store_true", help="Print debug information")
+    children_parser.set_defaults(func=list_children)
+
+    # Download attachment subcommand
+    download_parser = subparsers.add_parser(
+        "download-attachment",
+        help="Download an attachment by ID",
+        description="Download a specific attachment by its ID.",
+        epilog="""
+EXAMPLES
+
+  Download attachment with ID 456:
+    %(prog)s --attachment-id 456 --output diagram.png
+
+  Download attachment with page context (optional):
+    %(prog)s --page-id 123 --attachment-id 456 --output-dir ./downloads
+""",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    download_parser.add_argument("--page-id", help="Page ID (optional, for context)")
+    download_parser.add_argument("--attachment-id", required=True, help="Attachment ID")
+    download_parser.add_argument("--output", dest="output_filename", help="Output filename (default: original filename)")
+    download_parser.add_argument("--output-dir", help="Directory to save file (default: current directory)")
+    download_parser.add_argument("--debug", action="store_true", help="Print debug information")
+    download_parser.set_defaults(func=download_attachment)
+
+    # List spaces subcommand
+    spaces_parser = subparsers.add_parser(
+        "list-spaces",
+        help="List Confluence spaces",
+        description="List spaces in the Confluence instance.",
+        epilog="""
+EXAMPLES
+
+  List all spaces (first page):
+    %(prog)s
+
+  List spaces with limit:
+    %(prog)s --limit 20
+
+  Show spaces in text format:
+    %(prog)s --output-format text
+""",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    spaces_parser.add_argument("--limit", type=positive_int, default=25, help="Maximum number of spaces to list, must be > 0 (default: 25)")
+    spaces_parser.add_argument("--output-format", choices=["json", "text"], default="json", help="Output format (default: json)")
+    spaces_parser.add_argument("--debug", action="store_true", help="Print debug information")
+    spaces_parser.set_defaults(func=list_spaces)
+
     args = parser.parse_args()
     args.func(args)
 
