@@ -313,13 +313,9 @@ def search_content(args):
     if args.boost_title:
         # Boost title matches by adding ^2 to title~ patterns
         import re
-        # Match title~"something" and replace with title~"something"^2
-        # Handle both double and single quotes (CQL uses double quotes)
-        def boost_title(match):
-            return match.group(0) + "^2"
-        # Pattern for title~"..." (double quotes) and title~'...' (single quotes)
-        cql = re.sub(r'title~"([^"]+)"', r'title~"\1"^2', cql)
-        cql = re.sub(r"title~'([^']+)'", r"title~'\1'^2", cql)
+        # Match title~"something" with optional existing boost
+        cql = re.sub(r'title\s*~\s*"([^"]+)"(?:\s*\^[0-9.]+)*', r'title~"\1"^2', cql)
+        cql = re.sub(r"title\s*~\s*'([^']+)'(?:\s*\^[0-9.]+)*", r"title~'\1'^2", cql)
         if cql != args.cql:
             sys.stderr.write(f"DEBUG: Boosted CQL: {cql}\n")
     
