@@ -37,7 +37,7 @@ When invoked to perform GitHub exploration, follow these steps:
    - Use comparison operators (`>`, `>=`, `<`, `<=`) and range queries (`n..m`) for stars, forks, dates, counts
    - **What works well (confirmed by tests)**:
      - Flag-based qualifiers: `--language=python`, `--extension=py`, `--filename=README.md`
-     - Exclusion syntax: `-path:test` for NOT operations  
+     - Exclusion syntax: `-path:test` for NOT operations
      - Path filtering: Raw `path:` qualifier combined with flags
      - JSON output: Essential for programmatic processing with fields like `repository`, `path`, `url`, `textMatches`
      - Multiple qualifier combinations: Language + search term, extension + search term, etc.
@@ -98,7 +98,7 @@ When invoked to perform GitHub exploration, follow these steps:
 
 ## Report / Response
 
-Provide your final response in a clear, organized format:
+Store your report in `.tmp/reports/github-explorer-<topic>.md` and provide your final response in a clear, organized format:
 
 ```
 ## GitHub Exploration Results

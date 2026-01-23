@@ -63,7 +63,7 @@ pkgs: {
   };
 
   opencode = let
-    version = "1.1.18";
+    version = "1.1.34";
 
     # Determine the architecture-specific file and URL
     # Linux logic matches install script: checks for musl and uses baseline for x64
@@ -81,23 +81,26 @@ pkgs: {
     else throw "Unsupported platform";
 
     # Update sha256 as needed - use empty string "" and nix will tell you the correct one
-    # Linux x64-baseline: nix-prefetch-url https://github.com/anomalyco/opencode/releases/download/v1.1.18/opencode-linux-x64-baseline.tar.gz
-    # Linux x64-baseline-musl: nix-prefetch-url https://github.com/anomalyco/opencode/releases/download/v1.1.18/opencode-linux-x64-baseline-musl.tar.gz
-    # Linux arm64: nix-prefetch-url https://github.com/anomalyco/opencode/releases/download/v1.1.18/opencode-linux-arm64.tar.gz
-    # Linux arm64-musl: nix-prefetch-url https://github.com/anomalyco/opencode/releases/download/v1.1.18/opencode-linux-arm64-musl.tar.gz
+    # Linux x64-baseline: nix-prefetch-url https://github.com/anomalyco/opencode/releases/download/v1.1.34/opencode-linux-x64-baseline.tar.gz
+    # Linux x64-baseline-musl: nix-prefetch-url https://github.com/anomalyco/opencode/releases/download/v1.1.34/opencode-linux-x64-baseline-musl.tar.gz
+    # Linux arm64: nix-prefetch-url https://github.com/anomalyco/opencode/releases/download/v1.1.34/opencode-linux-arm64.tar.gz
+    # Linux arm64-musl: nix-prefetch-url https://github.com/anomalyco/opencode/releases/download/v1.1.34/opencode-linux-arm64-musl.tar.gz
     sha256 = if pkgs.stdenv.isDarwin then
-      "sha256-g+msHIjtF7ZY2qC/f0ry2QDN3tZeuedmJ81Y5j69xWw="
+      if pkgs.stdenv.isAarch64 then
+        "sha256-f84vAXR6iEeTZEtIRDVjBOWjIm/0YZ/5ZwxOEVMygSc="
+      else
+        "sha256-/pz0aytDYJCTf8ieA5AC0GFMY4MjG4rOl4KIbeKId+U="
     else if pkgs.stdenv.isLinux then
       if pkgs.stdenv.isAarch64 then
         if pkgs.stdenv.hostPlatform.isMusl then
-          "sha256-0ME3omsPnjeScmyArztQZ5Gjw8f4MOI4ecnEedSjLk0="  # arm64-musl
+          "sha256-//H7IATG2R7FbaAgecA6N26GFi0EQvdtmuA6moBUeVg="  # arm64-musl
         else
-          "sha256-cMQr4PUv1zBtlOYqt6k/khDLNXH1xSLhdSfM6UQRS4s="  # arm64
+          "sha256-DAtHsloOlzL4Do4VLsPIugHoy2D4KaXuljTvGjRW9wM="  # arm64
       else  # x64
         if pkgs.stdenv.hostPlatform.isMusl then
-          "sha256-lQYo/DKiPSl7YdoEGxjV2n8lbYnTS/wri7VBalOCQUo="  # x64-baseline-musl
+          "sha256-+pIub3D8mLiC+Gf2LpclpHHD5Y3q2QBdVv7U6glIncM="  # x64-baseline-musl
         else
-          "sha256-B6lh3dB4fkcoy/nY27UEji1VkavaN2hZNpYjL61dteU="  # x64-baseline
+          "sha256-XJd8wF+9kD7xYLXA4SubT6XM88B/3ZjVMeHNkiysgTQ="  # x64-baseline
     else throw "Unsupported platform";
 
     src = pkgs.fetchurl {
@@ -254,7 +257,7 @@ pkgs: {
   };
 
   beads = let
-    version = "0.47.1";
+    version = "0.49.0";
 
     # Determine the architecture-specific file
     archFile = if pkgs.stdenv.isDarwin then
@@ -269,10 +272,10 @@ pkgs: {
     # nix-prefetch-url https://github.com/steveyegge/beads/releases/download/v${version}/beads_${version}_linux_arm64.tar.gz
     # nix-prefetch-url https://github.com/steveyegge/beads/releases/download/v${version}/beads_${version}_linux_amd64.tar.gz
     sha256 = if pkgs.stdenv.isDarwin then
-      if pkgs.stdenv.isAarch64 then "sha256-EK+HlbSdbaSqT+aykw3/xpKscW1ZAD48iTEp7iOYtjk="
-      else "sha256-WHzJrumgvX31dyBA09as8DlxyTmjxKlKOg3a3Zkkp7E="
-    else if pkgs.stdenv.isAarch64 then "sha256-kLttUPrOMvtAstlPtrpBWv5tpgeMgj7rWVZVG4Usrwc="
-    else "sha256-YAPjcy+9s1aWrKos22iDu4BCnjH4R0qhAnzYt17pr4s=";
+      if pkgs.stdenv.isAarch64 then "sha256-6xJ7heheeaKWD+EqkGZVi/znQ579xsZpbe2Lzjozw+A="
+      else "sha256-Z+Ovm8QsnYcbnp7zocmzYnoC2wuZRxT4RDnlqlENcxE="
+    else if pkgs.stdenv.isAarch64 then "sha256-M5o2uqwta0+GBeamXNpKUZD9IMBtq8ncFrXSlOh7d+4="
+    else "sha256-BOJdEYsoehdzizR+HIS0pWmOtcz9hKgC7RzUiyIMwe0=";
 
     src = pkgs.fetchurl {
       url = "https://github.com/steveyegge/beads/releases/download/v${version}/${archFile}";
