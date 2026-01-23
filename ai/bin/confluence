@@ -395,6 +395,23 @@ def search_content(args):
             if not any(p.startswith("body.") for p in parts):
                 expand = expand + ",body.view"
     args.expand = expand
+    # Fix parameter logic: when excluding current spaces, include archived spaces
+    if args.exclude_current_spaces and not args.include_archived_spaces:
+        args.include_archived_spaces = True
+        if args.debug:
+            sys.stderr.write(f"DEBUG: exclude-current-spaces=True overrides include-archived-spaces=False to True\n")
+
+    # Ensure space expansion when space filtering is needed
+    if args.include_archived_spaces or args.exclude_current_spaces:
+        expand = args.expand
+        if not expand:
+            expand = "space"
+        else:
+            parts = [p.strip() for p in expand.split(",")]
+            if "space" not in parts:
+                expand = expand + ",space"
+        args.expand = expand
+
     status_filter = args.status
     if status_filter:
         sys.stderr.write(f"Warning: --status filter applied client-side (Confluence Cloud API does not support server-side status filtering).\n")
@@ -426,23 +443,46 @@ def search_content(args):
     data = make_request(url, headers, args.debug)
     
     # Client-side status filtering if requested
+    results = data.get("results", [])
+    original_count = len(results)
+    
     if status_filter:
-        original_results = data.get("results", [])
-        filtered_results = []
-        for result in original_results:
+        filtered = []
+        for result in results:
             result_status = result.get("status", "").lower()
             if result_status == status_filter.lower():
-                filtered_results.append(result)
+                filtered.append(result)
+        results = filtered
         
         if args.debug:
-            sys.stderr.write(f"DEBUG: Status filter '{status_filter}' matched {len(filtered_results)} of {len(original_results)} results on this page.\n")
+            sys.stderr.write(f"DEBUG: Status filter '{status_filter}' matched {len(results)} of {original_count} results on this page.\n")
+    
+    # Space status filtering (API parameters are ignored)
+    if args.include_archived_spaces or args.exclude_current_spaces:
+        sys.stderr.write(f"Warning: --include-archived-spaces/--exclude-current-spaces parameters are sent to API but may be ignored by Confluence Cloud.\n")
+        sys.stderr.write(f"         Results are also filtered client-side based on space status as a fallback.\n")
+        sys.stderr.write(f"         Pagination may be affected.\n")
         
-        # Update results and size (page-level only)
-        data["results"] = filtered_results
-        # Note: total size across all pages for filtered status is unknown
-        # We set size to filtered count for this page only
-        data["size"] = len(filtered_results)
-        # Keep _links.next unchanged - cursor will fetch next page of unfiltered results
+        filtered = []
+        for result in results:
+            space = result.get("space", {})
+            space_status = space.get("status", "").lower()
+            keep = True
+            if not args.include_archived_spaces and space_status == "archived":
+                keep = False
+            if args.exclude_current_spaces and space_status == "current":
+                keep = False
+            if keep:
+                filtered.append(result)
+        results = filtered
+        
+        if args.debug:
+            sys.stderr.write(f"DEBUG: Space status filter matched {len(results)} of {original_count} results on this page.\n")
+    
+    # Update results and size (page-level only)
+    data["results"] = results
+    data["size"] = len(results)
+    # Keep _links.next unchanged - cursor will fetch next page of unfiltered results
     
     output_results(data, args.output_format, "content", args.debug, full_urls=args.full_urls, domain=domain, snippet_length=args.snippet_length, excerpt_type=args.excerpt)
 
@@ -932,10 +972,53 @@ def download_attachment(args):
 def list_spaces(args):
     """List Confluence spaces."""
     headers = get_auth_headers(args.debug_auth)
-    params = {"limit": args.limit}
+    # Fix parameter logic: when excluding current spaces, include archived spaces
+    if args.exclude_current_spaces and not args.include_archived_spaces:
+        args.include_archived_spaces = True
+        if args.debug:
+            sys.stderr.write(f"DEBUG: exclude-current-spaces=True overrides include-archived-spaces=False to True\n")
+    params = {
+        "limit": args.limit,
+        "includeArchivedSpaces": args.include_archived_spaces,
+        "excludeCurrentSpaces": args.exclude_current_spaces,
+    }
+    # Convert booleans to lowercase strings
+    for key, value in params.items():
+        if isinstance(value, bool):
+            params[key] = str(value).lower()
+    # Remove None values
+    params = {k: v for k, v in params.items() if v is not None}
+    
     domain = get_domain(args.debug)
     url = build_url(domain, "/space", params)
     data = make_request(url, headers, args.debug)
+    
+    # Client-side space status filtering if needed (API parameters are ignored)
+    if args.include_archived_spaces or args.exclude_current_spaces:
+        sys.stderr.write(f"Warning: --include-archived-spaces/--exclude-current-spaces parameters are sent to API but may be ignored by Confluence Cloud.\n")
+        sys.stderr.write(f"         Results are also filtered client-side based on space status as a fallback.\n")
+        sys.stderr.write(f"         Pagination may be affected.\n")
+    
+    original_results = data.get("results", [])
+    filtered_results = []
+    for space in original_results:
+        space_status = space.get("status", "").lower()
+        # Determine if space should be kept
+        keep = True
+        if not args.include_archived_spaces and space_status == "archived":
+            keep = False
+        if args.exclude_current_spaces and space_status == "current":
+            keep = False
+        if keep:
+            filtered_results.append(space)
+    
+    if args.debug and (args.include_archived_spaces or args.exclude_current_spaces):
+        sys.stderr.write(f"DEBUG: Space status filter matched {len(filtered_results)} of {len(original_results)} spaces on this page.\n")
+    
+    # Update results and size (page-level only)
+    data["results"] = filtered_results
+    data["size"] = len(filtered_results)
+    # Keep _links.next unchanged - cursor will fetch next page of unfiltered results
     
     if args.output_format == "json":
         print(json.dumps(data, indent=2))
@@ -1397,6 +1480,8 @@ EXAMPLES
     spaces_parser.add_argument("--limit", type=positive_int, default=25, help="Maximum number of spaces to list, must be > 0 (default: 25)")
     spaces_parser.add_argument("--output-format", choices=["json", "text"], default="json", help="Output format (default: json)")
     spaces_parser.add_argument("--debug", action="store_true", help="Print debug information")
+    spaces_parser.add_argument("--include-archived-spaces", action="store_true", help="Include archived spaces in results")
+    spaces_parser.add_argument("--exclude-current-spaces", action="store_true", help="Exclude current spaces from results")
     spaces_parser.set_defaults(func=list_spaces)
 
     args = parser.parse_args()
