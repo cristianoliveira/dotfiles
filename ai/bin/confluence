@@ -230,7 +230,7 @@ def strip_html_tags(html_text: str) -> str:
     stripped = re.sub(r'\s+', ' ', stripped)
     return stripped.strip()
 
-def format_text_content(result: Dict[str, Any], domain: str = None, full_urls: bool = False, snippet_length: int = 200) -> str:
+def format_text_content(result: Dict[str, Any], domain: str = None, full_urls: bool = False, snippet_length: int = 200, excerpt_type: str = None) -> str:
     """Format a single content result for human-readable output."""
     title = result.get("title", "No title")
     url = result.get("_links", {}).get("webui", "")
@@ -240,12 +240,18 @@ def format_text_content(result: Dict[str, Any], domain: str = None, full_urls: b
             url = absolute
     # Try excerpt field first
     excerpt = strip_html_tags(result.get("excerpt", ""))
-    # If empty, check excerpts dict (Confluence may return excerpts.highlight or excerpts.indexed)
-    if not excerpt:
+    # If empty and excerpt_type is not "none", check excerpts dict (Confluence may return excerpts.highlight or excerpts.indexed)
+    if not excerpt and excerpt_type != "none":
         excerpts = result.get("excerpts")
         if isinstance(excerpts, dict):
-            # Prefer highlight, then indexed
-            excerpt = strip_html_tags(excerpts.get("highlight", excerpts.get("indexed", "")))
+            # Respect requested excerpt type if specified, otherwise prefer highlight
+            if excerpt_type == "highlight":
+                excerpt = strip_html_tags(excerpts.get("highlight", excerpts.get("indexed", "")))
+            elif excerpt_type == "indexed":
+                excerpt = strip_html_tags(excerpts.get("indexed", excerpts.get("highlight", "")))
+            else:
+                # Default: prefer highlight, then indexed
+                excerpt = strip_html_tags(excerpts.get("highlight", excerpts.get("indexed", "")))
     # Fallback to body content if excerpt still empty and body is expanded
     if not excerpt and snippet_length > 0:
         body = result.get("body", {})
@@ -280,7 +286,7 @@ def extract_cursor(next_url: str) -> Optional[str]:
         return cursor_list[0]
     return None
 
-def output_results(data: Dict[str, Any], output_format: str, result_type: str, debug: bool = False, full_urls: bool = False, domain: str = None, snippet_length: int = 200):
+def output_results(data: Dict[str, Any], output_format: str, result_type: str, debug: bool = False, full_urls: bool = False, domain: str = None, snippet_length: int = 200, excerpt_type: str = None):
     """Output results in JSON or text format."""
     if output_format == "json":
         print(json.dumps(data, indent=2))
@@ -296,7 +302,7 @@ def output_results(data: Dict[str, Any], output_format: str, result_type: str, d
     print("-" * 80)
     for result in results:
         if result_type == "content":
-            print(format_text_content(result, domain=domain, full_urls=full_urls, snippet_length=snippet_length))
+            print(format_text_content(result, domain=domain, full_urls=full_urls, snippet_length=snippet_length, excerpt_type=excerpt_type))
         elif result_type == "user":
             print(format_text_user(result))
         else:
@@ -438,7 +444,7 @@ def search_content(args):
         data["size"] = len(filtered_results)
         # Keep _links.next unchanged - cursor will fetch next page of unfiltered results
     
-    output_results(data, args.output_format, "content", args.debug, full_urls=args.full_urls, domain=domain, snippet_length=args.snippet_length)
+    output_results(data, args.output_format, "content", args.debug, full_urls=args.full_urls, domain=domain, snippet_length=args.snippet_length, excerpt_type=args.excerpt)
 
 def search_users(args):
     """Execute user search."""
@@ -1080,7 +1086,7 @@ CQL QUICK REFERENCE
      not        Negation
 
   Content fields:
-    type       page, blogpost, comment, attachment
+     type       page, blogpost, comment, attachment, folder, whiteboard, database, embed
     space      Space key
     creator    User accountId
     lastModified Date range
@@ -1139,7 +1145,7 @@ https://developer.atlassian.com/server/confluence/advanced-searching-using-cql/
         "search-content",
         parents=[common_parent, global_parent],
         help="Search for content using CQL",
-        description="Search Confluence content (pages, blogposts, etc.) using CQL queries.",
+        description="Search Confluence content (pages, blogposts, comments, attachments, folders, whiteboards, databases, embeds) using CQL queries.",
         epilog="""
  CQL EXAMPLES FOR CONTENT SEARCH
 
