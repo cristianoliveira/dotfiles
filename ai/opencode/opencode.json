@@ -1,15 +1,19 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "default_agent": "orchestrator",
   "theme": "catppuccin-macchiato",
   "autoupdate": true,
+  "permission": {
+    "external_directory": {
+      "*": "deny",
+      "~/.config/qmd/*": "allow",
+      "/tmp/*": "allow"
+    }
+  },
   "mcp": {
     "playwright": {
       "type": "local",
       "command": ["npx", "@playwright/mcp", "--headless", "--browser=chromium"]
-    },
-    "qmd": {
-      "type": "local",
-      "command": ["qmd", "mcp"]
     }
   },
   "keybinds": {
