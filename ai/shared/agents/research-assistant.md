@@ -4,13 +4,18 @@ description: Use an assistant to investigate subtopics concurrently (web and loc
 mode: subagent
 model: deepseek/deepseek-reasoner
 tools:
-  read: true
-  glob: true
-  grep: true
-  bash: true
-  todowrite: true
-  question: true
-  Skill: false
+   read: true
+   glob: true
+   grep: true
+   bash: true
+   todowrite: true
+   question: true
+permission:
+   skill:
+      "*": deny
+      "db-explorer": allow
+      "git-explorer": allow
+      "docs-explorer": allow
 ---
 
 # Purpose

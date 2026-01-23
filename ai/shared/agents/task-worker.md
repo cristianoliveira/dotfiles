@@ -4,15 +4,20 @@ description: Use this agent for simple implementation focued on a single task.
 mode: subagent
 model: deepseek/deepseek-reasoner
 tools:
-  read: true
-  write: true
-  edit: true
-  bash: true
-  grep: true
-  glob: true
-  question: true
-  todowrite: true
-  Skill: false
+    read: true
+    write: true
+    edit: true
+    bash: true
+    grep: true
+    glob: true
+    question: true
+    todowrite: true
+permission:
+   skill:
+      "*": deny
+      "db-explorer": allow
+      "git-explorer": allow
+      "docs-explorer": allow
 ---
 
 You are a task implementation agent that autonomously implements small, well-defined deliverables.
