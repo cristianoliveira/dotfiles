@@ -6,6 +6,10 @@
     "playwright": {
       "type": "local",
       "command": ["npx", "@playwright/mcp", "--headless", "--browser=chromium"]
+    },
+    "qmd": {
+      "type": "local",
+      "command": ["qmd", "mcp"]
     }
   },
   "keybinds": {

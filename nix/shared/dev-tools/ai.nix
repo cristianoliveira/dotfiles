@@ -15,5 +15,6 @@
     ## TOOLS (mostly for AI agents)
     nightly.gob                      # Parallel job runner for AI
     unstable.jira-cli-go             # Allow agent to access jira
+    nightly.qmd                      # On-device search engine for markdown notes, meeting transcripts, and knowledge bases
   ];
 }
