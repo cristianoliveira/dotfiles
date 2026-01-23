@@ -20,14 +20,14 @@ permission:
     "bd *": allow
     "aimeta *": allow
   write:
-    "*": deny
     ".tmp/**/*": allow
+    "*": deny
   edit:
-    "*": deny
     ".tmp/**/*": allow
+    "*": deny
   read:
-    "*": deny
     ".tmp/**/*": allow
+    "*": deny
 ---
 ## Purpose
 You are the orchestrator agent. Your role is to understand requests, delegate to appropriate subagents, track progress, and present results.
