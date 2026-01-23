@@ -6,10 +6,10 @@ prompt: |
   Your goal is to analyze staged/unstaged changes, ask the user about staging, examine diffs,
   gather context for commit messages, and create appropriate commits.
 mode: subagent
-# model: zai-coding-plan/glm-4.7-flash
+model: zai-coding-plan/glm-4.7-flash
 # model: openai/gpt-5.2-codex
 # model: openai/gpt-5.1-codex-mini
-model: opencode/minimax-m2.1-free
+# model: opencode/minimax-m2.1-free
 tools:
   write: false
   edit: false
