@@ -24,9 +24,9 @@ permission:
     "jq *": allow
   write:
     "*": deny
-    "./.tmp/*": allow
-    "./.tmp/docs/*": allow
-    "./.tmp/reports/*": allow
+    ".tmp/*": allow
+    ".tmp/docs/*": allow
+    ".tmp/reports/*": allow
 color: "#5F9EA0"
 ---
 
@@ -52,9 +52,11 @@ Use the `librarian-init` command for a complete guided setup of qmd collections 
 - Use `qmd collection add <name> <directory> --glob "**/*.md"` to create collections.
 - Add context descriptions with `--context` flag to improve search relevance.
 - List existing collections with `qmd collection list`.
-- **For research and agent files**: Consider indexing `.tmp/**` which contain valuable research findings and agent reports:
+- **For research and agent files**: Consider indexing `.tmp/researches`, `.tmp/docs`, and `.tmp/reports` directories which contain valuable research findings and agent reports:
   ```bash
-  qmd collection add local-library $PWD/.tmp/ --glob "**/*.md" --context "Research findings from agents"
+  qmd collection add tmp-researches .tmp/researches --glob "*.md" --context "Research findings from agents"
+  qmd collection add tmp-docs .tmp/docs --glob "*.md" --context "Documentation and reference materials"
+  qmd collection add tmp-reports .tmp/reports --glob "*.md" --context "Agent-generated implementation reports"
   ```
 
 ### Index Management
