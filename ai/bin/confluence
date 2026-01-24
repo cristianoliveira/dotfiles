@@ -218,21 +218,67 @@ def strip_html_tags(html_text: str) -> str:
     Also removes XML comments and collapses whitespace.
     """
     import re
+    import html
+    from html.parser import HTMLParser
+    
+    class HTMLTagStripper(HTMLParser):
+        def __init__(self):
+            super().__init__(convert_charrefs=True)
+            self.reset()
+            self.fed = []
+            self.skip = False
+        
+        def handle_starttag(self, tag, attrs):
+            if tag in ('script', 'style'):
+                self.skip = True
+        
+        def handle_endtag(self, tag):
+            if tag in ('script', 'style'):
+                self.skip = False
+        
+        def handle_startendtag(self, tag, attrs):
+            pass  # ignore self-closing tags
+        
+        def handle_data(self, data):
+            if not self.skip:
+                self.fed.append(data)
+        
+        def handle_comment(self, data):
+            pass  # ignore comments
+        
+        def get_data(self):
+            return ''.join(self.fed)
+    
     if not html_text:
         return ""
-    # Decode HTML entities
+    
+    # Decode HTML entities first (supports more entities than parser)
     decoded = html.unescape(html_text)
-    # Remove XML comments
-    decoded = re.sub(r'<!--.*?-->', '', decoded, flags=re.DOTALL)
-    # Remove all tags (including self-closing)
-    stripped = re.sub(r'<[^>]+>', '', decoded)
+    
+    parser = HTMLTagStripper()
+    parser.feed(decoded)
+    parser.close()
+    stripped = parser.get_data()
     # Collapse whitespace
     stripped = re.sub(r'\s+', ' ', stripped)
     return stripped.strip()
 
-def format_text_content(result: Dict[str, Any], domain: str = None, full_urls: bool = False, snippet_length: int = 200, excerpt_type: str = None) -> str:
+def clean_data(data: Any) -> Any:
+    """Recursively strip HTML tags from all string values in data."""
+    if isinstance(data, str):
+        return strip_html_tags(data)
+    elif isinstance(data, dict):
+        return {k: clean_data(v) for k, v in data.items()}
+    elif isinstance(data, list):
+        return [clean_data(item) for item in data]
+    else:
+        return data
+
+def format_text_content(result: Dict[str, Any], domain: str = None, full_urls: bool = False, snippet_length: int = 200, excerpt_type: str = None, clean: bool = False) -> str:
     """Format a single content result for human-readable output."""
     title = result.get("title", "No title")
+    if clean:
+        title = strip_html_tags(title)
     url = result.get("_links", {}).get("webui", "")
     if full_urls and domain:
         absolute = make_absolute_url(domain, result)
@@ -268,11 +314,15 @@ def format_text_content(result: Dict[str, Any], domain: str = None, full_urls: b
     last_modified = result.get("version", {}).get("when", "")
     return f"{title}\n  URL: {url}\n  Excerpt: {excerpt[:snippet_length]}{'...' if len(excerpt) > snippet_length else ''}\n  Last modified: {last_modified}\n"
 
-def format_text_user(result: Dict[str, Any]) -> str:
+def format_text_user(result: Dict[str, Any], clean: bool = False) -> str:
     """Format a single user result for human-readable output."""
     username = result.get("username") or result.get("publicName", "")
     display_name = result.get("displayName") or result.get("publicName", "")
     email = result.get("email", "")
+    if clean:
+        username = strip_html_tags(username)
+        display_name = strip_html_tags(display_name)
+        email = strip_html_tags(email)
     return f"{display_name} (@{username})\n  Email: {email}\n"
 
 def extract_cursor(next_url: str) -> Optional[str]:
@@ -286,9 +336,11 @@ def extract_cursor(next_url: str) -> Optional[str]:
         return cursor_list[0]
     return None
 
-def output_results(data: Dict[str, Any], output_format: str, result_type: str, debug: bool = False, full_urls: bool = False, domain: str = None, snippet_length: int = 200, excerpt_type: str = None):
+def output_results(data: Dict[str, Any], output_format: str, result_type: str, debug: bool = False, full_urls: bool = False, domain: str = None, snippet_length: int = 200, excerpt_type: str = None, clean: bool = False):
     """Output results in JSON or text format."""
     if output_format == "json":
+        if clean:
+            data = clean_data(data)
         print(json.dumps(data, indent=2))
         return
     
@@ -302,9 +354,9 @@ def output_results(data: Dict[str, Any], output_format: str, result_type: str, d
     print("-" * 80)
     for result in results:
         if result_type == "content":
-            print(format_text_content(result, domain=domain, full_urls=full_urls, snippet_length=snippet_length, excerpt_type=excerpt_type))
+            print(format_text_content(result, domain=domain, full_urls=full_urls, snippet_length=snippet_length, excerpt_type=excerpt_type, clean=clean))
         elif result_type == "user":
-            print(format_text_user(result))
+            print(format_text_user(result, clean=clean))
         else:
             print(json.dumps(result, indent=2))
         print()
@@ -484,7 +536,7 @@ def search_content(args):
     data["size"] = len(results)
     # Keep _links.next unchanged - cursor will fetch next page of unfiltered results
     
-    output_results(data, args.output_format, "content", args.debug, full_urls=args.full_urls, domain=domain, snippet_length=args.snippet_length, excerpt_type=args.excerpt)
+    output_results(data, args.output_format, "content", args.debug, full_urls=args.full_urls, domain=domain, snippet_length=args.snippet_length, excerpt_type=args.excerpt, clean=args.clean)
 
 def search_users(args):
     """Execute user search."""
@@ -515,7 +567,7 @@ def search_users(args):
         else:
             data['results'] = []
             data['size'] = 0
-    output_results(data, args.output_format, "user", args.debug)
+    output_results(data, args.output_format, "user", args.debug, clean=args.clean)
 
 def get_content(args):
     """Fetch content by ID."""
@@ -543,6 +595,8 @@ def get_content(args):
 
     if args.output_format == "text":
         # Custom text formatting for single content
+        if args.clean:
+            data = clean_data(data)
         title = data.get("title", "No title")
         space_key = data.get("space", {}).get("key", "")
         page_id = data.get("id", "")
@@ -603,6 +657,13 @@ def get_content(args):
         version = data.get("version", {}).get("number", "")
         created = data.get("version", {}).get("when", "")
         url = data.get("_links", {}).get("webui", "")
+        if args.clean:
+            title = strip_html_tags(title)
+            space_key = strip_html_tags(space_key)
+            page_id = strip_html_tags(page_id)
+            version = strip_html_tags(version)
+            created = strip_html_tags(created)
+            url = strip_html_tags(url)
         if args.full_urls:
             absolute = make_absolute_url(domain, data)
             if absolute:
@@ -616,6 +677,8 @@ def get_content(args):
         return
     
     # Default JSON output
+    if args.clean:
+        data = clean_data(data)
     print(json.dumps(data, indent=2))
 
 def html_to_markdown(html_text: str) -> str:
@@ -825,6 +888,8 @@ def list_attachments(args):
         # Include filtered results in JSON output
         data["results"] = results
         data["size"] = len(results)
+        if args.clean:
+            data = clean_data(data)
         print(json.dumps(data, indent=2))
         return
     
@@ -840,6 +905,10 @@ def list_attachments(args):
         if download_url and not download_url.startswith("http"):
             download_url = f"https://{domain}{download_url}"
         version = att.get("version", {}).get("number", 1)
+        if args.clean:
+            filename = strip_html_tags(filename)
+            media_type = strip_html_tags(media_type)
+            download_url = strip_html_tags(download_url)
         print(f"{filename}")
         print(f"  Size: {size} bytes")
         print(f"  Type: {media_type}")
@@ -899,6 +968,8 @@ def list_children(args):
             "depth": args.depth if args.depth else 1,
             "recursive": args.recursive
         }
+        if args.clean:
+            output = clean_data(output)
         print(json.dumps(output, indent=2))
         return
     
@@ -912,12 +983,18 @@ def list_children(args):
         child_id = child.get("id", "")
         space_key = child.get("space", {}).get("key", "")
         version = child.get("version", {}).get("number", 1)
+        if args.clean:
+            title = strip_html_tags(title)
+            if space_key:
+                space_key = strip_html_tags(space_key)
         if args.type in ["page", "folder", "whiteboard", "database", "embed"]:
             print(f"{indent}{title} (ID: {child_id}, Space: {space_key}, v{version})")
         else:
             # For attachments/comments, show extra info
             media_type = child.get("extensions", {}).get("mediaType", "")
             if media_type:
+                if args.clean:
+                    media_type = strip_html_tags(media_type)
                 print(f"{indent}{title} (ID: {child_id}, Type: {media_type}, v{version})")
             else:
                 print(f"{indent}{title} (ID: {child_id}, v{version})")
@@ -1021,6 +1098,8 @@ def list_spaces(args):
     # Keep _links.next unchanged - cursor will fetch next page of unfiltered results
     
     if args.output_format == "json":
+        if args.clean:
+            data = clean_data(data)
         print(json.dumps(data, indent=2))
         return
     
@@ -1034,6 +1113,9 @@ def list_spaces(args):
         name = space.get("name", "")
         type_ = space.get("type", "")
         description = space.get("description", "")
+        if args.clean:
+            name = strip_html_tags(name)
+            description = strip_html_tags(description)
         print(f"{name} (Key: {key}, Type: {type_})")
         if description:
             print(f"  Description: {description[:100]}{'...' if len(description) > 100 else ''}")
@@ -1058,6 +1140,7 @@ CONFLUENCE CLI BEST PRACTICES
    - Use --output-format markdown for content export
    - Use --snippet-length 150 (default 200) to limit excerpt size
    - Use --excerpt indexed for static excerpts (no HTML tags) vs highlight (has tags)
+   - Use --clean to strip HTML tags from all text output (applies to both JSON and text formats, reduces token count)
    - Use --no-excerpt when you only need metadata
    - Be specific with CQL: type=page and space=DEV and created>2024-01-01
    - Use --limit 10 instead of default 25 when exploring
@@ -1068,18 +1151,22 @@ CONFLUENCE CLI BEST PRACTICES
 
 2. GREP/AI INTEGRATION
    Pipeline Examples:
-      # Search and pipe to Grep for summarization
-      confluence search-content --cql "type=page" --excerpt indexed --snippet-length 100 --limit 5 --output-format text | grep summarize
-     
-     # Get page as Markdown for AI analysis
-      confluence get-content --id 123 --output-format markdown | grep analyze
-     
-     # Extract clean text for token-efficient processing
-     confluence get-content --id 456 --output-format text | wc -c
+       # Search and pipe to Grep for summarization
+       confluence search-content --cql "type=page" --excerpt indexed --snippet-length 100 --limit 5 --output-format text | grep summarize
+      
+      # Get page as Markdown for AI analysis
+       confluence get-content --id 123 --output-format markdown | grep analyze
+      
+      # Extract clean text for token-efficient processing
+       confluence get-content --id 456 --output-format text | wc -c
+      
+      # Get clean text without HTML tags for AI processing
+       confluence get-content --id 789 --output-format text --clean | grep process
 
    Clean Output for AI:
      - --output-format text strips HTML tags
      - --excerpt indexed avoids highlight tags
+     - --clean flag strips HTML tags from all text fields (titles, excerpts, body) in both JSON and text output
      - Use --snippet-length to control input size to AI
 
 3. PRECISE SEARCH TECHNIQUES
@@ -1132,6 +1219,7 @@ def main():
         description="""Confluence REST API CLI tool for search queries using Confluence Query Language (CQL).
 
 Supports search-content and search-users subcommands. Authentication via environment variables.
+Use --clean flag to strip HTML tags from all output for token-efficient AI processing.
 Use --help-best-practices for token-saving tips and Grep integration.""",
         epilog="""
 ENVIRONMENT VARIABLES
@@ -1143,12 +1231,13 @@ ENVIRONMENT VARIABLES
 EXAMPLES
 
    Basic content search:
-     %(prog)s search-content --cql "type=page" --limit 10
-     %(prog)s search-content --cql "type=blogpost" --limit 5
-     %(prog)s search-content --cql 'text~"keyword"' --output-format text
-     %(prog)s search-content --cql 'text~"create*team*account"' --limit 10
-     %(prog)s search-content --cql 'space=DEV and type=page' --limit 20
-     %(prog)s search-content --cql 'text~"create team account"' --fuzzy --limit 10
+      %(prog)s search-content --cql "type=page" --limit 10
+      %(prog)s search-content --cql "type=blogpost" --limit 5
+      %(prog)s search-content --cql 'text~"keyword"' --output-format text
+      %(prog)s search-content --cql 'text~"create*team*account"' --limit 10
+      %(prog)s search-content --cql 'space=DEV and type=page' --limit 20
+      %(prog)s search-content --cql 'text~"create team account"' --fuzzy --limit 10
+      %(prog)s search-content --cql "type=page" --clean --output-format text   # Strip HTML tags for AI processing
 
   User search:
     %(prog)s search-users --cql "type=user" --limit 5
@@ -1212,6 +1301,7 @@ https://developer.atlassian.com/server/confluence/advanced-searching-using-cql/
     global_parent = argparse.ArgumentParser(add_help=False)
     global_parent.add_argument("--debug-auth", action="store_true", help="Show authentication details (masks token) for debugging")
     global_parent.add_argument("--help-best-practices", action="store_true", help="Show best practices for efficient Confluence research")
+    global_parent.add_argument("--clean", action="store_true", help="Strip HTML tags from all text output (applies to both JSON and text formats)")
     
     subparsers = parser.add_subparsers(dest="command", required=False, help="Subcommand")
     
