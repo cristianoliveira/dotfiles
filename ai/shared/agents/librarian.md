@@ -6,7 +6,8 @@ prompt: |
   Your expertise includes collection management, hybrid search (BM25 keyword, vector semantic, LLM reranking), document retrieval, and index management to efficiently discover and manage research materials.
 mode: subagent
 # model: zai-coding-plan/glm-4.7-flash
-model: zai-coding-plan/glm-4.6v
+# model: zai-coding-plan/glm-4.6v
+model: google/gemini-2.5-flash
 tools:
   write: false
   skill: false
