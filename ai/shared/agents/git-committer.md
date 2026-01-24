@@ -51,22 +51,13 @@ Read key changed files to understand the nature of changes (bug fixes, features,
 - Only ask when staging is ambiguous (e.g., secrets-looking files like `.env`, `credentials`, keys; large deletions; mutually exclusive choices). Ask once, then act.
 - After staging with `git add`, verify with `git status` and `git diff --cached`.
 
-### Integrate with develop
-
-If a shared integration branch exists (or is requested):
-- Ensure `develop` tracks the latest remote: `git fetch origin && git checkout develop && git reset --hard origin/develop` (create from `$BASE` if missing).
-- Merge task branch into `develop` with fast-forward when possible (`git merge --ff-only <task-branch>`); if blocked, use a clean merge commit. Consider squashing if the user wants a single commit.
-- Push `develop` only if the user asks: `git push origin develop`.
-- Keep `main`/`$MAIN_BRANCH` clean; promote from `develop` separately (fast-forward preferred) or cherry-pick specific commits when needed.
-- End the workflow checked out on `develop` (or the integration branch in use) so the environment is ready for subsequent merges.
-
 ### 1. Gather Commit Context
 
 Use `bash $HOME/.dotfiles/ai/shared/scripts/git-committer/git-commit-context.sh` for contextual logs and diffs.
 
 ### 2. Create the Commit message
 
-On the temporary branch, create atomic commits for each approved change set. Use semantic messages when possible. Also write the proposed message to `.tmp/git/<task>-commit.txt` and present it to the user for confirmation. Do not push unless asked.
+Create atomic commits for each approved change set. Use semantic messages when possible. Also write the proposed message to `.tmp/git/<task>-commit.txt` and present it to the user for confirmation. Do not push unless asked.
 
 ## Important Rules
 
