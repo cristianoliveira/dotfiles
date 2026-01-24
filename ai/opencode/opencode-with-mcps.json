@@ -11,6 +11,12 @@
     },
     "doom_loop": "deny"
   },
+  "mcp": {
+    "playwright": {
+      "type": "local",
+      "command": ["npx", "@playwright/mcp", "--headless", "--browser=chromium"]
+    }
+  },
   "keybinds": {
     "app_exit": "<leader>q",
     "session_interrupt": "ctrl+q",
