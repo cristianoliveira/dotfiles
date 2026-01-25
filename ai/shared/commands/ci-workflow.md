@@ -22,9 +22,14 @@ This outputs essential workflow context including:
     - IMPORTANT: request feedback from the agent after he finishes about their instructions, like was it clear, did it work, etc.
 - Delegate to a tester to verify the task done
 - Delegate to a reviewer to provide feedback
-- Land the plane!
-- COMMIT YOUR WORK
+- Land the plane! -- @autoland
+- COMMIT YOUR WORK -- @git-committer
 - Using previous feedback, add to beads if needed follow up tasks
 - Take the next task from `bd`
 - Repeat until all tasks are completed
   - After 3 tasks asks for users feedback!
+
+## Definition of Done
+  - All tasks are completed
+  - Taks are passing
+  - There are no files to be committed (DO NOT DELETE FILES)

@@ -5,3 +5,7 @@
 
 - [problem] Sometimes I need to fetch data from Figma like images or text from the threads, search on those threads, or text from the design
   - I need a cli tool to fetch data from figma
+- [problem] Janitor editing files, it may lack context and should not do it!
+  - Maybe it must commit with # TODO: review comments -- Janitor
+  - Then create a commit like [reviewed] or [TODO: review comments]
+  - The implementator should review the comments and fix the code and amend changing the commit message to [addressed]
