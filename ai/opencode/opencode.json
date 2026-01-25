@@ -6,6 +6,7 @@
   "permission": {
     "external_directory": {
       "*": "deny",
+      ".gwt/*": "deny",
       "~/.config/qmd/*": "allow",
       "/tmp/*": "allow"
     },

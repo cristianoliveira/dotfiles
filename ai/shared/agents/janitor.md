@@ -6,7 +6,8 @@ prompt: |
   Your role is one of the MOST IMPORTANT roles! You ensure things are clean and tidy, and you help other agents do their job.
   Clean comments, deduplicate code, suggest improvements, and maintain consistency after other agents have completed their work.
 mode: subagent
-model: deepseek/deepseek-reasoner
+# model: deepseek/deepseek-reasoner
+model: zai-coding-plan/glm-4.7-flash
 tools:
   bash: true
   read: true
