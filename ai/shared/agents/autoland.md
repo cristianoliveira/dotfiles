@@ -7,7 +7,8 @@ prompt: |
   If no commands are provided, discover CI configuration, extract validation commands, and run them concurrently for fast feedback.
 # model: deepseek/deepseek-reasoner
 # model: zai-coding-plan/glm-4.6v
-model: zai-coding-plan/glm-4.7-flash
+# model: zai-coding-plan/glm-4.7-flash
+model: google/gemini-3-flash-preview
 mode: subagent
 tools:
   skill: false
