@@ -9,3 +9,6 @@ alias aig-with-git="aichat -f $(git ls-files --modified --exclude-standard --oth
 
 # Ai expert assistants
 alias aiss-linux="aichat -c -r exp-linux"
+
+alias oc="opencode"
+alias oc-with-mcp="opencode --config opencode-with-mcps.json"
