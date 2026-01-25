@@ -31,7 +31,7 @@ snippet a "link expands standard links"
 [${1:link text}](${2:https://example.com})
 endsnippet
 
-snippet ( "( expands standard links" 
+snippet ( "( expands standard links"
 [${1:link text}](${2:https://example.com})
 endsnippet
 
@@ -92,10 +92,25 @@ date: ${2:`!v strftime('%d-%m-%Y')`}
 ## Section
 endsnippet
 
+snippet task "An task boilerplate"
+---
+title: ${1:`!v expand('%:t:r')`}
+date: ${2:`!v strftime('%d-%m-%Y')`}
+---
+
+# $1
+
+## Problem
+
+## Acceptance Criteria
+
+## Hypothesis
+endsnippet
+
 # task in this format
 snippet devtask "A generic dev task"
 - [ ] ${1:Task}
-	- [ ] Dev 
+	- [ ] Dev
 	- [ ] PR
 endsnippet
 
@@ -159,7 +174,7 @@ endsnippet
 snippet tomorrow "expand to tomorrow's date"
 `#!/bin/bash
 gdate -d "tomorrow" +%d-%m-%Y`
-endsnippet  
+endsnippet
 
 snippet nextw "expand to next week's date"
 `#!/bin/bash
