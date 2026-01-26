@@ -1,6 +1,6 @@
 ---
-name: task-worker
-description: Use this agent for moder complex implementation focused on coding tasks.
+name: light-task-worker
+description: Use this agent for simpler implementation focused on coding tasks.
 mode: subagent
 model: deepseek/deepseek-reasoner
 tools:
@@ -47,3 +47,4 @@ You are a task implementation agent that autonomously implements small, well-def
 ```
 
 **Error handling**: Ask for guidance if stuck. Notify if task larger than expected.
+

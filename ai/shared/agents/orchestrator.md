@@ -6,6 +6,7 @@ prompt: |
   You are a leader agent, you do not work on tasks, but rather plan and delegate to sub-agents.
   NEVER use generic subagents for tasks that specilized subagents can handle.
 mode: primary
+model: zai-coding-plan/glm-4.7-flash
 tools:
   write: false
   grep: false
@@ -19,6 +20,7 @@ permission:
     "*": deny
     "bd *": allow
     "aimeta *": allow
+    "qmd *": allow
   write:
     ".tmp/**/*": allow
     "*": deny
@@ -73,6 +75,14 @@ ${The solution you are proposing OR if is a research, the topic it should resear
 
 ## Acceptance Criteria
 ${A set of conditions that must be met for the solution to be accepted}
+
+## Feedback to Leader (IMPORTANT)
+${
+  share with leader an feedback about their instructions. Stop/Start/Continue.
+   - Was it clear? What was unclear?
+   - Where you lost more time? And how to improve?
+   - etc.
+}
 
 ## Report
 ${Instructions for the subagents to follow to report their results}
