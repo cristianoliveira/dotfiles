@@ -21,10 +21,10 @@ permission:
     "qmd *": allow
   read:
     "*": deny
-    ".tmp/*": allow
+    ".tmp/**/*": allow
   glob:
     "*": deny
-    ".tmp/*": allow
+    ".tmp/**/*": allow
 ---
 
 # Purpose

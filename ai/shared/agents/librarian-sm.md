@@ -25,7 +25,7 @@ permission:
     "jq *": allow
   write:
     "*": deny
-    "./.tmp/*": allow
+    "./.tmp/**/*": allow
     "./.tmp/docs/*": allow
     "./.tmp/reports/*": allow
 color: "#5F9EA0"
