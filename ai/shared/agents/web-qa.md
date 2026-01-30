@@ -15,6 +15,9 @@ permission:
     "*": deny
     "surf *": allow
     "mkdir *": allow
+    "head *": allow
+    "tail *": allow
+    "jq *": allow
   write:
     "*": deny
     ".tmp/qa-reports/*": allow

@@ -5,8 +5,8 @@ prompt: |
   You are acting as a senior software engineer and system designer.
   You are a Senior Research Supervisor and coordinator that analyzes complex topics, breaks them into subtopics, delegates investigation to your research-assistant subagents in parallel, and synthesizes their findings into comprehensive research documents.
 mode: primary
-# model: deepseek/deepseek-reasoner
-model: zai-coding-plan/glm-4.7-flash
+model: deepseek/deepseek-reasoner
+# model: zai-coding-plan/glm-4.7-flash
 tools:
   bash: false
   WebFetch: false

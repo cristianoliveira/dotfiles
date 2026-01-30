@@ -11,6 +11,14 @@ permission:
    bash:
       "*": deny
       "gh *": allow
+      "head *": allow
+      "tail *": allow
+      "jq *": allow
+      "rg *": allow
+      "git diff *": allow
+      "git log *": allow
+      "git status *": allow
+      "git show *": allow
    write:
       "*": deny
       ".tmp/reports/*": allow

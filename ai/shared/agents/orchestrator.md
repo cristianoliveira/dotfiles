@@ -21,6 +21,8 @@ permission:
     "bd *": allow
     "aimeta *": allow
     "qmd *": allow
+    "git status *": allow
+    "git log *": allow
   write:
     ".tmp/**/*": allow
     "*": deny

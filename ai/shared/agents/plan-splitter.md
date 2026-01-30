@@ -5,12 +5,15 @@ model: deepseek/deepseek-reasoner
 mode: subagent
 tools:
   read: true
-  write: true
   bash: true
   grep: true
   glob: true
   question: true
   Skill: false
+permission:
+  write:
+    "*": deny
+    ".tmp/reports/*": allow
 ---
 # Purpose
 You are a planning specialist that breaks down large tasks into small deliverables into a todo list.
