@@ -16,6 +16,19 @@ vim.api.nvim_create_autocmd('BufWritePre', {
   group = trim_group,
 })
 
+-- Enable transparent background on startup
+local visual_changes = vim.api.nvim_create_augroup('VisualChanges', { clear = true })
+vim.api.nvim_create_autocmd('VimEnter', {
+  callback = function()
+    vim.cmd [[highlight Normal guibg=none
+    highlight NonText guibg=none
+    highlight Normal ctermbg=none
+    highlight NonText ctermbg=none]]
+  end,
+  pattern = '*',
+  group = visual_changes,
+})
+
 -- format on save using vim.lsp.buf.format()
 -- local format_group = vim.api.nvim_create_augroup('FormatOnSave', { clear = true })
 -- vim.api.nvim_create_autocmd('BufWritePre', {

@@ -5,6 +5,7 @@ require("customization/commands/vscode")
 require("customization/commands/clipboard")
 require("customization/commands/diffquickfix")
 require("customization/commands/telescope")
+require("customization/commands/visual-modes")
 
 vim.cmd("command! -nargs=0 CFormat lua vim.lsp.buf.format()")
 
@@ -24,22 +25,6 @@ vim.cmd("command! -nargs=0 Chx :!chmod +x %")
 
 --Format json file to pretty print
 vim.cmd("command! -nargs=0 JSONFormat :%!python -m json.tool")
-
-----------------------------------------
--- Custom nvim related commands
---
--- Toggle relative number
-vim.api.nvim_create_user_command('NvimToggleRelNum', function()
-  local current_value = vim.wo.relativenumber
-
-  for _, tab in ipairs(vim.api.nvim_list_tabpages()) do
-    for _, win in ipairs(vim.api.nvim_tabpage_list_wins(tab)) do
-      vim.api.nvim_win_set_option(win, 'relativenumber', not current_value)
-    end
-  end
-
-  print('Relative numbers ' .. (not current_value and 'enabled' or 'disabled'))
-end, {})
 
 -- Edit nvim config
 vim.cmd("command! -nargs=0 NvimEdit :e $MYVIMRC")

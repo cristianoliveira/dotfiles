@@ -59,10 +59,10 @@ vim.opt.expandtab = true
 vim.opt.smarttab = true
 vim.opt.shiftround = true
 
-vim.opt.wildignore = { 
+vim.opt.wildignore = {
   "*/.git/*",
   "*/tmp/*",
-  "*.swp", 
+  "*.swp",
   "*.pyc",
   "*/node_modules/*"
 }
@@ -110,17 +110,6 @@ vim.opt.re = 0
 -- Working on a monorepop is fun!
 -- See: https://github.com/vim/vim/issues/2049
 vim.opt.mmp = 5000
-
--- Enable transparent background on startup
-vim.api.nvim_create_autocmd('VimEnter', {
-  callback = function()
-    vim.cmd [[highlight Normal guibg=none
-    highlight NonText guibg=none
-    highlight Normal ctermbg=none
-    highlight NonText ctermbg=none]]
-  end,
-  pattern = '*',
-})
 
 -- Enable cfilter for quickfix window
 -- See :help cfilter-plugin
