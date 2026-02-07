@@ -2,7 +2,7 @@
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
-    alacritty 
+    alacritty
 
     # FIXME this package is failing
     # bitwarden-cli
@@ -15,7 +15,8 @@
 
   # GUI applications via homebrew
   homebrew = {
-    enable = true;
+    # FIXME: homebrew got screwed up after upgrading. Need to debug
+    enable = false;
 
     taps = [];
 
