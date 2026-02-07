@@ -1,6 +1,6 @@
 ---
 name: git-explorer
-description: Use when the user mentions "searching Git" or "GitHub" to explore GitHub repositories, code, issues, and commits using advanced search capabilities.
+description: Use when the user mentions "searching Git/GitHub" to explore GitHub repositories, code, issues, and commits using advanced search capabilities.
 ---
 
 # Git Explorer Skill

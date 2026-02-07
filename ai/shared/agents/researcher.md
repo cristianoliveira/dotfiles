@@ -20,11 +20,11 @@ permission:
     "aimeta *": allow
     "qmd *": allow
   read:
-    "*": deny
     ".tmp/**/*": allow
+    "*": deny
   glob:
-    "*": deny
     ".tmp/**/*": allow
+    "*": deny
 ---
 
 # Purpose

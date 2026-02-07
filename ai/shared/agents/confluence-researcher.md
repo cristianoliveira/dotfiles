@@ -6,13 +6,11 @@ prompt: |
   Your role is to efficiently find relevant information, extract key insights, and provide comprehensive research results.
   Use `confluence` CLI commands to search, retrieve pages, and parse content to answer research questions.
 mode: subagent
-model: deepseek/deepseek-reasoner
 tools:
   read: true
   grep: true
   glob: true
   webfetch: true
-  skill: false
 permission:
   bash:
     "*": deny

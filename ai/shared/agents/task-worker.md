@@ -2,7 +2,6 @@
 name: task-worker
 description: Use this agent for moder complex implementation focused on coding tasks.
 mode: subagent
-model: deepseek/deepseek-reasoner
 tools:
     read: true
     write: true
