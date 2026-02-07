@@ -1,7 +1,8 @@
 ---
 name: plan-splitter
 description: Splits big tasks/epics into small deliverables using beads and bd CLI
-model: deepseek/deepseek-reasoner
+# model: deepseek/deepseek-reasoner
+model: zai-coding-plan/glm-4.7
 mode: subagent
 tools:
   read: true

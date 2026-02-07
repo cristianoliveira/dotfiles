@@ -2,14 +2,12 @@
 name: web-qa
 description: Web quality assurance - check if URLs/pages are working, validate page content, verify UI elements
 mode: subagent
-model: deepseek/deepseek-reasoner
 tools:
   edit: false
   question: true
   webfetch: true
   todowrite: true
   "playwright*": true
-  Skill: false
 permission:
   bash:
     "*": deny

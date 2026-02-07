@@ -1,0 +1,132 @@
+#!/usr/bin/env bash
+# Validate spec files for required keywords
+# Usage: aimeta validate-specs <path>
+
+# Required keywords for validation
+REQUIRED_KEYWORDS=(
+    "## Problem"
+    "## Solution / Research"
+    "## Acceptance Criteria"
+    "## Feedback to Leader (IMPORTANT)"
+    "## Report"
+)
+
+# Colors for output (optional, fallback to plain text if not supported)
+if [[ -t 1 ]]; then
+    GREEN='\033[0;32m'
+    RED='\033[0;31m'
+    NC='\033[0m' # No Color
+else
+    GREEN=''
+    RED=''
+    NC=''
+fi
+
+# Print usage information
+usage() {
+    echo "Usage: $0 <path>"
+    echo "Validate that spec files contain required keywords"
+    echo ""
+    echo "Arguments:"
+    echo "  path    Directory path containing spec files (.md)"
+    echo ""
+    echo "Required keywords:"
+    for keyword in "${REQUIRED_KEYWORDS[@]}"; do
+        echo "  - $keyword"
+    done
+    echo ""
+    echo "Returns exit code 0 if all files pass, 1 if any fail."
+    exit 1
+}
+
+# Check if path argument is provided
+if [[ $# -eq 0 ]]; then
+    echo "Error: No path provided." >&2
+    usage
+fi
+
+TARGET_PATH="$1"
+
+# Check if path exists
+if [[ ! -e "$TARGET_PATH" ]]; then
+    echo "Error: Path '$TARGET_PATH' does not exist." >&2
+    exit 1
+fi
+
+# Check if path is a directory
+if [[ ! -d "$TARGET_PATH" ]]; then
+    echo "Error: '$TARGET_PATH' is not a directory." >&2
+    exit 1
+fi
+
+# Find all .md files recursively
+MD_FILES=()
+while IFS= read -r -d '' file; do
+    MD_FILES+=("$file")
+done < <(find "$TARGET_PATH" -type f -name "*.md" -print0)
+
+# Check if any .md files were found
+if [[ ${#MD_FILES[@]} -eq 0 ]]; then
+    echo "No .md files found in '$TARGET_PATH'" >&2
+    exit 0
+fi
+
+# Validate each file
+PASSED=0
+FAILED=0
+TOTAL=${#MD_FILES[@]}
+
+for md_file in "${MD_FILES[@]}"; do
+    # Get relative path for display
+    rel_path="${md_file#$TARGET_PATH/}"
+    if [[ "$rel_path" == "$md_file" ]]; then
+        rel_path="$md_file"
+    fi
+
+    # Read file content
+    content=$(cat "$md_file" 2>/dev/null)
+
+    # Check if file was readable
+    if [[ $? -ne 0 ]]; then
+        echo -e "${RED}❌${NC} $rel_path"
+        echo "   Error: Unable to read file"
+        ((FAILED++))
+        continue
+    fi
+
+    # Check for required keywords
+    MISSING=()
+    for keyword in "${REQUIRED_KEYWORDS[@]}"; do
+        if ! echo "$content" | grep -qF "$keyword"; then
+            MISSING+=("$keyword")
+        fi
+    done
+
+    # Output result
+    if [[ ${#MISSING[@]} -eq 0 ]]; then
+        echo -e "${GREEN}✅${NC} $rel_path"
+        ((PASSED++))
+    else
+        echo -e "${RED}❌${NC} $rel_path"
+        # Print missing keywords
+        missing_str=$(IFS=", "; echo "${MISSING[*]}")
+        echo "   Missing: $missing_str"
+        ((FAILED++))
+    fi
+done
+
+# Print summary
+echo ""
+echo "========================================"
+echo "Summary:"
+echo "  Passed: $PASSED"
+echo "  Failed: $FAILED"
+echo "  Total:  $TOTAL"
+echo "========================================"
+
+# Return appropriate exit code
+if [[ $FAILED -eq 0 ]]; then
+    exit 0
+else
+    exit 1
+fi

@@ -2,7 +2,6 @@
 name: github-explorer
 description: Use when you need to explore GitHub repos using advanced search.
 mode: subagent
-model: deepseek/deepseek-reasoner
 tools:
    glob: false
    skill: false
@@ -106,7 +105,7 @@ When invoked to perform GitHub exploration, follow these steps:
 
 ## Report / Response
 
-Store your report in `.tmp/reports/github-explorer-<topic>.md` and provide your final response in a clear, organized format:
+Store your report in `.tmp/researches/github-explorer-<topic>.md` and provide your final response in a clear, organized format:
 
 ```
 ## GitHub Exploration Results
@@ -130,6 +129,12 @@ Store your report in `.tmp/reports/github-explorer-<topic>.md` and provide your 
 ### References
 - [GitHub search documentation](https://docs.github.com/en/search-github/getting-started-with-searching-on-github/understanding-the-search-syntax)
 - [Local research document](./../../.tmp/docs/github-advanced-search.md)
+
+### Reports
+
+   ${path to your report}
+   ${path any other report you used}
+
 ```
 
 Always include specific GitHub URLs, repository names, and search queries for verifiability. Structure findings to support the original exploration goal while highlighting unexpected discoveries.

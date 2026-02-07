@@ -26,7 +26,7 @@ This outputs essential workflow context including:
 - Land the plane! -- @autoland
 - COMMIT YOUR WORK -- @git-committer
 - Using previous feedback, add to beads if needed follow up tasks
-- Merge your change to `develop` branch
+- Close the task in beads `bd close <task-id>` - Update with feedback and commit hash
 - Take the next task from `bd`
 - Repeat until all tasks are completed
   - After 3 tasks asks for users feedback!

@@ -1,5 +1,7 @@
 ---
 description: Load beads workflow context and list current tasks
+author: Cristian Oliveira
+version: 0.0.1
 ---
 
 # Beads Tasks
