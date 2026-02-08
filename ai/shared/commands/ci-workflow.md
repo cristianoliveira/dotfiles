@@ -19,13 +19,14 @@ This outputs essential workflow context including:
 - Start by taking the next task from `bd`
 - Analyze the task and determine what has to be done
 - Delegate to the appropriate sub-agent to perform the task
-    - Instruct the agent to Create a branch for the task `git checkout -b <task-name> && git reset --hard develop`
+    - Instruct the agent to Create a branch for the task `git checkout -b <task-id>` (we use stacked diffs)
     - IMPORTANT: request feedback from the agent after he finishes about their instructions, like was it clear, did it work, etc.
 - Delegate to a tester to verify if the task done
 - Delegate to a reviewer to provide feedback -- @janitor
 - Land the plane! -- @autoland
 - COMMIT YOUR WORK -- @git-committer
 - Using previous feedback, add to beads if needed follow up tasks
+- Push the branch to the remote repository and create a PR `gh pr create`
 - Close the task in beads `bd close <task-id>` - Update with feedback and commit hash
 - Take the next task from `bd`
 - Repeat until all tasks are completed

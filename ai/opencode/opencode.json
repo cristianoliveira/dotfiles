@@ -8,7 +8,8 @@
       "*": "deny",
       ".gwt/*": "deny",
       "~/.config/qmd/*": "allow",
-      "/tmp/*": "allow"
+      "/tmp/*": "allow",
+      "**/.tmp/**": "allow"
     },
     "doom_loop": "deny"
   },
