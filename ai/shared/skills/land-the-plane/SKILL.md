@@ -21,7 +21,7 @@ Final pre-merge validation: discover and run all CI checks locally to ensure cod
 
 Start by checking if commands are already discovered:
 ```bash
-$HOME/.dotfiles/ai/shared/skills/land-the-plane/scripts/commands.sh --list
+$HOME/.dotfiles/ai/bin/aimeta autoland --list
 ```
 
 IF no commands are found, follow instructions in `instructions/COMMANDS_DISCOVERY.md`.

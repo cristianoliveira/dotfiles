@@ -51,13 +51,13 @@ After discovering commands, cache them for future runs:
 
 ```bash
 # Example: cache lint commands from .github/workflows/ci.yml
-$HOME/.dotfiles/ai/shared/skills/land-the-plane/scripts/commands.sh \
+$HOME/.dotfiles/ai/bin/aimeta autoland \
   --cache ".github/workflows/ci.yml" \
   "lint" \
   '["npm run lint", "eslint ."]'
 
 # Example: cache build commands from Makefile
-$HOME/.dotfiles/ai/shared/skills/land-the-plane/scripts/commands.sh \
+$HOME/.dotfiles/ai/bin/aimeta autoland \
   --cache "Makefile" \
   "build" \
   '["make build"]'
@@ -71,8 +71,8 @@ $HOME/.dotfiles/ai/shared/skills/land-the-plane/scripts/commands.sh \
 
 **Cache Script Interface**:
 ```bash
-$HOME/.dotfiles/ai/shared/skills/land-the-plane/scripts/commands.sh --list
-$HOME/.dotfiles/ai/shared/skills/land-the-plane/scripts/commands.sh --cache <source> <category> '<commands_json>'
-$HOME/.dotfiles/ai/shared/skills/land-the-plane/scripts/commands.sh --clear
+$HOME/.dotfiles/ai/bin/aimeta autoland --list
+$HOME/.dotfiles/ai/bin/aimeta autoland --cache <source> <category> '<commands_json>'
+$HOME/.dotfiles/ai/bin/aimeta autoland --clear
 ```
 

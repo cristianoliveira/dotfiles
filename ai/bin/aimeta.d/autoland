@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# Command discovery caching script for land-the-plane workflow
-# Usage: commands.sh --list | --cache <source> <category> '<commands_json>' | --clear
+### DESCRIPTION: Command discovery caching for land-the-plane workflow
+# Usage: autoland --list | --cache <source> <category> '<commands_json>' | --clear
 
 set -euo pipefail
 
 # Constants
 CACHE_DIR=".tmp"
-CACHE_FILE="${CACHE_DIR}/commands-cache.json"
+CACHE_FILE="${CACHE_DIR}/autoland.json"
 DEFAULT_CACHE='[]'
 
 # Ensure cache directory exists
@@ -119,13 +119,13 @@ list_commands() {
             done
             echo >&2
             echo "Please rediscover CI commands for these sources and recache them with:" >&2
-            echo "  commands.sh --cache <source> <category> '<commands_json>'" >&2
+            echo "  autoland --cache <source> <category> '<commands_json>'" >&2
+            exit 1
         else
-            echo "Error: No valid cached commands found. Cache miss." >&2
-            echo "Please discover CI commands and cache them with:" >&2
-            echo "  commands.sh --cache <source> <category> '<commands_json>'" >&2
+            # Empty cache, valid state
+            echo "[]"
+            exit 0
         fi
-        exit 1
     elif [[ ${#stale_sources[@]} -gt 0 ]]; then
         # Some entries are valid, but some sources are stale
         echo "Warning: Some cached commands are stale. The following source files have changed:" >&2
@@ -134,7 +134,7 @@ list_commands() {
         done
         echo >&2
         echo "Please rediscover CI commands for these sources and recache them with:" >&2
-        echo "  commands.sh --cache <source> <category> '<commands_json>'" >&2
+        echo "  autoland --cache <source> <category> '<commands_json>'" >&2
         echo >&2
         echo "Using valid cached commands for other sources:" >&2
         # Output valid entries (JSON) to stdout

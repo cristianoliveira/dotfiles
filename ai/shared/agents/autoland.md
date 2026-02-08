@@ -20,8 +20,8 @@ tools:
 permission:
   bash:
     "*": deny
+    "aimeta autoland": allow
     "gob *": allow
-
 ---
 
 # Autoland
@@ -33,7 +33,7 @@ Fast pre-commit CI validation using parallel execution with `gob`.
 1. **Get commands from cache**
 Start by checking if commands are already discovered (cached):
 ```bash
-gob run $HOME/.dotfiles/ai/shared/skills/land-the-plane/scripts/commands.sh --list
+aimeta autoland --list
 ```
 
 2. Parallel execution
