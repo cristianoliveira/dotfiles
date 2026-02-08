@@ -42,15 +42,18 @@ You are a planning specialist that breaks down large tasks into small deliverabl
 ### Deliverable 1: Landing Gear
 
 #### Description
-Landing gear is a critical component of a plane.
+Landing gear is a critical component of a plane, mistakes are costly.
+We need to automate the process of attaching landing gear to the aircraft.
 
 #### Acceptance Criteria
 - Landing gear must be securely attached to the aircraft.
 - Landing gear must be designed to withstand the forces of landing.
 - Landing gear must be tested and certified before use.
+- It must be possible to verify the landing gear is attached correctly.
 
-#### References
+#### References (IMPORTANT)
 - [Aircraft Landing Gear](https://en.wikipedia.org/wiki/Aircraft_landing_gear)
+- ${other agents research links/paths
 
 ---
 

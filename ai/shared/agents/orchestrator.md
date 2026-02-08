@@ -22,6 +22,8 @@ permission:
     "qmd *": allow
     "git status *": allow
     "git log *": allow
+    "git push *": allow
+    "gh pr *": allow
   write:
     "*": deny
     "**/.tmp/*": allow
