@@ -1,8 +1,6 @@
 ---
-name: web-summarizer
-description: Use this agent to extract and summarize web content from URLs. (surf cli)
-# model: zai-coding-plan/glm-4.7-flash
-model: deepseek/deepseek-reasoner
+name: web-explorer
+description: Use this agent to explore web pages, by controlling a opened browser using surf cli.
 mode: subagent
 tools:
    write: true
@@ -12,7 +10,7 @@ tools:
 permission:
    write:
       "*": deny
-      ".tmp/web-summaries/*": allow
+      ".tmp/web-explorer/*": allow
       ".tmp/tmp-files/*": allow
    bash:
       "*": deny
@@ -105,23 +103,6 @@ ${Any relevant code snippets or commands from the page}
 - If trafilatura fails or returns empty content, fall back to WebFetch
 - Never include cookie banners, subscription prompts, or unrelated sidebar content
 - **DO NOT use skills** - work directly with tools and commands only. Never invoke or load skills.
-## Trafilatura Usage
-
-If trafilatura is available, use these command patterns:
-
-```bash
-# Basic extraction (plain text)
-trafilatura -u "URL"
-
-# Without comments
-trafilatura -u "URL" --no-comments
-
-# JSON output with metadata
-trafilatura -u "URL" --json
-
-# Markdown output
-trafilatura -u "URL" --markdown
-```
 
 ## Response & Report
 
