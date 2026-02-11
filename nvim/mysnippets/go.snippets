@@ -574,15 +574,15 @@ endsnippet
 
 # variables declaration
 snippet fpll "fmt printf log -- for debugging"
-fmt.Printf("@@@@@@@@ $1 %+v \n", ${1:var})
+fmt.Printf("(${1:`!v expand('%:t:r')`}:`!v v:lnum`) - @@@@@@ $1 %+v \n", ${1:var})
 endsnippet
 
 snippet fmll "fmt printf log -- for debugging"
-fmt.Printf("@@@@@@@@ $1 %+v \n", ${1:var})
+fmt.Printf("(${1:`!v expand('%:t:r')`}:`!v v:lnum`) - @@@@@@ $1 %+v \n", ${1:var})
 endsnippet
 
 snippet cll "console log bad habits"
-fmt.Printf("@@@@@@@@ $1 %+v \n", ${1:var})
+fmt.Printf("(${1:`!v expand('%:t:r')`}:`!v v:lnum`) - @@@@@@ $1 %+v \n", ${1:var})
 endsnippet
 
 # vim:ft=snippets:
