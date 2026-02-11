@@ -37,7 +37,7 @@ vim.api.nvim_create_user_command('Cpb', function(opts)
   if has_selection then
     if start_line ~= end_line then
       result = result .. "#" .. start_line .. "-" .. end_line
-    elseif start_line == end_line and start_line ~= vim.fn.line(".") then
+    else
       result = result .. "#" .. start_line
     end
   end
