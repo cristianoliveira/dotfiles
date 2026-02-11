@@ -63,7 +63,7 @@ pkgs: {
   };
 
   opencode = let
-    version = "1.1.53";
+    version = "1.1.59";
 
     # Determine the architecture-specific file and URL
     # Linux logic matches install script: checks for musl and uses baseline for x64
@@ -81,26 +81,26 @@ pkgs: {
     else throw "Unsupported platform";
 
     # Update sha256 as needed - use empty string "" and nix will tell you the correct one
-    # Linux x64-baseline: nix-prefetch-url https://github.com/anomalyco/opencode/releases/download/v1.1.53/opencode-linux-x64-baseline.tar.gz
-    # Linux x64-baseline-musl: nix-prefetch-url https://github.com/anomalyco/opencode/releases/download/v1.1.53/opencode-linux-x64-baseline-musl.tar.gz
-    # Linux arm64: nix-prefetch-url https://github.com/anomalyco/opencode/releases/download/v1.1.53/opencode-linux-arm64.tar.gz
-    # Linux arm64-musl: nix-prefetch-url https://github.com/anomalyco/opencode/releases/download/v1.1.53/opencode-linux-arm64-musl.tar.gz
+    # Linux x64-baseline: nix-prefetch-url https://github.com/anomalyco/opencode/releases/download/v1.1.59/opencode-linux-x64-baseline.tar.gz
+    # Linux x64-baseline-musl: nix-prefetch-url https://github.com/anomalyco/opencode/releases/download/v1.1.59/opencode-linux-x64-baseline-musl.tar.gz
+    # Linux arm64: nix-prefetch-url https://github.com/anomalyco/opencode/releases/download/v1.1.59/opencode-linux-arm64.tar.gz
+    # Linux arm64-musl: nix-prefetch-url https://github.com/anomalyco/opencode/releases/download/v1.1.59/opencode-linux-arm64-musl.tar.gz
     sha256 = if pkgs.stdenv.isDarwin then
       if pkgs.stdenv.isAarch64 then
-        "sha256-XpzJD02E3hRbQJnHZmsPB4KxnlGWeVGBysNr4z28Xak="
+        "sha256-AgHnoiajKAfsNsxGg+E1UrBL29N5gLY7opiQJ0ZWchU="
       else
-        "sha256-JtMkqed0TbDPK9u5DF9sv1wOYOyUM4qYKbNBCy9vN/c="
+        "sha256-h0KpYJA/d6FW1r/kAHSicEuhqxkHaI9jg0NHfTcQMDg="
     else if pkgs.stdenv.isLinux then
       if pkgs.stdenv.isAarch64 then
         if pkgs.stdenv.hostPlatform.isMusl then
-          "sha256-59pdH2dgwMs6WzE6sNh/TeEnr2QPFWupO1dvG535HWg="  # arm64-musl
+          "sha256-DvvhNWR+GSRCDtVVME9POnWD76WHwgwXQpLF3N5AtnI="  # arm64-musl
         else
-          "sha256-e3D7NAjL9SwFy0/LajC6fMDnmMl+fMyoc6VK0E5N4G4="  # arm64
+          "sha256-KgO9k8SIEFkS+fr2RiSxsxFFPKZHppRknkin9yPT888="  # arm64
       else  # x64
         if pkgs.stdenv.hostPlatform.isMusl then
-          "sha256-FNNLxURBAMkeFQjCuIenh1dXRpxMhPCLCqmXi97JjMk="  # x64-baseline-musl
+          "sha256-juruYo6PQulytOOaPGa81F2g5QA5Dft5+Gy1Lihf0SI="  # x64-baseline-musl
         else
-          "sha256-YDJ3G9xt4UXLdnp3hoMXKeAUj+M7jgT0IXqymooXUkk="  # x64-baseline
+          "sha256-7fGFhSMj8INsJfd/MZSiP1V8CGOUNih10kzr28xzjMo="  # x64-baseline
     else throw "Unsupported platform";
 
     src = pkgs.fetchurl {
