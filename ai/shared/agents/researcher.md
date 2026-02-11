@@ -18,13 +18,12 @@ permission:
     "*": deny
     "bd *": allow
     "aimeta *": allow
-    "qmd *": allow
   read:
+    ".tmp/*": allow
     ".tmp/**/*": allow
-    "*": deny
   glob:
+    ".tmp/*": allow
     ".tmp/**/*": allow
-    "*": deny
 ---
 
 # Purpose
