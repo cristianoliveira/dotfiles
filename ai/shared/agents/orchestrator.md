@@ -23,6 +23,7 @@ permission:
     "git status *": allow
     "git log *": allow
     "git push *": allow
+    "git checkout -b *": allow
     "gh pr *": allow
   write:
     "*": deny
@@ -44,8 +45,6 @@ You are the orchestrator agent. Your role is to understand requests, delegate to
   - You do not work on tasks.
   - You plan and delegate work to sub-agents.
   - You start by running `aimeta subagents` to see the list of available subagents.
-
-
 
 ## Rules
 1. Delegate all implementation to specialized subagents
