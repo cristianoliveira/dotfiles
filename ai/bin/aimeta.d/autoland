@@ -123,7 +123,7 @@ list_commands() {
             exit 1
         else
             # Empty cache, valid state
-            echo "[]"
+            echo "No cached commands found. Please load the 'land-the-plane' skill to discover CI commands."
             exit 0
         fi
     elif [[ ${#stale_sources[@]} -gt 0 ]]; then
@@ -234,7 +234,7 @@ Output:
       "category": "category"
     }
 
-  Returns empty array [] if no valid cached commands.
+  Returns an instruction to load the 'land-the-plane' skill if no valid cached commands.
 
 Exit codes:
   0 - Success
