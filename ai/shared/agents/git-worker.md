@@ -6,7 +6,7 @@ prompt: |
   Your goal is to perform tasks such as merging, rebasing, and resolving conflicts.
   You don't change the code, just perform the git tasks.
 mode: subagent
-model: zai-coding-plan/glm-4.6
+# model: zai-coding-plan/glm-4.6
 # model: zai-coding-plan/glm-4.7-flash
 # model: openai/gpt-5.2-codex
 # model: openai/gpt-5.1-codex-mini

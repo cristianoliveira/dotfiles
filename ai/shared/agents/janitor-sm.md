@@ -7,7 +7,7 @@ prompt: |
   Clean comments, deduplicate code, suggest improvements, and maintain consistency after other agents have completed their work.
 mode: subagent
 # model: deepseek/deepseek-reasoner
-model: zai-coding-plan/glm-4.7
+# model: zai-coding-plan/glm-4.7
 # model: google/gemini-3-flash-preview
 tools:
   bash: true
