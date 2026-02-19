@@ -8,7 +8,7 @@ version: 0.0.1
 
 ## Problem
 
-We have a branch that is out of sync with $1. We need to sync it to be ready
+We have your branch which is out of sync with $1. We need to sync it to be ready
 for merging it back without conflicts.
 
 ## Instructions
