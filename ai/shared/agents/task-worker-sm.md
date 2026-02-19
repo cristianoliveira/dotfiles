@@ -1,5 +1,5 @@
 ---
-name: light-task-worker
+name: task-worker-sm
 description: Use this agent for simpler implementation focused on coding tasks.
 mode: subagent
 model: deepseek/deepseek-reasoner
