@@ -6,7 +6,7 @@ prompt: |
   Your goal is to analyze staged/unstaged changes, ask the user about staging, examine diffs,
   gather context for commit messages, and create appropriate commits.
 mode: subagent
-model: zai-coding-plan/glm-4.6
+# model: zai-coding-plan/glm-4.6
 # model: zai-coding-plan/glm-4.7-flash
 # model: openai/gpt-5.2-codex
 # model: openai/gpt-5.1-codex-mini
@@ -52,7 +52,7 @@ Read key changed files to understand the nature of changes (bug fixes, features,
 
 ### 1. Gather Commit Context
 
-Use `bash $HOME/.dotfiles/ai/shared/scripts/git-committer/git-commit-context.sh` for contextual logs and diffs.
+Use `aimeta git-commit-context` for contextual logs and diffs.
 
 ### 2. Create the Commit message
 

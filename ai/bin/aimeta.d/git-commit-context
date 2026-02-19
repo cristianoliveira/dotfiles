@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+### DESCRIPTION: Show commit context for staged changes
+
+set -euo pipefail
+
+SCRIPT_NAME="aimeta git-commit-context"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONTEXT_SCRIPT="${SCRIPT_DIR}/../../aichat/scripts/git-commit-context.sh"
+
+usage() {
+  cat <<EOF
+${SCRIPT_NAME} - Show commit context for staged changes
+
+USAGE:
+  ${SCRIPT_NAME}
+
+OPTIONS:
+  --help, -h    Show this help message
+EOF
+}
+
+main() {
+  case "${1:-}" in
+    --help|-h)
+      usage
+      exit 0
+      ;;
+  esac
+
+  if [[ ! -f "$CONTEXT_SCRIPT" ]]; then
+    echo "Error: context script not found at $CONTEXT_SCRIPT" >&2
+    exit 1
+  fi
+
+  exec "$CONTEXT_SCRIPT" "$@"
+}
+
+main "$@"
