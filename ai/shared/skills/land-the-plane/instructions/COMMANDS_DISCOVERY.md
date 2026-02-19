@@ -2,12 +2,11 @@
 
 ### 1. Discover CI Configuration
 
-If cache miss, search for CI/CD definitions in order of priority:
+If $HOME/.dotfiles/ai/bin/
+$HOME/.dotfiles/ai/bin/
+$HOME/.dotfiles/ai/bin/cache miss, search for CI/CD definitions in order of priority:
 
-```
-.github/workflows/*.yml     # GitHub Actions (primary)
-.gitlab-ci.yml              # GitLab CI
-.circleci/config.yml        # CircleCI
+``` .github/workflows/*.yml     # GitHub Actions (primary) .gitlab-ci.yml              # GitLab CI .circleci/config.yml        # CircleCI
 Jenkinsfile                 # Jenkins
 .travis.yml                 # Travis CI
 azure-pipelines.yml         # Azure DevOps
@@ -50,14 +49,17 @@ Look for `run:` steps in GitHub Actions. Extract the actual shell commands.
 After discovering commands, cache them for future runs:
 
 ```bash
+# Template
+aimeta autoland --cache SOURCE CATEGORY COMMANDS_JSON
+
 # Example: cache lint commands from .github/workflows/ci.yml
-$HOME/.dotfiles/ai/bin/aimeta autoland \
+aimeta autoland \
   --cache ".github/workflows/ci.yml" \
   "lint" \
   '["npm run lint", "eslint ."]'
 
 # Example: cache build commands from Makefile
-$HOME/.dotfiles/ai/bin/aimeta autoland \
+aimeta autoland \
   --cache "Makefile" \
   "build" \
   '["make build"]'
@@ -71,8 +73,8 @@ $HOME/.dotfiles/ai/bin/aimeta autoland \
 
 **Cache Script Interface**:
 ```bash
-$HOME/.dotfiles/ai/bin/aimeta autoland --list
-$HOME/.dotfiles/ai/bin/aimeta autoland --cache <source> <category> '<commands_json>'
-$HOME/.dotfiles/ai/bin/aimeta autoland --clear
+aimeta autoland --list
+aimeta autoland --cache <source> <category> '<commands_json>'
+aimeta autoland --clear
 ```
 

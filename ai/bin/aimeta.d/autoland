@@ -8,6 +8,8 @@ set -euo pipefail
 CACHE_DIR=".tmp"
 CACHE_FILE="${CACHE_DIR}/autoland.json"
 DEFAULT_CACHE='[]'
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DISCOVERY_FILE="${SCRIPT_DIR}/../../shared/skills/land-the-plane/instructions/COMMANDS_DISCOVERY.md"
 
 # Ensure cache directory exists
 mkdir -p "${CACHE_DIR}"
@@ -123,7 +125,14 @@ list_commands() {
             exit 1
         else
             # Empty cache, valid state
-            echo "No cached commands found. Please load the 'land-the-plane' skill to discover CI commands."
+            if [[ -f "$DISCOVERY_FILE" ]]; then
+                echo "Failed to load the cached commands. Please follow these steps below."
+                echo
+                cat "$DISCOVERY_FILE"
+            else
+                echo "No cached commands found. Command discovery guide not available."
+                echo "Please load the 'land-the-plane' skill to discover CI commands."
+            fi
             exit 0
         fi
     elif [[ ${#stale_sources[@]} -gt 0 ]]; then
@@ -234,7 +243,8 @@ Output:
       "category": "category"
     }
 
-  Returns an instruction to load the 'land-the-plane' skill if no valid cached commands.
+  If no valid cached commands, prints a fallback message and the command discovery
+  guide from ai/shared/skills/land-the-plane/instructions/COMMANDS_DISCOVERY.md when available.
 
 Exit codes:
   0 - Success
