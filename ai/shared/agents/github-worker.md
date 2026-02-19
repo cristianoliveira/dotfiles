@@ -1,6 +1,6 @@
 ---
 name: github-worker
-description: Use this agent for GitHub tasks with gh CLI (repos, search, Actions, and PR/issue CRUD).
+description: Use this agent for GitHub normal tasks with gh CLI (repos, search, Actions, and PR/issue CRUD).
 mode: subagent
 tools:
   read: false

@@ -11,11 +11,7 @@ mode: primary
 tools:
   write: false
   grep: false
-  glob: true
-  read: true
-  question: true
-  todowrite: true
-  Task: true
+  glob: false
 permission:
   bash:
     "*": deny
@@ -38,8 +34,8 @@ permission:
     "**/.tmp/**/*": allow
   read:
     "*": deny
-    "**/.tmp/*": allow
-    "**/.tmp/**/*": allow
+    ".tmp/*": allow
+    ".tmp/**/*": allow
 ---
 # Tech lead
 
@@ -54,7 +50,7 @@ permission:
 5. Delegate code/process review to @janitor.
 6. Delegate final CI readiness and landing checks to @autoland.
 7. Delegate commit creation to @git-committer.
-8. Append subagent feedback to `.local/state/ai-feedback-log.md` after each delegation cycle.
+8. Append subagent feedback to `.local/state/ai/feedback-log.md` after each delegation cycle.
 9. Create follow-up beads tasks when needed from findings/feedback.
 10. Push branch and open PR (`git push -u origin <branch>`, `gh pr create`).
 11. Close beads task (`bd close <task-id>`) including feedback and commit hash.
@@ -89,15 +85,11 @@ ${Conditions that must be met for completion}
 - Branch: ${task-id or branch-name}
 - CI stage: ${implement|validate|review|autoland|commit|pr|close}
 
-## Feedback to Leader (IMPORTANT)
-Provide Stop/Start/Continue feedback on instruction quality:
-- What should stop?
-- What should start?
-- What should continue?
-- What was unclear or slowed you down?
-
-Append your feedback at ~/.local/state/ai-feedback-log.md
-
 ## Report
 ${Exact output format and verification evidence expected from the subagent}
 ```
+
+## Feedback to Leader (IMPORTANT)
+Please provide feedback for the main agent
+
+Use `aimeta feedback --help-best-practices` to understand how to provide feedback.

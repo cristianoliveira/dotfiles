@@ -57,10 +57,6 @@ Shared resources consumed by the AI tools and stow links.
 
 - `agentmux-opencode.js` - AgentMux integration for OpenCode
 
-## Scripts
-
-- `git-committer/git-commit-context.sh` - Gathers context for commit messages
-
 ---
 
 Agents and skills are referenced via symlinks in `ai/claude` and `ai/opencode`, so keep paths stable when adding new assets.

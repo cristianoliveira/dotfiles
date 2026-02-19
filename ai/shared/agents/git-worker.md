@@ -1,12 +1,12 @@
 ---
-name: git-worker
-description: Use this agent for small git related tasks.
+name: git-worker-sm
+description: Use this agent for normal git related tasks.
 prompt: |
   You are a Git worker agent that helps with small git related tasks.
   Your goal is to perform tasks such as merging, rebasing, and resolving conflicts.
   You don't change the code, just perform the git tasks.
 mode: subagent
-model: zai-coding-plan/glm-4.6
+model: qwen/qwen3-30b-a3b-instruct-2507
 # model: zai-coding-plan/glm-4.7-flash
 # model: openai/gpt-5.2-codex
 # model: openai/gpt-5.1-codex-mini
