@@ -9,9 +9,25 @@
       ".gwt/*": "deny",
       "~/.config/qmd/*": "allow",
       "/tmp/*": "allow",
-      "**/.tmp/**": "allow"
+      ".tmp/**": "allow",
+      "~/.local/state/ai/*": "allow"
     },
     "doom_loop": "deny"
+  },
+  "provider": {
+    "or": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "OpenAuto (small)",
+      "options": {
+        "baseURL": "https://openrouter.ai/api/v1",
+        "apiKey": "{env:OPENROUTER_API_KEY}"
+      },
+      "models": {
+        "openrouter/auto": {
+          "name": "openrouter/auto"
+        }
+      }
+    }
   },
   "keybinds": {
     "app_exit": "<leader>q",
