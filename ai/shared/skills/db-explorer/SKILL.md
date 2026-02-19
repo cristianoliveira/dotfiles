@@ -1,6 +1,12 @@
 ---
 name: db-explorer
-description: Connect to PostgreSQL, MySQL, or SQLite databases to explore schema structure, table relationships, and generate ERD diagrams. Use when the user asks to explore a database, document schema, or understand table relationships.
+description: |
+  Use this when user wants to explore/debug/understand something on the database.
+  Triggers:
+    - Let's explore the database
+    - What's the schema of the database?
+    - Retrieve the data from the database
+    - Let'e map the database schema to a data model
 ---
 
 # Database Explorer
@@ -29,7 +35,7 @@ Users can pre-set credentials to skip prompts:
 ## Mermaid ERD Notation
 
 - `||--||` One-to-one
-- `||--o{` One-to-many  
+- `||--o{` One-to-many
 - `||--|{` One-to-many (required)
 
 ## Security

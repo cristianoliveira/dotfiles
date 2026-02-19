@@ -1,6 +1,7 @@
 ---
 name: agent-creator
-description: Generate a new sub-agent configuration file from a user's description. Use when user says "let's create a new agent", "let's create a new subagent", "create a subagent for...", or asks to build/make a new agent/sub-agent.
+description: |
+  Generate a new sub-agent configuration file from a user's description. Use when user says "let's create a new agent", "let's create a new subagent", "create a subagent for...", or asks to build/make a new agent/sub-agent.
 ---
 
 # Agent Creator

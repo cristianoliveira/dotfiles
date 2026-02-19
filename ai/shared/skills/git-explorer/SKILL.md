@@ -1,45 +1,20 @@
 ---
-name: git-explorer
-description: Use when the user mentions "searching Git/GitHub" to explore GitHub repositories, code, issues, and commits using advanced search capabilities.
+name: github-explorer
+description: |
+    Use when the user mentions
+    - "... search on Git/GitHub"
+    - "... on GitHub"
+    - "... on CI/CD".
 ---
 
-# Git Explorer Skill
+# Getting Started
 
-Use this skill when the user needs to search or explore GitHub content, including repositories, code, issues, pull requests, or commits. This skill leverages the `github-explorer` agent for advanced GitHub search using the GitHub CLI (`gh`) with sophisticated query construction.
+ - Start by checking if GH CLI is setup: `gh auth status`
+ - Then understand GH cappabilities with `gh help`
 
-## When to Use This Skill
+## Skill Usage
 
-- User explicitly mentions "search GitHub", "GitHub search", or similar phrases
-- Need to find github repositories matching specific criteria (language, stars, topics, etc.)
-- Need to search for code snippets across GitHub
-- Need to explore issues, pull requests, or commits
-- Need to perform advanced searches using GitHub's query language
-
-## Key Capabilities
-
-1. **Repository Search**: Find repositories by name, description, topics, language, stars, forks
-2. **Code Search**: Search for code snippets across all public repositories
-3. **Issue/PR Search**: Find issues and pull requests by state, labels, assignees, authors
-4. **Commit Search**: Search commits by author, date, message content
-5. **Advanced Filtering**: Use qualifiers, boolean operators, comparison operators, and ranges
-
-## Recommended Approach
-
-### 1. Invoke the GitHub Explorer Agent
-For complex GitHub searches, delegate to the specialized `github-explorer` agent:
-
-```bash
-# Use the Task tool to launch the github-explorer agent
-Task(description="Search GitHub", prompt="Search GitHub for repositories about machine learning with Python and >1000 stars", subagent_type="github-explorer")
-```
-
-The github-explorer agent has expertise in:
-- GitHub CLI (`gh search`) with all subcommands
-- Advanced query construction with qualifiers and operators
-- Rate limit management and authentication
-- JSON output processing and analysis
-
-### 2. Direct GitHub CLI Commands
+### Direct GitHub CLI Commands
 For simple searches, you can use `gh` commands directly:
 
 ```bash
@@ -56,7 +31,7 @@ gh search issues "bug" --state=open --label=bug --json
 gh search commits "fix memory leak" --author=username --json
 ```
 
-### 3. Query Construction Examples
+### Query Construction Examples
 
 **Basic repository search:**
 ```bash
@@ -113,15 +88,6 @@ gh search code "from transformers import" --language=python --json | jq -r '.[] 
 gh search issues "good first issue" --state=open --label="good first issue" --json | jq -r '.[] | "\(.repository.nameWithOwner)#\(.number): \(.title)"'
 ```
 
-## References
+## Important
 
-- GitHub Explorer agent: `/Users/cristianoliveira/.dotfiles/ai/shared/agents/github-explorer.md`
-- GitHub advanced search research: `.tmp/docs/github-advanced-search.md`
-- GitHub CLI documentation: `gh help search`
-- GitHub search syntax: https://docs.github.com/en/search-github
-
-## Notes
-
-- For complex boolean logic (parentheses), use the github-explorer agent which has workarounds using the API endpoint
-- The github-explorer agent is specifically designed to handle GitHub's advanced search capabilities and query limitations
-- Always consider rate limits when performing multiple searches
+ - Write down your findings in `.tmp/researches/github-<task>.md`

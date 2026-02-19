@@ -1,8 +1,11 @@
 ---
 name: jira-url-work-plan
-description: Given a Jira issue URL, fetch the issue via jira-cli, analyze it, ask clarifying questions if needed, split into commit-sized deliverables, and write a Markdown implementation plan.
-author: Cristian Oliveira
-version: 0.0.1
+description: |
+  Use when the user wants to plan work based on a Jira issue.
+  Triggers:
+  - User share a Jira URL and ask for planning
+  - Let's work on <JIRA_URL>
+  - Plan the work for <JIRA_URL>
 ---
 
 # Jira URL → Commit Plan (Markdown)

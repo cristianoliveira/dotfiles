@@ -1,31 +1,19 @@
 ---
 name: arch-review
 description: |
-    Use this to review code changes for coupling/cohesion violations and SOLID principles; produce actionable refactor suggestions with minimal churn.
-metadata:
-    category: review
-    focus: architecture
+    Use this to evaluate code for coupling and cohesion issues.
+    Common triggers:
+      - Review change for coupling/cohesion
+      - Find design smells / architecture issues
+      - Is this too coupled?
+      - Is this following SOLID?
 author: Cristian Oliveira
 version: 0.0.1
 ---
 
 # Architecture Review (Coupling + Cohesion)
 
-## What I do
-I review code (preferably a PR/diff) and flag **coupling** and **cohesion** issues using concrete, code-based heuristics.
-
-## When to use me
-Use me when the user says things like:
-- "Review this PR for coupling/cohesion"
-- "Find design smells / architecture issues"
-- "Is this too coupled?"
-- "Does this module have low cohesion?"
-- "Suggest refactors with minimal risk"
-
-If the scope is unclear (whole repo vs changed files), ask a single question:
-**“Review only the diff/changed files, or also scan related modules?”**
-
-## How I work
+## Getting Started
 1. **Identify review scope**
    - Prefer: changed files + their immediate dependencies.
    - If only a snippet is provided, analyze locally but note uncertainty.
