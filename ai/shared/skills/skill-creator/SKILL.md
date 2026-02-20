@@ -15,6 +15,11 @@ specialized knowledge, workflows, and tools. Think of them as "onboarding guides
 domains or tasks—they transform Claude from a general-purpose agent into a specialized agent
 equipped with procedural knowledge that no model can fully possess.
 
+### What makes skills special? (important)
+
+- It saves context by allowing agents to only load the frontmatter and description to the context window. (This is important)
+- The ammount of context loaded is enough to the agent to understand when to load the skill.
+
 ### What Skills Provide
 
 1. Specialized workflows - Multi-step procedures for specific domains
