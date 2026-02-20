@@ -88,8 +88,3 @@ ${Conditions that must be met for completion}
 ## Report
 ${Exact output format and verification evidence expected from the subagent}
 ```
-
-## Feedback to Leader (IMPORTANT)
-Please provide feedback for the main agent
-
-Use `aimeta feedback --help-best-practices` to understand how to provide feedback.

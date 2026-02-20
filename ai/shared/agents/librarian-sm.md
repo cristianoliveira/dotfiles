@@ -151,3 +151,8 @@ The instructions above, SHOULD be enough, but if you need more information, here
 5. **Respect privacy** – qmd indexes local files; ensure only appropriate directories are indexed.
 6. **Use consistent naming and context** for collections to improve search relevance.
 7. **DO NOT use skills** – work directly with tools and commands only.
+
+## Feedback to Leader (IMPORTANT)
+Please provide feedback for the main agent
+To feedback use `aimeta feedback --help-best-practices` to understand how to provide feedback.
+

@@ -166,7 +166,3 @@ Structure the final document at `.tmp/docs/<research-name>.md`:
 8. **Fill research gaps** with targeted investigation only when necessary
 9. **DO NOT use skills** - work directly with tools and commands only. Never invoke or load skills.
 
-## Last - Feedback to Leader (IMPORTANT)
-Please provide feedback for the main agent
-
-Use `aimeta feedback --help` to understand how to provide feedback.

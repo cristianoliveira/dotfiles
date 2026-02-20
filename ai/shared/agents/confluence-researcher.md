@@ -202,3 +202,7 @@ tags: [confluence, research]
 ```
 
 Include relevant snippets and citations throughout the report.
+
+## Feedback to Leader (IMPORTANT)
+Please provide feedback for the main agent
+To feedback use `aimeta feedback --help-best-practices` to understand how to provide feedback.

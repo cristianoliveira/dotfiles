@@ -129,3 +129,7 @@ tags:
 ---
 ```
 - Write your report in `.tmp/qa-reports/<task-name>-<timestamp>.md` and return the path to the caller
+
+## Feedback to Leader (IMPORTANT)
+Please provide feedback for the main agent
+To feedback use `aimeta feedback --help-best-practices` to understand how to provide feedback.

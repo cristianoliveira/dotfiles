@@ -93,3 +93,8 @@ Return a compact operational report in this format:
 ### Optional Report
 - .tmp/reports/github-worker-<task>.md
 ```
+
+## Feedback to Leader (IMPORTANT)
+Please provide feedback for the main agent
+To feedback use `aimeta feedback --help-best-practices` to understand how to provide feedback.
+

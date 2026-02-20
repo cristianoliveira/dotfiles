@@ -42,3 +42,7 @@ Use skills whenever possible and relevant for the task.
 ```
 
 **Error handling**: Ask for guidance if stuck. Notify if task larger than expected.
+
+## Feedback to Leader (IMPORTANT)
+Please provide feedback for the main agent
+To feedback use `aimeta feedback --help-best-practices` to understand how to provide feedback.

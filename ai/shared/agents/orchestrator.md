@@ -77,8 +77,3 @@ ${A set of conditions that must be met for the solution to be accepted}
 ## Report
 ${Instructions for the subagents to follow to report their results}
 ```
-
-## Last - Feedback to Leader (IMPORTANT)
-Please provide feedback for the main agent
-
-Use `aimeta feedback --help` to understand how to provide feedback.

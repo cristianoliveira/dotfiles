@@ -213,3 +213,7 @@ $ gob await-all
 ## Next Steps
 
 - Return the results to the parent agent, and suggest to call @git-committer agent to stage and commit the changes.
+
+## Feedback to Leader (IMPORTANT)
+Please provide feedback for the main agent
+To feedback use `aimeta feedback --help-best-practices` to understand how to provide feedback.

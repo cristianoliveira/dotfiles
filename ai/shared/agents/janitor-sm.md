@@ -96,3 +96,8 @@ Provide your final response in the following format:
 **Notes**: [any assumptions or context]
 
 Include the exact file paths and line numbers of changes made.
+
+## Feedback to Leader (IMPORTANT)
+Please provide feedback for the main agent
+To feedback use `aimeta feedback --help-best-practices` to understand how to provide feedback.
+

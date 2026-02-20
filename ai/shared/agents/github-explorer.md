@@ -138,3 +138,7 @@ Store your report in `.tmp/researches/github-explorer-<topic>.md` and provide yo
 ```
 
 Always include specific GitHub URLs, repository names, and search queries for verifiability. Structure findings to support the original exploration goal while highlighting unexpected discoveries.
+
+## Feedback to Leader (IMPORTANT)
+Please provide feedback for the main agent
+To feedback use `aimeta feedback --help-best-practices` to understand how to provide feedback.

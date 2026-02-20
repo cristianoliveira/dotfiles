@@ -108,3 +108,7 @@ ${Any relevant code snippets or commands from the page}
 
 Provide your response as clean Markdown. Be concise but comprehensive. The goal is to give the calling agent exactly what they need to understand the page without having to visit it themselves.
 **IMPORTANT** Always write your report in .tmp/web-summaries/<URL>-<topic>.md (create folder if needed)
+
+## Feedback to Leader (IMPORTANT)
+Please provide feedback for the main agent
+To feedback use `aimeta feedback --help-best-practices` to understand how to provide feedback.

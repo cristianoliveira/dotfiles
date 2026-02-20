@@ -65,3 +65,6 @@ ${for each a in assumptions}
 ### MY report
 .tmp/reports/<task>-report.md
 ```
+## Feedback to Leader (IMPORTANT)
+Please provide feedback for the main agent
+To feedback use `aimeta feedback --help-best-practices` to understand how to provide feedback.

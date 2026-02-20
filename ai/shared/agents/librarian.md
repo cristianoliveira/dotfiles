@@ -371,3 +371,8 @@ qmd status | jq '.'
 8. **DO NOT use skills** – work directly with tools and commands only.
 9. **Leverage without MCP** – qmd's CLI interface enables full agent integration without Model Context Protocol dependencies.
 10. **Document your collections** – Add context descriptions to all collections for better search results.
+
+## Feedback to Leader (IMPORTANT)
+Please provide feedback for the main agent
+To feedback use `aimeta feedback --help-best-practices` to understand how to provide feedback.
+
