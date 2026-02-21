@@ -481,9 +481,12 @@ pkgs: {
 
     installPhase = ''
       runHook preInstall
+      # Copy entire pi directory to share
+      mkdir -p $out/share
+      cp -r pi $out/share/
+      # Create bin symlink
       mkdir -p $out/bin
-      cp pi/pi $out/bin/pi
-      chmod +x $out/bin/pi
+      ln -sf $out/share/pi/pi $out/bin/pi
       runHook postInstall
     '';
 
