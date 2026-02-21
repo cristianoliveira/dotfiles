@@ -19,7 +19,7 @@
         "Reopen Closed Tab" = "^\$t";
         "Search Tabs..." = "^p";
         "Move Tab to New Window" = "W";
-         
+
         # Navigating (vim like)
         "Back" = "^o";
         "Forward" = "^i";
@@ -30,6 +30,9 @@
       };
   in {
     "com.google.Chrome" = {
+      "NSUserKeyEquivalents" = chromiumMappings // editCommand;
+    };
+    " com.google.Chrome.canary" = {
       "NSUserKeyEquivalents" = chromiumMappings // editCommand;
     };
     "com.brave.Browser" = {
