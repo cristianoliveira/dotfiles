@@ -29,7 +29,7 @@ Shared resources consumed by the AI tools and stow links.
 | `web-qa` | Web quality assurance - check if URLs/pages are working, validate page content, verify UI elements |
 | `web-summarizer` | Use this agent to extract and summarize web content from URLs. (surf cli) |
 
-## Skills (11)
+## Skills (12)
 
 | Skill | Description |
 |-------|-------------|
@@ -43,6 +43,7 @@ Shared resources consumed by the AI tools and stow links.
 | `land-the-plane` | Pre-merge CI validation - run all CI checks locally before committing. Use when user says "land the plane", "let's wrap up", "final checks", "ready to merge?", "run CI locally", or wants to verify code passes all automated checks before creating a PR or merging. Does NOT commit changes - only validates. |
 | `logcli-logs` | Query and analyze logs from Grafana Loki using logcli. Use when the user mentions Loki, Grafana logs, logcli, or LogQL. Triggers on phrases like "query loki", "loki logs", "grafana logs", "use logcli", "LogQL query", or when explicitly asked to search logs using Loki/Grafana infrastructure. |
 | `look-at-the-logs` | Search through specific provided logs to find specific information. |
+| `opencode-plugin-creator` | Create and maintain OpenCode plugins with correct discovery, hook lifecycle, permissions, debugging, and release hygiene. Use when building a new OpenCode plugin, refactoring plugin hooks, or documenting plugin setup and troubleshooting. |
 | `skill-creator` | Guide for creating effective skills. This skill should be used when users want to create a new skill (or update an existing skill) that extends Claude's capabilities with specialized knowledge, workflows, or tool integrations. |
 
 ## Commands

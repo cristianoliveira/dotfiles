@@ -6,7 +6,7 @@ set -euo pipefail
 SCRIPT_NAME="aimeta self-improvement"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 SUBCOMMAND_DIR="${SCRIPT_DIR}/self-improvement.d"
-DATA_DIR="${HOME}/.local/shared/aimeta/self-improvement"
+DATA_DIR="${HOME}/.local/share/aimeta/self-improvement"
 ENTRIES_DIR="${DATA_DIR}/entries"
 INDEX_FILE="${DATA_DIR}/index.json"
 

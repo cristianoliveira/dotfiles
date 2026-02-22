@@ -12,7 +12,7 @@ tools:
    question: true
 permission:
    skill:
-      "*-creator": deny
+      "jira-task-creator": deny
 ---
 
 # Purpose

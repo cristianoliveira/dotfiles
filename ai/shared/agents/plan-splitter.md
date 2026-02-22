@@ -10,7 +10,6 @@ tools:
   grep: true
   glob: true
   question: true
-  Skill: false
 permission:
   write:
     "*": deny

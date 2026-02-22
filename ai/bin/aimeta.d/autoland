@@ -74,11 +74,11 @@ list_commands() {
     local updated=false
     local valid_entries=()
     local stale_sources=()
-    
+
     # Parse cache as array
     local length
     length=$(echo "$cache_content" | jq 'length')
-    
+
     for ((i=0; i<length; i++)); do
         local entry
         entry=$(echo "$cache_content" | jq ".[$i]")
@@ -90,10 +90,10 @@ list_commands() {
         command=$(echo "$entry" | jq -r '.command')
         local category
         category=$(echo "$entry" | jq -r '.category')
-        
+
         local current_hash
         current_hash=$(compute_hash "$source")
-        
+
         if [[ "$cached_hash" == "$current_hash" ]]; then
             # Hash matches, keep entry
             valid_entries+=("$entry")
@@ -104,14 +104,14 @@ list_commands() {
             stale_sources+=("$source")
         fi
     done
-    
+
     # If entries were removed, update cache
     if [[ "$updated" == true ]]; then
         local new_cache
         new_cache=$(printf '%s\n' "${valid_entries[@]}" | jq -s '.')
         write_cache "$new_cache"
     fi
-    
+
     # Output based on state
     if [[ ${#valid_entries[@]} -eq 0 ]]; then
         if [[ ${#stale_sources[@]} -gt 0 ]]; then
@@ -159,34 +159,34 @@ cache_commands() {
     local source="$1"
     local category="$2"
     local commands_json="$3"
-    
+
     # Validate commands JSON
     if ! validate_commands_json "$commands_json"; then
         return 1
     fi
-    
+
     # Compute hash of source file
     local hash
     hash=$(compute_hash "$source")
-    
+
     # Read existing cache
     local cache_content
     cache_content=$(read_cache)
-    
+
     # Parse commands from JSON
     local commands
     commands=$(echo "$commands_json" | jq -c '.[]')
-    
+
     # Process each command
     while IFS= read -r command; do
         # Remove quotes from command
         command=$(echo "$command" | tr -d '"')
-        
+
         # Check if entry already exists (deduplicate by source+command+category)
         local exists
         exists=$(echo "$cache_content" | jq --arg s "$source" --arg c "$command" --arg g "$category" \
             '[.[] | select(.source == $s and .command == $c and .category == $g)] | length > 0')
-        
+
         if [[ "$exists" == "false" ]]; then
             # Create new entry
             local new_entry
@@ -196,12 +196,12 @@ cache_commands() {
                 --arg command "$command" \
                 --arg category "$category" \
                 '{source: $source, hash: $hash, command: $command, category: $category}')
-            
+
             # Append to cache
             cache_content=$(echo "$cache_content" | jq ". + [$new_entry]")
         fi
     done <<< "$commands"
-    
+
     # Write updated cache
     write_cache "$cache_content"
 }
@@ -258,7 +258,7 @@ main() {
         usage
         exit 1
     fi
-    
+
     case "$1" in
         --list)
             list_commands

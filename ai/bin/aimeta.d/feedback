@@ -5,7 +5,7 @@ set -euo pipefail
 
 SCRIPT_NAME="aimeta feedback"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-FEEDBACK_DIR="${HOME}/.local/shared/aimeta"
+FEEDBACK_DIR="${HOME}/.local/share/aimeta"
 FEEDBACK_FILE="${FEEDBACK_DIR}/feedback.md"
 
 # Colors for output
@@ -66,7 +66,7 @@ EOF
 validate_rating() {
   local rating="$1"
   local name="$2"
-  
+
   if ! [[ "$rating" =~ ^[1-5]$ ]]; then
     echo "Error: ${name} rating must be between 1 and 5" >&2
     exit 1
@@ -77,7 +77,7 @@ validate_rating() {
 parse_args() {
   local action_set=false
   local rating_set=false
-  
+
   while [[ $# -gt 0 ]]; do
     case "$1" in
       --paths)
@@ -152,19 +152,19 @@ parse_args() {
         ;;
     esac
   done
-  
+
   # Validate required arguments
   if [[ -z "$ACTION" ]]; then
     echo "Error: An action flag (--stop, --continue, or --start) is required" >&2
     usage >&2
     exit 1
   fi
-  
+
   # If ratings are provided, validate they are in 1-5 range
   if [[ -n "$PROMPT_RATING" ]]; then
     validate_rating "$PROMPT_RATING" "prompt"
   fi
-  
+
   if [[ -n "$MESSAGE_RATING" ]]; then
     validate_rating "$MESSAGE_RATING" "message"
   fi
@@ -182,7 +182,7 @@ EOF
 format_rating() {
   local rating="$1"
   local stars=""
-  
+
   for ((i=1; i<=5; i++)); do
     if [[ $i -le $rating ]]; then
       stars="${stars}★"
@@ -190,7 +190,7 @@ format_rating() {
       stars="${stars}☆"
     fi
   done
-  
+
   echo "$stars"
 }
 
@@ -202,18 +202,18 @@ display_feedback() {
     continue) action_color="${GREEN}" ;;
     start) action_color="${YELLOW}" ;;
   esac
-  
+
   echo -e "${BOLD}Subagent Feedback:${RESET}"
   echo -e "  ${action_color}Action: ${ACTION^}${RESET}"
-  
+
   if [[ -n "$PROMPT_RATING" ]]; then
     echo -e "  Prompt Rating: $(format_rating "$PROMPT_RATING") (${PROMPT_RATING}/5)"
   fi
-  
+
   if [[ -n "$MESSAGE_RATING" ]]; then
     echo -e "  Message Rating: $(format_rating "$MESSAGE_RATING") (${MESSAGE_RATING}/5)"
   fi
-  
+
   if [[ -n "$REASON" ]]; then
     echo -e "  Reason: $REASON"
   fi
@@ -256,7 +256,7 @@ FEEDBACK CATEGORIES AND GUIDANCE:
    - Good feedback: "The task required specialized knowledge in Kubernetes that I possess, making it a good capability match"
    - Bad feedback: "I don't know what I'm doing" (vague, doesn't explain capability mismatch)
 
-2. agent-purpose-alignment  
+2. agent-purpose-alignment
    - Purpose: Evaluate if the task aligned with the agent's core purpose
    - Focus: Was this task appropriate for what the agent is designed to do?
    - Good feedback: "This task aligned well with my purpose of optimizing system performance"
