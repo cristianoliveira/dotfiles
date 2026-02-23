@@ -39,7 +39,6 @@ USAGE:
 OPTIONS:
   --paths                 Show feedback file paths and exit
   --stop                  Stop current operation
-  --continue              Continue current operation
   --start                 Start new operation
   --prompt-rating N       Rating for the prompt (1-5 scale)
   --message-rating N      Rating for the message (1-5 scale)
@@ -55,7 +54,6 @@ DESCRIPTION:
 
 EXAMPLES:
   ${SCRIPT_NAME} --paths
-  ${SCRIPT_NAME} --continue --prompt-rating 4 --message-rating 5 --reason "Good progress, continue as planned"
   ${SCRIPT_NAME} --stop --prompt-rating 1 --message-rating 2 --reason "Critical issue encountered"
   ${SCRIPT_NAME} --start --prompt-rating 5 --message-rating 4 --reason "Ready to begin new task"
   ${SCRIPT_NAME} --help-best-practices
@@ -90,15 +88,6 @@ parse_args() {
           exit 1
         fi
         ACTION="stop"
-        action_set=true
-        shift
-        ;;
-      --continue)
-        if [[ -n "$ACTION" ]]; then
-          echo "Error: Only one action flag can be specified" >&2
-          exit 1
-        fi
-        ACTION="continue"
         action_set=true
         shift
         ;;
@@ -155,7 +144,7 @@ parse_args() {
 
   # Validate required arguments
   if [[ -z "$ACTION" ]]; then
-    echo "Error: An action flag (--stop, --continue, or --start) is required" >&2
+    echo "Error: An action flag (--stop or --start) is required" >&2
     usage >&2
     exit 1
   fi
@@ -199,7 +188,6 @@ display_feedback() {
   local action_color=""
   case "$ACTION" in
     stop) action_color="${RED}" ;;
-    continue) action_color="${GREEN}" ;;
     start) action_color="${YELLOW}" ;;
   esac
 
