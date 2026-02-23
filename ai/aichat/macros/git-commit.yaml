@@ -1,8 +1,0 @@
-variables:
-  - name: args
-    rest: true
-    default: "no more context"
-
-steps:
-  - .role git-commit
-  - .file `aimeta git-commit-context` -- more context -- {{args}}

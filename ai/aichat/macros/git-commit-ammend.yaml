@@ -1,9 +1,0 @@
-variables:
-  - name: tag_from
-    default: HEAD
-  - name: tag_to
-    default: HEAD~1
-
-steps:
-  - .role git-commit
-  - .file `bash ~/.dotfiles/ai/aichat/scripts/git-append-context.sh {{tag_from}} {{tag_to}}`

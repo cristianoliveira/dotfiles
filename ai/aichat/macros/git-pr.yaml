@@ -1,8 +1,0 @@
-variables:
-  - name: args
-    rest: true
-    default: "no more context"
-
-steps:
-  - .role git-pr
-  - .file `bash ~/.dotfiles/ai/aichat/scripts/git-pr-context.sh` -- more context -- {{args}}

@@ -1,1 +1,0 @@
-/Users/cristianoliveira/other/tmux-intray/opencode/plugins/opencode-tmux-intray.js

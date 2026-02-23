@@ -1,1 +1,0 @@
-- View the current log for the open code plugin so I can identify some so we can implement something like: if you feel blocked by a command, we have to return to the agent for them, that they are not supposed to use the command but if they are an orchestrator, to delegate always
