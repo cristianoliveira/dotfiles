@@ -1,6 +1,0 @@
-variables:
-  - name: tag_from
-  - name: tag_to
-steps:
-  - .role doc-release-man
-  - .file `bash ~/.dotfiles/ai/aichat/scripts/git-release-context.sh {{tag_from}} {{tag_to}}`

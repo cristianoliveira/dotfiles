@@ -77,3 +77,5 @@ AGENTS.md
 CLAUDE.md
 .beads
 .logsrc
+.agents
+.local/

@@ -1,0 +1,384 @@
+#!/usr/bin/env bash
+
+# Script to automatically upgrade the opencode package in nix/overlays/nightly-pkgs.nix
+#
+# This script:
+# 1. Checks for the latest opencode release from GitHub
+# 2. Compares with the current version in the overlay file
+# 3. If newer version exists:
+#    - Fetches SHA256 hashes for all 6 platform variants
+#    - Updates the overlay file with new version and hashes
+#    - Shows a summary of what was updated
+# 4. If already on latest version: informs the user
+
+set -o pipefail
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# Repository information
+REPO="anomalyco/opencode"
+OVERLAY_FILE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/nix/overlays/nightly-pkgs.nix"
+API_URL="https://api.github.com/repos/${REPO}/releases/latest"
+
+# Platform variants with their file patterns
+declare -A PLATFORMS=(
+  ["darwin-arm64"]="opencode-darwin-arm64.zip"
+  ["darwin-x64"]="opencode-darwin-x64.zip"
+  ["linux-arm64"]="opencode-linux-arm64.tar.gz"
+  ["linux-arm64-musl"]="opencode-linux-arm64-musl.tar.gz"
+  ["linux-x64-baseline"]="opencode-linux-x64-baseline.tar.gz"
+  ["linux-x64-baseline-musl"]="opencode-linux-x64-baseline-musl.tar.gz"
+)
+
+# Logging functions
+log_info() {
+  echo -e "${BLUE}[INFO]${NC} $*" >&2
+}
+
+log_success() {
+  echo -e "${GREEN}[SUCCESS]${NC} $*" >&2
+}
+
+log_warning() {
+  echo -e "${YELLOW}[WARNING]${NC} $*" >&2
+}
+
+log_error() {
+  echo -e "${RED}[ERROR]${NC} $*" >&2
+}
+
+# Check required commands
+check_dependencies() {
+  local missing_deps=()
+
+  if ! command -v curl >/dev/null 2>&1; then
+    missing_deps+=("curl")
+  fi
+
+  if ! command -v nix-prefetch-url >/dev/null 2>&1; then
+    missing_deps+=("nix-prefetch-url")
+  fi
+
+  if ! command -v nix >/dev/null 2>&1; then
+    missing_deps+=("nix")
+  fi
+
+  if [ ${#missing_deps[@]} -gt 0 ]; then
+    log_error "Missing required dependencies: ${missing_deps[*]}"
+    exit 1
+  fi
+}
+
+# Fetch latest version from GitHub API
+fetch_latest_version() {
+  log_info "Fetching latest release from ${REPO}..."
+
+  local response
+  response=$(curl -s "$API_URL")
+
+  if [ -z "$response" ]; then
+    log_error "Failed to fetch release information from GitHub API"
+    exit 1
+  fi
+
+  local latest_version
+  latest_version=$(echo "$response" | grep -o '"tag_name": *"[^"]*"' | cut -d'"' -f4)
+
+  if [ -z "$latest_version" ]; then
+    log_error "Failed to parse version from GitHub API response"
+    exit 1
+  fi
+
+  # Remove 'v' prefix if present
+  latest_version="${latest_version#v}"
+
+  log_success "Latest version: ${latest_version}"
+  echo "$latest_version"
+}
+
+# Get current version from overlay file
+get_current_version() {
+  if [ ! -f "$OVERLAY_FILE" ]; then
+    log_error "Overlay file not found: $OVERLAY_FILE"
+    exit 1
+  fi
+
+  local current_version
+  current_version=$(grep -A 3 'opencode = let' "$OVERLAY_FILE" | grep 'version = ' | sed 's/.*version = "\([^"]*\)".*/\1/')
+
+  if [ -z "$current_version" ]; then
+    log_error "Failed to extract current version from overlay file"
+    exit 1
+  fi
+
+  log_info "Current version: ${current_version}"
+  echo "$current_version"
+}
+
+# Compare versions using sort -V
+version_compare() {
+  local current="$1"
+  local latest="$2"
+
+  if [ "$current" = "$latest" ]; then
+    return 0  # Same version
+  fi
+
+  # Use sort -V to compare versions
+  local sorted
+  sorted=$(printf '%s\n%s' "$current" "$latest" | sort -V | head -n1)
+
+  if [ "$sorted" = "$current" ]; then
+    return 1  # current < latest (newer available)
+  else
+    return 2  # current > latest (shouldn't happen)
+  fi
+}
+
+# Fetch SHA256 hash for a specific URL
+fetch_hash() {
+  local url="$1"
+  local platform="$2"
+
+  log_info "Fetching hash for ${platform}..."
+
+  # Use nix-prefetch-url to get the hash
+  local hash
+  hash=$(nix-prefetch-url --type sha256 "$url" 2>/dev/null)
+
+  if [ -z "$hash" ]; then
+    log_error "Failed to fetch hash for ${platform} from ${url}"
+    return 1
+  fi
+
+  # Convert to SRI format
+  local sri_hash
+  sri_hash=$(nix hash convert --hash-algo sha256 "$hash" 2>/dev/null)
+
+  if [ -z "$sri_hash" ]; then
+    log_error "Failed to convert hash to SRI format for ${platform}"
+    return 1
+  fi
+
+  echo "$sri_hash"
+}
+
+# Fetch all hashes for a given version
+fetch_all_hashes() {
+  local version="$1"
+  declare -A hashes
+
+  for platform in "${!PLATFORMS[@]}"; do
+    local filename="${PLATFORMS[$platform]}"
+    local url="https://github.com/${REPO}/releases/download/v${version}/${filename}"
+
+    local hash
+    hash=$(fetch_hash "$url" "$platform")
+
+    if [ -z "$hash" ]; then
+      log_error "Failed to fetch hash for ${platform}"
+      exit 1
+    fi
+
+    hashes["$platform"]="$hash"
+    log_success "  ${platform}: ${hash}"
+  done
+
+  # Return hashes as a serialized string
+  for platform in "${!hashes[@]}"; do
+    echo "${platform}=${hashes[$platform]}"
+  done | sort
+}
+
+# Update the overlay file with new version and hashes
+update_overlay_file() {
+  local version="$1"
+  shift
+  declare -A hashes
+
+  # Parse hashes from arguments
+  while [ $# -gt 0 ]; do
+    local entry="$1"
+    local platform="${entry%%=*}"
+    local hash="${entry#*=}"
+    hashes["$platform"]="$hash"
+    shift
+  done
+
+  log_info "Updating overlay file with version ${version}..."
+
+  # Create a temporary file
+  local tmp_file
+  tmp_file=$(mktemp)
+
+  # Create an array of hashes in order of appearance in the file
+  local hash_order=()
+  hash_order+=("${hashes[darwin-arm64]}")
+  hash_order+=("${hashes[darwin-x64]}")
+  hash_order+=("${hashes[linux-arm64-musl]}")
+  hash_order+=("${hashes[linux-arm64]}")
+  hash_order+=("${hashes[linux-x64-baseline-musl]}")
+  hash_order+=("${hashes[linux-x64-baseline]}")
+
+  local in_opencode=false
+  local hash_index=0
+
+  while IFS= read -r line || [ -n "$line" ]; do
+    # Track opencode block
+    if echo "$line" | grep -q '^\s*opencode = let\s*$'; then
+      in_opencode=true
+      echo "$line" >> "$tmp_file"
+    elif $in_opencode && echo "$line" | grep -q '^\s*version = "'; then
+      # Update version line
+      echo "    version = \"${version}\";" >> "$tmp_file"
+    elif $in_opencode && echo "$line" | grep -q '^\s*sha256 = if'; then
+      # Start of sha256 assignment
+      echo "$line" >> "$tmp_file"
+    elif $in_opencode && echo "$line" | grep -q '^\s*"sha256-'; then
+      # Replace hash line with correct hash
+      local indent=$(echo "$line" | sed 's/^\(\s*\).*/\1/')
+      # Check if there's a comment on the line
+      local comment=""
+      if echo "$line" | grep -q '#'; then
+        comment=$(echo "$line" | sed 's/.*\(#.*\)$/\1/')
+      fi
+      # Use appropriate comment based on hash index
+      case $hash_index in
+        0) comment="" ;;  # darwin-arm64: no comment
+        1) comment="" ;;  # darwin-x64: no comment
+        2) comment="  # arm64-musl" ;;  # linux-arm64-musl
+        3) comment="  # arm64" ;;  # linux-arm64
+        4) comment="  # x64-baseline-musl" ;;  # linux-x64-baseline-musl
+        5) comment="  # x64-baseline" ;;  # linux-x64-baseline
+      esac
+      echo "${indent}\"${hash_order[$hash_index]}\"$comment" >> "$tmp_file"
+      hash_index=$((hash_index + 1))
+    elif $in_opencode && echo "$line" | grep -q '^\s*};\s*$'; then
+      # End of opencode block
+      in_opencode=false
+      echo "$line" >> "$tmp_file"
+    else
+      echo "$line" >> "$tmp_file"
+    fi
+  done < "$OVERLAY_FILE"
+
+  # Replace the original file
+  mv "$tmp_file" "$OVERLAY_FILE"
+
+  log_success "Overlay file updated"
+}
+
+# Validate the updated overlay file
+validate_overlay_file() {
+  log_info "Validating overlay file..."
+
+  if ! nix eval --file "$OVERLAY_FILE" >/dev/null 2>&1; then
+    log_error "Overlay file has syntax errors after update"
+    log_error "Please restore the original file manually"
+    return 1
+  fi
+
+  log_success "Overlay file is valid"
+}
+
+# Show summary of changes
+show_summary() {
+  local current_version="$1"
+  local latest_version="$2"
+
+  echo ""
+  echo "=========================================="
+  echo "  OpenCode Upgrade Summary"
+  echo "=========================================="
+  echo "  Previous version: ${current_version}"
+  echo "  New version:      ${latest_version}"
+  echo "  File updated:     ${OVERLAY_FILE}"
+  echo "=========================================="
+  echo ""
+  log_success "OpenCode has been successfully upgraded to version ${latest_version}!"
+  echo ""
+  echo "Next steps:"
+  echo "  1. Review the changes in ${OVERLAY_FILE}"
+  echo "  2. Test the update by rebuilding your nix configuration"
+  echo "  3. Commit the changes to your repository"
+  echo ""
+}
+
+# Main function
+main() {
+  echo ""
+  log_info "OpenCode Updater"
+  echo "=========================================="
+  echo ""
+
+  # Check dependencies
+  check_dependencies
+
+  # Fetch versions
+  local current_version
+  local latest_version
+
+  current_version=$(get_current_version)
+  latest_version=$(fetch_latest_version)
+
+  echo ""
+  # Compare versions
+  version_compare "$current_version" "$latest_version"
+  local comparison_result=$?
+
+  if [ $comparison_result -eq 0 ]; then
+    log_success "OpenCode is already up to date (version ${current_version})"
+    exit 0
+  fi
+
+  log_info "New version available: ${current_version} → ${latest_version}"
+  echo ""
+
+  # Fetch all hashes
+  log_info "Fetching SHA256 hashes for all platforms..."
+  echo ""
+
+  local hash_entries
+  hash_entries=$(fetch_all_hashes "$latest_version")
+
+  # Convert hash entries to array
+  declare -A hashes
+  while read -r entry; do
+    # Split on first '=' only
+    local platform="${entry%%=*}"
+    local hash="${entry#*=}"
+    hashes["$platform"]="$hash"
+  done <<< "$hash_entries"
+
+  echo ""
+  log_info "All hashes fetched successfully"
+  echo ""
+
+  # Convert hashes to arguments
+  local hash_args=()
+  for platform in "${!hashes[@]}"; do
+    hash_args+=("${platform}=${hashes[$platform]}")
+  done
+  hash_args=($(printf '%s\n' "${hash_args[@]}" | sort))
+
+  # Update overlay file
+  update_overlay_file "$latest_version" "${hash_args[@]}"
+
+  echo ""
+
+  # Validate the updated file
+  if ! validate_overlay_file; then
+    exit 1
+  fi
+
+  # Show summary
+  show_summary "$current_version" "$latest_version"
+}
+
+# Run main function
+main "$@"

@@ -1,8 +1,0 @@
-variables:
-  - name: args
-    rest: true
-    default: "no more context"
-
-steps:
-  - .role git-commit
-  - .file `bash ~/.dotfiles/ai/shared/scripts/git-committer/git-commit-context.sh` -- more context -- {{args}}

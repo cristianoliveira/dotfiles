@@ -17,7 +17,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-
     copkgs.url = "github:cristianoliveira/nixpkgs";
 
     linkman = {

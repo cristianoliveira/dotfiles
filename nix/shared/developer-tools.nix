@@ -13,7 +13,7 @@
     jq
 
     zoxide # Better cd inspired by z
-    gh # GitHub CLI
+    unstable.gh # GitHub CLI
 
     # NOTE: not using it
     # ngrok

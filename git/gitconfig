@@ -246,3 +246,6 @@
   required = true
 [init]
   defaultBranch = main
+[safe]
+	directory = /home/cris/repos/nixpi
+	directory = /home/cris/repos/nixpi
