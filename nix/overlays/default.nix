@@ -1,7 +1,7 @@
 { copkgs, unstable,  system, ... }: final: prev: {
   # COpkgs - are my packages (Cristian Oliveira packages)
   # https://github.com/cristianoliveira/nixpkgs
-  copkgs = copkgs.packages.x86_64-linux;
+  copkgs = copkgs.packages.${system};
 
   # Unstable packages namespace - access via pkgs.unstable.<pckg>
   # NOTE: this is comes directly from nixpkgs
