@@ -29,9 +29,10 @@
   recent-branches = !git for-each-ref --count=15 --sort=-committerdate refs/heads/ --format='%(refname:short)'
 
   # branch
-  b = branch -v                     # branch (verbose)
-  bls = branch --list --format='%(refname:short)'
+  b = branch -v --sort=-committerdate  # branch (verbose with commit time, sorted by recency)
+  bls = branch --list --format='%(refname:short)'  # list branches sorted by recency
   br = branch -r                    # list remote branches
+  bra = branch -a                   # list all branches (local + remote)
   bv = branch -vv                   # list branches with upstream
   bd = branch -d                    # delete branch (safe)
   bD = branch -D                    # force delete branch
@@ -212,6 +213,7 @@
   whitespace = nowarn
 [branch]
   autosetupmerge = true
+  sort = -committerdate
 [push]
   # 'git push' will push the current branch to its tracking branch
   # the usual default is to push all branches
