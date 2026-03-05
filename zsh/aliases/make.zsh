@@ -1,3 +1,3 @@
-alias mt='make test'
-alias mr='make run'
-alias mst='make start'
+alias mi='make install'
+alias mt='make test || make tests'
+alias mr='make run || make start'
