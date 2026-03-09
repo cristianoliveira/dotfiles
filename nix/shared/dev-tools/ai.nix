@@ -4,6 +4,7 @@
     unstable.aichat
 
     # Agents
+    copkgs.pi       # nightly.pi
     copkgs.opencode # nightly.opencode
 
     unstable.claude-code
@@ -15,5 +16,7 @@
     copkgs.gob                      # Parallel job runner for AI
     unstable.jira-cli-go            # Allow agent to access jira
     copkgs.qmd                      # On-device search engine for markdown notes, meeting transcripts, and knowledge bases
+
+    copkgs.mcpli   # Run mcp as cli
   ];
 }
