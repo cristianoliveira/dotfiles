@@ -18,11 +18,6 @@
     };
 
     copkgs.url = "github:cristianoliveira/nixpkgs";
-
-    linkman = {
-      url = "github:cristianoliveira/nix-linkman/537ac2d";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs = {
@@ -30,7 +25,6 @@
     unstable,
     nix-darwin,
     copkgs,
-    linkman,
     nixpkgsnur,
     ...
   }: {
@@ -47,9 +41,6 @@
             })
           ];
         })
-
-        linkman.nixosModules.${system}.linkman
-        ./nixos/linkman.nix
 
         ./nixos/configuration.nix
       ];
