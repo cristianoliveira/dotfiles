@@ -124,6 +124,7 @@
   rz1 = reset HEAD~1                              # reset to 1 commit ago
   rz2 = reset HEAD~2                              # reset to 2 commits ago
   rz3 = reset HEAD~3                              # reset to 3 commits ago
+  rzs = reset --soft                              # soft reset (keep index and working tree)
   rzh = reset --hard                              # reset hard to HEAD
   rzhom = !git reset --hard origin/"$MAIN_BRANCH" # reset to origin main branch
 
