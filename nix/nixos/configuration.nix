@@ -2,9 +2,9 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ pkgs, ... }:
-
-{
+{ pkgs, ... }: let
+  primaryUser = "cristianoliveira";
+in {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
@@ -20,6 +20,9 @@
       ./gaming.nix
       ./utils.nix
       ./file-sync.nix
+
+      # Services
+      ./services/rclone.nix
 
       # Shared configurations
       ../shared/direnv.nix
@@ -54,7 +57,7 @@
           ColorModel = "KGray"; # RGB CMYGray KGray
           PageSize = "A4";
         };
-      } 
+      }
     ];
     ensureDefaultPrinter = "MG2500-series";
   };
@@ -96,18 +99,20 @@
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.cristianoliveira = {
+  users.users.${primaryUser} = {
     isNormalUser = true;
     description = "cristianoliveira";
-    extraGroups = [ 
-      "networkmanager" 
+    extraGroups = [
+      "networkmanager"
       "wheel"
-      "docker" 
+      "docker"
       # Required for screen brightness (see programs.light)
       "video"
       "scanner"
-      "lp" 
+      "lp"
     ];
+
+    shell = pkgs.zsh;
   };
 
   # Enable light for screen brightness
@@ -142,7 +147,7 @@
           enable = true;
           theme = "clean";
           plugins = ["git" "history-substring-search" "vi-mode"];
-      };    
+      };
 
       interactiveShellInit = ''
         autoload -U +X compinit && compinit
@@ -155,7 +160,6 @@
     };
   };
 
-  users.users.cristianoliveira.shell = pkgs.zsh;
 
   # List services that you want to enable:
 
@@ -180,7 +184,13 @@
   # If you used nix/nixos/setup.sh to setup your system this feature is already enabled
   # via the $HOME/.config/nix/nix.conf file
   nix = {
-    settings.experimental-features = [ "nix-command" "flakes" ];
+    settings = {
+      # Enable the experimental features for NixOS
+      experimental-features = [ "nix-command" "flakes" ];
+      # Allow Nix to install from trusted users. Usually you'll only trust
+      # NixOS binaries, but you can also trust third-party Nix code.
+      trusted-users = [ "root" primaryUser ];
+    };
 
     # Enable garbage collection every day at 22:00 and delete older than 14 days
     gc = {
