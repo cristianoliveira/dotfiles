@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+set -e
+
+# TMUX [K]ILL [P]ROJECT (SESSION) - MULTISELECT
+
+tmux_sessions=$(tmux list-sessions -F "#{session_name}" 2>/dev/null)
+
+selected_sessions=$(
+    echo "$tmux_sessions" |
+    fzf --height 50% \
+      --layout=reverse \
+      --border \
+      -m \
+      --header '-------------TMUX - SESSIONS TO KILL (TAB TO MULTI-SELECT)--------------' \
+      --preview "cat $HOME/{}/README.* || ls -la $HOME/{}"
+  )
+
+# If sessions are selected, kill them
+if [[ -n "$selected_sessions" ]]; then
+  echo "$selected_sessions" | while read -r session; do
+    echo "Killing session: $session"
+    tmux kill-session -t "$session"
+  done
+else
+  exit 0
+fi
