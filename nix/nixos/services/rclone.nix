@@ -1,5 +1,5 @@
 { pkgs, ... }: let
-  user = "cris";
+  user = "cristianoliveira";
   group = "users";
   notesDir = "/home/${user}/notes";
   sharedDir = "/home/${user}/shared";
