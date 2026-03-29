@@ -14,9 +14,40 @@ snippet header "Metadata header"
 ---
 title: ${1:`!v expand('%:t:r')`}
 description: ${2:Description of the note}
-tags: [${4:tag1, tag2}]
+tags:
+	- type/test
 date: ${3:`!v strftime('%d-%m-%Y')`}
 ---
+endsnippet
+
+snippet frontmatter "Frontmatter template"
+---
+title: ${1:`!v expand('%:t:r')`}
+description: ${2:Description of the note}
+tags:
+  - type/workflow
+	- topic/entertainment
+date: ${3:`!v strftime('%d-%m-%Y')`}
+---
+endsnippet
+
+snippet worflow "Workflow template"
+---
+title: ${1:`!v expand('%:t:r')`}
+description: ${2:Description of the note}
+tags:
+  - type/workflow
+	- topic/atopic
+date: ${3:`!v strftime('%d-%m-%Y')`}
+---
+
+# Steps
+
+-
+
+# Desired outcome
+
+-
 endsnippet
 
 snippet link "link expands standard links"
