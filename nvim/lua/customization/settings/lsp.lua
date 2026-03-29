@@ -15,6 +15,7 @@ local servers = {
   bashls = {},
 
   pyright = {},
+  kotlin_language_server = {},
 
   golangci_lint_ls = {
     root_dir = lsputils.root_pattern("go.work", "go.mod", ".git"),
