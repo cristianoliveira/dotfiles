@@ -131,6 +131,8 @@ in {
   #   enableSSHSupport = true;
   # };
 
+  fonts.packages = [ pkgs.nerd-fonts.jetbrains-mono ];
+
 
   # Screen brightness and back linght management
   programs = {
