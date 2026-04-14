@@ -3,7 +3,6 @@
 require("customization/commands/obsidian")
 require("customization/commands/vscode")
 require("customization/commands/clipboard")
-require("customization/commands/diffquickfix")
 require("customization/commands/telescope")
 require("customization/commands/visual-modes")
 
