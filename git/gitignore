@@ -80,3 +80,9 @@ CLAUDE.md
 .agents
 .local
 .tmp
+
+# Ignore local .pi/
+# This rule ignores only local .pi/ but not the ~/.pi/ in the home directory
+# FIXME: I'll hard code the projects later rifine
+/.pi/
+
