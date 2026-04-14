@@ -11,8 +11,9 @@
     fzf
     jq
 
-    ripgrep
-    fd
+    tree # Better ls
+    ripgrep # Better grep
+    fd # Better find
 
     zoxide # Better cd inspired by z
     unstable.gh # GitHub CLI
