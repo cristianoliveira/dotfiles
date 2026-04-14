@@ -13,7 +13,7 @@ selected_sessions=$(
       --border \
       -m \
       --header '-------------TMUX - SESSIONS TO KILL (TAB TO MULTI-SELECT)--------------' \
-      --preview "cat $HOME/{}/README.* || ls -la $HOME/{}"
+      --preview "tmux capture-pane -p -t {} 2>/dev/null || cat $HOME/{}/README.* || ls -la $HOME/{}"
   )
 
 # If sessions are selected, kill them

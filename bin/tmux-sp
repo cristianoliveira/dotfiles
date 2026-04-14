@@ -11,7 +11,7 @@ if [ -n "$1" ]; then
         --layout=reverse \
         --border \
         --header '---------------TMUX - SELECT SESSION---------------' \
-        --preview "cat $HOME/{}/README.* || ls -la $HOME/{}" | \
+        --preview "tmux capture-pane -p -t {} 2>/dev/null || cat $HOME/{}/README.* || ls -la $HOME/{}" | \
         tr '.' '_'
   )"
   exit 0
@@ -36,7 +36,7 @@ else
         --layout=reverse \
         --border \
         --header '---------------TMUX - SELECT PROJECT---------------' \
-        --preview "cat $HOME/{}/README.* || ls -la $HOME/{}"
+        --preview "tmux capture-pane -p -t {} 2>/dev/null || cat $HOME/{}/README.* || ls -la $HOME/{}"
   )"
 fi
 

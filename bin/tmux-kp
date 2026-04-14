@@ -12,7 +12,7 @@ selected_session=$(
       --layout=reverse \
       --border \
       --header '-------------TMUX - SESSION TO KILL--------------' \
-      --preview "cat $HOME/{}/README.* || ls -la $HOME/{}"
+      --preview "tmux capture-pane -p -t {} 2>/dev/null || cat $HOME/{}/README.* || ls -la $HOME/{}"
   )
 
 # If session is selected kill it
