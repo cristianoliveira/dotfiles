@@ -9,8 +9,10 @@
     zsh-syntax-highlighting
     diff-so-fancy
     fzf
-    ripgrep
     jq
+
+    ripgrep
+    fd
 
     zoxide # Better cd inspired by z
     unstable.gh # GitHub CLI
