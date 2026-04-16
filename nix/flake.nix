@@ -40,6 +40,11 @@
               inherit copkgs unstable system;
             })
           ];
+
+          # Register flake inputs in the nix registry
+          nix.registry.copkgs.flake = copkgs;
+          nix.registry.nixpkgs.flake = nixpkgs;
+          nix.registry.unstable.flake = unstable;
         })
 
         ./nixos/configuration.nix
@@ -57,6 +62,11 @@
               inherit copkgs unstable system;
             })
           ];
+
+          # Register flake inputs in the nix registry
+          nix.registry.copkgs.flake = copkgs;
+          nix.registry.nixpkgs.flake = nixpkgs;
+          nix.registry.unstable.flake = unstable;
         })
 
         ./osx/configuration.nix
