@@ -5,6 +5,7 @@ require("customization/commands/vscode")
 require("customization/commands/clipboard")
 require("customization/commands/telescope")
 require("customization/commands/visual-modes")
+require("customization/commands/git")
 
 vim.cmd("command! -nargs=0 CFormat lua vim.lsp.buf.format()")
 
