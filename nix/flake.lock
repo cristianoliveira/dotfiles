@@ -71,11 +71,11 @@
         "utils": "utils_8"
       },
       "locked": {
-        "lastModified": 1776343378,
-        "narHash": "sha256-GmX1iUQgZN5hCQP9YZQso8ZgISf+583fDV9qOH5nVec=",
+        "lastModified": 1776590583,
+        "narHash": "sha256-7UN26tTjVtP0FblvhU9yr+4iP3SYbieCvnq+pDTZaOA=",
         "owner": "cristianoliveira",
         "repo": "nixpkgs",
-        "rev": "658bc69d776a53296b9a2554c3fabfcbffbffafd",
+        "rev": "73e978bf8910635679cbff110755fde72b375f01",
         "type": "github"
       },
       "original": {
