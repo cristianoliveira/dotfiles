@@ -5,3 +5,6 @@ __pycache__/
 
 # bv (beads viewer) local config and caches
 .bv/
+
+# generated AST maps
+.ast.map.json

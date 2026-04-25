@@ -70,6 +70,9 @@ pono.toml
 .cursor
 .mcp.json
 
+# generated AST maps
+.ast.map.json
+
 CRUSH.md
 AGENTS.md
 .claude

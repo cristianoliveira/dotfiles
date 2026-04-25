@@ -5,10 +5,16 @@ _:
   # This config allow authentication with fingerprint on SDDM, swaylock and on
   # the terminal.
 
-  # Start the driver at boot
+  # Start the daemon before the display manager so fingerprint auth is ready
+  # when SDDM shows the login screen.
   systemd.services.fprintd = {
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig.Type = "simple";
+    wantedBy = [ "graphical.target" ];
+    before = [ "display-manager.service" ];
+    serviceConfig = {
+      Type = "simple";
+      Restart = "on-failure";
+      RestartSec = 1;
+    };
   };
 
   # Install the driver
