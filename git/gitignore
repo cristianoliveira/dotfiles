@@ -92,4 +92,7 @@ CLAUDE.md
 MAP.md
 /.pi/
 .pi/
+
+## pi extensions related
 .ast.map.json
+*.subagents.json
