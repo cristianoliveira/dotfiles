@@ -16,7 +16,6 @@
   a = add                           # add
   aa = add .                        # add all
   ap = add -p                       # add interactively (patch mode)
-  chunkyadd = add --patch           # stage commits chunk by chunk
 
   # via http://blog.apiaxle.com/post/handy-git-tips-to-stop-you-getting-fired/
   snapshot = !git stash save "snapshot: $(date)" && git stash apply "stash@{0}"
@@ -108,6 +107,7 @@
   rsc = rebase --continue                    # continue rebase
   rss = rebase --skip                        # skip rebase
   rsa = rebase --abort                       # abort rebase
+  rbsm = rebase --merge                      # rebase merge
   rbsi = rebase -i                           # interactive rebase on main branch
   rbsc = rebase --continue                   # continue interactive rebase
   rbsa = rebase --abort                      # abort interactive rebase
@@ -250,5 +250,5 @@
 [init]
   defaultBranch = main
 [safe]
-	directory = /home/cris/repos/nixpi
-	directory = /home/cris/repos/nixpi
+  directory = /home/cris/repos/nixpi
+  directory = /home/cris/repos/nixpi
