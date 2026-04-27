@@ -1,0 +1,166 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+usage() {
+  cat <<'EOF'
+Download a video and create a GIF from it.
+
+Usage:
+  video-gif <url> [options]
+
+Options:
+  -s, --start <time>       Start time for GIF clip, default: 0
+  -d, --duration <secs>    GIF duration in seconds, default: full video
+  -w, --width <pixels>     GIF width, default: 480
+  -f, --fps <fps>          GIF framerate, default: 12
+  -o, --output <path>      Output GIF path, default: ./<video-name>.gif
+  -k, --keep-video         Keep downloaded video file
+  -h, --help               Show this help
+
+Examples:
+  video-gif 'https://www.reddit.com/r/Hasan_Piker/comments/1su3po9/instant_classic_gif/'
+  video-gif '<url>' --start 1.2 --duration 3 --width 360 --fps 10
+EOF
+}
+
+ORIGINAL_ARGS=("$@")
+START="0"
+DURATION=""
+WIDTH="480"
+FPS="12"
+OUTPUT=""
+KEEP_VIDEO=0
+URL=""
+
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    -s|--start)
+      START="${2:?missing value for $1}"
+      shift 2
+      ;;
+    -d|--duration)
+      DURATION="${2:?missing value for $1}"
+      shift 2
+      ;;
+    -w|--width)
+      WIDTH="${2:?missing value for $1}"
+      shift 2
+      ;;
+    -f|--fps)
+      FPS="${2:?missing value for $1}"
+      shift 2
+      ;;
+    -o|--output)
+      OUTPUT="${2:?missing value for $1}"
+      shift 2
+      ;;
+    -k|--keep-video)
+      KEEP_VIDEO=1
+      shift
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    --)
+      shift
+      break
+      ;;
+    -*)
+      echo "Unknown option: $1" >&2
+      usage >&2
+      exit 1
+      ;;
+    *)
+      if [ -n "$URL" ]; then
+        echo "Only one URL is supported" >&2
+        exit 1
+      fi
+      URL="$1"
+      shift
+      ;;
+  esac
+done
+
+if [ -z "$URL" ]; then
+  usage >&2
+  exit 1
+fi
+
+run_with_tools() {
+  if command -v yt-dlp >/dev/null 2>&1 && command -v ffmpeg >/dev/null 2>&1 && command -v ffprobe >/dev/null 2>&1; then
+    "$@"
+    return
+  fi
+
+  if ! command -v nix >/dev/null 2>&1; then
+    echo "Missing yt-dlp/ffmpeg and nix is not available" >&2
+    exit 127
+  fi
+
+  VIDEO_GIF_IN_NIX_SHELL=1 nix shell nixpkgs#yt-dlp nixpkgs#ffmpeg -c "$0" "$@"
+}
+
+main() {
+  local workdir video_file video_base gif_file palette_file duration_arg ffmpeg_seek_args
+  workdir="$(mktemp -d "${TMPDIR:-/tmp}/video-gif.XXXXXX")"
+  VIDEO_GIF_WORKDIR="$workdir"
+  trap 'rm -rf -- "$VIDEO_GIF_WORKDIR"' EXIT
+
+  echo "Working dir: $workdir" >&2
+
+  yt-dlp \
+    --restrict-filenames \
+    -o "$workdir/video.%(ext)s" \
+    "$URL" >&2
+
+  video_file="$(find "$workdir" -maxdepth 1 -type f \( -name 'video.*' ! -name '*.gif' ! -name 'palette.png' \) | head -n 1)"
+  if [ -z "$video_file" ]; then
+    echo "Failed to locate downloaded video" >&2
+    exit 1
+  fi
+
+  video_base="$(basename "$video_file")"
+  video_base="${video_base%.*}"
+
+  if [ -n "$OUTPUT" ]; then
+    gif_file="$OUTPUT"
+  else
+    gif_file="$(pwd)/${video_base}.gif"
+  fi
+
+  mkdir -p "$(dirname "$gif_file")"
+  palette_file="$workdir/palette.png"
+
+  ffmpeg_seek_args=(-ss "$START" -i "$video_file")
+  duration_arg=()
+  if [ -n "$DURATION" ]; then
+    duration_arg=(-t "$DURATION")
+  fi
+
+  ffmpeg -y "${ffmpeg_seek_args[@]}" "${duration_arg[@]}" \
+    -vf "fps=${FPS},scale=${WIDTH}:-1:flags=lanczos,palettegen" \
+    -frames:v 1 \
+    "$palette_file" >&2
+
+  ffmpeg -y "${ffmpeg_seek_args[@]}" "${duration_arg[@]}" -i "$palette_file" \
+    -lavfi "fps=${FPS},scale=${WIDTH}:-1:flags=lanczos[x];[x][1:v]paletteuse" \
+    "$gif_file" >&2
+
+  echo "GIF: $gif_file"
+
+  if [ "$KEEP_VIDEO" -eq 1 ]; then
+    local kept_video
+    kept_video="$(dirname "$gif_file")/${video_base}.$(basename "$video_file" | awk -F. '{print $NF}')"
+    cp "$video_file" "$kept_video"
+    echo "Video: $kept_video"
+  fi
+}
+
+if [ "${VIDEO_GIF_IN_NIX_SHELL:-0}" != "1" ]; then
+  run_with_tools "${ORIGINAL_ARGS[@]}"
+  exit 0
+fi
+
+main
