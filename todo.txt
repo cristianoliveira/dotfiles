@@ -1,27 +1,11 @@
 --- General TODOs ---
 
-# TODO adds a way to manage aws credentials and terraform integration in nixos
-# or with a script to setup and validate the credentials
-
-# TODO nix generation as git commit 
-https://github.com/knoc-off/nixos/blob/main/.githooks/post-commit
-
 # TODO fetch ssh keys from bitwarden and put them in the right place
 https://bitwarden.com/help/cli/
 
-# TODO adds a way to version the Brave custom shortcuts 
+# TODO adds a way to version the Brave custom shortcuts
 
 # TODO git: add a way to squash commits that start with "temp|wip|squashme"
-
-# TODO fix: rclone service makes file root owned by root:root
-
---- NixOs/macOs UI/UX ---
-
-# FIXME stow is not present when first isntallation. Create script in nix
-
-# FIXME ~/Applications is not created on first installation
-
-# TODO remove yabai & skhd from configs
 
 --- Nvim ---
 
