@@ -106,6 +106,7 @@ in {
       "networkmanager"
       "wheel"
       "docker"
+      "input"
       # Required for screen brightness (see programs.light)
       "video"
       "scanner"
@@ -118,6 +119,10 @@ in {
   # Enable light for screen brightness
   # Need to add user to "video" group See above
   programs.light.enable = true;
+
+  services.udev.extraRules = ''
+    KERNEL=="uinput", GROUP="input", MODE="0660"
+  '';
 
   virtualisation.docker.enable = true;
 

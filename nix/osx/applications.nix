@@ -37,6 +37,7 @@
       "telegram"
 
       "karabiner-elements"
+      "handy"
 
       # Others
       "bitwarden"

@@ -9,6 +9,7 @@ in {
     # GUIs
     alacritty
     bitwarden
+    wtype
 
     # Media 
     vlc # Video player
@@ -23,6 +24,7 @@ in {
 
     # Notes and organization tools
     obsidian
+    copkgs.handy
 
     # Browsers
     firefox
