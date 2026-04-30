@@ -35,9 +35,6 @@
       "/run/current-system/sw/bin"
       "$HOME/.nix-profile/bin"
 
-      ## For ai
-      "$HOME/.dotfiles/ai/bin"
-
       "$PATH"
     ];
 
