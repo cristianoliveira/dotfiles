@@ -597,6 +597,12 @@ bindsym XF86MonBrightnessUp exec light -A 10
 # Brightness down
 bindsym XF86MonBrightnessDown exec light -U 10
 
+## Laptop function keys
+# Fn wake key: make it explicitly wake/power displays back on.
+bindsym XF86WakeUp exec swaymsg 'output * power on'
+# Fn display key: open the existing display toggle mode.
+bindsym XF86Display mode $displaysMode
+
 ## Volume
 bindsym XF86AudioMute exec wpctl set-mute @DEFAULT_SINK@ toggle
 bindsym XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_SINK@ 5%+
