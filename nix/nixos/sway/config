@@ -247,7 +247,6 @@ bindsym $mod+Ctrl+b exec swaymsg [app_id="brave-browser"] focus \
 
 # [Y]outube (video) - focus existing YouTube window or open
 bindsym $mod+Ctrl+y exec swaymsg [con_mark="y"] focus \
-                 || swaymsg '[app_id="brave-.*youtube.*"] focus' \
                  || swaymsg '[title=".*YouTube.*"] focus' \
                  || exec youtube
 
