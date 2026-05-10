@@ -7,6 +7,8 @@
     # FIXME this package is failing
     # bitwarden-cli
 
+    gimp
+
     obsidian
 
     # webapps.chatgpt doesn't work in macOS
