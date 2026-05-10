@@ -28,6 +28,12 @@ in {
 
     # Browsers
     firefox
+    (chromium.override {
+      commandLineArgs = [
+        "--ozone-platform=wayland"
+        "--disable-gpu-sandbox"
+      ];
+    })
     (brave.override {
       commandLineArgs = let
         features = builtins.concatStringsSep "," [
