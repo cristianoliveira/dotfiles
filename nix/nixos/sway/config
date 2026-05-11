@@ -383,7 +383,6 @@ assign [class="Brave-browser"] workspace 1
 assign [app_id="brave-browser"] workspace 1
 
 # [SCRATCHPAD-RULES]
-for_window [instance="zapzap"] move to scratchpad
 for_window [app_id="org.telegram.desktop"] move to scratchpad
 for_window [class="Spotify"] move to scratchpad
 for_window [instance="mail.google.com"] move to scratchpad
@@ -423,7 +422,6 @@ for_window [workspace="2"] layout tabbed
 for_window [workspace="8"] layout tabbed
 
 ## MARKS
-for_window [instance="zapzap"] mark "wap"
 for_window [app_id="org.telegram.desktop"] mark "tlg"
 for_window [instance=".*.youtube.com"] mark "ytb"
 for_window [instance="mail.google.com"] mark "mail"
@@ -468,7 +466,8 @@ bindsym $mod+Ctrl+9 [con_mark="9"] scratchpad show; focus
 
 ## Things that I access less often ctrl-shift-cmd-<number>
 bindsym $mod+Shift+Ctrl+7 exec swaymsg '[class="Bitwarden"] scratchpad show; focus' || exec bitwarden
-bindsym $mod+Shift+Ctrl+8 exec swaymsg '[instance="zapzap"] scratchpad show; focus' || exec zapzap
+bindsym $mod+Shift+Ctrl+8 exec swaymsg '[instance="zapzap"] focus' || exec zapzap
+
 bindsym $mod+Shift+Ctrl+9 exec swaymsg '[class="Spotify"] scratchpad show; focus' || exec spotify
 
 ## Things that I access often ctrl-cmd-<number>
@@ -734,7 +733,7 @@ for_window [app_id="term-floating"] floating enable, move position center, stick
 for_window [app_id="pavucontrol"] floating enable, move position center, sticky enable
 for_window [app_id="gnome-pomodoro"] floating enable, move position center, sticky enable
 for_window [class="Bitwarden"] floating enable, move position center, sticky enable
-for_window [instance="zapzap"] floating enable, move position center, sticky enable
+for_window [instance="zapzap"] floating enable
 for_window [instance="obsidian"] floating enable, move position center, sticky enable
 
 # Make bitwarden window on browser brave-browser width 1/4 of the screen and
