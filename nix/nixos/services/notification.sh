@@ -22,6 +22,7 @@ while true; do
 
   if [ $battery_capacity -lt 10 ] && [ $battery_status == "Discharging" ]; then
       echo "Battery is below 10%"
+      pw-play /run/current-system/sw/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga &
       swaynag -t warning -m "Battery is below 10%" -B "Suspend" "systemctl suspend"
   fi
 
