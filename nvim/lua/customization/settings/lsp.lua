@@ -15,7 +15,55 @@ local servers = {
   bashls = {},
 
   pyright = {},
-  kotlin_language_server = {},
+  kotlin_language_server = (function()
+    -- Prefer nix-provided binary (direnv/devShell).
+    -- It inherits JAVA_HOME, Gradle, and proper environment from the nix shell.
+    local nix_kls = vim.fn.executable("kotlin-language-server") == 1
+        and vim.fn.exepath("kotlin-language-server")
+        or nil
+    local mason_kls = "/home/cristianoliveira/.local/share/nvim/mason/packages/kotlin-language-server/server/bin/kotlin-language-server"
+
+    local cmd_path = nix_kls or mason_kls
+
+    -- wire-cli is JVM-only; prevent the LSP from trying to configure Android
+    -- modules in the Kalium composite build (avoids AGP/JDK compatibility issues).
+    local cmd_env = {
+      ORG_GRADLE_PROJECT_enableAndroid = "false",
+    }
+    -- When using the Mason-installed binary (no nix devShell active),
+    -- inherit JAVA_HOME from the environment — the user is expected to
+    -- have it set up (e.g. via their shell profile or another nix shell).
+    if not nix_kls and os.getenv("JAVA_HOME") then
+      cmd_env.JAVA_HOME = os.getenv("JAVA_HOME")
+    end
+
+    return {
+      cmd = { cmd_path },
+      cmd_env = cmd_env,
+      settings = {
+        kotlin = {
+          compiler = {
+            jvm = {
+              target = "17",
+            },
+          },
+          languageServer = {
+            watchFiles = { "**/*.kt", "**/*.kts", "**/build.gradle.kts", "**/settings.gradle.kts" },
+          },
+          indexing = {
+            enabled = true,
+          },
+          diagnostics = {
+            enabled = true,
+          },
+          inlayHints = {
+            typeHints = true,
+            parameterHints = true,
+          },
+        },
+      },
+    }
+  end)(),
 
   golangci_lint_ls = {
     root_dir = lsputils.root_pattern("go.work", "go.mod", ".git"),

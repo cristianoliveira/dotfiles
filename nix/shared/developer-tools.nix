@@ -64,6 +64,9 @@
     python311Packages.pip
     cargo #
 
+    # Text-to-speech
+    piper-tts
+
     # Markdown
     nightly.ferrite # Markdown viewer with
   ];
