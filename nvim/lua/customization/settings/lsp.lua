@@ -4,6 +4,7 @@ local lsputils = require("lspconfig.util")
 local mason_lspconfig = require("mason-lspconfig")
 local capabilities = require('cmp_nvim_lsp')
     .default_capabilities(vim.lsp.protocol.make_client_capabilities())
+local dotfiles_nix = vim.fn.expand("$HOME/.dotfiles/nix")
 
 local servers = {
   dockerls = {},
@@ -79,9 +80,23 @@ local servers = {
   -- NOTE: Nixd requires to be installed with nix
   -- see also "../../../../nix/shared/developer-tools.nix"
   nixd = {
-    cmd = { "/run/current-system/sw/bin/nixd" },
+    cmd = { vim.fn.exepath("nixd") ~= "" and vim.fn.exepath("nixd") or "nixd" },
     capabilities = capabilities,
-    settings = {},
+    settings = {
+      nixd = {
+        nixpkgs = {
+          expr = "import (builtins.getFlake \"" .. dotfiles_nix .. "\").inputs.nixpkgs { }",
+        },
+        options = {
+          nixos = {
+            expr = "(builtins.getFlake \"" .. dotfiles_nix .. "\").nixosConfigurations.nixos.options",
+          },
+          darwin = {
+            expr = "(builtins.getFlake \"" .. dotfiles_nix .. "\").darwinConfigurations.darwin.options",
+          },
+        },
+      },
+    },
   },
 }
 
@@ -93,6 +108,7 @@ for name, cfg in pairs(servers) do
   -- certain features of an LSP (for example, turning off formatting for ts_ls)
   config.capabilities = vim.tbl_deep_extend('force', {}, capabilities, config.capabilities or {})
   vim.lsp.config(name, config)
+  vim.lsp.enable(name)
 end
 
 vim.lsp.config('lua_ls', {
@@ -155,6 +171,7 @@ vim.lsp.config('lua_ls', {
     Lua = {}
   }
 })
+vim.lsp.enable('lua_ls')
 
 mason_lspconfig.setup {
   ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
