@@ -146,6 +146,15 @@
   stc = stash clear                  # remove all stashes
   stske = stash -k                   # stash keeping index
 
+  # submodule
+  sm = submodule                                    # submodule
+  sms = submodule status --recursive                # show submodule pointers
+  sminit = submodule update --init --recursive      # initialize submodules
+  smu = submodule update --init --recursive         # update submodules to recorded commits
+  smur = submodule update --remote --merge          # update submodules from tracked remote branch
+  smsync = submodule sync --recursive               # sync submodule URLs from .gitmodules
+  smst = !git submodule foreach --recursive 'git status --short' # show dirty submodules
+
   # status
   s = status                        # status
   st = status                       # status
