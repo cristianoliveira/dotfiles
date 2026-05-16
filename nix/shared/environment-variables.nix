@@ -28,6 +28,7 @@
       "$HOME/.dotfiles/bin"
       "$HOME/bin"
       "$HOME/.local/bin"
+      "$HOME/.local/share/nvim/mason/bin"
       "$HOME/.npm-global/bin"
       "/nix/var/nix/profiles/default/bin"
       "/nix/var/nix/profiles/system/sw/bin"
