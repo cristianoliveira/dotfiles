@@ -238,8 +238,7 @@ bindsym $mod+Ctrl+Return exec swaymsg [app_id=$termMain] focus || \
                             $term $termMain
 # Scratchpad terminal
 set $termFloating term-floating
-bindsym $mod+Ctrl+c exec swaymsg [app_id=$termFloating] focus || \
-                            $term $termFloating
+bindsym $mod+Ctrl+c exec ~/.dotfiles/nix/nixos/sway/bin/sway-toggle-terminal.sh
 
 # Browser (brave)
 bindsym $mod+Ctrl+b exec swaymsg [app_id="brave-browser"] focus || brave
