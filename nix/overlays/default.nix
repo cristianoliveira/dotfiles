@@ -1,4 +1,4 @@
-{ copkgs, unstable,  system, ... }: final: prev: {
+{ copkgs, unstable, system, ... }: final: prev: (copkgs.overlays.default final prev) // {
   # COpkgs - are my packages (Cristian Oliveira packages)
   # https://github.com/cristianoliveira/nixpkgs
   copkgs = copkgs.packages.${system};
