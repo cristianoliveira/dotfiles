@@ -24,17 +24,18 @@
       "/usr/local/bin"
       "/opt/homebrew/bin"
 
-      # Local
+      # User
       "$HOME/.dotfiles/bin"
       "$HOME/bin"
       "$HOME/.local/bin"
       "$HOME/.local/share/nvim/mason/bin"
       "$HOME/.npm-global/bin"
+      "$HOME/.nix-profile/bin"
+      # System
       "/nix/var/nix/profiles/default/bin"
       "/nix/var/nix/profiles/system/sw/bin"
       "/nix/var/nix/profiles/system/sw/sbin"
       "/run/current-system/sw/bin"
-      "$HOME/.nix-profile/bin"
 
       "$PATH"
     ];
