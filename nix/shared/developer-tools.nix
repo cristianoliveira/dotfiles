@@ -74,6 +74,5 @@
   imports = [
     ./dev-tools/go.nix
     ./dev-tools/ai.nix
-    ./dev-tools/tree-sitter-wasm-grammars.nix
   ];
 }

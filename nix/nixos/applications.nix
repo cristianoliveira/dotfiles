@@ -11,7 +11,7 @@ in {
     bitwarden
     wtype
 
-    # Media 
+    # Media
     vlc # Video player
     gthumb # Image viewer
 
@@ -62,9 +62,13 @@ in {
     webapps.chatgpt
     webapps.youtube
     webapps.discord
-    
+
     # Dev GUIs
     code-cursor # Editor AI
     unstable.dbeaver-bin # Database GUI - unstable ver because java 21
+
+    # 3D printing
+    flashprint
+    orca-slicer
   ];
 }
