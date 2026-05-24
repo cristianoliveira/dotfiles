@@ -12,6 +12,9 @@
   old = red
   new = green
 [alias]
+  # clone
+  cl = clone                        # clone a repo
+
   # add
   a = add                           # add
   aa = add .                        # add all
@@ -67,7 +70,7 @@
   cpc  = cherry-pick --continue     # continue a cherry-pick
 
   # diff
-  d = difftool
+  df = difftool                     # fire up the diff tool
   dc = diff --cached                # diff staged changes
   dff = diff --name-only            # diff only files
   last = diff HEAD^                 # diff last committed change
@@ -99,7 +102,6 @@
   ps = push                         # push
   psf = push --force-with-lease     # push with force-with-lease
   psff = push --force-with-lease --no-verify     # push with force-with-lease no-verify
-  pf = push --force-with-lease      # similar to my old alias
 
   # rebase
   rs = rebase                                # rebase alias
