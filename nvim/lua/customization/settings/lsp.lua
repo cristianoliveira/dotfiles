@@ -6,6 +6,22 @@ local capabilities = require('cmp_nvim_lsp')
     .default_capabilities(vim.lsp.protocol.make_client_capabilities())
 local dotfiles_nix = vim.fn.expand("$HOME/.dotfiles/nix")
 
+local function first_executable(candidates)
+  for _, candidate in ipairs(candidates) do
+    local executable = vim.fn.exepath(candidate)
+    if executable ~= "" then
+      return executable
+    end
+
+    local matches = vim.fn.glob(candidate, false, true)
+    for _, match in ipairs(matches) do
+      if vim.fn.executable(match) == 1 then
+        return match
+      end
+    end
+  end
+end
+
 local servers = {
   dockerls = {},
 
@@ -17,29 +33,25 @@ local servers = {
 
   pyright = {},
   kotlin_language_server = (function()
-    -- Prefer nix-provided binary (direnv/devShell).
-    -- It inherits JAVA_HOME, Gradle, and proper environment from the nix shell.
-    local nix_kls = vim.fn.executable("kotlin-language-server") == 1
-        and vim.fn.exepath("kotlin-language-server")
-        or nil
-    local mason_kls = "/home/cristianoliveira/.local/share/nvim/mason/packages/kotlin-language-server/server/bin/kotlin-language-server"
-
-    local cmd_path = nix_kls or mason_kls
-
     -- wire-cli is JVM-only; prevent the LSP from trying to configure Android
     -- modules in the Kalium composite build (avoids AGP/JDK compatibility issues).
     local cmd_env = {
       ORG_GRADLE_PROJECT_enableAndroid = "false",
+      JAVA_HOME = os.getenv("JAVA_HOME")
     }
-    -- When using the Mason-installed binary (no nix devShell active),
-    -- inherit JAVA_HOME from the environment — the user is expected to
-    -- have it set up (e.g. via their shell profile or another nix shell).
-    if not nix_kls and os.getenv("JAVA_HOME") then
-      cmd_env.JAVA_HOME = os.getenv("JAVA_HOME")
-    end
+    local kotlin_language_server = first_executable({
+      "kotlin-language-server",
+      "/nix/store/*-kotlin-language-server-*/bin/kotlin-language-server",
+    })
 
     return {
-      cmd = { cmd_path },
+      cmd = {
+        "bash",
+        "-lc",
+        "exec \"$@\" 2> >(grep -v '^SLF4J:' >&2)",
+        "kotlin-language-server-wrapper",
+        kotlin_language_server or "kotlin-language-server",
+      },
       cmd_env = cmd_env,
       settings = {
         kotlin = {
@@ -176,4 +188,7 @@ vim.lsp.enable('lua_ls')
 mason_lspconfig.setup {
   ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
   automatic_installation = false,
+  automatic_enable = {
+    exclude = { "kotlin_lsp" },
+  },
 }
