@@ -86,6 +86,26 @@
                                 "type": "basic"
                             }
                         ]
+                    },
+                    {
+                        "description": "Toggle AeroSpace on/off (cmd+ctrl+shift+e)",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "e",
+                                    "modifiers": {
+                                        "mandatory": ["left_command", "left_control", "left_shift"],
+                                        "optional": ["any"]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "/run/current-system/sw/bin/aerospace enable toggle"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
                     }
                 ]
             },
@@ -243,6 +263,26 @@
                                     }
                                 },
                                 "to": [{ "key_code": "right_arrow" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Toggle AeroSpace on/off (cmd+ctrl+shift+e)",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "e",
+                                    "modifiers": {
+                                        "mandatory": ["left_command", "left_control", "left_shift"],
+                                        "optional": ["any"]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "/run/current-system/sw/bin/aerospace enable toggle"
+                                    }
+                                ],
                                 "type": "basic"
                             }
                         ]
