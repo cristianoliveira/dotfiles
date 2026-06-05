@@ -364,9 +364,11 @@ in {
           "3" = "main";
           "4" = "main";
           "5" = "main";
-          "6" = ["secondary" "built-in" "main" ];
+          "6" = "main";
+
           "7" = ["secondary" "built-in" "main" ];
           "8" = ["secondary" "built-in" "main" ];
+
           "9" = ["built-in" "main"];
           "0" = ["built-in" "main"];
 

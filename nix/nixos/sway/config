@@ -337,9 +337,9 @@ workspace 2 output $main
 workspace 3 output $main
 workspace 4 output $main
 workspace 5 output $main
+workspace 6 output $main
 
 # Prefer the secondary display for these; move manually if it is disconnected.
-workspace 6 output $2nd
 workspace 7 output $2nd
 workspace 8 output $2nd
 
