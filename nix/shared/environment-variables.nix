@@ -20,6 +20,9 @@
     # than nix paths this will reverse the order of the path's sections
     # PATH=$(echo $PATH | sed 's/:/\n/g' | tac | tr "\n" ":")
     PATH = builtins.concatStringsSep ":" [
+      # Ensure PATH is last
+      "$PATH"
+
       # Systemwise
       "/usr/local/bin"
       "/opt/homebrew/bin"
@@ -36,8 +39,6 @@
       "/nix/var/nix/profiles/system/sw/bin"
       "/nix/var/nix/profiles/system/sw/sbin"
       "/run/current-system/sw/bin"
-
-      "$PATH"
     ];
 
     # Xcode path for command line tools
