@@ -7,7 +7,8 @@ vmap("<leader>d", "\"_c")
 
 -- system clipboard
 vmap('<Leader>y', '"+y')
-vmap('<C-c>', '"+y') -- Ctrl-C to copy to system clipboard in visual mode
+nmap('<Leader>p', '"+p') -- paste from system clipboard
+vmap('<Leader>p', '"+p')
+
 -- FIXME In quarentine delete if not missed.
 -- vmap <Leader>d "+d
--- nmap <Leader>p "+p
