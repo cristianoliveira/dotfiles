@@ -99,11 +99,11 @@
         "utils": "utils_8"
       },
       "locked": {
-        "lastModified": 1780207556,
-        "narHash": "sha256-hKBA/S2mHCM3h5hP9HEGDv9p3M/YNUEBVgPULGAS7G4=",
+        "lastModified": 1781113637,
+        "narHash": "sha256-ZApynnvLy54/StUYw/3VPvoOUGSEoYZBe4IxwMkViz8=",
         "owner": "cristianoliveira",
         "repo": "nixpkgs",
-        "rev": "2c59ed126dd10996911ccd1e1a0899e69b51dadc",
+        "rev": "f0ee11c016d66c325dfce16c0eda72c77eddb872",
         "type": "github"
       },
       "original": {
@@ -196,11 +196,11 @@
         "nixpkgs": "nixpkgs_7"
       },
       "locked": {
-        "lastModified": 1777509983,
-        "narHash": "sha256-89HU4ri7CNum66cpjOpTmsdr2QyLCYvNBDqqWxvbqOI=",
+        "lastModified": 1780622536,
+        "narHash": "sha256-xit4OAui0H4Ua4ZRCNZxsKgn+fxf5azBYALm2c0U+yA=",
         "owner": "cjpais",
         "repo": "Handy",
-        "rev": "a385371c32613c1ec2649a4f51522a7ddefb5d4c",
+        "rev": "7901ef715effd3ed414d8a0a12c6fd0c8896dbed",
         "type": "github"
       },
       "original": {
