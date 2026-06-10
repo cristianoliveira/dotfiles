@@ -50,7 +50,7 @@ _wte/
 
 nvim-macos/
 
-.env
+.env.*
 
 .local-ngnix.conf
 
