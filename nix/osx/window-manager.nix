@@ -154,6 +154,7 @@ in {
           # See: https://nikitabobko.github.io/AeroSpace/commands#layout
           cmd-ctrl-s = "layout v_accordion";
           cmd-ctrl-t = "layout h_accordion";
+          cmd-ctrl-e = "layout tiles horizontal vertical";
 
           cmd-h = []; # Disable "hide application"
           cmd-alt-h = []; # Disable "hide others"
