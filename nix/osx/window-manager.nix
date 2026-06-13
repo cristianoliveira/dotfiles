@@ -1,21 +1,4 @@
-{ pkgs, lib, ... }: let
-  aerospaceNightly = pkgs.aerospace.overrideAttrs (_: finalAttrs: let
-      version = "1.20.0-Beta";
-    in {
-      inherit version;
-      src = pkgs.fetchzip {
-        url = "https://github.com/nikitabobko/AeroSpace/releases/download/v${version}/AeroSpace-v${version}.zip";
-        sha256 = "sha256-bPcVgTPvskit0/LeqmWoOOnlwwyzPoa48P8Vooaqlig=";
-      };
-
-      doCheck = false;
-      # disable installCheckPhase because it fails to restart the AeroSpace.app before checking
-      # Error: Did not find version 1.20.0-Beta in the output of the command
-      installCheckPhase = ''
-        return 0
-      '';
-    });
-in {
+{ pkgs, lib, ... }: {
   environment.systemPackages = with pkgs; [
     # Requires custom packages
     # FIXME: Issue "error: a 'x86_64-linux' with features {} is required to build"
@@ -30,7 +13,7 @@ in {
       # This is a placeholder for the actual service
       # package = pkgs.aerospace;
       # NOTE: To install the latest version of Aerospace
-      package = aerospaceNightly;
+      package = pkgs.co.aerospace;
 
       settings = {
         gaps = {
