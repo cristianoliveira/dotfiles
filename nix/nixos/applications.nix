@@ -69,6 +69,6 @@ in {
 
     # 3D printing
     flashprint
-    orca-slicer
+    unstable.orca-slicer
   ];
 }
