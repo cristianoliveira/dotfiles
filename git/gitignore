@@ -96,3 +96,4 @@ MAP.md
 ## pi extensions related
 .ast.map.json
 *.subagents.json
+.playwright-cli
