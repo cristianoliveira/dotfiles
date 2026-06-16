@@ -2,6 +2,7 @@
   environment.systemPackages = with pkgs; [
     # Development environment
     git
+    git-lfs
     tmux
     zsh
     oh-my-zsh
