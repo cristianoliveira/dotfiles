@@ -49,6 +49,10 @@
       "google-drive"
 
       "superproductivity" # Task management / Pomodoro timer
+
+      # 3D printing
+      "freecad"
+      "orcaslicer"
     ];
   };
 }

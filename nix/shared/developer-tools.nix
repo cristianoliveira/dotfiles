@@ -3,6 +3,7 @@
     # Development environment
     git
     git-lfs
+    codeql
     tmux
     zsh
     oh-my-zsh

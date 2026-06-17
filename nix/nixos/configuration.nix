@@ -20,6 +20,7 @@ in {
       ./gaming.nix
       ./utils.nix
       ./file-sync.nix
+      ./threedprint.nix
 
       # Services
       ./services/rclone.nix
