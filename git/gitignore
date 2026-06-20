@@ -97,3 +97,4 @@ MAP.md
 .ast.map.json
 *.subagents.json
 .playwright-cli
+.playwright/
