@@ -58,6 +58,7 @@ nvim-macos/
 .envrc
 .direnv
 process-compose.y*l
+.pc_env
 
 # Pono
 pono.toml
