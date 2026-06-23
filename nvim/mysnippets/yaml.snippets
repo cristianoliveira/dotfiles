@@ -1,0 +1,25 @@
+#################################
+# Snippets for process-compose #
+#################################
+snippet procomp "process compose"
+version: "0.5"
+
+processes:
+  api:
+    command: go run ./cmd/api
+    availability:
+      restart: "on_failure"
+
+  worker:
+    command: go run ./cmd/worker
+    depends_on:
+      api:
+        condition: process_started
+
+  frontend:
+    command: npm run dev
+    depends_on:
+      api:
+        condition: process_started
+
+endsnippet
