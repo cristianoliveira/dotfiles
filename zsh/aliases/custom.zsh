@@ -32,3 +32,6 @@ alias vman='nvim +Man!'
 
 alias htopc='htop -s PERCENT_CPU'
 alias htopm='htop -s PERCENT_MEM'
+
+# Devx
+alias procmp='process-compose'

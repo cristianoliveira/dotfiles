@@ -71,6 +71,9 @@
 
     # Markdown
     nightly.ferrite # Markdown viewer with
+
+    # Devx
+    unstable.process-compose
   ];
 
   imports = [
