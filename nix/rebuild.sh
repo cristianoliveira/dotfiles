@@ -25,7 +25,7 @@ if [ "$(uname)" = "Darwin" ]; then
   # OSX (darwin)
   echo "Rebuilding Darwin configuration..."
   NIXOS_CONFIG=$HOME/.dotfiles/nix
-  sudo darwin-rebuild switch --flake $HOME/.dotfiles/nix#darwin
+  sudo /run/current-system/sw/bin/darwin-rebuild switch --flake $HOME/.dotfiles/nix#darwin
 else
   # NixOS (linux)
   NIXOS_CONFIG=$HOME/.dotfiles/nix
