@@ -100,3 +100,4 @@ MAP.md
 *.subagents.json
 .playwright-cli
 .playwright/
+output/playwright
