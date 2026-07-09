@@ -1,0 +1,208 @@
+[alias]
+  # clone
+  cl = clone                        # clone a repo
+  cls = clone --depth=1             # clone a repo shallow
+
+  # add
+  a = add                           # add
+  aa = add .                        # add all
+  ap = add -p                       # add interactively (patch mode)
+
+  # via http://blog.apiaxle.com/post/handy-git-tips-to-stop-you-getting-fired/
+  snapshot = !git stash save "snapshot: $(date)" && git stash apply "stash@{0}"
+  snapshots = !git stash list --grep snapshot
+
+  tmp = !git stash save "tmp: $(date)" && git stash apply "stash@{0}"
+  tmps = !git stash list --grep snapshot
+
+  #via http://stackoverflow.com/questions/5188320/how-can-i-get-a-list-of-git-branches-ordered-by-most-recent-commit
+  recent-branches = !git for-each-ref --count=15 --sort=-committerdate refs/heads/ --format='%(refname:short)'
+
+  # branch
+  b = branch -v --sort=-committerdate  # branch (verbose with commit time, sorted by recency)
+  bls = branch --list --format='%(refname:short)'  # list branches sorted by recency
+  br = branch -r                    # list remote branches
+  bra = branch -a                   # list all branches (local + remote)
+  bv = branch -vv                   # list branches with upstream
+  bd = branch -d                    # delete branch (safe)
+  bD = branch -D                    # force delete branch
+  bu = branch --set-upstream-to     # set upstream
+
+  # branches that can be deleted
+  bmd = !git branch --merged | grep -v "\\*\\|$MAIN_BRANCH\\|dev"
+  bmdd = !git branch --merged | grep -v "\\*\\|$MAIN_BRANCH\\|dev" | xargs -n 1 git branch -d
+
+  # commit
+  c = commit                        # commit
+  cf = commit --no-verify           # commit force
+  cm = commit -m                    # commit with message
+  ca = commit -am                   # commit all with message
+  amd = commit --amend              # ammend your last commit
+  amdf = commit --amend --no-edit   # ammend your last commit without editing the message
+  amend = commit --amend            # ammend your last commit
+  ammend = commit --amend           # ammend your last commit
+
+  # checkout
+  ch = checkout                      # checkout
+  co = checkout                      # checkout
+  nb = checkout -b                   # create and switch to a new branch (mnemonic: "git new branch branchname...")
+  chb = checkout -b                  # create and switch to a new branch
+  chm = !git checkout "$MAIN_BRANCH" # checkout main branch
+  chd = !git checkout develop
+  chs = !git checkout stage
+
+  # cherry-pick
+  cp   = cherry-pick -x             # grab a change from a branch
+  cps  = cherry-pick --skip         # skip a commit during cherry-pick
+  cpab = cherry-pick --abort        # abort a cherry-pick
+  cpc  = cherry-pick --continue     # continue a cherry-pick
+
+  # diff
+  df = difftool                     # fire up the diff tool
+  dc = diff --cached                # diff staged changes
+  dff = diff --name-only            # diff only files
+  last = diff HEAD^                 # diff last committed change
+
+  # git clean
+  cln = clean
+  clnf = clean -df                  # clean all untracked files and directories
+
+  # log
+  l = log --graph --date=short
+  changes = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\" --name-status
+  short = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\"
+  simple = log --pretty=format:\" * %s\"
+  shortnocolor = log --pretty=format:\"%h %cr %cn %s\"
+  follow = log --follow
+  # Format to be easily 'pipeable' with commit hash on the first position
+  lgp = log --no-merges --pretty=format:"%h %s (%cn) %cr"
+  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+  ll = log --oneline -10
+  ld = log --graph --decorate --stat
+  lp = log --patch
+
+  # pull
+  pl = pull                         # pull
+
+  fa = fetch --all                  # fetch all remotes
+
+  # push
+  ps = push                         # push
+  psf = push --force-with-lease     # push with force-with-lease
+  psff = push --force-with-lease --no-verify     # push with force-with-lease no-verify
+
+  # rebase
+  rs = rebase                                # rebase alias
+  rbs = rebase                               # rebase alias
+  rbm = rebase --merge                       # rebase with merge backend
+  rsc = rebase --continue                    # continue rebase
+  rss = rebase --skip                        # skip rebase
+  rsa = rebase --abort                       # abort rebase
+  rbsm = rebase --merge                      # rebase merge
+  rbsi = rebase -i                           # interactive rebase on main branch
+  rbsc = rebase --continue                   # continue interactive rebase
+  rbsa = rebase --abort                      # abort interactive rebase
+  rbss = rebase --skip                       # skip interactive rebase
+  rbsom = !git rebase "origin/$MAIN_BRANCH"  # rebase on origin main branch
+
+  # remote
+  rt = remote -v                     # show remotes (verbose)
+  rta = remote add                   # add a remote
+  rtr = remote remove                # remove a remote
+
+  # reset (rezet :P)
+  rz = reset                                      # reset to 1 commit ago
+  rz1 = reset HEAD~1                              # reset to 1 commit ago
+  rz2 = reset HEAD~2                              # reset to 2 commits ago
+  rz3 = reset HEAD~3                              # reset to 3 commits ago
+  rzs = reset --soft                              # soft reset (keep index and working tree)
+  rzh = reset --hard                              # reset hard to HEAD
+  rzhom = !git reset --hard origin/"$MAIN_BRANCH" # reset to origin main branch
+
+  unstage = reset HEAD              # remove files from index (tracking)
+  uncommit = reset --soft HEAD^     # go back before last commit, with files in uncommitted state
+  undo = reset --soft HEAD^         # undo last commit, keep changes staged
+  ud = reset --soft HEAD^           # undo last commit, keep changes staged
+  udh = reset --hard HEAD^          # undo last commit, keep changes staged
+  filelog = log -u                  # show changes to a file
+  mt = mergetool                    # fire up the merge tool
+
+  # stash
+  sts = stash                        # stash changes
+  stl = stash list                   # list stashes
+  sta = stash apply                  # apply stash (restore changes)
+  std = stash drop                   # drop stashes (destory changes)
+  stp = stash pop                    # apply and remove top stash
+  stc = stash clear                  # remove all stashes
+  stske = stash -k                   # stash keeping index
+
+  # submodule
+  sm = submodule                                    # submodule
+  sms = submodule status --recursive                # show submodule pointers
+  sml = submodule foreach --recursive 'echo $displaypath' # list submodule paths
+  sminit = submodule update --init --recursive      # initialize submodules
+  smu = submodule update --init --recursive         # update submodules to recorded commits
+  smur = submodule update --remote --merge --recursive # update submodules from tracked remote branch
+  smsync = submodule sync --recursive               # sync submodule URLs from .gitmodules
+  smst = !git submodule foreach --recursive 'git status --short' # show dirty submodules
+  smdf = diff --submodule                           # diff submodule pointer changes
+  smsum = submodule summary --recursive             # summarize submodule changes
+  smadd = submodule add                             # add submodule: git smadd <url> <path>
+  smdeinit = submodule deinit                       # unregister submodule: git smdeinit <path>
+  smabsorb = submodule absorbgitdirs                # move nested .git dirs into superproject
+  smclean = !git submodule foreach --recursive 'git clean -fd && git reset --hard' # discard submodule changes
+
+  # status
+  s = status                        # status
+  st = status                       # status
+  stat = status                     # status
+
+  # tag
+  t = tag -n                        # show tags with <n> lines of each tag message
+
+  list =  diff-tree --no-commit-id --name-only -r
+
+  # svn helpers
+  svnr = svn rebase
+  svnd = svn dcommit
+  svnl = svn log --oneline --show-commit
+
+  wip = !git add . && git commit -m WIP
+
+  # add worktree
+  wta = worktree add
+  # delete branch
+  wtr = worktree remove
+  wtd = worktree remove
+  # list worktrees
+  wtl = worktree list
+
+  # Bisec commands
+  #
+  # USAGE:
+  # Start the bisect with `g bss`
+  # Mark the commit as bad with `g bsb` (usually the HEAD)
+  # Then mark the commit as good with `g bsg`
+  # The bisect command is a binary search command that helps you find the commit that introduced a bug.
+  bss = bisect start
+
+  bsb = bisect bad
+  bsbad = bisect bad
+
+  bsg = bisect good
+  bsgood = bisect good
+
+  # Small scripts
+  ignoreit = !git ls-files --others --exclude-standard >> .gitignore                  # Ignore the current untracked files
+
+  # Merge --ff-only
+  mg = merge
+  mff = merge --ff-only
+
+  # Cherry-pick by semantic commit type
+  cpall = !git log --reverse --oneline ${2:-$MAIN_BRANCH}..$1 | grep -Ev 'tmp:|temp:|delete:|wip:|WIP' | cut -d' ' -f1 | xargs git cherry-pick --empty=drop
+  cpchore = !git log --reverse --oneline ${2:-$MAIN_BRANCH}..$1 | grep -E 'chore.*: ' | cut -d' ' -f1 | xargs git cherry-pick --empty=drop
+  cpfeat = !git log --reverse --oneline ${2:-$MAIN_BRANCH}..$1 | grep -E 'feat.*: ' | cut -d' ' -f1 | xargs git cherry-pick --empty=drop
+  cpfix = !git log --reverse --oneline ${2:-$MAIN_BRANCH}..$1 | grep -E 'fix.*: ' | cut -d' ' -f1 | xargs git cherry-pick --empty=drop
+  cpdocs = !git log --reverse --oneline ${2:-$MAIN_BRANCH}..$1 | grep -E 'docs.*: ' | cut -d' ' -f1 | xargs git cherry-pick --empty=drop
+
