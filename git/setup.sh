@@ -14,7 +14,13 @@ if [ -f "$HOME"/.gitignore ]; then
   mv -f "$HOME"/.gitignore /tmp/"$BACKUPNAME"
 fi
 
+if [ -f "$HOME"/.gitconfig.aliases ]; then
+  echo "Backing up your current configs: gitconfig.aliases"
+  mv -f "$HOME"/.gitconfig.aliases /tmp/"$BACKUPNAME"
+fi
+
 ln -sf "$HOME"/.dotfiles/git/gitconfig "$HOME"/.gitconfig
+ln -sf "$HOME"/.dotfiles/git/gitconfig.aliases "$HOME"/.gitconfig.aliases
 ln -sf "$HOME"/.dotfiles/git/gitignore "$HOME"/.gitignore
 
 if [ -f "$HOME"/.gitconfig.user ]; then
