@@ -198,9 +198,9 @@
           # Specific marks
           # [Z]oom/Google Meet/Teams/Wire remote call tools
           cmd-ctrl-z = ''
-            exec-and-forget aerospace-scratchpad focus 'zoom.us|Meet|Teams' \
-                         || aerospace-scratchpad focus 'Google' -F window-title='Meet' \
-                         || aerospace-scratchpad focus 'Wire' -F window-title='Call'
+            exec-and-forget aerospace-focus-app.sh 'zoom.us|Meet|Teams' \
+                         || aerospace-focus-app.sh 'Google' 'Meet' \
+                         || aerospace-focus-app.sh 'Wire' 'Call'
           '';
 
           # Sequoia
