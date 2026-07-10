@@ -32,6 +32,10 @@ nix: ## Rebuild the system using nix installing all the packages
 nixos: ## Rebuild the system using nix installing all the packages
 	SKIP_COMMIT=1 nix/rebuild.sh
 
+.PHONY: nix-update
+nix-update: ## Update the Nix flake inputs
+	nix flake update --flake ./nix
+
 .PHONY: nixos
 nixos-cleanup: ## Cleanup old generations of nixos (older than 5 days)
 	sudo nix-env --delete-generations --profile /nix/var/nix/profiles/system 5d
