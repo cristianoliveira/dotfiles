@@ -6,6 +6,7 @@ require("customization/commands/clipboard")
 require("customization/commands/telescope")
 require("customization/commands/visual-modes")
 require("customization/commands/git")
+require("customization/commands/wrap")
 
 vim.cmd("command! -nargs=0 CFormat lua vim.lsp.buf.format()")
 

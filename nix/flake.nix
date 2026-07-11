@@ -27,7 +27,28 @@
     copkgs,
     nixpkgsnur,
     ...
-  }: {
+  }:
+  let
+    systems = [ "x86_64-linux" "aarch64-darwin" ];
+    forAllSystems = nixpkgs.lib.genAttrs systems;
+  in {
+    devShells = forAllSystems (system:
+      let
+        pkgs = import nixpkgs { inherit system; };
+      in {
+        nvim = pkgs.mkShell {
+          packages = [
+            pkgs.neovim
+            pkgs.stylua
+            pkgs.lua51Packages.luacheck
+            pkgs.vimPlugins.mini-nvim
+          ];
+
+          shellHook = ''
+            export NVIM_TEST_MINI_PATH=${pkgs.vimPlugins.mini-nvim}
+          '';
+        };
+      });
 
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem rec {
       system = "x86_64-linux";

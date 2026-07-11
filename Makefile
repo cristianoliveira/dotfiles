@@ -60,6 +60,14 @@ restow: ## Create links for .config files using stow
 nvim: ## Headless check that Neovim config loads cleanly
 	@./bin/nvim-check
 
+.PHONY: nvim-lint
+nvim-lint: ## Lint Neovim command code and tests
+	@nix develop ./nix#nvim --command sh -c 'cd nvim && luacheck lua/customization/commands/wrap.lua tests && stylua --check lua/customization/commands/wrap.lua tests'
+
+.PHONY: nvim-test
+nvim-test: ## Run Neovim tests with mini.test
+	@nix develop ./nix#nvim --command sh -c 'cd nvim && nvim --headless --noplugin -u tests/minimal_init.lua -c "lua MiniTest.run()"'
+
 .PHONY: check-symlinks
 check-symlinks: ## Check for broken symlinks in the repository
 	@./bin/check-symlinks
