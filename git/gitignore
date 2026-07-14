@@ -101,3 +101,4 @@ MAP.md
 .playwright-cli
 .playwright/
 output/playwright
+output/
