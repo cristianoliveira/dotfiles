@@ -2,8 +2,8 @@
   environment.systemPackages = with pkgs; [
     # Requires custom packages
     # FIXME: Issue "error: a 'x86_64-linux' with features {} is required to build"
-    # copkgs.aerospace-marks
-    # copkgs.aerospace-scratchpad
+    copkgs.aerospace-marks
+    copkgs.aerospace-scratchpad
   ];
 
   services = {
