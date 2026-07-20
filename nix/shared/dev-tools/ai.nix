@@ -18,7 +18,8 @@
     copkgs.qmd                      # On-device search engine for markdown notes, meeting transcripts, and knowledge bases
 
     copkgs.mcpli   # Run mcp as cli
-    copkgs.surf-cli # Browser control for AI agents
-    copkgs.websearch # Websearch for agents
+    copkgs.surf-cli # Browser control
+    copkgs.websearch # Websearch
+    copkgs.toon # TOON: Text-to-Object-Notation
   ];
 }
