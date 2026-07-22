@@ -27,8 +27,8 @@ command -v "$editor" >/dev/null 2>&1 || editor="vi"
 
 target_pane="${1:-}"
 if [[ -z "$target_pane" ]]; then
-	log "ERROR: no target pane id passed (expected as \$1 from #{pane_id})"
-	exit 1
+  log "ERROR: no target pane id passed (expected as \$1 from #{pane_id})"
+  exit 1
 fi
 
 # Stage the selection for editing.
@@ -44,9 +44,9 @@ printf '%s' "$selection" >"$cmd_file"
 # Open the editor in a popup. -E makes tmux wait for the popup to close before
 # continuing, so we can read the file back afterwards.
 if ! tmux popup -E -w 80% -h 60% -b rounded \
-	"$editor -c 'set filetype=sh' '$cmd_file'"; then
-	log "ERROR: tmux popup failed (pane=$target_pane)"
-	exit 1
+  "$editor -c 'set filetype=sh' '$cmd_file'"; then
+  log "ERROR: tmux popup failed (pane=$target_pane)"
+  exit 1
 fi
 
 # Nothing saved / empty command -> bail quietly.
@@ -55,6 +55,6 @@ fi
 # Run the edited text as a shell command in the target pane.
 # send-keys + Enter lands it in the user's shell/history.
 if ! tmux send-keys -t "$target_pane" "$(cat "$cmd_file")" Enter; then
-	log "ERROR: tmux send-keys failed (pane=$target_pane)"
-	exit 1
+  log "ERROR: tmux send-keys failed (pane=$target_pane)"
+  exit 1
 fi

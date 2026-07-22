@@ -10,10 +10,10 @@
 set -uo pipefail
 
 # --- list all listening TCP ports with process details -------------------
-lines="$(lsof -iTCP -sTCP:LISTEN -P -n 2>/dev/null \
-  | awk 'NR>1 && $9 ~ /:/ { pid=$2; port=$9; gsub(/.*:/, "", port); if (port ~ /^[0-9]+$/) print pid, port }' \
-  | sort -u \
-  | while read -r pid port; do
+lines="$(lsof -iTCP -sTCP:LISTEN -P -n 2>/dev/null |
+  awk 'NR>1 && $9 ~ /:/ { pid=$2; port=$9; gsub(/.*:/, "", port); if (port ~ /^[0-9]+$/) print pid, port }' |
+  sort -u |
+  while read -r pid port; do
     cmd="$(basename "$(ps -p "$pid" -o comm= 2>/dev/null)" 2>/dev/null)"
     args="$(ps -p "$pid" -o args= 2>/dev/null | head -c 100 | tr '\n' ' ')"
     printf "%s:%-6s  %-20s  %s\n" "$pid" "$port" "$cmd" "$args"
@@ -29,8 +29,8 @@ fi
 count="$(echo "$lines" | wc -l | tr -d ' ')"
 header="Kill process ($count ports, TAB=multi, Enter=kill)"
 
-selected="$(echo "$lines" \
-  | fzf --multi --header="$header" --prompt="filter> " \
+selected="$(echo "$lines" |
+  fzf --multi --header="$header" --prompt="filter> " \
     --ansi --delimiter=' ' --nth=2.. 2>/dev/null || true)"
 
 if [[ -z "$selected" ]]; then
