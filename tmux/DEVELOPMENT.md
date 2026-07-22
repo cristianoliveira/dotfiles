@@ -37,7 +37,32 @@ When logging from a run-shell-invoked script, default log paths to a fixed
 location — do not assume the dev shell's env. Verify the actual log path
 with `bash -x` redirected to a file before concluding "the script didn't run".
 
-## Debugging copy-mode bindings
+## Popup UX patterns
+
+### Prefix popups (non-copy-mode)
+
+Use `popup -E` (or `display-popup -E`) on the prefix table:
+
+```
+bind-key <key> popup -E -w 50% -h 40% -b rounded "~/.dotfiles/tmux/scripts/script.sh"
+```
+
+- `-E` blocks until popup closes — the script can `read`, run `fzf`, etc.
+- `-b rounded` for visual polish.
+- Scripts get full interactive terminal inside the popup.
+- No `#{pane_id}` needed unless the script needs to `send-keys` back somewhere.
+
+### Platform portability (macOS + Linux)
+
+These tools work identically across macOS and Linux without branching:
+
+| Need | Command | Works on both? |
+|------|---------|---------------|
+| PIDs on a port | `lsof -ti :PORT` | ✅ |
+| Process details by PID | `ps -p PID -o comm=,args=` | ✅ |
+| Interactive selection | `fzf --multi` | ✅ |
+
+Avoid `ss`, `fuser`, `netstat` — they differ or may not exist on macOS.
 
 - **Driving via `tmux send-keys "C-a ["` does NOT enter copy mode reliably.**
   Use `tmux copy-mode -t <pane>` to enter, then `send-keys` the rest.
