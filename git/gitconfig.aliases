@@ -21,7 +21,7 @@
   # branch
   b = branch -v --sort=-committerdate  # branch (verbose with commit time, sorted by recency)
   bls = branch --list --format='%(refname:short)'  # list branches sorted by recency
-  br = branch -r                    # list remote branches
+  br = "!f() { git for-each-ref --count=${1:-10} --sort=-committerdate refs/heads/ --format='%(refname:short) (%(committerdate:relative))'; }; f"  # last <N> branches by recent commit (default 10): git br [N]
   bra = branch -a                   # list all branches (local + remote)
   bv = branch -vv                   # list branches with upstream
   bd = branch -d                    # delete branch (safe)
