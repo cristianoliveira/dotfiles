@@ -4,6 +4,10 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
+vim.keymap.set("n", "gf", require("customization.open_file").under_cursor, {
+	desc = "[G]oto [F]ile (expands environment variables)",
+})
+
 -- Keep view on the middle of screen to each search
 nmap("n", "nzzzv")
 nmap("N", "Nzzzv")
