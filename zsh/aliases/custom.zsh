@@ -34,4 +34,5 @@ alias htopc='htop -s PERCENT_CPU'
 alias htopm='htop -s PERCENT_MEM'
 
 # Devx
+alias j='just'
 alias procmp='process-compose'

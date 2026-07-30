@@ -102,3 +102,6 @@ MAP.md
 .playwright/
 output/playwright
 output/
+
+## My personal runner just
+Justfile

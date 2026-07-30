@@ -73,6 +73,7 @@
     nightly.ferrite # Markdown viewer with
 
     # Devx
+    just
     unstable.process-compose
   ];
 
