@@ -1,0 +1,180 @@
+#!/usr/bin/env python3
+"""Show configured Sway or Aerospace shortcuts."""
+
+from __future__ import annotations
+
+import argparse
+import json
+import platform
+import re
+import subprocess
+from dataclasses import asdict, dataclass
+from pathlib import Path
+
+
+@dataclass(frozen=True)
+class Shortcut:
+    mode: str
+    key: str
+    action: str
+    context: str = ""
+
+
+def _logical_lines(text: str):
+    pending = ""
+    for raw_line in text.splitlines():
+        line = raw_line.strip()
+        if not line:
+            continue
+        if line.startswith("#"):
+            yield line
+            continue
+        pending = f"{pending} {line}".strip()
+        if pending.endswith("\\"):
+            pending = pending[:-1].rstrip()
+            continue
+        yield pending
+        pending = ""
+    if pending:
+        yield pending
+
+
+def parse_sway(text: str) -> list[Shortcut]:
+    shortcuts: list[Shortcut] = []
+    mode = "default"
+    comments: list[str] = []
+
+    for line in _logical_lines(text):
+        if line.startswith("#"):
+            comments.append(line.removeprefix("#").strip())
+            continue
+
+        mode_match = re.match(r'^mode\s+(?:"([^"]+)"|(\S+))\s*\{$', line)
+        if mode_match:
+            mode = mode_match.group(1) or mode_match.group(2)
+            comments = []
+            continue
+        if line == "}":
+            mode = "default"
+            comments = []
+            continue
+
+        action_line, separator, inline_comment = line.partition(" #")
+        binding = re.match(r"^(bindsym|bindgesture)\s+(?:--\S+\s+)*?(\S+)\s+(.+)$", action_line)
+        if not binding:
+            comments = []
+            continue
+        context = inline_comment.strip() if separator else (comments[-1] if comments else "")
+        shortcuts.append(Shortcut(mode, binding.group(2), binding.group(3), context))
+        comments = []
+
+    return shortcuts
+
+
+def parse_aerospace_comments(source: str) -> dict[tuple[str, str], str]:
+    result: dict[tuple[str, str], str] = {}
+    mode: str | None = None
+    comments: list[str] = []
+
+    for raw_line in source.splitlines():
+        line = raw_line.strip()
+        mode_match = re.match(r"mode\.([^.]+)\.binding\s*=\s*\{", line)
+        if mode_match:
+            mode = mode_match.group(1)
+            comments = []
+            continue
+        if mode and line == "};":
+            mode = None
+            comments = []
+            continue
+        if not mode:
+            continue
+        if line.startswith("#"):
+            comments.append(line.removeprefix("#").strip())
+            continue
+
+        binding = re.match(r'([A-Za-z0-9_-]+)\s*=.*?;(?:\s*#\s*(.*))?$', line)
+        if not binding:
+            continue
+        context = binding.group(2) or (comments[-1] if comments else "")
+        if context:
+            result[(mode, binding.group(1))] = context
+        comments = []
+
+    return result
+
+
+def parse_aerospace(settings: dict, comments: dict[tuple[str, str], str] | None = None) -> list[Shortcut]:
+    shortcuts: list[Shortcut] = []
+    comments = comments or {}
+    for mode, config in sorted(settings.get("mode", {}).items()):
+        for key, action in sorted(config.get("binding", {}).items()):
+            if not action:
+                continue
+            rendered_action = "; ".join(action) if isinstance(action, list) else str(action)
+            shortcuts.append(Shortcut(
+                mode,
+                key,
+                rendered_action.replace("\n", " ").strip(),
+                comments.get((mode, key), ""),
+            ))
+    return shortcuts
+
+
+def load_aerospace(dotfiles: Path) -> list[Shortcut]:
+    result = subprocess.run(
+        [
+            "nix",
+            "eval",
+            "--json",
+            ".#darwinConfigurations.darwin.config.services.aerospace.settings",
+        ],
+        cwd=dotfiles / "nix",
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        raise RuntimeError(result.stderr.strip() or "nix eval failed")
+    source = (dotfiles / "nix/osx/window-manager.nix").read_text()
+    return parse_aerospace(json.loads(result.stdout), parse_aerospace_comments(source))
+
+
+def format_table(shortcuts: list[Shortcut]) -> str:
+    if not shortcuts:
+        return "No shortcuts found."
+
+    lines: list[str] = []
+    for mode in dict.fromkeys(shortcut.mode for shortcut in shortcuts):
+        group = [shortcut for shortcut in shortcuts if shortcut.mode == mode]
+        width = max(len(shortcut.key) for shortcut in group)
+        lines.append(f"[{mode}]")
+        for item in group:
+            context = f"  # {item.context}" if item.context else ""
+            lines.append(f"  {item.key:<{width}}  {item.action}{context}")
+        lines.append("")
+    return "\n".join(lines).rstrip()
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--platform", choices=("linux", "osx"))
+    parser.add_argument("--json", action="store_true", dest="as_json")
+    args = parser.parse_args()
+
+    dotfiles = Path(__file__).resolve().parents[1]
+    target = args.platform or ("osx" if platform.system() == "Darwin" else "linux")
+    if target == "osx":
+        shortcuts = load_aerospace(dotfiles)
+    else:
+        shortcuts = parse_sway((dotfiles / "nix/nixos/sway/config").read_text())
+
+    if args.as_json:
+        print(json.dumps([asdict(shortcut) for shortcut in shortcuts], indent=2))
+    else:
+        print(format_table(shortcuts))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

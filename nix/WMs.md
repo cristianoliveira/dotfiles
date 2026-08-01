@@ -2,6 +2,19 @@
 
 Purpose: how to mirror the macOS Aerospace workspace/output/app rules into `nix/nixos/sway/config`.
 
+## Show configured shortcuts
+
+Run the cross-platform helper from the repository:
+
+```bash
+bin/wm-shortcuts                 # current platform
+bin/wm-shortcuts --platform linux
+bin/wm-shortcuts --platform osx
+bin/wm-shortcuts --json          # machine-readable output
+```
+
+Linux shortcuts are read from the Sway config. macOS shortcuts are read from the evaluated nix-darwin Aerospace settings, so generated mode bindings are included. The closest source comment is shown as context when available and included in JSON as `context`.
+
 ## Outputs and workspace placement
 - macOS names: `main` (DP-10), `secondary` (DP-9), `built-in` (eDP-1). In sway: `set $main DP-10`, `set $2nd DP-9`, `set $builtin eDP-1`.
 - Aerospace `workspace-to-monitor-force-assignment`: 1–5 → main; 6–8 → secondary (fallback built-in/main); 9/0 → built-in. Sway cannot express fallbacks; use `workspace N output $name` with this priority.
