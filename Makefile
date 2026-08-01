@@ -79,7 +79,3 @@ check-nix: ## Validate Nix configuration syntax and flake evaluation
 .PHONY: nix-lint
 nix-lint: ## Alias for Nix validation checks
 	@$(MAKE) check-nix
-
-.PHONY: check-symlinks
-check-symlinks: ## Check for broken symlinks in the repository
-	@./bin/check-symlinks

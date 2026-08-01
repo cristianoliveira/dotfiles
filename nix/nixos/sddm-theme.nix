@@ -1,9 +1,6 @@
 { pkgs }:
 let
-  image = pkgs.fetchurl {
-    url = "https://raw.githubusercontent.com/cristianoliveira/dotfiles/refs/heads/nixos/resources/wallpaper.jpg";
-    sha256 = "sha256-JG0pBYfH+Y1M69uu47ynhinkiN4DTfi+uvVQkyt/qpk=";
-  };
+  image = ../../resources/wallpaper.jpg;
 in  {
   theme = pkgs.stdenv.mkDerivation {
     name = "sddm-theme";
