@@ -1,8 +1,8 @@
 local root = vim.fn.getcwd()
 package.path = table.concat({
-	root .. "/lua/?.lua",
-	root .. "/lua/?/init.lua",
-	package.path,
+  root .. "/lua/?.lua",
+  root .. "/lua/?/init.lua",
+  package.path,
 }, ";")
 
 local open_file = require("customization.open_file")
