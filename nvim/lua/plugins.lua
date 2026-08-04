@@ -43,6 +43,9 @@ require('lazy').setup({
     },
   },
 
+  -- Persistent incremental diff reviewer (local dev plugin; :ReviewLoop)
+  require('plugins/review-loop'),
+
   ----------------------------------------------------------------------------
   -- Vim motions enhance plugins and code editing
 
