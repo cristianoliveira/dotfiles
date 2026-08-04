@@ -20,6 +20,19 @@ require('lazy').setup({
 
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
+  {
+    'sindrets/diffview.nvim',
+    cmd = {
+      'DiffviewOpen',
+      'DiffviewClose',
+      'DiffviewFileHistory',
+      'DiffviewToggleFiles',
+    },
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+    },
+    opts = {},
+  },
   -- 'ruanyl/vim-gh-line',
 
   {

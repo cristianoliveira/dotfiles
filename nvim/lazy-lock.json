@@ -5,6 +5,7 @@
   "cmp-nvim-ultisnips": { "branch": "main", "commit": "7773477d99e9cefbbf956b820fb784b87643d89e" },
   "csgithub.nvim": { "branch": "master", "commit": "695f7c30433c87fc45d0af116fd5bfdc65d1b7fe" },
   "curl.nvim": { "branch": "main", "commit": "f3c258e57d56a6158733a9e3bb5eeb931f204d19" },
+  "diffview.nvim": { "branch": "main", "commit": "4516612fe98ff56ae0415a259ff6361a89419b0a" },
   "fidget.nvim": { "branch": "main", "commit": "0ba1e16d07627532b6cae915cc992ecac249fb97" },
   "gitsigns.nvim": { "branch": "main", "commit": "dd3f588bacbeb041be6facf1742e42097f62165d" },
   "indent-blankline.nvim": { "branch": "master", "commit": "9637670896b68805430e2f72cf5d16be5b97a22a" },
