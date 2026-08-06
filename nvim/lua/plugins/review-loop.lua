@@ -14,7 +14,7 @@ return {
     return vim.loop.fs_stat(dir) ~= nil
   end,
   main = "review-loop",
-  opts = {},
+  opts = { debug = true }, -- structured log -> stdpath("data")/review-loop/review-loop.log
   cmd = "ReviewLoop",
   keys = {
     { "<leader>dr", "<cmd>ReviewLoop<cr>", desc = "[D]iff [R]eview loop" },
