@@ -86,14 +86,11 @@ CLAUDE.md
 .local
 .tmp
 
-# Ignore local .pi/
-# This rule ignores only local .pi/ but not the ~/.pi/ in the home directory
-# FIXME: I'll hard code the projects later rifine
-/.pi/
+# Ignore local .pi/ (real dirs and symlinks, any depth — covers main repo and worktrees)
+# ~/.pi in the home directory is outside any git repo, so it is never matched.
+**/.pi
 
 MAP.md
-/.pi/
-.pi/
 
 ## pi extensions related
 .ast.map.json
