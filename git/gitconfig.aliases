@@ -59,6 +59,7 @@
 
   # diff
   df = difftool                     # fire up the diff tool
+  review = !nvim -c DiffviewOpen    # review repository changes in Neovim
   dc = diff --cached                # diff staged changes
   dff = diff --name-only            # diff only files
   last = diff HEAD^                 # diff last committed change
