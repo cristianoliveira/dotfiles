@@ -29,7 +29,7 @@
   whitespace = nowarn
 [branch]
   autosetupmerge = true
-  sort = -committerdate
+	sort = -committerdate
 [push]
   # 'git push' will push the current branch to its tracking branch
   # the usual default is to push all branches
