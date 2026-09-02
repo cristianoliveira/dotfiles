@@ -108,6 +108,26 @@ T["review"]["_save_input anchors the comment on the target buffer, not the input
   vim.api.nvim_buf_delete(input, { force = true })
 end
 
+T["review"]["discarding empty input does not need confirmation"] = function()
+  eq(review._should_discard("  \n", function()
+    error("confirmation should not be requested")
+  end), true)
+end
+
+T["review"]["discarding non-empty input requires confirmation"] = function()
+  local keep_editing = review._should_discard("written comment", function(message, choices, default)
+    eq(message, "Discard this review comment?")
+    eq(choices, "&Discard\n&Keep editing")
+    eq(default, 2)
+    return 2
+  end)
+  eq(keep_editing, false)
+
+  eq(review._should_discard("written comment", function()
+    return 1
+  end), true)
+end
+
 T["review"]["_save_input rejects empty input and reports failure"] = function()
   review.reset()
 

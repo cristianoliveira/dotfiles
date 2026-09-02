@@ -205,6 +205,22 @@ local function close_float(win)
   end
 end
 
+function M._should_discard(text, confirm)
+  if text:match("^%s*$") then
+    return true
+  end
+
+  confirm = confirm or vim.fn.confirm
+  return confirm("Discard this review comment?", "&Discard\n&Keep editing", 2) == 1
+end
+
+local function discard_input(buf, win)
+  local text = table.concat(vim.api.nvim_buf_get_lines(buf, 0, -1, false), "\n")
+  if M._should_discard(text) then
+    close_float(win)
+  end
+end
+
 -- Reads the comment text from the input buffer and anchors it on the target
 -- buffer (never on the input float, which is usually 1-2 lines).
 function M._save_input(input_buf, path, target_buf, start_line, end_line)
@@ -255,8 +271,8 @@ local function open_comment_input(path, start_line, end_line)
     end
   end
 
-  vim.keymap.set("n", "q", function() close_float(win) end, { buffer = buf })
-  vim.keymap.set("n", "<Esc>", function() close_float(win) end, { buffer = buf })
+  vim.keymap.set("n", "q", function() discard_input(buf, win) end, { buffer = buf })
+  vim.keymap.set("n", "<Esc>", function() discard_input(buf, win) end, { buffer = buf })
   vim.keymap.set("n", "<CR>", save_and_close, { buffer = buf })
   vim.cmd("startinsert")
 end
