@@ -110,7 +110,6 @@
 
           ## Scratchpad workspace
           # This allows me to have a scratchpad workspace similart to i3
-          # cmd-ctrl-backslash = "workspace scratchpad";
           cmd-m = ''
             exec-and-forget aerospace-scratchpad move -o json \
               | jq -r .window_id | xargs queue.sh spd push
@@ -189,8 +188,8 @@
                         ||  aerospace-scratchpad show Obsidian \
                         ||  open -a Obsidian'';
 
-          # Terminal s[c]rat[c]hpad
-          ctrl-cmd-c = ''
+          # Terminal scratchpad (Cmd+Ctrl+\ avoids Ctrl+C muscle memory)
+          cmd-ctrl-backslash = ''
             exec-and-forget aerospace-scratchpad show alacritty -F window-title='terminal-scratchpad' \
                          || alacritty -t 'terminal-scratchpad' --option window.opacity="0.9"
           '';
