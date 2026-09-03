@@ -236,9 +236,9 @@ input "type:keyboard" {
 # Set focus or open a new terminal on workspace 2
 bindsym $mod+Ctrl+Return exec swaymsg [app_id=$termMain] focus || \
                             $term $termMain
-# Scratchpad terminal (Mod+Ctrl+\ avoids Ctrl+C's terminal interrupt association)
+# Scratchpad terminal: left-hand Mod+Ctrl+A (A for Alacritty)
 set $termFloating term-floating
-bindsym $mod+Ctrl+backslash exec ~/.dotfiles/nix/nixos/sway/bin/sway-toggle-terminal.sh
+bindsym $mod+Ctrl+a exec ~/.dotfiles/nix/nixos/sway/bin/sway-toggle-terminal.sh
 
 # Browser (brave)
 bindsym $mod+Ctrl+b exec swaymsg [app_id="brave-browser"] focus || brave

@@ -188,8 +188,8 @@
                         ||  aerospace-scratchpad show Obsidian \
                         ||  open -a Obsidian'';
 
-          # Terminal scratchpad (Cmd+Ctrl+\ avoids Ctrl+C muscle memory)
-          cmd-ctrl-backslash = ''
+          # Terminal scratchpad: left-hand Cmd+Ctrl+A (A for Alacritty)
+          cmd-ctrl-a = ''
             exec-and-forget aerospace-scratchpad show alacritty -F window-title='terminal-scratchpad' \
                          || alacritty -t 'terminal-scratchpad' --option window.opacity="0.9"
           '';
