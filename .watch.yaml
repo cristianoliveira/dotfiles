@@ -9,56 +9,57 @@
 # ```
 # Proceed to make the changes in the .dotfiles
 #
-- name: validate sway
-  run: 'nix/nixos/sway/validate.sh'
-  change: 'nix/nixos/sway/**'
+jobs:
+  - name: validate sway
+    run: 'nix/nixos/sway/validate.sh'
+    change: 'nix/nixos/sway/**'
 
-# Usage: `fzz -t nix`
-- name: watch nix configs
-  run:
-    # FIXME it fails on osx
-    # - nix flake check nix --no-build
-    - SKIP_COMMIT=1 nix/rebuild.sh
-  change:
-    - 'nix/**/*.nix'
-  # run_on_init: true
+  # Usage: `fzz -t nix`
+  - name: watch nix configs
+    run:
+      # FIXME it fails on osx
+      # - nix flake check nix --no-build
+      - SKIP_COMMIT=1 nix/rebuild.sh
+    change:
+      - 'nix/**/*.nix'
+    # run_on_init: true
 
-- name: watch osx keyboard mappings
-  run: # Force restart service
-    - pkill skhd
-    - pkill yabai
-  change: 'nix/osx/yabai/**'
+  - name: watch osx keyboard mappings
+    run: # Force restart service
+      - pkill skhd
+      - pkill yabai
+    change: 'nix/osx/yabai/**'
 
-- name: check nvim
-  run: make nvim
-  change: 'nvim/**'
+  - name: check nvim
+    run: make nvim
+    change: 'nvim/**'
 
-- name: reload tmux
-  run: tmux/reload.sh
-  change: 'tmux/**'
+  - name: reload tmux
+    run: tmux/reload.sh
+    change: 'tmux/**'
 
-- name: reload stow
-  run:
-    - make check-symlinks
-    - make stow
-  change: 'stow/**'
+  - name: reload stow
+    run:
+      - make check-symlinks
+      - make stow
+    change: 'stow/**'
 
-- name: adds to git
-  # run_on_init: true
-  run:
-    - git add {{relative_filepath}}
-    - git add -p
-  change:
-    - .fzz/git-task # touch .fzz/git-task
-    - '**/*' ## FIXME fzz issue with non strings
-  ignore:
-    - .direnv
-    - '.git/**/*'
-    - result
+  - name: adds to git
+    # run_on_init: true
+    run:
+      - git add {{relative_filepath}}
+      - git add -p
+    change:
+      - .fzz/git-task # touch .fzz/git-task
+      - '**/*' ## FIXME fzz issue with non strings
+    ignore:
+      - .direnv
+      - '.git/**/*'
+      - result
 
-- name: after commit attempt to rebase
-  run:
-    - git fetch --all
-    - git rebase origin/$MAIN_BRANCH
-  change:
-    - ".git/COMMIT_EDITMSG"
+  - name: after commit attempt to rebase
+    run:
+      - git fetch --all
+      - git rebase origin/$MAIN_BRANCH
+    change:
+      - ".git/COMMIT_EDITMSG"
