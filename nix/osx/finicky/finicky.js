@@ -43,24 +43,25 @@ module.exports = {
         /shortcut\.com/,
 
         /jumpcloud.com/,
-
-        /local.zinfra.io/,
-
-        /localhost/,
-        /local.gd/,
       ],
       browser: {
         name: "Google Chrome",
       }
     },
-    // {
-    //   // Open code related urls in Google Chrome Canary
-    //   match: [
-    //     /localhost/,
-    //     /local.gd/,
-    //   ],
-    //   browser: "Google Chrome Canary"
-    // },
+    {
+      // Open code related urls in Google Chrome Canary
+      match: [
+        /localhost/,
+        /local.gd/,
+
+        /local.zinfra.io/,
+
+        /localhost/,
+        /local.gd/,
+        /wire.link/,
+      ],
+      browser: "Google Chrome Canary"
+    },
   ].filter(() => isWorkingHours),
 
   // Any other urls open in Brave Browser
