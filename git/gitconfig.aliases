@@ -90,9 +90,11 @@
   # push
   ps = push                         # push
   psf = push --force-with-lease     # push with force-with-lease
-  psff = push --force-with-lease --no-verify     # push with force-with-lease no-verify
-  psom = !git push origin HEAD:"$MAIN_BRANCH"                # push current branch to origin/$MAIN_BRANCH
+  psff = push --force-with-lease --no-verify                       # push with force-with-lease no-verify
+  psom = !git push origin HEAD:"$MAIN_BRANCH"                      # push current branch to origin/$MAIN_BRANCH
   psomf = !git push --force-with-lease origin HEAD:"$MAIN_BRANCH"  # force-with-lease push current branch to origin/$MAIN_BRANCH
+  psod = !git push origin HEAD:origin/develop                      # push current branch to origiorigin/develop
+  psodf = !git push --force-with-lease origin HEAD:origin/develop  # force-with-lease push current branch to origin/$MAIN_BRANCH
 
   # rebase
   rs = rebase                                # rebase alias
