@@ -6,6 +6,9 @@ import re
 import sys
 
 
+PERSONAL = re.compile(
+    rb"github.com/(cristianoliveira|carbon-ni)"
+)
 WORK = re.compile(
     rb"meet\.google|atlassian.net|ngrok-free|tuple|figma|smartling|"
     rb"sentry.io|expo.dev|mail.google|github\.com|mixpanel\.com|miro\.com|"
@@ -31,15 +34,17 @@ def is_working_hours(now: datetime) -> bool:
 
 def choose_target(url: bytes, now: datetime) -> bytes:
     """Choose a target without reading the clock or stdin."""
-    is_work_url = WORK.search(url) is not None
-    is_dev_url = DEV.search(url) is not None
+    if PERSONAL.search(url) is not None:
+        return b"personal"
 
+    is_work_url = WORK.search(url) is not None
     if is_work_url and is_working_hours(now):
         return b"work"
+
+    is_dev_url = DEV.search(url) is not None
     if is_dev_url:
         return b"dev"
-    if is_work_url:
-        return b"personal"
+
     return b"@default"
 
 
