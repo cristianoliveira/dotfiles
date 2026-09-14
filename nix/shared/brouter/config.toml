@@ -1,0 +1,32 @@
+# Translated from ../../osx/finicky/finicky.js; rules are always active.
+# First match wins. Patterns intentionally retain the original substring
+# regex behavior, including unescaped dots. Canary's path is macOS-only.
+# No time conditions, profile selection, or automatic default changes.
+
+default = "personal"
+
+[browsers.personal]
+browser = "brave"
+
+[browsers.work]
+browser = "chrome"
+
+[browsers.dev]
+command = "/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary"
+
+# NOTE: Routes are resolved by the route command below
+# [[rules]]
+# name = "Work links"
+# matcher = "url-regex"
+# pattern = 'meet\.google|atlassian.net|ngrok-free|tuple|figma|smartling|sentry.io|expo.dev|mail.google|github\.com|mixpanel\.com|miro\.com|segment\.com|sanity.studio|superblocks|slack|notion.so|docs\.google|shortcut\.com|jumpcloud.com'
+# target = "work"
+#
+# [[rules]]
+# name = "Local and development links"
+# matcher = "url-regex"
+# pattern = 'localhost|local.gd|local.zinfra.io|wire.link'
+# target = "dev"
+
+[route_command]
+# Brouter resolves this beside the selected config; route.py is a colocated symlink.
+command = ["./route.py"]
