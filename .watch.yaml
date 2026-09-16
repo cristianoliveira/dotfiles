@@ -25,7 +25,8 @@ jobs:
       - 'scripts/validate_landmarks.py'
 
   - name: validate sway
-    run: 'nix/nixos/sway/validate.sh'
+    #AI can Check if is Linux
+    run: ' nix/nixos/sway/validate.sh'
     change: 'nix/nixos/sway/**'
 
   # Usage: `fzz -t nix`
@@ -33,16 +34,13 @@ jobs:
     run:
       # FIXME it fails on osx
       # - nix flake check nix --no-build
-      - SKIP_COMMIT=1 nix/rebuild.sh
+      - |
+        if [ "$(uname)" = "Linux" ]; then
+          SKIP_COMMIT=1 nix/rebuild.sh
+        fi
     change:
       - 'nix/**/*.nix'
     # run_on_init: true
-
-  - name: watch osx keyboard mappings
-    run: # Force restart service
-      - pkill skhd
-      - pkill yabai
-    change: 'nix/osx/yabai/**'
 
   - name: check nvim
     run: make nvim
