@@ -1,0 +1,81 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat <<'USAGE'
+Usage: prune-devenv [--apply] [--days N] [DIRECTORY ...]
+
+Find project .direnv directories older than N days.
+Default: --days 60, dry-run, roots ~/work and ~/other.
+
+--apply       Remove matching .direnv directories, then run Nix GC.
+--days N      Age threshold based on .direnv modification time.
+DIRECTORY     Optional project roots to scan instead of defaults.
+
+Project source, Git data, and devenv.nix files are not removed.
+USAGE
+}
+
+apply=false
+days=60
+roots=("$HOME/work" "$HOME/other")
+
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    --apply) apply=true; shift ;;
+    --days)
+      [ "$#" -ge 2 ] || { echo "--days requires a number" >&2; exit 2; }
+      days=$2
+      shift 2
+      ;;
+    -h|--help) usage; exit 0 ;;
+    -*) echo "Unknown argument: $1" >&2; usage >&2; exit 2 ;;
+    *)
+      if [ "${roots[*]}" = "$HOME/work $HOME/other" ]; then roots=(); fi
+      roots+=("$1")
+      shift
+      ;;
+  esac
+done
+
+case "$days" in
+  ''|*[!0-9]*) echo "--days must be a non-negative integer" >&2; exit 2 ;;
+esac
+
+now=$(date +%s)
+cutoff=$((now - days * 86400))
+found=0
+removed=0
+
+printf 'Scanning for .direnv directories older than %s days.\n' "$days"
+
+for root in "${roots[@]}"; do
+  [ -d "$root" ] || continue
+  while IFS= read -r dir; do
+    if stat --version >/dev/null 2>&1; then
+      mtime=$(stat -c %Y "$dir")
+    else
+      mtime=$(stat -f %m "$dir")
+    fi
+    [ "$mtime" -lt "$cutoff" ] || continue
+
+    found=$((found + 1))
+    age_days=$(( (now - mtime) / 86400 ))
+    printf '%s (%sd old)\n' "$dir" "$age_days"
+
+    if [ "$apply" = true ]; then
+      rm -rf "$dir"
+      removed=$((removed + 1))
+    fi
+  done < <(fd --hidden --no-ignore --type d --glob '.direnv' "$root" 2>/dev/null | sort)
+done
+
+if [ "$apply" = true ]; then
+  printf '\nRemoved %s .direnv directories.\n' "$removed"
+  if [ "$removed" -gt 0 ] && command -v nix-collect-garbage >/dev/null 2>&1; then
+    nix-collect-garbage
+  fi
+else
+  printf '\nDry-run: found %s candidates. No changes made.\n' "$found"
+  printf 'Run with --apply after reviewing the list.\n'
+fi
