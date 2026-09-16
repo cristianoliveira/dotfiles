@@ -21,6 +21,7 @@ in {
       ./utils.nix
       ./file-sync.nix
       ./threedprint.nix
+      ./devenv-prune.nix
 
       # Services
       ./services/rclone.nix

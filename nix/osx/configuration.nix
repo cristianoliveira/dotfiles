@@ -15,6 +15,7 @@ in {
       ./global-shortcuts.nix
       ./window-manager.nix
       ./virtualization.nix
+      ./devenv-prune.nix
 
       # Shared between linux and darwin
       ../shared/sysadmin-tools.nix
