@@ -1,4 +1,4 @@
-# Translated from ../../osx/finicky/finicky.js; rules are always active.
+# Browser-routing rules are always active.
 # First match wins. Patterns intentionally retain the original substring
 # regex behavior, including unescaped dots. Canary's path is macOS-only.
 # No time conditions, profile selection, or automatic default changes.

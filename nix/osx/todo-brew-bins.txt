@@ -195,7 +195,6 @@ brave-browser
 dbeaver-community
 discord
 docker
-finicky
 firefox
 gimp
 google-chrome

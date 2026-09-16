@@ -37,7 +37,7 @@ else
 fi
 ```
 
-A macOS GUI app does not inherit shell startup variables. Without a GUI-visible XDG_CONFIG_HOME it reads `~/.config/brouter/config.toml`. Keep both consumers pointed at the same file. This does not change the default browser or remove Finicky.
+A macOS GUI app does not inherit shell startup variables. Without a GUI-visible XDG_CONFIG_HOME it reads `~/.config/brouter/config.toml`. Keep both consumers pointed at the same file. This does not change the default browser.
 
 The relative route-command form is `command = ["./route.py"]` and requires the brouter build with config-relative executable resolution. Place a `route.py` symlink beside the selected config symlink, pointing to this directory's mutable script; linking only `config.toml` is insufficient. Brouter invokes the executable directly, so it does not expand `~`, `$HOME`, or shell commands. Until that brouter build and colocated symlink are installed, do not switch the live command entry.
 

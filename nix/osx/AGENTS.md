@@ -10,7 +10,6 @@ Keep Darwin-specific declarations and setup here. Shared packages and environmen
 
 - [Nix system composition](nix/AGENTS.md): selects `osx/configuration.nix` as the Darwin module root.
 - [Shared Nix modules](nix/shared/AGENTS.md): supplies common developer, shell, environment, and home-configuration behavior.
-- [Finicky adapter](nix/osx/finicky/AGENTS.md): consumes browser-routing configuration and installs the user-level Finicky file.
 - [Alfred adapter](nix/osx/alfred/AGENTS.md): owns the exported Alfred preference bundle.
 
 # Placement
