@@ -8,7 +8,9 @@
 # fzz -t nix
 # ```
 # Proceed to make the changes in the .dotfiles
-#
+on:
+  socket: .pi/fzz.sock
+
 jobs:
   - name: validate sway
     run: 'nix/nixos/sway/validate.sh'

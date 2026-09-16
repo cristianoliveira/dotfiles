@@ -10,7 +10,8 @@ PERSONAL = re.compile(
     rb"github\.com/(cristianoliveira|carbon-ni)|"
 
     # Joy
-    rb"ycombinator\.com|youtube\.com|x\.com|reddit\.com"
+    rb"ycombinator\.com|youtube\.com|x\.com|reddit\.com|"
+    rb"instagram\.com|"
     rb"$"
 )
 WORK = re.compile(
