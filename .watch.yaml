@@ -12,6 +12,18 @@ on:
   socket: .pi/fzz.sock
 
 jobs:
+  - name: validate agents links
+    run: python3 scripts/validate_links.py .
+    change:
+      - '**/AGENTS.md'
+      - 'scripts/validate_links.py'
+
+  - name: validate agents landmarks
+    run: python3 scripts/validate_landmarks.py .
+    change:
+      - '**/AGENTS.md'
+      - 'scripts/validate_landmarks.py'
+
   - name: validate sway
     run: 'nix/nixos/sway/validate.sh'
     change: 'nix/nixos/sway/**'
