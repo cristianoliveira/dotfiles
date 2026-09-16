@@ -4,13 +4,13 @@
 
 # Boundaries
 
-Key bindings belong in [mappings](nvim/lua/customization/mappings/AGENTS.md); shared implementation helpers belong in [utils](nvim/lua/customization/utils/AGENTS.md); plugin registration belongs in [nvim/lua/plugins](nvim/lua/plugins/AGENTS.md).
+Key bindings belong in [mappings](../mappings/AGENTS.md); shared implementation helpers belong in [utils](../utils/AGENTS.md); plugin registration belongs in [nvim/lua/plugins](../../plugins/AGENTS.md).
 
 # Connections
 
-- [Customization](nvim/lua/customization/AGENTS.md): loads the command registry during editor startup.
-- [Mappings](nvim/lua/customization/mappings/AGENTS.md): routes keyboard input to command and plugin actions.
-- [Utilities](nvim/lua/customization/utils/AGENTS.md): supplies reusable command support where needed.
+- [Customization](../AGENTS.md): loads the command registry during editor startup.
+- [Mappings](../mappings/AGENTS.md): routes keyboard input to command and plugin actions.
+- [Utilities](../utils/AGENTS.md): supplies reusable command support where needed.
 
 # Placement
 

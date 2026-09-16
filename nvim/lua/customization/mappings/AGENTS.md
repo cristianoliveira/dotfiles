@@ -4,13 +4,13 @@
 
 # Boundaries
 
-Named commands belong in [commands](nvim/lua/customization/commands/AGENTS.md); editor state configuration belongs in [settings](nvim/lua/customization/settings/AGENTS.md); reusable functions belong in [utils](nvim/lua/customization/utils/AGENTS.md).
+Named commands belong in [commands](../commands/AGENTS.md); editor state configuration belongs in [settings](../settings/AGENTS.md); reusable functions belong in [utils](../utils/AGENTS.md).
 
 # Connections
 
-- [Customization](nvim/lua/customization/AGENTS.md): loads the mapping registry during startup.
-- [Commands](nvim/lua/customization/commands/AGENTS.md): provides named actions that mappings can invoke.
-- [Utilities](nvim/lua/customization/utils/AGENTS.md): provides mapping helpers and selection support.
+- [Customization](../AGENTS.md): loads the mapping registry during startup.
+- [Commands](../commands/AGENTS.md): provides named actions that mappings can invoke.
+- [Utilities](../utils/AGENTS.md): provides mapping helpers and selection support.
 
 # Placement
 

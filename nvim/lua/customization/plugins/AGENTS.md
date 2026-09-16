@@ -4,13 +4,13 @@
 
 # Boundaries
 
-Third-party plugin specifications belong in [nvim/lua/plugins](nvim/lua/plugins/AGENTS.md). Shared helper code belongs in [utils](nvim/lua/customization/utils/AGENTS.md); key bindings and named commands remain in [mappings](nvim/lua/customization/mappings/AGENTS.md) and [commands](nvim/lua/customization/commands/AGENTS.md).
+Third-party plugin specifications belong in [nvim/lua/plugins](../../plugins/AGENTS.md). Shared helper code belongs in [utils](../utils/AGENTS.md); key bindings and named commands remain in [mappings](../mappings/AGENTS.md) and [commands](../commands/AGENTS.md).
 
 # Connections
 
-- [Customization](nvim/lua/customization/AGENTS.md): loads these local integrations during startup.
-- [Plugin specifications](nvim/lua/plugins/AGENTS.md): provides the external plugin registrations consumed by these integrations.
-- [Utilities](nvim/lua/customization/utils/AGENTS.md): supplies reusable support where local integrations need it.
+- [Customization](../AGENTS.md): loads these local integrations during startup.
+- [Plugin specifications](../../plugins/AGENTS.md): provides the external plugin registrations consumed by these integrations.
+- [Utilities](../utils/AGENTS.md): supplies reusable support where local integrations need it.
 
 # Placement
 

@@ -4,13 +4,13 @@
 
 # Boundaries
 
-Top-level plugin registration belongs in [nvim/lua/plugins](nvim/lua/plugins/AGENTS.md). Custom commands, mappings, settings, helper functions, and local plugins belong in [nvim/lua/customization](nvim/lua/customization/AGENTS.md). Startup and test harness files remain owned by [nvim](nvim/AGENTS.md).
+Top-level plugin registration belongs in [nvim/lua/plugins](plugins/AGENTS.md). Custom commands, mappings, settings, helper functions, and local plugins belong in [nvim/lua/customization](customization/AGENTS.md). Startup and test harness files remain owned by [nvim](../AGENTS.md).
 
 # Connections
 
-- [Neovim module](nvim/AGENTS.md): loads this Lua layer from `nvim/init.lua`.
-- [Customization](nvim/lua/customization/AGENTS.md): receives the startup handoff for user-facing behavior.
-- [Plugin layer](nvim/lua/plugins/AGENTS.md): registers third-party and development plugins before customization uses them.
+- [Neovim module](../AGENTS.md): loads this Lua layer from `nvim/init.lua`.
+- [Customization](customization/AGENTS.md): receives the startup handoff for user-facing behavior.
+- [Plugin layer](plugins/AGENTS.md): registers third-party and development plugins before customization uses them.
 
 # Placement
 

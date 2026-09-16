@@ -4,13 +4,13 @@
 
 # Boundaries
 
-Keep scripts here independent and focused on one command-line task. Nix configuration belongs to [nix](nix/AGENTS.md); editor-specific checks belong to [nvim](nvim/AGENTS.md); tool configuration belongs to its owning module.
+Keep scripts here independent and focused on one command-line task. Nix configuration belongs to [nix](../nix/AGENTS.md); editor-specific checks belong to [nvim](../nvim/AGENTS.md); tool configuration belongs to its owning module.
 
 # Connections
 
-- [Nix system state](nix/AGENTS.md): `nix-check` validates the flake and platform configuration.
-- [Neovim](nvim/AGENTS.md): `nvim-check` loads the editor configuration headlessly.
-- [Tmux](tmux/AGENTS.md): terminal helpers invoke tmux sessions, panes, and popups.
+- [Nix system state](../nix/AGENTS.md): `nix-check` validates the flake and platform configuration.
+- [Neovim](../nvim/AGENTS.md): `nvim-check` loads the editor configuration headlessly.
+- [Tmux](../tmux/AGENTS.md): terminal helpers invoke tmux sessions, panes, and popups.
 
 # Placement
 

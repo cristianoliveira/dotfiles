@@ -4,13 +4,13 @@
 
 # Boundaries
 
-User-facing commands belong in [commands](nvim/lua/customization/commands/AGENTS.md); mappings belong in [mappings](nvim/lua/customization/mappings/AGENTS.md); persistent configuration belongs in [settings](nvim/lua/customization/settings/AGENTS.md).
+User-facing commands belong in [commands](../commands/AGENTS.md); mappings belong in [mappings](../mappings/AGENTS.md); persistent configuration belongs in [settings](../settings/AGENTS.md).
 
 # Connections
 
-- [Customization](nvim/lua/customization/AGENTS.md): provides the shared helper boundary for editor behavior.
-- [Commands](nvim/lua/customization/commands/AGENTS.md): consumes helpers while implementing named actions.
-- [Mappings](nvim/lua/customization/mappings/AGENTS.md): consumes selection and editor API helpers.
+- [Customization](../AGENTS.md): provides the shared helper boundary for editor behavior.
+- [Commands](../commands/AGENTS.md): consumes helpers while implementing named actions.
+- [Mappings](../mappings/AGENTS.md): consumes selection and editor API helpers.
 
 # Placement
 

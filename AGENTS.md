@@ -18,6 +18,8 @@ This repository defines a reproducible development environment for NixOS and mac
 - [Zsh](zsh/AGENTS.md): shell startup, aliases, functions, and settings.
 - [Git](git/AGENTS.md): Git configuration, aliases, ignore rules, and setup.
 - [Helpers](bin/AGENTS.md): executable scripts and small command-line helpers.
+- [Resources](AGENTS.md): static assets such as wallpapers, bookmarks, and browser options.
+- [Scripts](scripts/AGENTS.md): validation and maintenance tooling for the AGENTS.md guide graph.
 
 # Placement
 
