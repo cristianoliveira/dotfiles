@@ -25,19 +25,16 @@ jobs:
       - 'scripts/validate_landmarks.py'
 
   - name: validate sway
-    #AI can Check if is Linux
-    run: ' nix/nixos/sway/validate.sh'
+    run:
+      - |
+        if [ "$(uname)" = "Linux" ]; then
+          nix/nixos/sway/validate.sh
+        fi
     change: 'nix/nixos/sway/**'
 
   # Usage: `fzz -t nix`
   - name: watch nix configs
-    run:
-      # FIXME it fails on osx
-      # - nix flake check nix --no-build
-      - |
-        if [ "$(uname)" = "Linux" ]; then
-          SKIP_COMMIT=1 nix/rebuild.sh
-        fi
+    run: 'SKIP_COMMIT=1 nix/rebuild.sh'
     change:
       - 'nix/**/*.nix'
     # run_on_init: true
