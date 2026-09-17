@@ -7,29 +7,30 @@ import sys
 
 
 PERSONAL = re.compile(
-    rb"github\.com/(cristianoliveira|carbon-ni)|"
-
     # Joy
     rb"ycombinator\.com|youtube\.com|x\.com|reddit\.com|"
-    rb"instagram\.com|"
+    rb"instagram\.com"
     rb"$"
 )
 WORK = re.compile(
+    rb"github\.com/(wireapp|pydio)|"
+
     rb"meet\.google|atlassian.net|ngrok-free|tuple|figma|smartling|"
-    rb"sentry.io|expo.dev|mail.google|github\.com|mixpanel\.com|miro\.com|"
+    rb"sentry.io|expo.dev|mail.google|mixpanel\.com|miro\.com|"
     rb"segment\.com|sanity.studio|superblocks|slack|notion.so|docs\.google|"
+    # Storage
+    rb"drive\.google\.com|"
 
     # wire
     rb"shortcut\.com|jumpcloud.com|"
-    rb"wire\.com|pydio.com|zendesk\.com"
+    rb"wire\.com|pydio\.com|zendesk\.com"
     rb"$"
 )
 DEV = re.compile(
-    rb"localhost|local.gd|"
+    rb"localhost|local\.gd|"
 
     # wire
-    rb"local.zinfra.io|wire.link|"
-    rb"$"
+    rb"local\.zinfra\.io|wire\.link$"
 )
 WORK_START = time(7, 0)
 WORK_END = time(18, 0)
