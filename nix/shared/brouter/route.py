@@ -4,6 +4,7 @@
 from datetime import datetime, time
 import re
 import sys
+from urllib.parse import urlsplit
 
 
 PERSONAL = re.compile(
@@ -29,8 +30,8 @@ WORK = re.compile(
 DEV = re.compile(
     rb"localhost|local\.gd|"
 
-    # wire
-    rb"local\.zinfra\.io|wire\.link$"
+    # Other development patterns retain their existing raw URL matching.
+    rb"local\.zinfra\.io"
 )
 WORK_START = time(7, 0)
 WORK_END = time(18, 0)
@@ -38,6 +39,17 @@ WORK_END = time(18, 0)
 def is_working_hours(now: datetime) -> bool:
     """Return whether a local Mac datetime is within the work window."""
     return now.weekday() < 5 and WORK_START <= now.time() < WORK_END
+
+
+def is_wire_link_host(url: bytes) -> bool:
+    """Match wire.link by hostname, independent of port, path, or case."""
+    try:
+        hostname = urlsplit(url).hostname
+    except ValueError:
+        return False
+    return hostname == b"wire.link" or (
+        hostname is not None and hostname.endswith(b".wire.link")
+    )
 
 
 def choose_target(url: bytes, now: datetime) -> bytes:
@@ -49,7 +61,7 @@ def choose_target(url: bytes, now: datetime) -> bytes:
     if is_work_url and is_working_hours(now):
         return b"work"
 
-    is_dev_url = DEV.search(url) is not None
+    is_dev_url = DEV.search(url) is not None or is_wire_link_host(url)
     if is_dev_url:
         return b"dev"
 

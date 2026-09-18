@@ -63,6 +63,27 @@ class RouteTargetTests(unittest.TestCase):
             b"dev",
         )
 
+    def test_wire_link_matches_hostname_with_port_path_query_and_case(self):
+        now = datetime(2026, 9, 18, 12, 0)
+        for url in (
+            b"https://wire.link",
+            b"https://service.dev.wire.link:8081/path?next=1#section",
+            b"HTTPS://SERVICE.DEV.WIRE.LINK:8443/",
+        ):
+            with self.subTest(url=url):
+                self.assertEqual(choose_target(url, now), b"dev")
+
+    def test_wire_link_requires_a_hostname_boundary(self):
+        now = datetime(2026, 9, 18, 12, 0)
+        for url in (
+            b"https://evilwire.link/",
+            b"https://wire.link.example.test/",
+            b"https://example.test/path/wire.link",
+            b"https://example.test/?next=wire.link",
+        ):
+            with self.subTest(url=url):
+                self.assertEqual(choose_target(url, now), b"@default")
+
     def test_work_wins_overlap_during_work_hours(self):
         self.assertEqual(
             choose_target(
