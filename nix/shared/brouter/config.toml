@@ -30,3 +30,8 @@ command = "/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome C
 [route_command]
 # Brouter resolves this beside the selected config; route.py is a colocated symlink.
 command = ["./route.py"]
+
+# Opt-in local routing log (TASK-0035): one redacted line per open.
+[log]
+enabled = true
+host = true
