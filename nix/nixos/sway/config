@@ -588,9 +588,9 @@ bindsym $mod+shift+minus move scratchpad
 ## Screen brightness
 # Controlled via acpilight's xbacklight (the `light` package was removed in 26.05).
 # Brightness up
-bindsym XF86MonBrightnessUp exec xbacklight -inc 10
+bindsym XF86MonBrightnessUp exec ~/.dotfiles/nix/nixos/sway/bin/notify-brightness.sh up
 # Brightness down
-bindsym XF86MonBrightnessDown exec xbacklight -dec 10
+bindsym XF86MonBrightnessDown exec ~/.dotfiles/nix/nixos/sway/bin/notify-brightness.sh down
 
 ## Laptop function keys
 # Fn wake key: make it explicitly wake/power displays back on.
@@ -599,9 +599,9 @@ bindsym XF86WakeUp exec swaymsg 'output * power on'
 bindsym XF86Display mode $displaysMode
 
 ## Volume
-bindsym XF86AudioMute exec wpctl set-mute @DEFAULT_SINK@ toggle
-bindsym XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_SINK@ 5%+
-bindsym XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_SINK@ 5%-
+bindsym XF86AudioMute exec ~/.dotfiles/nix/nixos/sway/bin/notify-volume.sh toggle-mute
+bindsym XF86AudioRaiseVolume exec ~/.dotfiles/nix/nixos/sway/bin/notify-volume.sh up
+bindsym XF86AudioLowerVolume exec ~/.dotfiles/nix/nixos/sway/bin/notify-volume.sh down
 
 # Mute all the audio
 bindsym XF86AudioMicMute exec wpctl set-mute @DEFAULT_SOURCE@ toggle

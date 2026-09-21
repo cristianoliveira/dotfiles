@@ -21,6 +21,7 @@ in {
     # Data managment
     zip
     unzip
+    libnotify # notify-send for volume/brightness OSD
 
     # Notes and organization tools
     obsidian
