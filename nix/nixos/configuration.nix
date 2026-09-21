@@ -208,6 +208,11 @@ in {
       # Allow Nix to install from trusted users. Usually you'll only trust
       # NixOS binaries, but you can also trust third-party Nix code.
       trusted-users = [ "root" primaryUser ];
+      # Hardlink identical files in the store to save disk space.
+      auto-optimise-store = true;
+      # Don't keep intermediate build artifacts (.drv files and outputs).
+      keep-derivations = false;
+      keep-outputs = false;
     };
 
     # Enable garbage collection every day at 22:00 and delete older than 14 days
