@@ -19,6 +19,14 @@ in  {
 
       sed -i 's/ScaleImageCropped=true/ScaleImageCropped=false/' ./theme.conf
 
+      ## Qt6 compatibility: SDDM on NixOS 26.05 runs the Qt6 greeter, but this
+      ## theme was written for Qt5. QtGraphicalEffects was removed in Qt6 (now
+      ## Qt5Compat.GraphicalEffects) and QtQuick.VirtualKeyboard moved to major 6.
+      find . -name '*.qml' -exec sed -i \
+        -e 's/import QtGraphicalEffects 1.0/import Qt5Compat.GraphicalEffects/' \
+        -e 's/import QtQuick.VirtualKeyboard 2.3/import QtQuick.VirtualKeyboard/' \
+        {} +
+
       cp -R ./* $out/
       rm -f $out/Background.jpg
       cp -r ${image} $out/Background.jpg
@@ -26,7 +34,8 @@ in  {
   };
 
   extraPackages = with pkgs; [
-    libsForQt5.qt5.qtquickcontrols2
-    libsForQt5.qt5.qtgraphicaleffects
+    qt6.qtdeclarative
+    qt6.qt5compat
+    qt6.qtvirtualkeyboard
   ]; 
 }
