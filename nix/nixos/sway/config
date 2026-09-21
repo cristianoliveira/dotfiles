@@ -597,6 +597,14 @@ bindsym XF86MonBrightnessDown exec ~/.dotfiles/nix/nixos/sway/bin/notify-brightn
 bindsym XF86WakeUp exec swaymsg 'output * power on'
 # Fn display key: open the existing display toggle mode.
 bindsym XF86Display mode $displaysMode
+# Fn airplane key: toggle Wi-Fi radio.
+bindsym XF86WLAN exec ~/.dotfiles/nix/nixos/sway/bin/notify-wifi.sh
+# Bluetooth toggle.
+bindsym XF86Bluetooth exec ~/.dotfiles/nix/nixos/sway/bin/notify-bluetooth.sh
+# Fn sleep key: suspend.
+bindsym XF86Sleep exec systemctl suspend
+# Lock screen.
+bindsym XF86ScreenSaver exec swaylock -f
 
 ## Volume
 bindsym XF86AudioMute exec ~/.dotfiles/nix/nixos/sway/bin/notify-volume.sh toggle-mute
@@ -604,7 +612,7 @@ bindsym XF86AudioRaiseVolume exec ~/.dotfiles/nix/nixos/sway/bin/notify-volume.s
 bindsym XF86AudioLowerVolume exec ~/.dotfiles/nix/nixos/sway/bin/notify-volume.sh down
 
 # Mute all the audio
-bindsym XF86AudioMicMute exec wpctl set-mute @DEFAULT_SOURCE@ toggle
+bindsym XF86AudioMicMute exec ~/.dotfiles/nix/nixos/sway/bin/notify-mic.sh
 
 ## Media keys or bluetooth headphones
 bindsym XF86AudioPlay exec playerctl play
