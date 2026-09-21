@@ -1,0 +1,2 @@
+# Auto-dismiss notifications after 5 seconds.
+default-timeout=5000
