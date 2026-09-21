@@ -586,12 +586,11 @@ bindsym $mod+shift+minus move scratchpad
 ### Function keys mapping
 
 ## Screen brightness
-# You may need to add the following to your sudoers file in /etc/sudoers
-# username ALL=(root) NOPASSWD: /run/current-system/sw/bin/light
+# Controlled via acpilight's xbacklight (the `light` package was removed in 26.05).
 # Brightness up
-bindsym XF86MonBrightnessUp exec light -A 10
+bindsym XF86MonBrightnessUp exec xbacklight -inc 10
 # Brightness down
-bindsym XF86MonBrightnessDown exec light -U 10
+bindsym XF86MonBrightnessDown exec xbacklight -dec 10
 
 ## Laptop function keys
 # Fn wake key: make it explicitly wake/power displays back on.
