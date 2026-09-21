@@ -8,12 +8,12 @@ in {
   environment.systemPackages = with pkgs; [
     # GUIs
     alacritty
-    bitwarden
+    bitwarden-desktop
     wtype
 
     # Media
     vlc # Video player
-    unstable.gthumb # Image viewer
+    gthumb # Image viewer
 
     ## Media manipulation
     gimp

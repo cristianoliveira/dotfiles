@@ -118,9 +118,9 @@ in {
     shell = pkgs.zsh;
   };
 
-  # Enable light for screen brightness
-  # Need to add user to "video" group See above
-  programs.light.enable = true;
+  # Screen brightness (light was removed from nixpkgs; acpilight is the drop-in)
+  # User needs the "video" group, configured above
+  hardware.acpilight.enable = true;
 
   services.udev.extraRules = ''
     KERNEL=="uinput", GROUP="input", MODE="0660"

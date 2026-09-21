@@ -10,13 +10,15 @@
       ];
     };
 
-    file-roller.enable = true; # Archive manager for Thunar
-
     xfconf.enable = true;
   };
 
   services.gvfs.enable = true; # Mount, trash, and other functionalities
   services.tumbler.enable = true; # Thumbnail support for images
+
+  environment.systemPackages = with pkgs; [
+    file-roller # Archive manager (programs.file-roller was removed in 26.05)
+  ];
 
   environment.sessionVariables = {
     GTK_THEME = "Adwaita:dark";
