@@ -18,7 +18,7 @@
     fd # Better find
 
     zoxide # Better cd inspired by z
-    unstable.gh # GitHub CLI
+    gh # GitHub CLI
 
     # NOTE: not using it
     # ngrok
@@ -74,7 +74,7 @@
 
     # Devx
     just
-    unstable.process-compose
+    process-compose
   ];
 
   imports = [

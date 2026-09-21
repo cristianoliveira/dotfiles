@@ -66,6 +66,6 @@ in {
 
     # Dev GUIs
     code-cursor # Editor AI
-    unstable.dbeaver-bin # Database GUI - unstable ver because java 21
+    dbeaver-bin # Database GUI
   ];
 }

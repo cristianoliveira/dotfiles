@@ -144,8 +144,8 @@ in {
   # Screen brightness and back linght management
   programs = {
     # This enables running unpatched binaries from Nix store
-    # which is necessary for Mason (nvim) to work
-    # see also the environment variable NIX_LD below
+    # which is necessary for Mason (nvim) to work.
+    # Provides NIX_LD and NIX_LD_LIBRARY_PATH.
     #
     # Detailed explanation: http://archive.today/WFxH7
     nix-ld.enable = true;
@@ -161,10 +161,6 @@ in {
       interactiveShellInit = ''
         autoload -U +X compinit && compinit
         export NIX_ENV=1
-
-        ${pkgs.nodejs_22}/bin/npm set prefix $HOME/.npm-global
-
-        export NIX_LD=$(nix eval --extra-experimental-features nix-command --impure --raw --expr 'let pkgs = import <nixpkgs> {}; NIX_LD = pkgs.lib.fileContents "${pkgs.stdenv.cc}/nix-support/dynamic-linker"; in NIX_LD')
       '';
     };
   };
