@@ -36,7 +36,7 @@
       # Launcher
       # dmenu # Dmenu is the default in the config but i recommend wofi since its wayland native
       wofi
-      ulauncher
+      unstable.ulauncher
 
       # Displays UI manager
       wdisplays

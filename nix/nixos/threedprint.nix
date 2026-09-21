@@ -2,6 +2,6 @@
   environment.systemPackages = with pkgs; [
     flashprint
     freecad
-    orca-slicer
+    unstable.orca-slicer
   ];
 }

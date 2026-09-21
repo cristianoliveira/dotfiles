@@ -13,7 +13,7 @@ in {
 
     # Media
     vlc # Video player
-    gthumb # Image viewer
+    unstable.gthumb # Image viewer
 
     ## Media manipulation
     gimp
@@ -66,9 +66,5 @@ in {
     # Dev GUIs
     code-cursor # Editor AI
     unstable.dbeaver-bin # Database GUI - unstable ver because java 21
-
-    # 3D printing
-    flashprint
-    unstable.orca-slicer
   ];
 }
