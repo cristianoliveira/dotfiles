@@ -21,9 +21,9 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>78.94</string>
+	<string>94.121</string>
 	<key>CrAppModeIsAdhocSigned</key>
-	<false/>
+	<true/>
 	<key>CrAppModeShortcutID</key>
 	<string>comkdlimbkhemidbbpchhepidbmjpnhh</string>
 	<key>CrAppModeShortcutName</key>
@@ -35,17 +35,17 @@
 	<key>CrBundleIdentifier</key>
 	<string>com.brave.Browser</string>
 	<key>CrBundleVersion</key>
-	<string>136.1.78.94</string>
+	<string>152.1.94.121</string>
 	<key>DTCompiler</key>
 	<string>com.apple.compilers.llvm.clang.1_0</string>
 	<key>DTSDKBuild</key>
-	<string>24C94</string>
+	<string>25F70</string>
 	<key>DTSDKName</key>
-	<string>macosx15.2</string>
+	<string>macosx26.5</string>
 	<key>DTXcode</key>
-	<string>1620</string>
+	<string>2650</string>
 	<key>DTXcodeBuild</key>
-	<string>16C5032a</string>
+	<string>17F42</string>
 	<key>LSEnvironment</key>
 	<dict>
 		<key>MallocNanoZone</key>
@@ -54,7 +54,7 @@
 	<key>LSHasLocalizedDisplayName</key>
 	<true/>
 	<key>LSMinimumSystemVersion</key>
-	<string>11.0</string>
+	<string>13.0</string>
 	<key>NSAppleScriptEnabled</key>
 	<true/>
 	<key>NSHighResolutionCapable</key>
