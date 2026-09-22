@@ -33,8 +33,7 @@ _tmp/
 _hidden/
 # Git worktree
 .gwt/
-.wte/
-_wte/
+.worktree/
 
 # fzz related
 .watch.yaml
