@@ -66,8 +66,8 @@
     python311Packages.pip
     cargo #
 
-    # Text-to-speech
-    piper-tts
+    # Text-to-speech (training dependencies are not needed for local inference)
+    (piper-tts.override { withTrain = false; })
 
     # Markdown
     nightly.ferrite # Markdown viewer with
