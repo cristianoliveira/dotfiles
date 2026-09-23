@@ -37,6 +37,7 @@ _hidden/
 
 # fzz related
 .watch.yaml
+.watch.sock
 .fzz
 
 # Git user related stuff
