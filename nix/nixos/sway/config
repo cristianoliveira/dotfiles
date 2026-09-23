@@ -20,8 +20,8 @@ set $down j
 set $up k
 set $right l
 
-# Monitors (match macOS naming: DP-10 main, DP-09 secondary, eDP-1 built-in)
-set $main DP-8
+# Monitors: DP-1 (external/glasses) as main when available, eDP-1 built-in
+set $main DP-1
 set $2nd DP-7
 set $builtin eDP-1
 
@@ -66,7 +66,7 @@ output $2nd resolution 1920x1080 position 0 0
 output $main resolution 1920x1080 position 1920 0
 output $builtin resolution 1920x1200 position 1920 1080
 
-set $displaysMode "Displays: [1] main (DP-10), [2] secondary (DP-09), [3] built-in (eDP-1) (n=enable, Shift+n=disable)"
+set $displaysMode "Displays: [1] main (DP-1), [2] secondary (DP-7), [3] built-in (eDP-1) (n=enable, Shift+n=disable)"
 mode $displaysMode {
     # Mappings
     bindsym 1 exec swaymsg "output $main enable" && swaymsg mode "default"
@@ -330,7 +330,7 @@ bindsym $mod+Shift+Right move right
 #
 # Switch to workspace
 
-## Workspace placement mirroring Aerospace (main → DP-10, secondary → DP-09, built-in → eDP-1)
+## Workspace placement (main → DP-1, secondary → DP-7, built-in → eDP-1)
 # Note: sway does not support explicit fallback lists; these map primary targets only.
 workspace 1 output $main
 workspace 2 output $main
