@@ -1,4 +1,9 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+let
+  pythonWithPynvim = pkgs.python3.withPackages (pythonPackages: [ pythonPackages.pynvim ]);
+in {
+  environment.variables.NVIM_PYTHON3_HOST_PROG = "${pythonWithPynvim}/bin/python3";
+
   environment.systemPackages = with pkgs; [
     # Development environment
     git
@@ -38,7 +43,7 @@
     neovim
     python311Packages.pip
     # Neovim's Python provider and UltiSnips require pynvim in the active Python.
-    (python3.withPackages (pythonPackages: [ pythonPackages.pynvim ]))
+    pythonWithPynvim
 
     # Nvim plugins dependencies
     libiconv # VIM: Required to build lsp in Mason
