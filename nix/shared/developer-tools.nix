@@ -2,7 +2,12 @@
 let
   pythonWithPynvim = pkgs.python3.withPackages (pythonPackages: [ pythonPackages.pynvim ]);
 in {
-  environment.variables.NVIM_PYTHON3_HOST_PROG = "${pythonWithPynvim}/bin/python3";
+  # The default Nix Neovim wrapper disables the Python provider.
+  nixpkgs.overlays = [
+    (_: prev: {
+      neovim = prev.neovim.override { withPython3 = true; };
+    })
+  ];
 
   environment.systemPackages = with pkgs; [
     # Development environment

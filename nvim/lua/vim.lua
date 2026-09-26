@@ -1,12 +1,6 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
--- Use the Python on PATH for Neovim's Python provider (UltiSnips needs pynvim).
-local python3 = vim.env.NVIM_PYTHON3_HOST_PROG or vim.fn.exepath('python3')
-if python3 ~= '' then
-  vim.g.python3_host_prog = python3
-end
-
 -- Set timeoutlen for commands
 vim.opt.timeoutlen = 1300
 
