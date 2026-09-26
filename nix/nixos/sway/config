@@ -299,7 +299,9 @@ mode $idlemode {
     bindsym Escape mode "default"
     bindsym Return mode "default"
 }
+# Keep the Linux logo-key variant explicit. `$mod` is Mod1 (Alt) on this setup.
 bindsym $mod+F12 mode $idlemode
+bindsym Mod4+F12 mode $idlemode
 
 ### Mapping moving windows
 #
