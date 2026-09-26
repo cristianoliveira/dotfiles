@@ -292,8 +292,9 @@ bindsym $mod+Shift+e mode "exit: [l]ogout, [r]eboot, [s]hutdown"
 set $idlemode "idle: [d]isabled / [e]nabled"
 mode $idlemode {
     # Mappings
-    bindsym d exec systemctl restart swayidle && swaymsg mode "default"
-    bindsym e exec systemctl stop swayidle && swaymsg mode "default"
+    # swayidle is started directly by swayidle.sh, not as a systemd service.
+    bindsym d exec sh -c '$HOME/.dotfiles/nix/nixos/sway/bin/swayidle.sh >/dev/null 2>&1 &' && swaymsg mode "default"
+    bindsym e exec sh -c 'pkill -x swayidle || true; swaymsg mode default'
 
     # Exit mode
     bindsym Escape mode "default"
