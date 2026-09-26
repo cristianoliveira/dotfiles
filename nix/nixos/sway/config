@@ -66,12 +66,13 @@ output $2nd resolution 1920x1080 position 0 0
 output $main resolution 1920x1080 position 1920 0
 output $builtin resolution 1920x1200 position 1920 1080
 
-set $displaysMode "Displays: [1] main (DP-1), [2] secondary (DP-7), [3] built-in (eDP-1) (n=enable, Shift+n=disable)"
+set $displaysMode "Displays: [1] main (DP-1), [2] secondary (DP-7), [3] built-in (eDP-1), [m] choose main (n=enable, Shift+n=disable)"
 mode $displaysMode {
     # Mappings
     bindsym 1 exec swaymsg "output $main enable" && swaymsg mode "default"
     bindsym 2 exec swaymsg "output $2nd enable" && swaymsg mode "default"
     bindsym 3 exec swaymsg "output $builtin enable" && swaymsg mode "default"
+    bindsym m exec $HOME/.dotfiles/nix/nixos/sway/bin/sway-select-main-output.sh && swaymsg mode "default"
     # Disabled
     bindsym Shift+1 exec swaymsg "output $main disable" && swaymsg mode "default"
     bindsym Shift+2 exec swaymsg "output $2nd disable" && swaymsg mode "default"
