@@ -11,6 +11,7 @@ PERSONAL = re.compile(
     # Joy
     rb"ycombinator\.com|youtube\.com|x\.com|reddit\.com|"
     rb"instagram\.com"
+    rb"openai\.com"
     rb"$"
 )
 WORK = re.compile(
