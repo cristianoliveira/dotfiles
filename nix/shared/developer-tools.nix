@@ -36,10 +36,9 @@
     # Nvim stuff
     vim
     neovim
-    python311Packages.pynvim
     python311Packages.pip
-    # For UltiSnips
-    python312Packages.pynvim
+    # Neovim's Python provider and UltiSnips require pynvim in the active Python.
+    (python3.withPackages (pythonPackages: [ pythonPackages.pynvim ]))
 
     # Nvim plugins dependencies
     libiconv # VIM: Required to build lsp in Mason
@@ -60,7 +59,6 @@
 
     # Languages
     nodejs_22 # npm set prefix ~/.npm-global
-    python3
     python311Packages.pyyaml
     uv # Python package installer
     python311Packages.pip
