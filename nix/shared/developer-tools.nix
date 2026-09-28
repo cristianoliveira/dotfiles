@@ -1,6 +1,11 @@
 { pkgs, ... }:
 let
-  pythonWithPynvim = pkgs.python3.withPackages (pythonPackages: [ pythonPackages.pynvim ]);
+  pythonWithTools = pkgs.python3.withPackages (pythonPackages: with pythonPackages; [
+    pynvim
+    pyyaml
+    boto3
+    botocore
+  ]);
 in {
   # The default Nix Neovim wrapper disables the Python provider.
   nixpkgs.overlays = [
@@ -47,8 +52,8 @@ in {
     vim
     neovim
     python311Packages.pip
-    # Neovim's Python provider and UltiSnips require pynvim in the active Python.
-    pythonWithPynvim
+    # Neovim needs pynvim; kubeconfig-env needs yaml, boto3, and botocore.
+    pythonWithTools
 
     # Nvim plugins dependencies
     libiconv # VIM: Required to build lsp in Mason
@@ -69,7 +74,6 @@ in {
 
     # Languages
     nodejs_22 # npm set prefix ~/.npm-global
-    python311Packages.pyyaml
     uv # Python package installer
     python311Packages.pip
     cargo #
