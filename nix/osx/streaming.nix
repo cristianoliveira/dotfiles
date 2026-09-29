@@ -4,7 +4,6 @@ args: {
   # ];
 
   homebrew.casks = [
-    "obs"
     "keycastr" # keystroke visualizer
   ];
 }
