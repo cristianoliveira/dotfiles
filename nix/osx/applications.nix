@@ -16,7 +16,7 @@
   # GUI applications via homebrew
   homebrew = {
     # FIXME: homebrew got screwed up after upgrading. Need to debug
-    enable = false;
+    enable = true;
 
     taps = [];
 
