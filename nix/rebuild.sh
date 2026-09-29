@@ -26,7 +26,7 @@ if [ "$(uname)" = "Darwin" ]; then
   echo "Rebuilding Darwin configuration..."
   NIXOS_CONFIG=$HOME/.dotfiles/nix
   # Homebrew casks in /opt/homebrew must run natively, even from a Rosetta shell.
-  sudo /usr/bin/arch -arm64 /run/current-system/sw/bin/darwin-rebuild switch --flake $HOME/.dotfiles/nix#darwin
+  /usr/bin/arch -arm64 sudo /run/current-system/sw/bin/darwin-rebuild switch --flake $HOME/.dotfiles/nix#darwin
 else
   # NixOS (linux)
   NIXOS_CONFIG=$HOME/.dotfiles/nix
