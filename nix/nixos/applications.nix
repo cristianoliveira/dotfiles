@@ -55,6 +55,7 @@ in {
     spotify
 
     # Communication apps
+    rustdesk
     zapzap
     telegram-desktop
 

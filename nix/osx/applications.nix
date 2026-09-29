@@ -40,6 +40,7 @@
 
       # Others
       "bitwarden"
+      "rustdesk"
       # "veracrypt"
       # "mullvadvpn"
       # "tunnelblick" # VPN
