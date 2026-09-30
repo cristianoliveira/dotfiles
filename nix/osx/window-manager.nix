@@ -21,6 +21,12 @@ in {
 
   # Install the release binary at gestureExecutable before activating this agent.
   # Nix owns this job; do not also run `aerospace-gestures service install`.
+  # Start a loaded job: launchctl kickstart "gui/$(id -u)/com.aerospace-gestures"
+  # Restart it: launchctl kickstart -k "gui/$(id -u)/com.aerospace-gestures"
+  # After a plist change, reload the job instead of kickstarting its cached definition:
+  # launchctl bootout "gui/$(id -u)/com.aerospace-gestures"
+  # launchctl bootstrap "gui/$(id -u)" /Library/LaunchAgents/com.aerospace-gestures.plist
+  # For JSON-only changes, use the menu's Reload configuration; no restart is needed.
   launchd.agents.aerospace-gestures = {
     serviceConfig = {
       Label = "com.aerospace-gestures";
