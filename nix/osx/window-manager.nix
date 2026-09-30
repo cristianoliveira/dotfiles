@@ -22,6 +22,9 @@ in {
     serviceConfig = {
       Label = "com.aerospace-gestures";
       ProgramArguments = [ gestureExecutable "run" (toString gestureConfig) ];
+      # The menu reload action reads the newest store path from this installed plist.
+      EnvironmentVariables.AEROSPACE_GESTURES_CONFIG_PLIST =
+        "/Library/LaunchAgents/com.aerospace-gestures.plist";
       RunAtLoad = true;
       KeepAlive = { SuccessfulExit = false; };
       ThrottleInterval = 30;
