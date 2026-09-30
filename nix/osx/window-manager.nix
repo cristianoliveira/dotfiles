@@ -8,9 +8,27 @@ let
         fingers = 3;
         direction = "down";
         command = [
-          "/usr/bin/osascript"
-          "-e"
-          ''display dialog "It's hooked!" with title "Three-finger swipe down" buttons {"OK"} default button "OK" giving up after 3''
+          ''/run/current-system/sw/bin/aerospace-scratchpad'' ''move''
+        ];
+      }
+      {
+        fingers = 3;
+        direction = "left";
+        command = [
+          ''/run/current-system/sw/bin/aerospace''
+          ''workspace''
+          ''--no-stdin''
+          ''prev''
+        ];
+      }
+      {
+        fingers = 3;
+        direction = "right";
+        command = [
+          ''/run/current-system/sw/bin/aerospace''
+          ''workspace''
+          ''--no-stdin''
+          ''next''
         ];
       }
     ];
@@ -59,6 +77,8 @@ in {
       package = pkgs.co.aerospace;
 
       settings = {
+        config-version = 2;
+
         gaps = {
           inner.horizontal = 0;
           inner.vertical =   0;
