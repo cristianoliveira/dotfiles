@@ -15,8 +15,8 @@
 
   # GUI applications via homebrew
   homebrew = {
-    # FIXME: homebrew got screwed up after upgrading. Need to debug
-    enable = true;
+    # Cask activation fails on existing /Applications app permissions.
+    enable = false;
 
     taps = [];
 
