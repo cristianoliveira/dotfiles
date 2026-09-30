@@ -16,15 +16,17 @@ let
     ];
   });
 in {
+  # Keep the plist stable across config changes; the menu can reload this Nix-managed link.
+  environment.etc."aerospace-gestures/config.json".source = gestureConfig;
+
   # Install the release binary at gestureExecutable before activating this agent.
   # Nix owns this job; do not also run `aerospace-gestures service install`.
   launchd.agents.aerospace-gestures = {
     serviceConfig = {
       Label = "com.aerospace-gestures";
-      ProgramArguments = [ gestureExecutable "run" (toString gestureConfig) ];
-      # The menu reload action reads the newest store path from this installed plist.
-      EnvironmentVariables.AEROSPACE_GESTURES_CONFIG_PLIST =
-        "/Library/LaunchAgents/com.aerospace-gestures.plist";
+      ProgramArguments = [ gestureExecutable "run" "/etc/aerospace-gestures/config.json" ];
+      # The menu reload action verifies this installed plist before reloading.
+      EnvironmentVariables.AEROSPACE_GESTURES_NIX_MANAGED = "1";
       RunAtLoad = true;
       KeepAlive = { SuccessfulExit = false; };
       ThrottleInterval = 30;
