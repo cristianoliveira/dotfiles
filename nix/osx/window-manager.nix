@@ -1,4 +1,36 @@
-{ pkgs, lib, ... }: {
+{ pkgs, lib, ... }:
+let
+  gestureExecutable = "/Users/cristianoliveira/.local/bin/aerospace-gestures";
+  gestureConfig = pkgs.writeText "aerospace-gestures.json" (builtins.toJSON {
+    threshold = 0.15;
+    bindings = [
+      {
+        fingers = 3;
+        direction = "down";
+        command = [
+          "/usr/bin/osascript"
+          "-e"
+          ''display dialog "It's hooked!" with title "Three-finger swipe down" buttons {"OK"} default button "OK" giving up after 3''
+        ];
+      }
+    ];
+  });
+in {
+  # Install the release binary at gestureExecutable before activating this agent.
+  # Nix owns this job; do not also run `aerospace-gestures service install`.
+  launchd.agents.aerospace-gestures = {
+    serviceConfig = {
+      Label = "com.aerospace-gestures";
+      ProgramArguments = [ gestureExecutable "run" (toString gestureConfig) ];
+      RunAtLoad = true;
+      KeepAlive = { SuccessfulExit = false; };
+      ThrottleInterval = 30;
+      LimitLoadToSessionType = "Aqua";
+      StandardOutPath = "/dev/null";
+      StandardErrorPath = "/dev/null";
+    };
+  };
+
   environment.systemPackages = with pkgs; [
     # Requires custom packages
     # FIXME: Issue "error: a 'x86_64-linux' with features {} is required to build"
