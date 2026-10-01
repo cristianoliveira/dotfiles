@@ -202,8 +202,8 @@ bindsym $mod+Insert exec swaymsg input "2:10:TPPS/2_Synaptics_TrackPoint" events
 # Focus the workspace on the output that the mouse pointer is on with 3 fingers swipe
 # bindgesture swipe:right workspace prev_on_output
 # bindgesture swipe:left workspace next_on_output
-bindgesture swipe:4:right workspace prev_on_output
-bindgesture swipe:4:left workspace next_on_output
+bindgesture swipe:3:right workspace prev_on_output
+bindgesture swipe:3:left workspace next_on_output
 
 # Move the window to with the swipe gesture 4 fingers
 # bindgesture swipe:4:right move right
@@ -389,8 +389,8 @@ for_window [class="obsidian"] move to scratchpad
 for_window [app_id="thunar"] move to scratchpad
 
 # [SCRATCHPAD-MAPPING]
-bindgesture swipe:4:up scratchpad show; focus
-bindgesture swipe:4:down move scratchpad; focus
+bindgesture swipe:3:up scratchpad show; focus
+bindgesture swipe:3:down move scratchpad; focus
 
 # Webapps with chromium
 assign [instance="chat.openai.com"] workspace 4

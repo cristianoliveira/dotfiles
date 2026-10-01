@@ -2,7 +2,7 @@
 let
   gestureExecutable = "/Users/cristianoliveira/.local/bin/aerospace-gestures";
   gestureConfig = pkgs.writeText "aerospace-gestures.json" (builtins.toJSON {
-    threshold = 0.15;
+    threshold = 0.08;
     bindings = [
       {
         fingers = 3;
@@ -16,19 +16,19 @@ let
         direction = "left";
         command = [
           ''/run/current-system/sw/bin/aerospace''
-          ''workspace''
-          ''--no-stdin''
-          ''prev''
+          ''eval''
+          ''list-workspaces --monitor mouse --visible | workspace --stdin next; workspace prev --wrap-around''
         ];
       }
+# aerospace eval 'list-workspaces --monitor mouse --visible | workspace --stdin next; workspace next --wrap-around'
+
       {
         fingers = 3;
         direction = "right";
         command = [
           ''/run/current-system/sw/bin/aerospace''
-          ''workspace''
-          ''--no-stdin''
-          ''next''
+          ''eval''
+          ''list-workspaces --monitor mouse --visible | workspace --stdin next; workspace next --wrap-around''
         ];
       }
     ];
