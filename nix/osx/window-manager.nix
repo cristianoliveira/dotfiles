@@ -1,7 +1,6 @@
 { pkgs, lib, ... }:
 let
   gestureExecutable = "${pkgs.copkgs.aerospace-gestures}/bin/aerospace-gestures";
-  # The packaged binary must support TOML before this module is activated.
   gestureConfig = (pkgs.formats.toml { }).generate "aerospace-gestures.toml" {
     threshold = 0.08;
     bindings = [
