@@ -1,7 +1,7 @@
 { pkgs, lib, ... }:
 let
   gestureExecutable = "${pkgs.copkgs.aerospace-gestures}/bin/aerospace-gestures";
-  gestureConfig = pkgs.writeText "aerospace-gestures.json" (builtins.toJSON {
+  gestureConfig = (pkgs.formats.toml { }).generate "aerospace-gestures.toml" {
     threshold = 0.08;
     bindings = [
       {
@@ -32,10 +32,10 @@ let
         ];
       }
     ];
-  });
+  };
 in {
   # Keep the plist stable across config changes; the menu can reload this Nix-managed link.
-  environment.etc."aerospace-gestures/config.json".source = gestureConfig;
+  environment.etc."aerospace-gestures/config.toml".source = gestureConfig;
 
   # Run the Nix-installed binary; no separate release binary is needed.
   # Nix owns this job; do not also run `aerospace-gestures service install`.
@@ -44,11 +44,11 @@ in {
   # After a plist change, reload the job instead of kickstarting its cached definition:
   # launchctl bootout "gui/$(id -u)/com.aerospace-gestures"
   # launchctl bootstrap "gui/$(id -u)" /Library/LaunchAgents/com.aerospace-gestures.plist
-  # For JSON-only changes, use the menu's Reload configuration; no restart is needed.
+  # For TOML-only changes, use the menu's Reload configuration; no restart is needed.
   launchd.agents.aerospace-gestures = {
     serviceConfig = {
       Label = "com.aerospace-gestures";
-      ProgramArguments = [ gestureExecutable "run" "/etc/aerospace-gestures/config.json" ];
+      ProgramArguments = [ gestureExecutable "run" "/etc/aerospace-gestures/config.toml" ];
       # The menu reload action verifies this installed plist before reloading.
       EnvironmentVariables.AEROSPACE_GESTURES_NIX_MANAGED = "1";
       RunAtLoad = true;
@@ -106,10 +106,10 @@ in {
                          || open -a YouTube.app && aerospace-marks mark y'';
 
           # See: https://nikitabobko.github.io/AeroSpace/commands#focus
-          cmd-ctrl-h = "focus left";
-          cmd-ctrl-j = "focus down";
-          cmd-ctrl-k = "focus up";
-          cmd-ctrl-l = "focus right";
+          cmd-ctrl-h = "focus left --wrap-around";
+          cmd-ctrl-j = "focus down --wrap-around";
+          cmd-ctrl-k = "focus up --wrap-around";
+          cmd-ctrl-l = "focus right --wrap-around";
           # Focus across all monitors
           cmd-ctrl-left = "focus left --boundaries all-monitors-outer-frame";
           cmd-ctrl-down = "focus down --boundaries all-monitors-outer-frame";
