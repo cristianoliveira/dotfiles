@@ -13,6 +13,16 @@ let
       }
       {
         fingers = 3;
+        direction = "up";
+        command = [
+           # aerospace-scratchpad show "." --filter window-id="^$(queue.sh spd pop)
+          ''/run/current-system/sw/bin/aerospace-scratchpad''
+          ''next''
+          ''--monitor all''
+        ];
+      }
+      {
+        fingers = 3;
         direction = "left";
         command = [
           ''/run/current-system/sw/bin/aerospace''
