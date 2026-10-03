@@ -1,6 +1,6 @@
 { pkgs, lib, ... }:
 let
-  gestureExecutable = "${pkgs.copkgs.aerospace-gestures}/bin/aerospace-gestures";
+  gestureExecutable = "${pkgs.aerospace-gestures}/bin/aerospace-gestures";
   gestureConfig = (pkgs.formats.toml { }).generate "aerospace-gestures.toml" {
     threshold = 0.08;
     bindings = [
@@ -43,13 +43,24 @@ let
         ];
       }
 
+      # Pinch out maximizes the focused window: tile first so floating
+      # windows maximize instead of staying floating (same as cmd-ctrl-f).
+      # Pinch in exits fullscreen; both are deterministic no-ops when already
+      # in the target state. Requires the source-built aerospace-gestures
+      # (release binaries do not support pinch bindings).
       {
         fingers = 3;
         direction = "out";
         command = [
-          ''/run/current-system/sw/bin/aerospace''
-          ''eval''
-          ''layout tiling | fullscreen''
+          ''/bin/sh'' ''-c''
+          ''/run/current-system/sw/bin/aerospace layout tiling && /run/current-system/sw/bin/aerospace fullscreen on''
+        ];
+      }
+      {
+        fingers = 3;
+        direction = "in";
+        command = [
+          ''/run/current-system/sw/bin/aerospace'' ''fullscreen'' ''off''
         ];
       }
     ];
@@ -86,7 +97,7 @@ in {
     # FIXME: Issue "error: a 'x86_64-linux' with features {} is required to build"
     copkgs.aerospace-marks
     copkgs.aerospace-scratchpad
-    copkgs.aerospace-gestures
+    aerospace-gestures
   ];
 
   services = {

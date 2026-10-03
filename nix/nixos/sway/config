@@ -210,6 +210,11 @@ bindgesture swipe:3:left workspace next_on_output
 # bindgesture swipe:4:right move right
 # bindgesture swipe:4:left move left
 
+# Pinch out maximizes the focused window (real fullscreen, not floating);
+# pinch in restores it. No-op when already in the target state.
+bindgesture pinch:3:outward fullscreen enable
+bindgesture pinch:3:inward fullscreen disable
+
 #### Keyboard configuration - Input
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
