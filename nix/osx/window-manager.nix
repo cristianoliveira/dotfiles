@@ -18,7 +18,8 @@ let
            # aerospace-scratchpad show "." --filter window-id="^$(queue.sh spd pop)
           ''/run/current-system/sw/bin/aerospace-scratchpad''
           ''next''
-          ''--monitor all''
+          ''--monitor''
+          ''all''
         ];
       }
       {
@@ -39,6 +40,16 @@ let
           ''/run/current-system/sw/bin/aerospace''
           ''eval''
           ''list-workspaces --monitor mouse --visible | workspace --stdin next; workspace next --wrap-around''
+        ];
+      }
+
+      {
+        fingers = 3;
+        direction = "out";
+        command = [
+          ''/run/current-system/sw/bin/aerospace''
+          ''eval''
+          ''layout tiling | fullscreen''
         ];
       }
     ];
@@ -429,10 +440,11 @@ in {
           "9" = ["built-in" "main"];
           "0" = ["built-in" "main"];
 
-          # Scratchpad workspaces
-          ".scratchpad.1" = "main";
-          ".scratchpad.2" = "secondary";
-          ".scratchpad.3" = "tertiary";
+          # Scratchpad suffixes match AeroSpace's numeric monitor IDs.
+          # IDs follow display order and can change when monitors are rearranged.
+          ".scratchpad.1" = 1;
+          ".scratchpad.2" = 2;
+          ".scratchpad.3" = 3;
         };
 
         on-window-detected = [
