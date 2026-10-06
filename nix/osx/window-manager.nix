@@ -1,6 +1,38 @@
 { pkgs, lib, ... }:
 let
-  gestureExecutable = "${pkgs.aerospace-gestures}/bin/aerospace-gestures";
+  gestureExecutable = "${pkgs.copkgs.aerospace-gestures}/bin/aerospace-gestures";
+  cycleWorkspace = pkgs.writeShellScript "aerospace-cycle-workspace" ''
+    set -euo pipefail
+
+    case "$1" in
+      prev) step=-1 ;;
+      next) step=1 ;;
+      *) exit 2 ;;
+    esac
+
+    aerospace=/run/current-system/sw/bin/aerospace
+    current=$($aerospace list-workspaces --focused)
+    target=$($aerospace list-workspaces --monitor mouse | /usr/bin/awk \
+      -v current="$current" -v step="$step" '
+        $0 !~ /^\./ { workspaces[++count] = $0 }
+        END {
+          if (!count) exit
+          for (i = 1; i <= count; i++) {
+            if (workspaces[i] == current) {
+              selected = i
+              break
+            }
+          }
+          if (!selected) selected = step == 1 ? 0 : count + 1
+          target = selected + step
+          if (target < 1) target = count
+          if (target > count) target = 1
+          print workspaces[target]
+        }
+      ')
+
+    [[ -n "$target" ]] && "$aerospace" workspace "$target"
+  '';
   gestureConfig = (pkgs.formats.toml { }).generate "aerospace-gestures.toml" {
     threshold = 0.08;
     bindings = [
@@ -24,43 +56,23 @@ let
       }
       {
         fingers = 3;
-        direction = "left";
-        command = [
-          ''/run/current-system/sw/bin/aerospace''
-          ''eval''
-          ''list-workspaces --monitor mouse --visible | workspace --stdin next; workspace prev --wrap-around''
-        ];
+        direction = "right";
+        command = [ "${cycleWorkspace}" "prev" ];
       }
-# aerospace eval 'list-workspaces --monitor mouse --visible | workspace --stdin next; workspace next --wrap-around'
 
       {
         fingers = 3;
-        direction = "right";
-        command = [
-          ''/run/current-system/sw/bin/aerospace''
-          ''eval''
-          ''list-workspaces --monitor mouse --visible | workspace --stdin next; workspace next --wrap-around''
-        ];
+        direction = "left";
+        command = [ "${cycleWorkspace}" "next" ];
       }
 
-      # Pinch out maximizes the focused window: tile first so floating
-      # windows maximize instead of staying floating (same as cmd-ctrl-f).
-      # Pinch in exits fullscreen; both are deterministic no-ops when already
-      # in the target state. Requires the source-built aerospace-gestures
-      # (release binaries do not support pinch bindings).
       {
         fingers = 3;
         direction = "out";
         command = [
-          ''/bin/sh'' ''-c''
-          ''/run/current-system/sw/bin/aerospace layout tiling && /run/current-system/sw/bin/aerospace fullscreen on''
-        ];
-      }
-      {
-        fingers = 3;
-        direction = "in";
-        command = [
-          ''/run/current-system/sw/bin/aerospace'' ''fullscreen'' ''off''
+          ''/run/current-system/sw/bin/aerospace''
+          ''eval''
+          ''layout tiling | fullscreen''
         ];
       }
     ];
@@ -97,7 +109,7 @@ in {
     # FIXME: Issue "error: a 'x86_64-linux' with features {} is required to build"
     copkgs.aerospace-marks
     copkgs.aerospace-scratchpad
-    aerospace-gestures
+    copkgs.aerospace-gestures
   ];
 
   services = {
