@@ -43,6 +43,7 @@
 
       # Persistent object states
       copkgs.sway-setter
+      copkgs.sway-compat
     ];
 
     xwayland.enable = true;

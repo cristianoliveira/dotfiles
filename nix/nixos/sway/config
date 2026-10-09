@@ -278,10 +278,10 @@ bindsym $mod+Ctrl+F12 reload
 bindsym Print exec grim -g "$(slurp)"
 
 # Cycle through windows of the same application
-bindsym $mod+grave exec ~/golang/bin/sway-compat cycle-forward
-bindsym $mod+Shift+grave exec ~/golang/bin/sway-compat cycle-backward
+bindsym $mod+grave exec sway-compat cycle-forward
+bindsym $mod+Shift+grave exec sway-compat cycle-backward
 
-bindsym $mod+Tab exec SWAY_COMPAT_LOGS_LEVEL=DEBUG ~/golang/bin/sway-compat stack toggle
+bindsym $mod+Tab exec SWAY_COMPAT_LOGS_LEVEL=DEBUG sway-compat stack toggle
 
 # Exit sway (logs you out of your Wayland session)
 mode "exit: [l]ogout, [r]eboot, [s]hutdown" {
@@ -771,7 +771,7 @@ exec_always $HOME/.dotfiles/nix/nixos/sway/bin/swayidle.sh &
 exec_always pkill -x sway-audio-idle-inhibit || true && sway-audio-idle-inhibit
 
 # Start the daemon on Sway launch
-exec_always SWAY_COMPAT_LOGS_LEVEL=DEBUG ~/golang/bin/sway-compat daemon
+exec_always SWAY_COMPAT_LOGS_LEVEL=DEBUG sway-compat daemon
 
 # on Nixos 24.11 sysconfdir is not set
 # include @sysconfdir@/sway/config.d/*
