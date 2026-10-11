@@ -3,9 +3,8 @@ scaling=fit
 
 color=000000
 
-## When using fingerprint an login attempt needs to happen first
-## So: Return + Fingerprint
-## ignore-empty-password
+## Type your password + Return, or press Return with no password for fingerprint.
+## Keep ignore-empty-password disabled so an empty attempt can reach fingerprint.
 
 hide-keyboard-layout
 indicator-caps-lock

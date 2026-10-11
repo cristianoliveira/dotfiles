@@ -1,4 +1,4 @@
-_:
+{ config, ... }:
 {
   # NOTE: It is working on ThinkPad P14s Gen 5
   # See more: https://archive.is/tYQlZ
@@ -27,8 +27,15 @@ _:
   };
 
   security.pam.services = {
-    login.fprintAuth = true;
-    swaylock.fprintAuth = true;
-    sddm.fprintAuth = true;
+    # SDDM delegates authentication to login. Keep password/keyring rules first
+    # so a correct password never waits for the fingerprint reader.
+    login = {
+      fprintAuth = true;
+      rules.auth.fprintd.order = config.security.pam.services.login.rules.auth.unix.order + 1;
+    };
+    swaylock = {
+      fprintAuth = true;
+      rules.auth.fprintd.order = config.security.pam.services.swaylock.rules.auth.unix.order + 1;
+    };
   };
 }
