@@ -8,7 +8,7 @@ in {
   environment.systemPackages = with pkgs; [
     # GUIs
     alacritty
-    bitwarden-desktop
+    (import ./bitwarden-desktop.nix { inherit pkgs; })
     wtype
 
     # Media
