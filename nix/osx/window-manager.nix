@@ -1,6 +1,6 @@
 { pkgs, lib, ... }:
 let
-  gestureExecutable = "${pkgs.copkgs.aerospace-gestures}/bin/aerospace-gestures";
+  gestureExecutable = "${pkgs.aerospace-gestures}/bin/aerospace-gestures";
   cycleWorkspace = pkgs.writeShellScript "aerospace-cycle-workspace" ''
     set -euo pipefail
 
@@ -81,7 +81,7 @@ in {
   # Keep the plist stable across config changes; the menu can reload this Nix-managed link.
   environment.etc."aerospace-gestures/config.toml".source = gestureConfig;
 
-  # Run the Nix-installed binary; no separate release binary is needed.
+  # Use the same explicitly pinned package for the LaunchAgent and system PATH.
   # Nix owns this job; do not also run `aerospace-gestures service install`.
   # Start a loaded job: launchctl kickstart "gui/$(id -u)/com.aerospace-gestures"
   # Restart it: launchctl kickstart -k "gui/$(id -u)/com.aerospace-gestures"
@@ -109,7 +109,7 @@ in {
     # FIXME: Issue "error: a 'x86_64-linux' with features {} is required to build"
     copkgs.aerospace-marks
     copkgs.aerospace-scratchpad
-    copkgs.aerospace-gestures
+    aerospace-gestures
   ];
 
   services = {

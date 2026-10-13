@@ -4,9 +4,8 @@
   # https://github.com/cristianoliveira/nixpkgs
   copkgs = copkgs.packages.${system};
 
-  # aerospace-gestures built from source because released versions do not
-  # support pinch bindings yet. Null on non-darwin hosts: aerospace-gestures
-  # is darwin-only software and no host besides the darwin one uses it.
+  # Use the explicitly pinned top-level source for the Darwin package. Null on
+  # non-darwin hosts: aerospace-gestures is darwin-only software.
   aerospace-gestures =
     aerospace-gestures.packages.${system}.aerospace-gestures or null;
 

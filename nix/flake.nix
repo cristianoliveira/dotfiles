@@ -19,9 +19,8 @@
 
     copkgs.url = "github:cristianoliveira/nixpkgs";
 
-    # Built from source because pinch bindings are not in any released
-    # aerospace-gestures version yet (copkgs pins the release binary).
-    aerospace-gestures.url = "github:cristianoliveira/aerospace-gestures";
+    # Pin the release used by both the generated config and LaunchAgent.
+    aerospace-gestures.url = "github:cristianoliveira/aerospace-gestures/v0.5.0";
   };
 
   outputs = {
