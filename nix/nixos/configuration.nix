@@ -31,6 +31,8 @@ in {
       ../shared/developer-tools.nix
       ../shared/sysadmin-tools.nix
       ../shared/environment-variables.nix
+      ../shared/on-demand-services.nix
+      ./on-demand-services.nix
       ../shared/stow.nix
     ];
 

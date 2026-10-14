@@ -22,6 +22,8 @@ in {
       ../shared/developer-tools.nix
       ../shared/direnv.nix
       ../shared/environment-variables.nix
+      ../shared/on-demand-services.nix
+      ./on-demand-services.nix
 
       # Others
       ./streaming.nix
