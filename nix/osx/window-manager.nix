@@ -67,6 +67,50 @@ let
       }
 
       {
+        fingers = 4;
+        direction = "right";
+        command = [
+          ''/run/current-system/sw/bin/aerospace''
+          "focus"
+          "left"
+        ];
+      }
+      {
+        fingers = 4;
+        direction = "left";
+        command = [
+          ''/run/current-system/sw/bin/aerospace''
+          "focus"
+          "right"
+        ];
+      }
+
+      # cmd-ctrl-left = "focus left --boundaries all-monitors-outer-frame";
+      # cmd-ctrl-right = "focus right --boundaries all-monitors-outer-frame";
+      {
+        fingers = 3;
+        direction = "right";
+        modifiers = ["command"];
+        command = [
+          ''/run/current-system/sw/bin/aerospace''
+          "move-node-to-workspace"
+          "next"
+          "--no-stdin"
+        ];
+      }
+      {
+        fingers = 3;
+        direction = "left";
+        modifiers = ["command"];
+        command = [
+          ''/run/current-system/sw/bin/aerospace''
+          "move-node-to-workspace"
+          "prev"
+          "--no-stdin"
+        ];
+      }
+
+      {
         fingers = 3;
         direction = "out";
         command = [
