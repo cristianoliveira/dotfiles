@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ config, pkgs, lib, ... }:
 let
   gestureExecutable = "${pkgs.copkgs.aerospace-gestures}/bin/aerospace-gestures";
   cycleWorkspace = pkgs.writeShellScript "aerospace-cycle-workspace" ''
@@ -127,24 +127,24 @@ in {
 
   # Run the Nix-installed binary; no separate release binary is needed.
   # Nix owns this job; do not also run `aerospace-gestures service install`.
-  # Start a loaded job: launchctl kickstart "gui/$(id -u)/com.aerospace-gestures"
-  # Restart it: launchctl kickstart -k "gui/$(id -u)/com.aerospace-gestures"
-  # After a plist change, reload the job instead of kickstarting its cached definition:
-  # launchctl bootout "gui/$(id -u)/com.aerospace-gestures"
-  # launchctl bootstrap "gui/$(id -u)" /Library/LaunchAgents/com.aerospace-gestures.plist
+  # The service lives in the primary user's LaunchAgents directory.
   # For TOML-only changes, use the menu's Reload configuration; no restart is needed.
-  launchd.agents.aerospace-gestures = {
+  launchd.user.agents.aerospace-gestures = {
     serviceConfig = {
       Label = "com.aerospace-gestures";
       ProgramArguments = [ gestureExecutable "run" "/etc/aerospace-gestures/config.toml" ];
       # The menu reload action verifies this installed plist before reloading.
-      EnvironmentVariables.AEROSPACE_GESTURES_NIX_MANAGED = "1";
+      EnvironmentVariables = {
+        AEROSPACE_GESTURES_NIX_MANAGED = "1";
+        HOME = "/Users/${config.system.primaryUser}";
+        PATH = "/Users/${config.system.primaryUser}/.nix-profile/bin:/run/current-system/sw/bin:/usr/bin:/bin:/usr/sbin:/sbin";
+      };
       RunAtLoad = true;
       KeepAlive = { SuccessfulExit = false; };
       ThrottleInterval = 30;
       LimitLoadToSessionType = "Aqua";
-      StandardOutPath = "/dev/null";
-      StandardErrorPath = "/dev/null";
+      StandardOutPath = "/tmp/aerospace-gestures.log";
+      StandardErrorPath = "/tmp/aerospace-gestures.error.log";
     };
   };
 

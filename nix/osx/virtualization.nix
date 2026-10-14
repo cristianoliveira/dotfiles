@@ -5,18 +5,18 @@
     docker-compose
   ];
 
-  # Start Colima at login with the user environment Lima expects.
-  launchd.agents."colima.default" = {
+  # Run Colima from the primary user's launchd domain so Lima never runs as root.
+  launchd.user.agents."colima.default" = {
     command = "${pkgs.colima}/bin/colima start --foreground";
     serviceConfig = {
       Label = "com.colima.default";
       RunAtLoad = true;
       KeepAlive = true;
-      StandardOutPath = "/var/log/colima.log";
-      StandardErrorPath = "/var/log/colima.error.log";
+      StandardOutPath = "/tmp/colima.log";
+      StandardErrorPath = "/tmp/colima.error.log";
       EnvironmentVariables = {
         HOME = "/Users/${config.system.primaryUser}";
-        PATH = "${pkgs.colima}/bin:${pkgs.docker}/bin:/usr/bin:/bin:/usr/sbin:/sbin";
+        PATH = "/Users/${config.system.primaryUser}/.nix-profile/bin:${pkgs.colima}/bin:${pkgs.docker}/bin:/run/current-system/sw/bin:/usr/bin:/bin:/usr/sbin:/sbin";
       };
     };
   };
