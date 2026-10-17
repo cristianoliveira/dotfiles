@@ -206,9 +206,9 @@ bindsym $mod+Insert exec swaymsg input "2:10:TPPS/2_Synaptics_TrackPoint" events
 bindgesture swipe:3:right workspace prev_on_output
 bindgesture swipe:3:left workspace next_on_output
 
-# Move the window to with the swipe gesture 4 fingers
-# bindgesture swipe:4:right move right
-# bindgesture swipe:4:left move left
+# Four-finger horizontal swipes focus the adjacent window, as on macOS.
+bindgesture swipe:4:right focus left
+bindgesture swipe:4:left focus right
 
 # Pinch out maximizes the focused window (real fullscreen, not floating);
 # pinch in restores it. No-op when already in the target state.
