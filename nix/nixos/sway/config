@@ -283,6 +283,10 @@ bindsym $mod+Shift+grave exec sway-compat cycle-backward
 
 bindsym $mod+Tab exec SWAY_COMPAT_LOGS_LEVEL=DEBUG sway-compat stack toggle
 
+# Keep a floating window visible when focus moves to a tiled window.
+bindsym $mod+Shift+p exec sway-compat pin
+bindsym $mod+Shift+u exec sway-compat unpin
+
 # Exit sway (logs you out of your Wayland session)
 mode "exit: [l]ogout, [r]eboot, [s]hutdown" {
     # Mappings
@@ -770,8 +774,8 @@ exec_always pgrep -x handy >/dev/null || handy --start-hidden
 exec_always $HOME/.dotfiles/nix/nixos/sway/bin/swayidle.sh &
 exec_always pkill -x sway-audio-idle-inhibit || true && sway-audio-idle-inhibit
 
-# Start the daemon on Sway launch
-exec_always SWAY_COMPAT_LOGS_LEVEL=DEBUG sway-compat daemon
+# Start once per Sway session; reloads must not spawn a second subscriber.
+exec SWAY_COMPAT_LOGS_LEVEL=DEBUG sway-compat daemon --hide-floating-on-focus
 
 # on Nixos 24.11 sysconfdir is not set
 # include @sysconfdir@/sway/config.d/*
