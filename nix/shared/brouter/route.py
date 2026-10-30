@@ -17,14 +17,14 @@ PERSONAL = re.compile(
 WORK = re.compile(
     rb"github\.com/(wireapp|pydio)|"
 
-    rb"meet\.google|atlassian.net|ngrok-free|tuple|figma|smartling|"
-    rb"sentry.io|expo.dev|mail.google|mixpanel\.com|miro\.com|"
-    rb"segment\.com|sanity.studio|superblocks|slack|notion.so|docs\.google|"
+    rb"meet\.google|atlassian\.(net|com)|ngrok-free|tuple|figma|smartling|"
+    rb"sentry\.io|expo.dev|mail\.google|mixpanel\.com|miro\.com|"
+    rb"segment\.com|sanity\.studio|superblocks|slack|notion\.so|docs\.google|"
     # Storage
     rb"drive\.google\.com|"
 
     # wire
-    rb"shortcut\.com|jumpcloud.com|"
+    rb"shortcut\.com|jumpcloud\.com|"
     rb"wire\.com|pydio\.com|zendesk\.com"
     rb"$"
 )
