@@ -36,6 +36,16 @@ in {
   
   services.openssh.enable = true;
 
+  networking.hosts = {
+    "127.0.0.1" = [
+      "local.zinfra.io"
+      "local.imai.wire.link"
+      "local.bella.wire.link"
+      "local.fulu.wire.link"
+      "local.staging.wire.link"
+    ];
+  };
+
   # Create /etc/zshrc that loads the nix-darwin environment.
   programs = {
     gnupg.agent.enable = true;
