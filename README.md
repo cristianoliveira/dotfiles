@@ -1,6 +1,9 @@
 # dotfiles
 
-My "dotfiles" is a reproducible development environment for NixOS and macOS. Different systems, same i3 like develepor experience.
+My "dotfiles" is a reproducible development environment for NixOS and macOS. 
+
+Different systems, same i3 like develepor experience.
+
 I try to keep the DX of both systems as close as possible, as well as, the overall UI/UX. I'd say they are 90% similar.
 
 # System Details
