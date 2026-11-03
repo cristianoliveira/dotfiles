@@ -36,15 +36,13 @@ in {
   
   services.openssh.enable = true;
 
-  networking.hosts = {
-    "127.0.0.1" = [
-      "local.zinfra.io"
-      "local.imai.wire.link"
-      "local.bella.wire.link"
-      "local.fulu.wire.link"
-      "local.staging.wire.link"
-    ];
-  };
+  system.activationScripts.extraHosts.text = ''
+    for host in local.zinfra.io local.imai.wire.link local.bella.wire.link local.fulu.wire.link local.staging.wire.link; do
+      if ! /usr/bin/grep -qE "^[[:space:]]*127\\.0\\.0\\.1[[:space:]].*([[:space:]]|^)''${host}([[:space:]]|$)" /etc/hosts; then
+        echo "127.0.0.1 ''${host}" >> /etc/hosts
+      fi
+    done
+  '';
 
   # Create /etc/zshrc that loads the nix-darwin environment.
   programs = {
