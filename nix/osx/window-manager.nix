@@ -122,17 +122,16 @@ let
     ];
   };
 in {
-  # Keep the plist stable across config changes; the menu can reload this Nix-managed link.
   environment.etc."aerospace-gestures/config.toml".source = gestureConfig;
 
   # Run the Nix-installed binary; no separate release binary is needed.
   # Nix owns this job; do not also run `aerospace-gestures service install`.
-  # The service lives in the primary user's LaunchAgents directory.
-  # For TOML-only changes, use the menu's Reload configuration; no restart is needed.
+  # Refer to the immutable config path so config changes update the plist and
+  # nix-darwin reloads the LaunchAgent during activation.
   launchd.user.agents.aerospace-gestures = {
     serviceConfig = {
       Label = "com.aerospace-gestures";
-      ProgramArguments = [ gestureExecutable "run" "/etc/aerospace-gestures/config.toml" ];
+      ProgramArguments = [ gestureExecutable "run" (toString gestureConfig) ];
       # The menu reload action verifies this installed plist before reloading.
       EnvironmentVariables = {
         AEROSPACE_GESTURES_NIX_MANAGED = "1";
