@@ -189,7 +189,7 @@
               "type": "block",
               "min": 180,
               "content": {
-                "mod": "tabs"
+                "mod": "tmux-tabs"
               }
             },
             {

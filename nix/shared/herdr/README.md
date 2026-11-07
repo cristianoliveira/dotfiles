@@ -51,8 +51,13 @@ left, with local time and date on the right (`HH:MM ddd DD-Mon-YY`, matching
 `tmux.conf`). The clock checks local time each second but redraws only when the
 displayed minute changes.
 
+The bottom bar uses `tmux-tabs`, a personal clone of Herdr 0.1.13's `tabs` mod
+without minimize, maximize, or window-close buttons. Tab creation, selection,
+closing, reordering, and panel toggles remain available. Time/date stays at the
+far right of this bottom bar, not in the sidebar.
+
 These clones do not receive upstream mod updates. Compare them with Herdr's
-shipped `spaces` and `agents` mods when upgrading.
+shipped `spaces`, `agents`, and `tabs` mods when upgrading.
 
 ## Tmux equivalents
 
