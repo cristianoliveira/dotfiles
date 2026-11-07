@@ -5,7 +5,7 @@ import { folderTabName } from "./rename.js";
 import { RepeatMode } from "./repeat-view.js";
 import { CloseSpacesMode } from "./close-spaces-view.js";
 import { PopupHeader } from "./popup-header.js";
-import { popupPlan, killPortPlan, openPopup, releasePopup, popupIsLive } from "./popup.js";
+import { popupPlan, killPortPlan, openPopup, releasePopup, popupIsLive, popupPresentation } from "./popup.js";
 import { broadcastPlan } from "./broadcast.js";
 
 const HISTORY = "tmux-compat.space-history";
@@ -70,7 +70,7 @@ export default class TmuxCompat extends View {
           ])).code === 0,
           open: (address) => {
             if (this.closing) throw new Error("Popup owner closed during startup.");
-            return openOverlay({ kind: "dialog", width: killPort ? 0.5 : 0.85, height: broadcast ? 180 : killPort ? 0.4 : 0.75, layout: {
+            return openOverlay({ ...popupPresentation(kind), layout: {
               type: "column",
               children: [
                 { id: "popup-header", type: "block", size: { px: 36 }, content: {

@@ -260,7 +260,8 @@ Once a selection is confirmed, closing the overlay cannot undo the kill.
 
 ### Broadcast input mode (prototype)
 
-Press `Ctrl-a`, then lowercase `e` to open a small **BROADCAST MODE** terminal.
+Press `Ctrl-a`, then lowercase `e` to open a compact **BROADCAST MODE** terminal
+in the top-left corner (480 × 140 px), without dimming the window.
 Wait for **READY / BROADCAST ON**, then type there. Each keystroke goes to every
 terminal pane captured from the current tab. **Enter submits in every target**;
 Ctrl+C is also broadcast. Escape exits instead of reaching the targets.

@@ -1,6 +1,17 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { popupPlan, killPortPlan, openPopup, releasePopup, popupIsLive, POPUP_LABEL } from "../mods/tmux-compat/popup.js";
+import { popupPlan, killPortPlan, openPopup, releasePopup, popupIsLive, popupPresentation, POPUP_LABEL } from "../mods/tmux-compat/popup.js";
+
+test("broadcast captures input in a compact corner popup without dimming", () => {
+  assert.deepEqual(popupPresentation("broadcast"), {
+    kind: "popup", at: { x: 48, y: 16 }, width: 480, height: 140,
+  });
+});
+
+test("project and kill-port pickers keep their centered dialog sizes", () => {
+  assert.deepEqual(popupPresentation("project"), { kind: "dialog", width: 0.85, height: 0.75 });
+  assert.deepEqual(popupPresentation("kill-port"), { kind: "dialog", width: 0.5, height: 0.4 });
+});
 
 const focus = { space: "local", tab: "tab", pane: "pane", terminal: "t1", cwd: "/work/project" };
 const spaces = [{ id: "local", machine: null }];
