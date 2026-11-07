@@ -8,3 +8,7 @@ __pycache__/
 
 # generated AST maps
 .ast.map.json
+
+# Herdr-generated editor support
+/nix/shared/herdr/mods/**/gpui-kit.d.ts
+/nix/shared/herdr/mods/**/jsconfig.json
