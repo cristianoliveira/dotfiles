@@ -44,6 +44,7 @@
         nvim = pkgs.mkShell {
           packages = [
             pkgs.neovim
+            pkgs.tree-sitter
             pkgs.stylua
             pkgs.lua51Packages.luacheck
             pkgs.vimPlugins.mini-nvim

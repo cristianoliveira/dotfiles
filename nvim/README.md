@@ -39,6 +39,9 @@ init.lua
 - `<leader>ghs` — Search on GitHub (by extension)
 - `<leader>rhsf` — Search on GitHub (by filename)
 - `<C-l>` — UltiSnips expand / jump forward
+- `<C-Space>` — Select syntax node / expand to parent
+- `<M-Space>` — Shrink syntax selection to child
+- `<C-s>` (visual) — Expand to parent (replaces legacy scope selection)
 
 Full keymaps in `lua/customization/mappings/`.
 
@@ -57,7 +60,23 @@ Custom UltiSnips snippets live in `mysnippets/`. Mostly geared toward note-takin
 
 ## Requirements
 
-- Neovim ≥ 0.9
+- Neovim ≥ 0.12 (Tree-sitter and textobjects use their `main` branches)
 - Git (for lazy.nvim bootstrap)
-- Tree-sitter CLI (lazy auto-builds grammars)
+- Tree-sitter CLI ≥ 0.26.1, C compiler, curl, and tar (for parser installation)
 - Node / Go runtimes for LSP servers (via mason)
+
+Shared Nix packages provide the Tree-sitter CLI. Rebuild the system after updating
+these packages. Run `:TSUpdate` after updating the Tree-sitter plugins, then restart
+Neovim. Missing configured parsers install asynchronously; reopen the buffer after
+installation to enable highlighting.
+
+## Tree-sitter regression check
+
+After installing plugins and parsers, run from `nvim/`:
+
+```sh
+nvim --headless --noplugin -u NONE -l tests/treesitter_spec.lua
+```
+
+This checks Markdown injections, source edits, Lua indentation, function motions,
+parameter edits, native node selection, and filetypes without parsers.

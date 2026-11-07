@@ -56,6 +56,7 @@ in {
     pythonWithTools
 
     # Nvim plugins dependencies
+    tree-sitter # nvim-treesitter: generate parsers with tree-sitter-cli
     libiconv # VIM: Required to build lsp in Mason
     gcc # VIM: Required to build lsp in Mason
 
