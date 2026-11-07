@@ -1,7 +1,8 @@
 # Herdr key bindings
 
-Nix installs `herdr-app` and `herdr-core`. Stow links only `keys.json` into
-`~/.config/herdr-app`; Herdr owns settings, layouts, sessions, and runtime state.
+Nix installs `herdr-app` and `herdr-core`. Stow links `keys.json` and the
+personal `project-picker` mod into `~/.config/herdr-app`; Herdr owns settings,
+layouts, sessions, and runtime state.
 The install hook creates a real app directory so Stow cannot link the whole
 mutable directory into this repository.
 
@@ -25,6 +26,7 @@ not tmux's repeat key table: repeat the prefix for each action.
 |---|---|
 | `c` | New tab in the focused terminal's folder |
 | `n` / `p` | Previous / next tab (same order as your tmux config) |
+| `Ctrl-p` | Search projects under `~/work` and `~/other` |
 | `1`–`9` | Select tab |
 | `,` | Rename tab with a prompt |
 | `w` / `_` | Split down |
@@ -46,7 +48,38 @@ Linux clipboard/search and new-tab/split shortcuts are also included.
 This file replaces defaults rather than merging them; it is a selected shared
 keymap, not a full copy of either platform's stock keymap.
 
-Not mapped yet: last-window/session toggles, tmux session picker and popups,
+## Project picker
+
+Press `Ctrl-a`, then `Ctrl-p` (hold Ctrl for both letters if preferred).
+Type a fuzzy query, use arrows or click a row, and press Enter to open it.
+Escape cancels without creating a space. Plain `Ctrl-a p` still means next tab.
+
+Discovery follows the same roots and depth as `bin/tmux-sp`: immediate child
+directories of `~/work` and `~/other`, including directory symlinks. Labels are
+`work/project` or `other/project`. Missing roots are skipped; unreadable roots
+show a warning. Local spaces with the same canonical folder are reused;
+otherwise a local space is created with one terminal tab. Remote spaces are
+not reused. Unlike the tmux script, it does not create five starter windows.
+Python 3, already installed by the shared developer tools, handles discovery.
+Project names are passed as data, never interpolated into shell commands.
+
+Verify changes with:
+
+```sh
+python3 -m unittest discover -s nix/shared/herdr/tests -v
+node --experimental-default-type=module --test nix/shared/herdr/tests/model.test.mjs
+herdr-app check ~/.config/herdr-app/mods/project-picker
+herdr-app do mod.open:project-picker
+herdr-app status
+```
+
+The personal mod is not a copy of Herdr's shipped picker, so app upgrades do
+not replace it. Only files in this directory belong in Git; runtime state
+stays outside it.
+
+## Remaining tmux differences
+
+Not mapped yet: last-window/session toggles and other tmux popups,
 copy-mode vi selection, synchronization, pane resize/equalize, mouse toggles,
 and automatic folder-based rename. Herdr has no direct equivalent in its
 current command list for these workflows. Settings and core configuration
