@@ -11,8 +11,8 @@
   "font_size": 12,
   "terminal_opacity": 0.85,
   "terminal_padding": [
-    14,
-    12
+    4,
+    4
   ],
   "divider": {
     "width": 1,
