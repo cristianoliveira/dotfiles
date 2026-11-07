@@ -1,12 +1,12 @@
-// Go to a tab. Drops from the Terminals layout's space chip (popup, at: "top"). Spaces with
-// something that needs you come first, quiet spaces (no agent running)
-// fold into "earlier". Type to filter, ↑/↓ or Ctrl-j/k and Enter to go, Ctrl-d to close
+// Go to a tab, grouped by space and ordered by most recent focus.
+// Type to filter, ↑/↓ or Ctrl-j/k and Enter to go, Ctrl-d to close
 // a tab, Esc to leave. Last rows: new work (a tab here, a space on this
 // computer or on each connected machine).
 
 import { View, div, svg } from "gpui-kit";
 import { v_flex, h_flex, InputState, Input } from "gpui-base";
 import { agents, spaces, terminals, run, hc, theme, settings, props, closeOverlay, openOverlay, shared, setShared } from "herdr";
+import { sortRecentGroups } from "./recency.js";
 
 const MARK = { ansi6: "#22a99a", ansi3: "#e3814f", ansi4: "#5b8def", ansi5: "#8b7cf6", ansi2: "#3fae6a", ansi1: "#d9649a" };
 
@@ -44,7 +44,6 @@ export default class Picker extends View {
     cx.timer.after(600, () => this.input.focus());
     this.at = null;
     this.scroll = 0;
-    this.showEarlier = false;
     this.machines = [];
     this.handle = cx.focus_handle();
     cx.spawn(async (cx) => {
@@ -79,18 +78,11 @@ export default class Picker extends View {
         .filter((c) => !f || [w.name, c.ctx.name, ...c.mine.map((a) => a.program?.name ?? "")].join(" ").toLowerCase().includes(f));
       return { w, ctxs };
     });
-    const busy = groups.filter((p) => p.w.status && p.ctxs.length);
-    const quiet = groups.filter((p) => !p.w.status && p.ctxs.length);
-    busy.sort((a, b) => (b.w.status === "blocked") - (a.w.status === "blocked"));
+    const ordered = sortRecentGroups(groups.filter(p => p.ctxs.length), shared("tmux-compat.recent-tabs") ?? []);
     const out = [];
-    const add = (p) => {
+    for (const p of ordered) {
       out.push({ kind: "head", w: p.w });
       for (const c of p.ctxs) out.push({ kind: "ctx", ...c });
-    };
-    busy.forEach(add);
-    if (quiet.length) {
-      out.push({ kind: "earlier", count: quiet.length });
-      if (this.showEarlier || f) quiet.forEach(add);
     }
     out.push({ kind: "new" });
     out.push({ kind: "space", machine: null });
@@ -122,7 +114,7 @@ export default class Picker extends View {
     // One continuous strip: each row (and the group title before it) at a fixed
     // y. Scrolling moves the strip only as far as it takes to keep the selected
     // row in view, so the arrows can't run the selection off the list.
-    const H = { head: 29, earlier: 35, new: 36, ctx: 32, space: 32 };
+    const H = { head: 29, new: 36, ctx: 32, space: 32 };
     const tops = [];
     let y = 0;
     rows.forEach((r) => { tops.push(y); y += H[r.kind] ?? 32; });
@@ -155,24 +147,6 @@ export default class Picker extends View {
           .text_color(t.dim)
           .child(h_flex().size(18).rounded(5).bg(spaceColor(t, r.w)).items_center().justify_center().text_size(10.5).font_bold().text_color("#ffffff").child([...r.w.name][0]?.toUpperCase() ?? "?"))
           .child(r.w.name);
-      }
-      if (r.kind === "earlier") {
-        return h_flex()
-          .id("pk-earlier")
-          .mt(6)
-          .px(10)
-          .py(6)
-          .border_t(1)
-          .border_color(t.border)
-          .text_size(12)
-          .text_color(t.dim)
-          .cursor_pointer()
-          .hover((s) => s.text_color(t.foreground))
-          .on_click((_e, cx) => {
-            this.showEarlier = !this.showEarlier;
-            cx.notify();
-          })
-          .child(`earlier: ${r.count} quiet space${r.count > 1 ? "s" : ""} ${this.showEarlier ? "▴" : "▾"}`);
       }
       const on = r === sel;
       if (r.kind === "new" || r.kind === "space") {

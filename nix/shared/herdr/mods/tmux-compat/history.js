@@ -28,3 +28,14 @@ export function observeTabs(history, spaces) {
 export function lastTab(history, spaceId) {
   return history[spaceId]?.[1] ?? null;
 }
+
+export function observeRecentTabs(history, spaces) {
+  const live = new Map(spaces.map(space => [space.id, new Set(space.tabs.map(tab => tab.id))]));
+  const previous = history.filter(visit => live.get(visit.space)?.has(visit.tab));
+  const space = spaces.find(space => space.active);
+  const tab = space?.tabs.find(tab => tab.active);
+  if (!tab) return previous;
+
+  return [{ space: space.id, tab: tab.id }, ...previous.filter(visit =>
+    visit.space !== space.id || visit.tab !== tab.id)];
+}

@@ -136,10 +136,18 @@ stays outside it.
 Press `Ctrl-a`, then `Ctrl-b` to open `tmux-picker`, a personal clone of
 Herdr 0.1.13's space/tab picker. Type to search, use ↑/↓ or Ctrl-j/Ctrl-k to
 move down/up, Enter to switch, or Escape to cancel. Ctrl-d still closes the
-selected tab. Quiet spaces can be folded under “earlier”; searching includes
-them. New-tab and new-space actions remain available, unlike tmux's
-existing-session-only list. Compare this clone with the shipped `picker` on
-Herdr upgrades; it does not receive upstream updates automatically.
+selected tab. Spaces are ordered by their most recently focused tab, and tabs
+within each space are most-recent-first. Quiet spaces remain visible; unvisited
+items retain their source order. New-tab and new-space actions stay at the end.
+
+`tmux-compat` records focus order while the `tmux` layout is active, whether
+navigation comes from a picker, sidebar, or shortcut. History builds as you
+navigate and persists in Herdr's own `shared.json` under
+`tmux-compat.recent-tabs`; closed tabs/spaces are removed. Existing last-space
+and last-tab shortcuts keep their separate two-item history.
+
+Compare this clone with the shipped `picker` on Herdr upgrades; it does not
+receive upstream updates automatically.
 
 ## Tmux compatibility layer
 

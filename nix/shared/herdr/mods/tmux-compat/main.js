@@ -1,6 +1,6 @@
 import { View, div } from "gpui-kit";
 import { spaces, focused, shared, setShared, nextCommand, run, notify, openOverlay, closeOverlay, props, hc, exec, home, appHome, panes, terminals } from "herdr";
-import { observeSpaces, lastSpace, observeTabs, lastTab } from "./history.js";
+import { observeSpaces, lastSpace, observeTabs, lastTab, observeRecentTabs } from "./history.js";
 import { folderTabName } from "./rename.js";
 import { RepeatMode } from "./repeat-view.js";
 import { CloseSpacesMode } from "./close-spaces-view.js";
@@ -112,6 +112,9 @@ export default class TmuxCompat extends View {
 
   observe() {
     const snapshot = spaces();
+    const recent = shared("tmux-compat.recent-tabs") ?? [];
+    const nextRecent = observeRecentTabs(recent, snapshot);
+    if (JSON.stringify(recent) !== JSON.stringify(nextRecent)) setShared("tmux-compat.recent-tabs", nextRecent);
     const previousSpaces = shared(HISTORY) ?? [];
     const previousTabs = shared(TAB_HISTORY) ?? {};
     const spaceHistory = observeSpaces(previousSpaces, snapshot);
