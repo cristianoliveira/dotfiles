@@ -6,7 +6,7 @@
     text = ''
 #!/bin/sh
 set -e
-${pkgs.brave}/bin/brave -app=https://keep.google.com
+${pkgs.co.brave}/bin/brave -app=https://keep.google.com
       '';
   };
 
@@ -15,7 +15,7 @@ ${pkgs.brave}/bin/brave -app=https://keep.google.com
     text = ''
 #!/bin/sh
 set -e
-${pkgs.brave}/bin/brave -app=https://chat.openai.com
+${pkgs.co.brave}/bin/brave -app=https://chat.openai.com
       '';
   };
 
@@ -24,7 +24,7 @@ ${pkgs.brave}/bin/brave -app=https://chat.openai.com
     text = ''
 #!/bin/sh
 set -e
-${pkgs.brave}/bin/brave -app=https://www.youtube.com
+${pkgs.co.brave}/bin/brave -app=https://www.youtube.com
       '';
   };
 
@@ -33,7 +33,7 @@ ${pkgs.brave}/bin/brave -app=https://www.youtube.com
     text = ''
 #!/bin/sh
 set -e
-${pkgs.brave}/bin/brave -app=https://discord.com/channels/@me
+${pkgs.co.brave}/bin/brave -app=https://discord.com/channels/@me
       '';
   };
 
@@ -42,7 +42,7 @@ ${pkgs.brave}/bin/brave -app=https://discord.com/channels/@me
     text = ''
 #!/bin/sh
 set -e
-${pkgs.brave}/bin/brave -app=https://tradeview.com
+${pkgs.co.brave}/bin/brave -app=https://tradeview.com
       '';
   };
 }
