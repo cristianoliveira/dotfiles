@@ -119,10 +119,10 @@
                   },
                   "header": {
                     "content": {
-                      "mod": "pane"
+                      "mod": "pane-footer"
                     },
-                    "height": 30,
-                    "position": "top",
+                    "height": 26,
+                    "position": "bottom",
                     "reveal": "always"
                   }
                 }
@@ -177,7 +177,7 @@
               "id": "status",
               "type": "block",
               "size": {
-                "px": 240
+                "px": 180
               },
               "content": {
                 "mod": "tmux-status"

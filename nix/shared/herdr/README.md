@@ -25,6 +25,10 @@ color instead of a dot or spinner. Working numbers have a subtle pulsing
 background; other states stay static. The selected space keeps its row highlight.
 Expanded sidebar views keep the original controls.
 
+The `pane-footer` mod shows each pane's program, folder, and native `branch`
+value below its terminal. Branches are pane-specific, not taken from the space.
+The shared bottom bar uses `tmux-status` for computer and agent counts only.
+
 These clones do not receive upstream mod updates. Compare them with Herdr's
 shipped `spaces` and `agents` mods when upgrading.
 

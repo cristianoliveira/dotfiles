@@ -32,7 +32,7 @@ const theme = {
   idle: "#657b83", muted: "#839496", foreground: "#eee8d5", raised: "#073642",
 };
 
-test("bottom status shows computer, agents, then branch", async () => {
+test("bottom status shows computer and agents without a shared branch", async () => {
   const mod = await loadMod("tmux-status", () => {}, {
     theme: () => theme,
     spaces: () => [{ active: true, machine: "workstation", branch: "main" }],
@@ -41,11 +41,11 @@ test("bottom status shows computer, agents, then branch", async () => {
 
   const row = mod.render();
 
-  assert.equal(row.children.length, 3);
+  assert.equal(row.children.length, 2);
   assert.equal(row.children[0].children.at(-1), "workstation");
   assert.equal(row.children[1].children[0], "2 agents");
   assert.equal(row.children[1].children[1].children[0], "· 1 needs you");
-  assert.equal(row.children[2].children.at(-1), "main");
+
 });
 
 test("bottom status handles no active space, no branch, and no agents", async () => {
@@ -59,6 +59,38 @@ test("bottom status handles no active space, no branch, and no agents", async ()
   assert.equal(row.children[0].children.at(-1), "This computer");
   assert.equal(row.children[1].children[0], "0 agents");
   assert.equal(row.children[1].children.length, 1);
+});
+
+test("pane footer uses its own folder and branch, not another pane's", async () => {
+  const paneList = [
+    { pane: "pane-a", cwd: "/home/me/repo-a", branch: "feature-a", title: "Pi" },
+    { pane: "pane-b", cwd: "/home/me/repo-b", branch: "feature-b", title: "shell" },
+  ];
+  for (const pane of paneList) {
+    const mod = await loadMod("pane-footer", () => {}, {
+      theme: () => theme, panes: () => paneList,
+      props: () => ({ pane: pane.pane }), home: () => "/home/me",
+    });
+
+    const row = mod.render();
+
+    assert.equal(row.children[1].children[0], pane.cwd.replace("/home/me", "~"));
+    assert.equal(row.children[2].children.at(-1), pane.branch);
+    assert.equal(row.attributes.border_t[0], 1);
+  }
+});
+
+test("pane footer omits branch outside Git and tolerates a closed pane", async () => {
+  const paneList = [{ pane: "pane-a", cwd: "/tmp", title: "shell" }];
+  let paneId = "pane-a";
+  const mod = await loadMod("pane-footer", () => {}, {
+    theme: () => theme, panes: () => paneList,
+    props: () => ({ pane: paneId }), home: () => "/home/me",
+  });
+
+  assert.equal(mod.render().children.length, 2);
+  paneId = "closed";
+  assert.equal(mod.render().children.length, 0);
 });
 
 for (const name of ["number-spaces", "number-agents"]) {

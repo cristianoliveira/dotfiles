@@ -16,7 +16,6 @@ export default class TmuxStatus extends View {
       .text_size(11.8).text_color(t.muted)
       .child(label(space?.machine ? "server" : "monitor", space?.machine ?? "This computer"))
       .child(h_flex().gap(6).items_center().child(`${list.length} agents`)
-        .when(needs > 0, el => el.child(div().text_color(t.blocked).child(`· ${needs} needs you`))))
-      .when(Boolean(space?.branch), el => el.child(label("branch", space.branch)));
+        .when(needs > 0, el => el.child(div().text_color(t.blocked).child(`· ${needs} needs you`))));
   }
 }
