@@ -21,9 +21,9 @@
       "id": "sidebar",
       "type": "column",
       "size": {
-        "px": 268
+        "px": 26
       },
-      "min": 44,
+      "min": 26,
       "max": 480,
       "background": "chrome",
       "resizable": false,
