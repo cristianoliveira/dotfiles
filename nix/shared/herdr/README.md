@@ -107,7 +107,8 @@ Type a fuzzy query, use arrows or click a row, and press Enter to open it.
 Escape cancels without creating a space. Plain `Ctrl-a p` still means next tab.
 
 Discovery follows the same roots and depth as `bin/tmux-sp`: immediate child
-directories of `~/work` and `~/other`, including directory symlinks. Labels are
+directories of `~/work` and `~/other`, including directory symlinks but excluding
+names that start with `.` (hidden directories and hidden symlinks). Labels are
 `work/project` or `other/project`. Missing roots are skipped; unreadable roots
 show a warning. Local spaces with the same canonical folder are reused;
 otherwise a local space is created with one terminal tab. Remote spaces are

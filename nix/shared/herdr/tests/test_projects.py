@@ -38,6 +38,19 @@ class ProjectDiscoveryTests(unittest.TestCase):
         self.assertEqual([p["label"] for p in result["projects"]], ["other/alpha", "work/zebra"])
         self.assertEqual(result["warnings"], [])
 
+    def test_ignores_dot_directories_and_hidden_symlinks_in_both_workspaces(self):
+        visible = self.project("outside/repo")
+        for workspace in ("work", "other"):
+            self.project(f"{workspace}/visible")
+            self.project(f"{workspace}/.hidden")
+            (self.home / workspace / ".linked").symlink_to(visible, target_is_directory=True)
+
+        result = self.discover()
+
+        self.assertEqual([p["label"] for p in result["projects"]],
+                         ["other/visible", "work/visible"])
+        self.assertEqual(result["warnings"], [])
+
     def test_missing_roots_return_empty_list(self):
         self.assertEqual(self.discover(), {"projects": [], "warnings": []})
 

@@ -26,7 +26,7 @@ def discover(home, spaces):
             continue
 
         for entry in entries:
-            if not entry.is_dir():
+            if entry.name.startswith(".") or not entry.is_dir():
                 continue
             folder = str(entry.resolve())
             projects.append({
