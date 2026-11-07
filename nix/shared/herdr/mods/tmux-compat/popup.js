@@ -2,7 +2,7 @@ export const POPUP_LABEL = "dotfiles.tmux-popup";
 
 export function popupPresentation(kind) {
   if (kind === "broadcast") {
-    return { kind: "popup", at: { x: 48, y: 16 }, width: 480, height: 140 };
+    return { kind: "popup", at: { x: 48, y: 16 }, width: 320, height: 104 };
   }
   if (kind === "kill-port") return { kind: "dialog", width: 0.5, height: 0.4 };
   return { kind: "dialog", width: 0.85, height: 0.75 };

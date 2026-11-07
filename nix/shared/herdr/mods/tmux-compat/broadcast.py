@@ -158,7 +158,7 @@ def interface(screen, relay, commands, streams):
             for record in records:
                 if relay.identity(record["address"]) != relay.pins[record["address"]]:
                     raise RuntimeError("Target restarted during setup. Broadcast stopped.")
-            state.update(ready=True, message="READY · Enter executes in EVERY target. Escape exits; no Alt/paste/advanced TUIs.")
+            state.update(ready=True, message="READY · Enter runs in ALL. Esc exits.")
             while relay.active:
                 try:
                     keys = [pending.get(timeout=.1)]
