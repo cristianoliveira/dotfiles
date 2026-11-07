@@ -88,17 +88,6 @@
       "resizable": false,
       "children": [
         {
-          "id": "tabs",
-          "type": "block",
-          "size": {
-            "px": 42
-          },
-          "window_drag": true,
-          "content": {
-            "mod": "tabs"
-          }
-        },
-        {
           "id": "work-body",
           "type": "row",
           "padding": 0,
@@ -173,14 +162,34 @@
           ]
         },
         {
-          "id": "status",
-          "type": "block",
+          "id": "bottom-bar",
+          "type": "row",
           "size": {
-            "px": 28
+            "px": 34
           },
-          "content": {
-            "mod": "workspace-status"
-          }
+          "resizable": false,
+          "window_drag": true,
+          "background": "chrome",
+          "children": [
+            {
+              "id": "tabs",
+              "type": "block",
+              "min": 180,
+              "content": {
+                "mod": "tabs"
+              }
+            },
+            {
+              "id": "status",
+              "type": "block",
+              "size": {
+                "px": 420
+              },
+              "content": {
+                "mod": "workspace-status"
+              }
+            }
+          ]
         },
         {
           "id": "tmux-compat",
