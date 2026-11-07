@@ -51,7 +51,7 @@
               },
               "min": 90,
               "content": {
-                "mod": "spaces"
+                "mod": "number-spaces"
               }
             },
             {
@@ -62,7 +62,7 @@
               },
               "min": 90,
               "content": {
-                "mod": "agents"
+                "mod": "number-agents"
               }
             }
           ]

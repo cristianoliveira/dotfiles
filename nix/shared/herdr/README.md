@@ -17,6 +17,17 @@ retrying. Do not use `--adopt`, which would replace the repository's config.
 Keys reload live. Check `herdr-app status` and `~/.config/herdr-app/keys.error`
 if an edit does not take effect. Edit the source file in this directory.
 
+## Sidebar status
+
+The `tmux` layout uses `number-spaces` and `number-agents`, personal clones
+of Herdr 0.1.13's sidebar mods. Compact rows show status through the number's
+color instead of a dot or spinner. Working numbers have a subtle pulsing
+background; other states stay static. The selected space keeps its row highlight.
+Expanded sidebar views keep the original controls.
+
+These clones do not receive upstream mod updates. Compare them with Herdr's
+shipped `spaces` and `agents` mods when upgrading.
+
 ## Tmux equivalents
 
 Press `Ctrl-a`, release it, then press the second key. Herdr uses chords,
