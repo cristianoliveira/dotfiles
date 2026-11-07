@@ -1,8 +1,8 @@
 # Herdr key bindings
 
 Nix installs `herdr-app` and `herdr-core`. Stow links `keys.json` and the
-personal `project-picker` mod into `~/.config/herdr-app`; Herdr owns settings,
-layouts, sessions, and runtime state.
+personal mods and `tmux` layout into `~/.config/herdr-app`; Herdr owns settings,
+sessions, runtime state, and other layouts.
 The install hook creates a real app directory so Stow cannot link the whole
 mutable directory into this repository.
 
@@ -28,6 +28,7 @@ not tmux's repeat key table: repeat the prefix for each action.
 | `n` / `p` | Previous / next tab (same order as your tmux config) |
 | `Ctrl-p` | Search projects under `~/work` and `~/other` |
 | `Ctrl-b` | Search existing spaces and tabs |
+| `Shift-l` (uppercase `L`) | Toggle last two spaces (`tmux` layout) |
 | `1`–`9` | Select tab |
 | `,` | Rename tab with a prompt |
 | `w` / `_` | Split down |
@@ -86,9 +87,44 @@ Enter to switch, or Escape to cancel. Quiet spaces can be folded under
 “earlier”; searching includes them. The shipped picker also offers new-tab
 and new-space actions, unlike tmux's existing-session-only list.
 
+## Tmux compatibility layer
+
+`mods/tmux-compat` owns missing tmux behavior. It is independent of
+`project-picker`, which only discovers and opens projects. Native Herdr
+commands remain direct key bindings; do not wrap features that already exist.
+
+Enable the personal layout once after installation:
+
+```sh
+herdr-app do layout.switch --name tmux
+```
+
+This layout is based on Herdr 0.1.13's main layout, with a one-pixel,
+non-focusable compat block added. Herdr requires a mounted mod to observe
+space changes and receive commands. The stock layouts do not mount it, so
+the shortcut only works in the `tmux` layout (or a personal layout with the
+same block). Switching to it preserves spaces, tabs, and running terminals.
+The layout structure is pinned; shipped mods still receive app updates.
+
+Press `Ctrl-a`, then uppercase `L` to switch back to the previous space.
+Press it again to toggle back. History observes space changes from any
+source, including sidebar clicks and both pickers, and is stored under the
+`tmux-compat.space-history` key in Herdr's own `shared.json`. Closed spaces
+are removed; with no previous space, it shows a notice and changes nothing.
+Tab changes do not change space history. Remote spaces use their full ids.
+History is not tracked while the compat block is unmounted.
+
+Check it with:
+
+```sh
+node --experimental-default-type=module --test nix/shared/herdr/tests/compat.test.mjs
+herdr-app check ~/.config/herdr-app/mods/tmux-compat
+herdr-app do tmux-compat.last-space
+```
+
 ## Remaining tmux differences
 
-Not mapped yet: last-window/session toggles and other tmux popups,
+Not mapped yet: last-window toggles and other tmux popups,
 copy-mode vi selection, synchronization, pane resize/equalize, mouse toggles,
 and automatic folder-based rename. Herdr has no direct equivalent in its
 current command list for these workflows. Settings and core configuration
