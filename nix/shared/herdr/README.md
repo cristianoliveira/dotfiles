@@ -35,6 +35,7 @@ enter the bounded navigation repeat mode below.
 | `,` | Rename tab with a prompt |
 | `Shift-n` (uppercase `N`) | Rename tab from focused terminal folder (`tmux` layout) |
 | `Shift-r` (uppercase `R`) | Enter bounded navigation repeat mode (`tmux` layout) |
+| `-` | Select multiple spaces to close, with confirmation (`tmux` layout) |
 | `w` / `_` | Split down |
 | `v` / `\|` | Split right |
 | `Ctrl-h/j/k/l` | Focus pane left/down/up/right |
@@ -148,6 +149,28 @@ terminal creation, resizing, and destructive actions are not repeatable.
 The pure repeat controller owns timeout state; the separate repeat view
 adapts it to Herdr. It remains part of `tmux-compat`, not the project picker.
 
+### Close multiple spaces
+
+Press `Ctrl-a`, then `-` for a multi-select space list, matching your tmux
+session-kill picker. Nothing is selected by default. Filter by name, machine
+or folder; arrows move the cursor, and Tab/Ctrl+Space or clicking a row toggles
+selection. Filtering keeps selections hidden by the query. Enter or Review
+opens a separate confirmation listing every selected space, its machine,
+and tab count. No terminals end during selection or review.
+
+Only **Ctrl+Enter** or the red **Close spaces** button confirms closure.
+Plain Enter on the review screen does not confirm. Back returns to selection;
+Cancel or Escape closes the dialog without ending terminals. Closing a space
+ends all its terminals, including remote ones, and cannot be undone.
+
+Before dispatch, the controller rechecks the reviewed ids, names, machines,
+tab identities and pane counts. If these changed, nothing is dispatched and
+you must review again. New unselected spaces are never included. A confirmed
+batch is sent once as explicit native `space.close` requests; names never
+become commands. Native failures, such as an unavailable remote machine,
+can cause partial completion: this is not an atomic batch and there is no
+success claim or automatic retry. The native app reports command errors.
+
 Check it with:
 
 ```sh
@@ -157,6 +180,7 @@ herdr-app do tmux-compat.last-space
 herdr-app do tmux-compat.last-tab
 herdr-app do tmux-compat.rename-from-folder
 herdr-app do tmux-compat.repeat
+herdr-app do tmux-compat.close-spaces
 ```
 
 ## Remaining tmux differences
