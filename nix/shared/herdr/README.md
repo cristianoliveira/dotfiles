@@ -48,6 +48,7 @@ enter the bounded navigation repeat mode below.
 | `Shift-r` (uppercase `R`) | Enter bounded navigation repeat mode (`tmux` layout) |
 | `-` | Select multiple spaces to close, with confirmation (`tmux` layout) |
 | `Space` | Toggle project-local `.tmp/popup` terminal (`tmux` layout) |
+| `Shift-p` | Toggle local listening-port process picker (`tmux` layout) |
 | `w` / `_` | Split down |
 | `v` / `\|` | Split right |
 | `Ctrl-h/j/k/l` | Focus pane left/down/up/right |
@@ -212,7 +213,26 @@ with core keep, cleanup leaves it running. Script exit and duplicate cleanup
 are harmless. Orderly cleanup is best-effort on app shutdown; an app crash
 can leave a core terminal alive. `hc ls --all` lists core terminals for recovery.
 Very short commands may finish before there is a useful screen to display.
-This iteration does not add remote popups or the kill-port shortcut.
+Remote popups remain unsupported.
+
+### Kill-port terminal popup
+
+Press `Ctrl-a`, then `Shift-p` to open the existing
+`~/.dotfiles/tmux/scripts/kill-port.sh` picker in a 50% x 40% terminal overlay.
+It lists local listening TCP processes. Type a port, PID, or process name to
+filter; Tab selects multiple rows; **Enter immediately sends SIGKILL (`kill -9`)
+to the selected processes**. There is no extra confirmation. Review the rows
+before pressing Enter. Escape cancels; no selection means no kill.
+
+This reuses the tmux helper without invoking tmux. It requires executable
+script permissions plus `bash`, `lsof`, and `fzf` on the app's PATH. Missing
+prerequisites produce a notice before a terminal is created. It never runs a
+project-provided kill script and refuses remote spaces, so a remote project
+cannot silently target this machine's processes.
+
+Either popup shortcut dismisses an already-active compat terminal popup.
+Close and outside click stop only the picker terminal, not listed processes.
+Once a selection is confirmed, closing the overlay cannot undo the kill.
 
 Check it with:
 
@@ -225,6 +245,7 @@ herdr-app do tmux-compat.rename-from-folder
 herdr-app do tmux-compat.repeat
 herdr-app do tmux-compat.close-spaces
 herdr-app do tmux-compat.popup
+herdr-app do tmux-compat.kill-port
 ```
 
 ## Remaining tmux differences

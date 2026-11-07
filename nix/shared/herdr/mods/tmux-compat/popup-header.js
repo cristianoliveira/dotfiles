@@ -8,6 +8,7 @@ export class PopupHeader {
     this.overlay = props.overlay;
     this.address = props.address;
     this.script = props.script;
+    this.shortcut = props.shortcut ?? "Ctrl+A Space";
     this.released = false;
   }
 
@@ -17,7 +18,7 @@ export class PopupHeader {
       .items_center().justify_between().bg(t.popover).text_size(12)
       .child(div().flex_1().truncate().text_color(t.foreground).child(this.script))
       .child(div().id("tmux-popup-close").cursor_pointer().text_color(t.accent)
-        .on_click(() => closeOverlay(this.overlay)).child("Close · Ctrl+A Space"));
+        .on_click(() => closeOverlay(this.overlay)).child(`Close · ${this.shortcut}`));
   }
 
   async close() {

@@ -10,6 +10,17 @@ export function popupPlan(focus, spaces) {
   return { cwd: focus.cwd, script: `${focus.cwd.replace(/\/+$/, "")}/.tmp/popup` };
 }
 
+export function killPortPlan(focus, spaces, home) {
+  const { cwd } = popupPlan(focus, spaces);
+  if (typeof home !== "string" || !home.startsWith("/")) throw new Error("A known absolute home directory is required.");
+  return {
+    cwd,
+    script: `${home.replace(/\/+$/, "")}/.dotfiles/tmux/scripts/kill-port.sh`,
+    dependencies: ["bash", "lsof", "fzf"],
+    missingMessage: "Restore executable ~/.dotfiles/tmux/scripts/kill-port.sh from your dotfiles checkout.",
+  };
+}
+
 function validateAddress(address) {
   if (typeof address !== "string" || !/^t[a-z0-9]+$/.test(address)) {
     throw new Error("Core returned an invalid local popup terminal address.");
@@ -62,7 +73,10 @@ export async function releasePopup(address, core) {
 
 export async function openPopup(plan, io) {
   if (!await io.check(plan.script)) {
-    throw new Error(`No executable script at ${plan.script}. From its project folder, run chmod +x .tmp/popup and add a shebang.`);
+    throw new Error(plan.missingMessage ?? `No executable script at ${plan.script}. From its project folder, run chmod +x .tmp/popup and add a shebang.`);
+  }
+  if (plan.dependencies && !await io.available(plan.dependencies)) {
+    throw new Error(`Kill-port requires ${plan.dependencies.join(", ")}. Install the missing commands in your Nix environment before retrying.`);
   }
   // hc interprets a single argv string as shell text; env preserves a literal script path.
   const receipt = data(await io.core([

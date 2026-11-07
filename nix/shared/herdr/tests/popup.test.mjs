@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { popupPlan, openPopup, releasePopup, popupIsLive, POPUP_LABEL } from "../mods/tmux-compat/popup.js";
+import { popupPlan, killPortPlan, openPopup, releasePopup, popupIsLive, POPUP_LABEL } from "../mods/tmux-compat/popup.js";
 
 const focus = { space: "local", tab: "tab", pane: "pane", terminal: "t1", cwd: "/work/project" };
 const spaces = [{ id: "local", machine: null }];
@@ -14,6 +14,7 @@ function adapters(overrides = {}) {
   return {
     calls,
     check: async (script) => { calls.push(["check", script]); return true; },
+    available: async (commands) => { calls.push(["available", commands]); return true; },
     core: async (args) => {
       calls.push(args);
       return response(args[0] === "run" ? { address: "t99", state: "live" } : owned);
@@ -37,6 +38,37 @@ test("popup command uses the focused terminal's project folder as literal argv d
   assert.ok(command.includes("--no-notify"));
   assert.ok(command.includes("--rm"));
   assert.ok(!command.includes("--keep"));
+});
+
+test("kill-port uses the trusted dotfiles script, never project-provided code", async () => {
+  const plan = killPortPlan(focus, spaces, "/home/agent's $(touch NEVER)/");
+  const io = adapters();
+
+  await openPopup(plan, io);
+
+  assert.equal(plan.cwd, focus.cwd);
+  assert.equal(plan.script, "/home/agent's $(touch NEVER)/.dotfiles/tmux/scripts/kill-port.sh");
+  assert.deepEqual(io.calls.find((call) => call[0] === "run").slice(-4), ["--", "env", "--", plan.script]);
+  assert.deepEqual(io.calls.find((call) => call[0] === "available"), ["available", ["bash", "lsof", "fzf"]]);
+});
+
+test("kill-port refuses remote context and unknown home instead of a local fallback", () => {
+  assert.throws(() => killPortPlan(focus, [{ id: "local", machine: "server" }], "/home/user"), /local/i);
+  assert.throws(() => killPortPlan(focus, spaces, "relative"), /home/i);
+});
+
+test("kill-port missing script gives the correct recovery, not project popup chmod advice", async () => {
+  const io = adapters({ check: async () => false });
+
+  await assert.rejects(openPopup(killPortPlan(focus, spaces, "/home/user"), io), /Restore.*kill-port\.sh/);
+  assert.deepEqual(io.calls, []);
+});
+
+test("kill-port dependency failure creates no terminal", async () => {
+  const io = adapters({ available: async () => false });
+
+  await assert.rejects(openPopup(killPortPlan(focus, spaces, "/home/user"), io), /bash, lsof, fzf/);
+  assert.ok(!io.calls.some((call) => call[0] === "run"));
 });
 
 test("root and trailing slashes produce the intended script path", () => {
