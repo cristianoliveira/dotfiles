@@ -289,6 +289,11 @@ for whole lines, or Ctrl-v for a rectangle. Press `y` to copy to the local
 system clipboard; `q` or Escape in normal mode exits. Escape in visual mode
 first cancels the selection. The prefix shortcut also dismisses the viewer.
 
+Scrollback capture has a three-second limit. If it times out, copy mode makes
+one screen-only request with its own three-second limit. The status bar says
+`COPY MODE (screen only)` and a snapshot notice identifies the reduced capture. If both requests time out,
+the popup reports failure rather than opening an empty editor.
+
 This is a frozen text snapshot, not native selection in the original pane.
 The source program keeps running and receives none of the viewer's keys.
 If it does not open, `herdr-app status` reports key/layout/mod errors; terminal

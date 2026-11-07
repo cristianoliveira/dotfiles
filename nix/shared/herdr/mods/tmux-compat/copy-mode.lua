@@ -14,7 +14,8 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.termguicolors = true
 vim.opt.laststatus = 2
-vim.opt.statusline = " COPY MODE · hjkl move · / search · v/V/Ctrl-v select · y copy · q exit"
+local title = vim.env.HERDR_COPY_SCREEN_ONLY == "1" and "COPY MODE (screen only)" or "COPY MODE"
+vim.opt.statusline = " " .. title .. " · hjkl move · / search · v/V/Ctrl-v select · y copy · q exit"
 
 vim.keymap.set("n", "q", "<cmd>qa!<CR>")
 vim.keymap.set("n", "<Esc>", "<cmd>qa!<CR>")

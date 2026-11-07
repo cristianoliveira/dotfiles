@@ -14,13 +14,25 @@ import tempfile
 MAX_BYTES = 8 * 1024 * 1024
 
 
+def capture(terminal, lines):
+    return subprocess.run(
+        ["hc", "read", "--json", "--lines", str(lines), terminal],
+        capture_output=True, text=True, timeout=3,
+    )
+
+
 def view(terminal):
     if not re.fullmatch(r"(?:[A-Za-z0-9_.-]+/)?t[a-z0-9]+", terminal):
         raise ValueError("Focus a terminal with a valid Herdr address first.")
-    result = subprocess.run(
-        ["hc", "read", "--json", "--lines", "10000", terminal],
-        capture_output=True, text=True, timeout=15,
-    )
+    notice = ""
+    try:
+        result = capture(terminal, 10000)
+    except subprocess.TimeoutExpired:
+        try:
+            result = capture(terminal, 0)
+        except subprocess.TimeoutExpired as error:
+            raise ValueError("Terminal screen capture timed out; hc read did not respond.") from error
+        notice = "[Scrollback capture timed out; showing current screen only.]\n\n"
     if result.returncode:
         raise ValueError("Cannot capture terminal text. Check the terminal and machine connection.")
     try:
@@ -33,12 +45,12 @@ def view(terminal):
     with tempfile.TemporaryDirectory(prefix="herdr-copy-") as directory:
         snapshot = Path(directory) / "scrollback.txt"
         with os.fdopen(os.open(snapshot, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600), "w", encoding="utf-8") as file:
-            file.write(text)
+            file.write(notice + text)
         config = Path(__file__).with_name("copy-mode.lua")
         return subprocess.run([
             "nvim", "-u", str(config), "--noplugin", "-i", "NONE", "-n", "-R", "-M",
             "--", str(snapshot),
-        ]).returncode
+        ], env={**os.environ, "HERDR_COPY_SCREEN_ONLY": "1" if notice else "0"}).returncode
 
 
 def stop(_signal, _frame):
