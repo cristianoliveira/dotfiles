@@ -35,7 +35,7 @@ in {
         "--disable-gpu-sandbox"
       ];
     })
-    (brave.override {
+    (co.brave.override {
       commandLineArgs = let
         features = builtins.concatStringsSep "," [
           "TouchpadOverscrollHistoryNavigation"
