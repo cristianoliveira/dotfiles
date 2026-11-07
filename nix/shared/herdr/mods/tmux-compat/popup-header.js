@@ -5,6 +5,7 @@ import { releasePopup } from "./popup.js";
 
 export class PopupHeader {
   constructor(props) {
+    this.hidden = props.hidden;
     this.overlay = props.overlay;
     this.address = props.address;
     this.script = props.script;
@@ -13,6 +14,7 @@ export class PopupHeader {
   }
 
   render() {
+    if (this.hidden) return div().h(1);
     const t = theme();
     return h_flex().id("tmux-popup-header").w_full().h(36).px(12).gap(12)
       .items_center().justify_between().bg(t.popover).text_size(12)

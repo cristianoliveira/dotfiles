@@ -70,6 +70,15 @@ export default class TmuxCompat extends View {
           ])).code === 0,
           open: (address) => {
             if (this.closing) throw new Error("Popup owner closed during startup.");
+            if (broadcast) return openOverlay({ ...popupPresentation(kind), layout: {
+              type: "column", terminal_padding: [4, 4], children: [
+                // Keep the cleanup owner mounted without drawing a title bar.
+                { type: "block", size: { px: 1 }, content: {
+                  mod: "tmux-compat", props: { mode: "popup-header", address, hidden: true },
+                } },
+                { type: "block", content: { terminal: address } },
+              ],
+            } });
             return openOverlay({ ...popupPresentation(kind), layout: {
               type: "column",
               children: [

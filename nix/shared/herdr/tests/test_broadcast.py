@@ -14,6 +14,18 @@ with patch.object(sys, "path", [str(SOURCE), *sys.path]):
 from broadcast_stream import Streams, frame, HEADER, DATA, CREDIT, CLOSE, MAX_PAYLOAD
 
 
+class BroadcastIndicatorTests(unittest.TestCase):
+    def test_ready_indicator_shows_broadcast_and_exit_key(self):
+        self.assertEqual(broadcast.status_line(True, True, ""), "BROADCAST ON · Esc exits")
+
+    def test_arming_indicator_does_not_claim_input_is_ready(self):
+        self.assertEqual(broadcast.status_line(True, False, ""), "ARMING · Wait…")
+
+    def test_stopped_indicator_reports_failure_instead_of_claiming_broadcast_is_on(self):
+        self.assertEqual(broadcast.status_line(False, True, "Target stream lost"),
+                         "STOPPED: Target stream lost")
+
+
 class BroadcastTests(unittest.TestCase):
     def fixture(self):
         calls = []

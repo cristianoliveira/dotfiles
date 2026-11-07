@@ -4,7 +4,7 @@ import { popupPlan, killPortPlan, openPopup, releasePopup, popupIsLive, popupPre
 
 test("broadcast captures input in a compact corner popup without dimming", () => {
   assert.deepEqual(popupPresentation("broadcast"), {
-    kind: "popup", at: { x: 48, y: 16 }, width: 320, height: 104,
+    kind: "popup", at: { x: 48, y: 16 }, width: 240, height: 32,
   });
 });
 

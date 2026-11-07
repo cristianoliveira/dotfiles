@@ -260,12 +260,13 @@ Once a selection is confirmed, closing the overlay cannot undo the kill.
 
 ### Broadcast input mode (prototype)
 
-Press `Ctrl-a`, then lowercase `e` to open a compact **BROADCAST MODE** terminal
-in the top-left corner (320 × 104 px), without dimming the window.
-Wait for **READY / BROADCAST ON**, then type there. Each keystroke goes to every
+Press `Ctrl-a`, then lowercase `e` to open a single-line input indicator
+in the top-left corner (240 × 32 px), without dimming the window.
+Wait for **BROADCAST ON · Esc exits**, then type there. Each keystroke goes to every
 terminal pane captured from the current tab. **Enter submits in every target**;
 Ctrl+C is also broadcast. Escape exits instead of reaching the targets.
-The same shortcut, Close, or clicking outside dismisses the relay.
+The same shortcut, Escape, or clicking outside dismisses the relay. There is
+no title bar or Close button; the indicator is the focused input surface.
 
 If an already-running app still shows the old wide dialog after updating the
 mod, dismiss it and switch away from the layout and back to recreate its mod:

@@ -138,6 +138,14 @@ class Commands:
                     process.terminate()
 
 
+def status_line(active, ready, message):
+    if not active:
+        return "STOPPED: " + message
+    if not ready:
+        return "ARMING · Wait…"
+    return "BROADCAST ON · Esc exits"
+
+
 def interface(screen, relay, commands, streams):
     curses.raw()
     curses.noecho()
@@ -183,13 +191,9 @@ def interface(screen, relay, commands, streams):
                 state["message"] = "Target stream lost. Delivery may be partial; no retry. Escape exits."
                 streams.close()
             screen.erase()
-            height, width = screen.getmaxyx()
-            phase = "BROADCAST ON" if state["ready"] else "BROADCAST ARMING"
-            rows = [phase if relay.active else "BROADCAST STOPPED",
-                    "Targets: " + ", ".join(target["terminal"] for target in relay.targets),
-                    state["message"], "Queued keys: " + str(pending.qsize())]
-            for row, line in enumerate(rows[:max(0, height - 1)]):
-                screen.addnstr(row, 0, line, max(0, width - 1))
+            _, width = screen.getmaxyx()
+            line = status_line(relay.active, state["ready"], state["message"])
+            screen.addnstr(0, 0, line, max(0, width - 1))
             screen.refresh()
             try:
                 value = screen.get_wch()
