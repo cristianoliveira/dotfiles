@@ -7,6 +7,8 @@
     -100
   ],
   "background": "canvas",
+  "font": "Monaco",
+  "font_size": 12,
   "terminal_opacity": 0.85,
   "terminal_padding": [
     14,
