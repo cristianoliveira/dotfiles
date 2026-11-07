@@ -77,13 +77,14 @@ jobs:
       - '.pi/**'
       - result
 
-  - name: after commit attempt to rebase
-    run:
-      - |
-        if ! git diff --quiet || ! git diff --cached --quiet; then
-          printf '%s\n' 'Skipping automatic rebase: tracked changes are uncommitted.'
-          exit 0
-        fi
-        git fetch --all && git rebase "origin/${MAIN_BRANCH:?Set MAIN_BRANCH to the upstream branch}"
+  - name: test git sync
+    run: python3 -m unittest discover -s git/tests -v
+    change:
+      - 'git/sync-upstream.sh'
+      - 'git/tests/**/*.py'
+
+  # Automatic synchronization must never rewrite commits or leave merge conflicts.
+  - name: sync upstream after commit
+    run: bash git/sync-upstream.sh
     change:
       - ".git/COMMIT_EDITMSG"
