@@ -16,13 +16,13 @@ function element() {
   return builder;
 }
 
-async function loadMod(name, run) {
+async function loadMod(name, run, overrides = {}) {
   const path = new URL(`../mods/${name}/main.js`, import.meta.url);
   const source = (await readFile(path, "utf8"))
     .replace(/^import .*;$/gm, "")
     .replace(/export default class /, "globalThis.Mod = class ")
     .replace(/export function /g, "function ");
-  const scope = { View: class {}, div: element, h_flex: element, run };
+  const scope = { View: class {}, div: element, svg: element, h_flex: element, run, ...overrides };
   vm.runInNewContext(source, scope, { filename: path.pathname });
   return new scope.Mod();
 }
@@ -31,6 +31,35 @@ const theme = {
   working: "#b58900", blocked: "#dc322f", done: "#859900",
   idle: "#657b83", muted: "#839496", foreground: "#eee8d5", raised: "#073642",
 };
+
+test("bottom status shows computer, agents, then branch", async () => {
+  const mod = await loadMod("tmux-status", () => {}, {
+    theme: () => theme,
+    spaces: () => [{ active: true, machine: "workstation", branch: "main" }],
+    agents: () => [{ status: "working" }, { status: "blocked" }],
+  });
+
+  const row = mod.render();
+
+  assert.equal(row.children.length, 3);
+  assert.equal(row.children[0].children.at(-1), "workstation");
+  assert.equal(row.children[1].children[0], "2 agents");
+  assert.equal(row.children[1].children[1].children[0], "· 1 needs you");
+  assert.equal(row.children[2].children.at(-1), "main");
+});
+
+test("bottom status handles no active space, no branch, and no agents", async () => {
+  const mod = await loadMod("tmux-status", () => {}, {
+    theme: () => theme, spaces: () => [], agents: () => [],
+  });
+
+  const row = mod.render();
+
+  assert.equal(row.children.length, 2);
+  assert.equal(row.children[0].children.at(-1), "This computer");
+  assert.equal(row.children[1].children[0], "0 agents");
+  assert.equal(row.children[1].children.length, 1);
+});
 
 for (const name of ["number-spaces", "number-agents"]) {
   for (const status of ["working", "blocked", "done", "idle", "unknown"]) {

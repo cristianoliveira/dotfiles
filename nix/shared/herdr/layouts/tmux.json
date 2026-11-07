@@ -172,21 +172,21 @@
           "background": "chrome",
           "children": [
             {
+              "id": "status",
+              "type": "block",
+              "size": {
+                "px": 320
+              },
+              "content": {
+                "mod": "tmux-status"
+              }
+            },
+            {
               "id": "tabs",
               "type": "block",
               "min": 180,
               "content": {
                 "mod": "tabs"
-              }
-            },
-            {
-              "id": "status",
-              "type": "block",
-              "size": {
-                "px": 420
-              },
-              "content": {
-                "mod": "workspace-status"
               }
             }
           ]
