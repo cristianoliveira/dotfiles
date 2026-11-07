@@ -43,6 +43,15 @@ jobs:
     run: make nvim
     change: 'nvim/**'
 
+  - name: test herdr
+    run:
+      - python3 -m unittest discover -s nix/shared/herdr/tests -v
+      - node --experimental-default-type=module --test nix/shared/herdr/tests/*.test.mjs
+    change:
+      - 'nix/shared/herdr/**/*.py'
+      - 'nix/shared/herdr/**/*.js'
+      - 'nix/shared/herdr/**/*.mjs'
+
   - name: reload tmux
     run: tmux/reload.sh
     change: 'tmux/**'
