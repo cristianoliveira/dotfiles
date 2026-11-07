@@ -1,6 +1,7 @@
 {
   "id": "root",
   "type": "row",
+  "theme": "solarized-dark",
   "titlebar": "none",
   "traffic_lights": [
     -100,

@@ -1,8 +1,9 @@
 # Herdr key bindings
 
 Nix installs `herdr-app` and `herdr-core`. Stow links `keys.json` and the
-personal mods and `tmux` layout into `~/.config/herdr-app`; Herdr owns settings,
-sessions, runtime state, and other layouts.
+personal mods, Solarized Dark theme, and `tmux` layout into
+`~/.config/herdr-app`; Herdr owns settings, sessions, runtime state, and other
+layouts.
 The install hook creates a real app directory so Stow cannot link the whole
 mutable directory into this repository.
 
@@ -16,6 +17,24 @@ If Stow reports an existing `keys.json`, review it and move it aside before
 retrying. Do not use `--adopt`, which would replace the repository's config.
 Keys reload live. Check `herdr-app status` and `~/.config/herdr-app/keys.error`
 if an edit does not take effect. Edit the source file in this directory.
+
+## Theme
+
+The `tmux` layout selects `solarized-dark` explicitly, independent of system
+light/dark appearance. Its palette lives in `themes/solarized-dark.json` and
+Stow links it into Herdr. Restarts and repeated installs retain this choice;
+Herdr's theme picker can still change it intentionally.
+
+The install hook keeps `themes/` a real directory so Herdr can add other themes
+without writing them into this repository. Settings and existing themes stay
+untouched. After installing into a running app, select the layout again to
+reload it after the palette is linked:
+
+```sh
+herdr-app do layout.switch --name tmux
+herdr-app status
+python3 -m unittest discover -s nix/shared/herdr/tests -p test_install.py -v
+```
 
 ## Sidebar status
 
