@@ -239,8 +239,8 @@ input "type:keyboard" {
 ### Mappings
 #
 # Terminal
-# Set focus or open a new terminal on workspace 2
-bindsym $mod+Ctrl+Return exec swaymsg [app_id=$termMain] focus || \
+# Prefer Herdr; fall back to the main Alacritty terminal.
+bindsym $mod+Ctrl+Return exec herdr-app || swaymsg [app_id=$termMain] focus || \
                             $term $termMain
 # Scratchpad terminal: left-hand Mod+Ctrl+A (A for Alacritty)
 set $termFloating term-floating
