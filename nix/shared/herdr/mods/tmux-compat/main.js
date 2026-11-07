@@ -1,13 +1,19 @@
 import { View, div } from "gpui-kit";
-import { spaces, focused, shared, setShared, nextCommand, run, notify } from "herdr";
+import { spaces, focused, shared, setShared, nextCommand, run, notify, openOverlay, props } from "herdr";
 import { observeSpaces, lastSpace, observeTabs, lastTab } from "./history.js";
 import { folderTabName } from "./rename.js";
+import { RepeatMode } from "./repeat-view.js";
 
 const HISTORY = "tmux-compat.space-history";
 const TAB_HISTORY = "tmux-compat.tab-history";
 
 export default class TmuxCompat extends View {
   init(_props, cx) {
+    const options = props();
+    if (options?.mode === "repeat") {
+      this.repeat = new RepeatMode(options, cx);
+      return;
+    }
     cx.spawn(async (cx) => {
       for (;;) {
         const command = await nextCommand();
@@ -16,6 +22,7 @@ export default class TmuxCompat extends View {
         if (command === "last-space") this.selectLast("space", lastSpace(history.spaces));
         if (command === "last-tab") this.selectLast("tab", lastTab(history.tabs, history.spaceId));
         if (command === "rename-from-folder") this.renameFromFolder();
+        if (command === "repeat") openOverlay({ mod: "tmux-compat", props: { mode: "repeat" }, kind: "popup", width: 580, height: 108 });
       }
     });
   }
@@ -42,7 +49,12 @@ export default class TmuxCompat extends View {
     return { spaces: spaceHistory, tabs: tabHistory, spaceId: snapshot.find((space) => space.active)?.id };
   }
 
+  close() {
+    this.repeat?.close();
+  }
+
   render() {
+    if (this.repeat) return this.repeat.render();
     this.observe();
     return div().id("tmux-compat").h(1);
   }

@@ -20,7 +20,8 @@ if an edit does not take effect. Edit the source file in this directory.
 ## Tmux equivalents
 
 Press `Ctrl-a`, release it, then press the second key. Herdr uses chords,
-not tmux's repeat key table: repeat the prefix for each action.
+not tmux's repeat key table: repeat the prefix for each action, or explicitly
+enter the bounded navigation repeat mode below.
 
 | After Ctrl-a | Action |
 |---|---|
@@ -33,6 +34,7 @@ not tmux's repeat key table: repeat the prefix for each action.
 | `1`–`9` | Select tab |
 | `,` | Rename tab with a prompt |
 | `Shift-n` (uppercase `N`) | Rename tab from focused terminal folder (`tmux` layout) |
+| `Shift-r` (uppercase `R`) | Enter bounded navigation repeat mode (`tmux` layout) |
 | `w` / `_` | Split down |
 | `v` / `\|` | Split right |
 | `Ctrl-h/j/k/l` | Focus pane left/down/up/right |
@@ -131,6 +133,21 @@ an unknown terminal cwd, it shows a notice and leaves the tab name unchanged.
 This supports Unix paths, including remote Unix terminals. `Ctrl-a ,` still
 opens the normal rename prompt.
 
+### Navigation repeat mode
+
+Press `Ctrl-a`, release Ctrl, then uppercase `R`. A visible popup takes the
+keyboard. Until it closes, use `n` / `p` for previous / next tab and
+`h/j/k/l` (or `Ctrl-h/j/k/l`) to focus panes. Each supported key renews the
+1.5-second inactivity timeout. Escape, the Exit button, or clicking outside
+ends the mode. Unrecognized keys close it without running or sending them;
+press the key again to type normally. Existing app shortcuts may still run.
+
+This is an explicit navigation mode, not a transparent emulation of tmux's
+`bind -r` table. Normal typing outside the popup is unchanged. Splits,
+terminal creation, resizing, and destructive actions are not repeatable.
+The pure repeat controller owns timeout state; the separate repeat view
+adapts it to Herdr. It remains part of `tmux-compat`, not the project picker.
+
 Check it with:
 
 ```sh
@@ -139,13 +156,15 @@ herdr-app check ~/.config/herdr-app/mods/tmux-compat
 herdr-app do tmux-compat.last-space
 herdr-app do tmux-compat.last-tab
 herdr-app do tmux-compat.rename-from-folder
+herdr-app do tmux-compat.repeat
 ```
 
 ## Remaining tmux differences
 
-Not mapped yet: repeat key tables and other tmux popups,
-copy-mode vi selection, synchronization, pane resize/equalize, and mouse toggles. Herdr has no direct equivalent in its
-current command list for these workflows. Settings and core configuration
+Not mapped yet: transparent repeat key tables, other tmux popups,
+copy-mode vi selection, synchronization, pane resize/equalize, and mouse
+toggles. Herdr has no direct equivalent in its current command list for
+these workflows. Settings and core configuration
 are left unchanged.
 
 Do not bind `Ctrl-Alt-Shift-Escape`: Herdr reserves it to reset keys/layout.
