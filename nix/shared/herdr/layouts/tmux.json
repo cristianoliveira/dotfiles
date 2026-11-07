@@ -165,7 +165,7 @@
           "id": "bottom-bar",
           "type": "row",
           "size": {
-            "px": 34
+            "px": 30
           },
           "resizable": false,
           "window_drag": true,
