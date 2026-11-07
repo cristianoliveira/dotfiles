@@ -34,6 +34,9 @@ else
   sudo nixos-rebuild switch --flake $HOME/.dotfiles/nix#nixos
 fi
 
+echo "Linking home configuration with Stow..."
+(cd "$HOME/.dotfiles" && bash ./stow/install.sh)
+
 ## Ask if wants to commit, amend or discard changes
 if [ -z "$SKIP_COMMIT" ]; then
   echo "Do you want to commit the changes? [y/n]"
