@@ -282,7 +282,8 @@ Once a selection is confirmed, closing the overlay cannot undo the kill.
 ### Keyboard copy mode
 
 Press `Ctrl-a`, then `[` to open a read-only Neovim snapshot of the focused
-terminal's screen and up to 10,000 scrollback lines. Use `hjkl`, `gg`/`G`,
+terminal's screen and up to 10,000 scrollback lines. Keeping Ctrl held for `[`
+also works (`Ctrl-a Ctrl-[`). Use `hjkl`, `gg`/`G`,
 Ctrl-u/Ctrl-d and `/` search to navigate. Use `v` for character selection, `V`
 for whole lines, or Ctrl-v for a rectangle. Press `y` to copy to the local
 system clipboard; `q` or Escape in normal mode exits. Escape in visual mode
@@ -290,6 +291,9 @@ first cancels the selection. The prefix shortcut also dismisses the viewer.
 
 This is a frozen text snapshot, not native selection in the original pane.
 The source program keeps running and receives none of the viewer's keys.
+If it does not open, `herdr-app status` reports key/layout/mod errors; terminal
+capture errors appear inside the viewer popup. A key chord that is not bound
+can fail without a startup error.
 Remote terminal addresses are read through `hc`; the viewer itself runs locally.
 Colors, images and terminal soft-wrap metadata are not preserved. The initial
 cursor starts at the bottom of the snapshot.
