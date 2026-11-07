@@ -3,8 +3,8 @@
   "type": "row",
   "titlebar": "none",
   "traffic_lights": [
-    12,
-    16
+    -100,
+    -100
   ],
   "background": "canvas",
   "terminal_opacity": 0.85,
