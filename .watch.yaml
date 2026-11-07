@@ -73,6 +73,8 @@ jobs:
     ignore:
       - .direnv
       - '.git/**/*'
+      # Pi responder state must not trigger staging or failure-notification loops.
+      - '.pi/**'
       - result
 
   - name: after commit attempt to rebase
