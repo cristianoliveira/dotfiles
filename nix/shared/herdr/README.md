@@ -103,7 +103,8 @@ keymap, not a full copy of either platform's stock keymap.
 ## Project picker
 
 Press `Ctrl-a`, then `Ctrl-p` (hold Ctrl for both letters if preferred).
-Type a fuzzy query, use arrows or click a row, and press Enter to open it.
+Type a fuzzy query, use ↑/↓ or Ctrl-j/Ctrl-k to move down/up, or click a row.
+Press Enter to open it. Ctrl-h/Ctrl-l keep their search-field behavior.
 Escape cancels without creating a space. Plain `Ctrl-a p` still means next tab.
 
 Discovery follows the same roots and depth as `bin/tmux-sp`: immediate child

@@ -66,8 +66,8 @@ export default class ProjectPicker extends View {
       .on_key_down((event, cx) => {
         if (event.key === "escape") {
           closeOverlay(props().overlay);
-        } else if (event.key === "down" || event.key === "up") {
-          const step = event.key === "down" ? 1 : -1;
+        } else if (["ctrl-j", "ctrl-k"].includes(event.keystroke) || event.key === "down" || event.key === "up") {
+          const step = event.key === "down" || event.keystroke === "ctrl-j" ? 1 : -1;
           this.at = rows.length ? (this.at + step + rows.length) % rows.length : 0;
           this.scroll.scroll_to_item(this.at, "center");
         } else {
@@ -95,6 +95,6 @@ export default class ProjectPicker extends View {
       .when(Boolean(this.warning), (element) => element.child(
         div().text_color(t.muted).child(this.warning)))
       .child(div().text_size(11).text_color(t.dim)
-        .child(`${rows.length} projects · ↑/↓ select · Enter open · Esc cancel`));
+        .child(`${rows.length} projects · ↑/↓ or Ctrl-j/k select · Enter open · Esc cancel`));
   }
 }
