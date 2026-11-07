@@ -6,6 +6,13 @@ function validStatus(data) {
     && Array.isArray(data.failures) && data.failures.every((item) => typeof item === "string");
 }
 
+export function statusColor(state, theme) {
+  if (state === "running") return theme.ansi4;
+  if (state === "passed") return theme.ansi2;
+  if (state === "failed") return theme.ansi1;
+  return theme.muted;
+}
+
 export function watcherBinary(binary = "fzz", home) {
   return binary.startsWith("~/") ? `${home}/${binary.slice(2)}` : binary;
 }

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { WatcherStatus, watcherBinary } from "./model.js";
+import { WatcherStatus, watcherBinary, statusColor } from "./model.js";
 
 const local = { id: "one", folder: "/work/project with 'quotes'", machine: null };
 const capabilities = { schemaVersion: 1, methods: ["status"], instance: { token: "fz-one" } };
@@ -21,6 +21,17 @@ function harness(responses = [success(capabilities), success(snapshot())]) {
   });
   return { status, calls, select: (value) => { space = value; status.select(); } };
 }
+
+test("watcher status uses theme blue for running, green for passed, and red for failed", () => {
+  const theme = { ansi4: "#268bd2", ansi2: "#859900", ansi1: "#dc322f", muted: "#586e75" };
+
+  assert.equal(statusColor("running", theme), "#268bd2");
+  assert.equal(statusColor("passed", theme), "#859900");
+  assert.equal(statusColor("failed", theme), "#dc322f");
+  for (const state of ["idle", "cancelled", "offline", "loading", "unsupported", "error", "remote", "no-project"]) {
+    assert.equal(statusColor(state, theme), "#586e75");
+  }
+});
 
 test("binary selection expands only an explicit home prefix and otherwise preserves literal paths", () => {
   assert.equal(watcherBinary(undefined, "/home/me"), "fzz");

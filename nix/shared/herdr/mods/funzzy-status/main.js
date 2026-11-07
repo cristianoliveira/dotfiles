@@ -2,7 +2,7 @@ import { View, div } from "gpui-kit";
 import { h_flex } from "gpui-base";
 import { spaces, panes, hc, run, exec, notify, theme, props, home } from "herdr";
 import { ProjectWatchers } from "./projects.js";
-import { watcherBinary } from "./model.js";
+import { watcherBinary, statusColor } from "./model.js";
 import { WatcherLocations } from "./location.js";
 
 export default class FunzzyStatus extends View {
@@ -37,9 +37,7 @@ export default class FunzzyStatus extends View {
     const target = this.locations.unique(folder);
     const location = target ? ` · ${target.name}` : matches.length > 1 ? ` · ${matches.length} watchers` : "";
     const t = theme();
-    const color = value.state === "failed" ? t.blocked
-      : value.state === "passed" ? t.accent
-      : value.state === "running" ? t.foreground : t.muted;
+    const color = statusColor(value.state, t);
     const generation = value.generation === undefined ? "" : ` #${value.generation}`;
     const failures = value.failures ? ` · ${value.failures} failures` : "";
 

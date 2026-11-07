@@ -76,8 +76,8 @@ the desktop PATH also reports `offline`, since it rejects control arguments.
 `unsupported` means capabilities do not advertise schema 1 and `status`.
 `error` means invalid JSON or status data. `remote` means deliberately unmonitored.
 Unidentified legacy watchers can display status but do not send completion alerts.
-The indicator uses text as well as color: muted for unavailable states, foreground
-for running, accent for passed, and blocked color for failed.
+The indicator uses text as well as color: theme blue (`ansi4`) for running,
+green (`ansi2`) for passed, red (`ansi1`) for failed, and muted for other states.
 
 ## Verify
 
