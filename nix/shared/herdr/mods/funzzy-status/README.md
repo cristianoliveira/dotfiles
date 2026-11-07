@@ -8,9 +8,14 @@ or nested folders are not canonicalized or searched upward.
 ## Behavior
 
 - Poll open local projects every three seconds through `fzz ctl`.
-- Show the active project's state, generation, and failure count in the bottom bar.
+- Show the active project's state, generation, failure count, and located watcher
+  tab in the bottom bar. Click the indicator to focus its watcher pane.
+- Locate watchers through Herdr's foreground process metadata, not terminal title
+  text or the shell's startup command. Rename an unnamed matching tab to `watcher`
+  once; custom tab names stay unchanged.
 - Notify through Herdr when a newly observed generation passes or fails, including
-  background projects. Click the notification to select its space.
+  background projects. Click the notification to focus the located watcher pane,
+  or select the project space when no unique watcher pane is available.
 - Initial results and first results after a watcher restart are silent. Repeated
   observations do not repeat notifications. Offline periods keep the last observed
   generation for notification deduplication, but the indicator shows `offline`.
@@ -22,6 +27,15 @@ Status is polled, not an event log: short intermediate generations can be missed
 Capabilities and status are separate requests, not an atomic snapshot. This is
 read-only feedback, not proof that a particular agent's edit passed checks.
 Notifications are local to this mounted mod, not coordinated across app windows.
+
+Location discovery queries only panes in local project spaces with `hc get`.
+It recognizes bare `fzz`/`funzzy` or explicit `fzz watch` invocations (absolute
+executable paths work). Flag-prefixed implicit watch commands are not inferred.
+Foreground cwd must match the project folder exactly. This is a location hint,
+not proof of socket ownership: a watcher using an alternate config in the same
+folder can still match. With multiple matching panes, the indicator shows the
+count, no tab is automatically renamed, and no arbitrary pane is selected.
+Background/detached watchers without a matching foreground pane remain unlocated.
 
 ## Use
 
@@ -50,6 +64,7 @@ Install and reload the personal layout:
 
 ```sh
 bash stow/install.sh herdr
+herdr-app do layout.switch --name main
 herdr-app do layout.switch --name tmux
 herdr-app status
 ```
@@ -82,5 +97,6 @@ Herdr bounds each exec to 30 seconds and 8 MiB; polls for a project never overla
    `~/.config/herdr-app/mods/funzzy-status` symlink.
 3. Delete this directory and reload the layout.
 
-No other mod imports this module. No watcher lifecycle or runtime state changes
-need to be undone.
+No other mod imports this module. No watcher lifecycle changes need to be undone.
+The `watcher` tab name persists in Herdr; clear it manually with
+`herdr-app do tab.rename --id TAB_ID --name ''` if you want its automatic name back.

@@ -1,11 +1,12 @@
 import { WatcherStatus } from "./model.js";
 
 export class ProjectWatchers {
-  constructor({ spaces, exec, notify, binary = "fzz" }) {
+  constructor({ spaces, exec, notify, binary = "fzz", locate = () => null }) {
     this.spaces = spaces;
     this.exec = exec;
     this.binary = binary;
     this.notify = notify;
+    this.locate = locate;
     this.projects = new Map();
   }
 
@@ -55,11 +56,14 @@ export class ProjectWatchers {
         if (!previous || previous.instance !== instance) return;
         if (state !== "passed" && state !== "failed") return;
         if (previous.generation === generation && previous.state === state) return;
+        const location = this.locate(folder);
         this.notify({
           title: `Funzzy · ${entry.space.name || folder.split("/").pop()}`,
           body: `Run #${generation} ${state}`,
           level: state === "failed" ? "error" : "success",
-          action: { name: "space.select", args: { id: entry.space.id } },
+          action: location
+            ? { name: "pane.focus", args: { terminal: location.terminal } }
+            : { name: "space.select", args: { id: entry.space.id } },
         });
       } finally {
         entry.polling = false;

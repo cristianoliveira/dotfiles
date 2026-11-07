@@ -5,13 +5,14 @@ import { ProjectWatchers } from "./projects.js";
 const project = { id: "one", folder: "/work/one", name: "One", machine: null, active: true };
 const other = { id: "two", folder: "/work/two", name: "Two", machine: null };
 
-function harness(initial = [project, other]) {
+function harness(initial = [project, other], locate = () => null) {
   let spaces = initial;
   const values = new Map();
   const calls = [];
   const notifications = [];
   const monitors = new ProjectWatchers({
     spaces: () => spaces,
+    locate,
     notify: (message) => notifications.push(message),
     exec: async (_command, args, options) => {
       calls.push({ action: args.at(-1), folder: options.cwd });
@@ -62,6 +63,18 @@ test("notifies background project completion once and links to its space", async
     title: "Funzzy · Two", body: "Run #1 failed", level: "error",
     action: { name: "space.select", args: { id: "two" } },
   }]);
+});
+
+test("completion notification focuses a located watcher pane instead of just its space", async () => {
+  const { monitors, values, notifications } = harness([project],
+    (folder) => folder === project.folder ? { terminal: "watcher-terminal" } : null);
+  await monitors.poll();
+  values.set(project.folder, { state: "failed", generation: 1, token: "first" });
+
+  await monitors.poll();
+
+  assert.deepEqual(notifications[0].action,
+    { name: "pane.focus", args: { terminal: "watcher-terminal" } });
 });
 
 test("notifies a new passing generation even if polling missed its running state", async () => {
