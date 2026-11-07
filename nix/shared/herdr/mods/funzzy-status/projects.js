@@ -1,9 +1,10 @@
 import { WatcherStatus } from "./model.js";
 
 export class ProjectWatchers {
-  constructor({ spaces, exec, notify }) {
+  constructor({ spaces, exec, notify, binary = "fzz" }) {
     this.spaces = spaces;
     this.exec = exec;
+    this.binary = binary;
     this.notify = notify;
     this.projects = new Map();
   }
@@ -20,7 +21,8 @@ export class ProjectWatchers {
       if (!this.projects.has(folder)) {
         // Folder identity keeps multiple spaces/agents on the same watcher.
         const monitor = new WatcherStatus({
-          activeSpace: () => ({ id: folder, folder, machine: null }), exec: this.exec,
+          activeSpace: () => ({ id: folder, folder, machine: null }),
+          exec: this.exec, binary: this.binary,
         });
         this.projects.set(folder, { monitor });
       }

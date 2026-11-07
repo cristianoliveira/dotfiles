@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { WatcherStatus } from "./model.js";
+import { WatcherStatus, watcherBinary } from "./model.js";
 
 const local = { id: "one", folder: "/work/project with 'quotes'", machine: null };
 const capabilities = { schemaVersion: 1, methods: ["status"], instance: { token: "fz-one" } };
@@ -21,6 +21,28 @@ function harness(responses = [success(capabilities), success(snapshot())]) {
   });
   return { status, calls, select: (value) => { space = value; status.select(); } };
 }
+
+test("binary selection expands only an explicit home prefix and otherwise preserves literal paths", () => {
+  assert.equal(watcherBinary(undefined, "/home/me"), "fzz");
+  assert.equal(watcherBinary("~/.cargo/bin/fzz", "/home/my name"), "/home/my name/.cargo/bin/fzz");
+  assert.equal(watcherBinary("/opt/tools/fzz", "/home/me"), "/opt/tools/fzz");
+  assert.equal(watcherBinary("fzz; touch /tmp/not-run", "/home/me"), "fzz; touch /tmp/not-run");
+});
+
+test("explicit v2 binary is used for every query instead of the desktop PATH", async () => {
+  const calls = [];
+  const status = new WatcherStatus({ activeSpace: () => local, binary: "/home/me/.cargo/bin/fzz",
+    exec: async (...args) => {
+      calls.push(args);
+      return success(args[1].at(-1) === "capabilities" ? capabilities : snapshot());
+    },
+  });
+
+  await status.poll();
+
+  assert.deepEqual(calls.map((args) => args[0]), ["/home/me/.cargo/bin/fzz", "/home/me/.cargo/bin/fzz"]);
+  assert.equal(status.value.state, "passed");
+});
 
 test("queries only capabilities and status with explicit argv and project cwd", async () => {
   const { status, calls } = harness();

@@ -25,8 +25,16 @@ Notifications are local to this mounted mod, not coordinated across app windows.
 
 ## Use
 
-The app environment needs `fzz` on PATH. In each project's existing `.watch.yaml`
-(or `.watch.yml`), configure a socket, for example:
+The mod needs a control-capable Funzzy CLI (v2). Desktop and terminal PATHs can
+resolve different versions. The `tmux` layout explicitly sets the mod prop
+`"binary": "~/.cargo/bin/fzz"` to use the local Cargo installation, not Nix's
+older `fzz`. Change this prop to your v2 executable if installed elsewhere.
+`~/` expands to Herdr's home directory; other executable paths are literal.
+Without the prop, the mod uses `fzz` from the desktop PATH. It does not invoke a
+shell or search project-local binaries.
+
+In each project's existing `.watch.yaml` (or `.watch.yml`), configure a socket,
+for example:
 
 ```yaml
 on:
@@ -47,7 +55,9 @@ herdr-app status
 ```
 
 `offline` means the CLI could not be started or could not query the configured
-watcher. To diagnose, run `fzz ctl --format json capabilities` from that project.
+watcher. To diagnose this layout, run
+`~/.cargo/bin/fzz ctl --format json capabilities` from that project. A v1 CLI on
+the desktop PATH also reports `offline`, since it rejects control arguments.
 `unsupported` means capabilities do not advertise schema 1 and `status`.
 `error` means invalid JSON or status data. `remote` means deliberately unmonitored.
 Unidentified legacy watchers can display status but do not send completion alerts.

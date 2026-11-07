@@ -6,11 +6,16 @@ function validStatus(data) {
     && Array.isArray(data.failures) && data.failures.every((item) => typeof item === "string");
 }
 
+export function watcherBinary(binary = "fzz", home) {
+  return binary.startsWith("~/") ? `${home}/${binary.slice(2)}` : binary;
+}
+
 // Transport is injected so the experiment has no dependency on other personal mods.
 export class WatcherStatus {
-  constructor({ activeSpace, exec }) {
+  constructor({ activeSpace, exec, binary = "fzz" }) {
     this.activeSpace = activeSpace;
     this.exec = exec;
+    this.binary = binary;
     this.revision = 0;
     this.busy = false;
     this.select();
@@ -38,7 +43,7 @@ export class WatcherStatus {
     };
     const query = async (action) => {
       // Never invoke a shell or read job output. Herdr bounds exec to 30 s / 8 MiB.
-      const result = await this.exec("fzz", ["ctl", "--format", "json", action], { cwd: folder });
+      const result = await this.exec(this.binary, ["ctl", "--format", "json", action], { cwd: folder });
       if (result.code !== 0) return null;
       return { data: JSON.parse(result.stdout) };
     };

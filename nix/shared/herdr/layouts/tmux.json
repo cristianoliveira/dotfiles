@@ -199,7 +199,10 @@
                 "px": 220
               },
               "content": {
-                "mod": "funzzy-status"
+                "mod": "funzzy-status",
+                "props": {
+                  "binary": "~/.cargo/bin/fzz"
+                }
               }
             },
             {

@@ -1,11 +1,13 @@
 import { View, div } from "gpui-kit";
 import { h_flex } from "gpui-base";
-import { spaces, exec, notify, theme } from "herdr";
+import { spaces, exec, notify, theme, props, home } from "herdr";
 import { ProjectWatchers } from "./projects.js";
+import { watcherBinary } from "./model.js";
 
 export default class FunzzyStatus extends View {
   init(_props, cx) {
-    this.watchers = new ProjectWatchers({ spaces, exec, notify });
+    const binary = watcherBinary(props()?.binary, home());
+    this.watchers = new ProjectWatchers({ spaces, exec, notify, binary });
     const poll = (cx) => cx.spawn(async (cx) => {
       await this.watchers.poll();
       cx.notify();

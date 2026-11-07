@@ -26,6 +26,18 @@ function harness(initial = [project, other]) {
   return { monitors, calls, notifications, values, setSpaces: (next) => { spaces = next; monitors.sync(); } };
 }
 
+test("configured binary is forwarded to every project's monitor", async () => {
+  const commands = [];
+  const monitors = new ProjectWatchers({ spaces: () => [project, other], notify: () => {},
+    binary: "/home/me/.cargo/bin/fzz",
+    exec: async (command) => { commands.push(command); return { code: 1, stdout: "" }; },
+  });
+
+  await monitors.poll();
+
+  assert.deepEqual(commands, ["/home/me/.cargo/bin/fzz", "/home/me/.cargo/bin/fzz"]);
+});
+
 test("one monitor per local project folder, shared by spaces and their agents", async () => {
   const { monitors, calls } = harness([project, { ...project, id: "duplicate" }, other,
     { ...other, machine: "remote" }, { ...other, folder: "" }]);
