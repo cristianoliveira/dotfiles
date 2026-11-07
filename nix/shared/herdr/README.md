@@ -29,6 +29,7 @@ not tmux's repeat key table: repeat the prefix for each action.
 | `Ctrl-p` | Search projects under `~/work` and `~/other` |
 | `Ctrl-b` | Search existing spaces and tabs |
 | `Shift-l` (uppercase `L`) | Toggle last two spaces (`tmux` layout) |
+| `Ctrl-r` / `Tab` | Toggle last two tabs in this space (`tmux` layout) |
 | `1`–`9` | Select tab |
 | `,` | Rename tab with a prompt |
 | `w` / `_` | Split down |
@@ -114,17 +115,25 @@ are removed; with no previous space, it shows a notice and changes nothing.
 Tab changes do not change space history. Remote spaces use their full ids.
 History is not tracked while the compat block is unmounted.
 
+Press `Ctrl-a`, then `Ctrl-r` or `Tab` to toggle between the last two tabs
+visited in the current space. Each space has independent history under
+`tmux-compat.tab-history`. Switching spaces preserves their tab histories;
+closed tabs and spaces are pruned. With no previous tab, selection stays
+unchanged and a notice explains why. Inactive spaces do not record unseen
+tab selections.
+
 Check it with:
 
 ```sh
 node --experimental-default-type=module --test nix/shared/herdr/tests/compat.test.mjs
 herdr-app check ~/.config/herdr-app/mods/tmux-compat
 herdr-app do tmux-compat.last-space
+herdr-app do tmux-compat.last-tab
 ```
 
 ## Remaining tmux differences
 
-Not mapped yet: last-window toggles and other tmux popups,
+Not mapped yet: repeat key tables and other tmux popups,
 copy-mode vi selection, synchronization, pane resize/equalize, mouse toggles,
 and automatic folder-based rename. Herdr has no direct equivalent in its
 current command list for these workflows. Settings and core configuration

@@ -1,8 +1,9 @@
 import { View, div } from "gpui-kit";
 import { spaces, shared, setShared, nextCommand, run, notify } from "herdr";
-import { observeSpaces, lastSpace } from "./history.js";
+import { observeSpaces, lastSpace, observeTabs, lastTab } from "./history.js";
 
 const HISTORY = "tmux-compat.space-history";
+const TAB_HISTORY = "tmux-compat.tab-history";
 
 export default class TmuxCompat extends View {
   init(_props, cx) {
@@ -10,20 +11,27 @@ export default class TmuxCompat extends View {
       for (;;) {
         const command = await nextCommand();
         cx.notify();
-        if (command !== "last-space") continue;
-
-        const target = lastSpace(this.observe());
-        if (target) run("space.select", { id: target });
-        else notify({ title: "No previous space", body: "Visit another space first.", level: "info" });
+        const history = this.observe();
+        if (command === "last-space") this.selectLast("space", lastSpace(history.spaces));
+        if (command === "last-tab") this.selectLast("tab", lastTab(history.tabs, history.spaceId));
       }
     });
   }
 
+  selectLast(kind, target) {
+    if (target) run(`${kind}.select`, { id: target });
+    else notify({ title: `No previous ${kind}`, body: `Visit another ${kind} first.`, level: "info" });
+  }
+
   observe() {
-    const previous = shared(HISTORY) ?? [];
-    const history = observeSpaces(previous, spaces());
-    if (JSON.stringify(history) !== JSON.stringify(previous)) setShared(HISTORY, history);
-    return history;
+    const snapshot = spaces();
+    const previousSpaces = shared(HISTORY) ?? [];
+    const previousTabs = shared(TAB_HISTORY) ?? {};
+    const spaceHistory = observeSpaces(previousSpaces, snapshot);
+    const tabHistory = observeTabs(previousTabs, snapshot);
+    if (JSON.stringify(spaceHistory) !== JSON.stringify(previousSpaces)) setShared(HISTORY, spaceHistory);
+    if (JSON.stringify(tabHistory) !== JSON.stringify(previousTabs)) setShared(TAB_HISTORY, tabHistory);
+    return { spaces: spaceHistory, tabs: tabHistory, spaceId: snapshot.find((space) => space.active)?.id };
   }
 
   render() {
