@@ -7,6 +7,7 @@ import { CloseSpacesMode } from "./close-spaces-view.js";
 import { PopupHeader } from "./popup-header.js";
 import { popupPlan, killPortPlan, openPopup, releasePopup, popupIsLive, popupPresentation } from "./popup.js";
 import { broadcastPlan } from "./broadcast.js";
+import { copyPlan } from "./copy.js";
 
 const HISTORY = "tmux-compat.space-history";
 const TAB_HISTORY = "tmux-compat.tab-history";
@@ -31,6 +32,7 @@ export default class TmuxCompat extends View {
         if (command === "popup") this.togglePopup(cx);
         if (command === "kill-port") this.togglePopup(cx, "kill-port");
         if (command === "broadcast") this.togglePopup(cx, "broadcast");
+        if (command === "copy-mode") this.togglePopup(cx, "copy-mode");
       }
     });
   }
@@ -53,14 +55,16 @@ export default class TmuxCompat extends View {
         }
         const killPort = kind === "kill-port";
         const broadcast = kind === "broadcast";
+        const copyMode = kind === "copy-mode";
         let plan;
-        if (broadcast) plan = broadcastPlan(context.focus, context.spaces, context.panes, context.terminals, appHome());
+        if (copyMode) plan = copyPlan(context.focus, appHome(), home());
+        else if (broadcast) plan = broadcastPlan(context.focus, context.spaces, context.panes, context.terminals, appHome());
         else if (killPort) plan = killPortPlan(context.focus, context.spaces, home());
         else plan = popupPlan(context.focus, context.spaces);
         if (broadcast && (await exec("python3", ["-I", "-c", "import curses"])).code !== 0) {
           throw new Error("Broadcast needs Python 3 with curses support in your Nix environment.");
         }
-        const shortcut = broadcast ? "Ctrl+A e" : killPort ? "Ctrl+A Shift+P" : "Ctrl+A Space";
+        const shortcut = copyMode ? "Ctrl+A [" : broadcast ? "Ctrl+A e" : killPort ? "Ctrl+A Shift+P" : "Ctrl+A Space";
         this.popup = await openPopup(plan, {
           core: hc,
           check: async (script) => (await exec("test", ["-f", script, "-a", "-x", script])).code === 0,

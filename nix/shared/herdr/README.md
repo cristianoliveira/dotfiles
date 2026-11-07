@@ -81,6 +81,7 @@ enter the bounded navigation repeat mode below.
 | `Space` | Toggle project-local `.tmp/popup` terminal (`tmux` layout) |
 | `Shift-p` | Toggle local listening-port process picker (`tmux` layout) |
 | `e` | Toggle prototype broadcast-input mode for current-tab panes (`tmux` layout) |
+| `[` | Open keyboard-only copy mode for the focused terminal (`tmux` layout) |
 | `w` / `_` | Split down |
 | `v` / `\|` | Split right |
 | `Ctrl-h/j/k/l` | Focus pane left/down/up/right |
@@ -278,6 +279,29 @@ Either popup shortcut dismisses an already-active compat terminal popup.
 Close and outside click stop only the picker terminal, not listed processes.
 Once a selection is confirmed, closing the overlay cannot undo the kill.
 
+### Keyboard copy mode
+
+Press `Ctrl-a`, then `[` to open a read-only Neovim snapshot of the focused
+terminal's screen and up to 10,000 scrollback lines. Use `hjkl`, `gg`/`G`,
+Ctrl-u/Ctrl-d and `/` search to navigate. Use `v` for character selection, `V`
+for whole lines, or Ctrl-v for a rectangle. Press `y` to copy to the local
+system clipboard; `q` or Escape in normal mode exits. Escape in visual mode
+first cancels the selection. The prefix shortcut also dismisses the viewer.
+
+This is a frozen text snapshot, not native selection in the original pane.
+The source program keeps running and receives none of the viewer's keys.
+Remote terminal addresses are read through `hc`; the viewer itself runs locally.
+Colors, images and terminal soft-wrap metadata are not preserved. The initial
+cursor starts at the bottom of the snapshot.
+
+Requires Python 3, `hc`, Neovim with `vim.ui.clipboard.osc52`, and Herdr's
+`clipboard_write` permission (enabled by default). No clipboard helper is
+required. Snapshots are capped at 8 MiB and clipboard selections at 1 MiB.
+The isolated editor disables user plugins, local configuration, modelines,
+swap/backup/undo files and editing. Snapshots use a private temporary directory
+and are removed on normal exit or handled termination; a forced kill/crash can
+leave temporary files behind. It is not an editor sandbox.
+
 ### Broadcast input mode (prototype)
 
 Press `Ctrl-a`, then lowercase `e` to open a single-line input indicator
@@ -340,7 +364,8 @@ herdr-app do tmux-compat.broadcast
 ## Remaining tmux differences
 
 Not mapped yet: transparent repeat key tables, other tmux popups,
-copy-mode vi selection, transparent pane synchronization, pane resize/equalize, and mouse
+native in-pane copy-mode selection (the keyboard snapshot viewer is available),
+transparent pane synchronization, pane resize/equalize, and mouse
 toggles. Herdr has no direct equivalent in its current command list for
 these workflows. Settings and core configuration
 are left unchanged.
