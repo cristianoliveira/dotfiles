@@ -4,7 +4,7 @@
     "ctrl-a n": "tab.prev",
     "ctrl-a p": "tab.next",
     "ctrl-a ctrl-p": "mod.open:project-picker",
-    "ctrl-a ctrl-b": "mod.open:picker",
+    "ctrl-a ctrl-b": "mod.open:tmux-picker",
     "ctrl-a shift-l": "tmux-compat.last-space",
     "ctrl-a ctrl-r": "tmux-compat.last-tab",
     "ctrl-a tab": "tmux-compat.last-tab",

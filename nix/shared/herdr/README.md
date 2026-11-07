@@ -133,11 +133,13 @@ stays outside it.
 
 ## Existing-space picker
 
-Press `Ctrl-a`, then `Ctrl-b` to open Herdr's shipped space/tab picker, the
-closest match to your tmux session switcher. Type to search, use arrows and
-Enter to switch, or Escape to cancel. Quiet spaces can be folded under
-“earlier”; searching includes them. The shipped picker also offers new-tab
-and new-space actions, unlike tmux's existing-session-only list.
+Press `Ctrl-a`, then `Ctrl-b` to open `tmux-picker`, a personal clone of
+Herdr 0.1.13's space/tab picker. Type to search, use ↑/↓ or Ctrl-j/Ctrl-k to
+move down/up, Enter to switch, or Escape to cancel. Ctrl-d still closes the
+selected tab. Quiet spaces can be folded under “earlier”; searching includes
+them. New-tab and new-space actions remain available, unlike tmux's
+existing-session-only list. Compare this clone with the shipped `picker` on
+Herdr upgrades; it does not receive upstream updates automatically.
 
 ## Tmux compatibility layer
 
