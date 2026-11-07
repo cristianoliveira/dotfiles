@@ -43,7 +43,7 @@ export default class FunzzyStatus extends View {
     const generation = value.generation === undefined ? "" : ` #${value.generation}`;
     const failures = value.failures ? ` · ${value.failures} failures` : "";
 
-    return h_flex().size_full().px(10).items_center()
+    return h_flex().size_full().px(6).items_center()
       .bg(t.chrome).border_t(1).border_color(t.border).text_size(11.8)
       .when(Boolean(target), (el) => el.cursor_pointer()
         .tooltip(`Open watcher in ${target.name}`)

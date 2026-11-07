@@ -199,7 +199,7 @@
               "id": "funzzy-status",
               "type": "block",
               "size": {
-                "px": 220
+                "px": 160
               },
               "content": {
                 "mod": "funzzy-status",
@@ -212,7 +212,7 @@
               "id": "panel-buttons",
               "type": "block",
               "size": {
-                "px": 160
+                "px": 144
               },
               "content": {
                 "mod": "tmux-tabs",
@@ -225,7 +225,7 @@
               "id": "clock",
               "type": "block",
               "size": {
-                "px": 180
+                "px": 150
               },
               "content": {
                 "mod": "tmux-status",

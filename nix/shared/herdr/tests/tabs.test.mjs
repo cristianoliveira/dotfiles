@@ -56,22 +56,22 @@ for (const platform of ["linux", "macos", "windows"]) {
   });
 }
 
-test("tab-only strip keeps tab controls without duplicating panel buttons", async () => {
+test("tab-only strip keeps tabs without right-side controls", async () => {
   const { row } = await tabs("linux", "tabs");
 
   assert.ok(find(row, "tab-tab"));
-  assert.ok(find(row, "tab-new"));
+  assert.equal(find(row, "tab-new"), undefined);
   assert.equal(find(row, "panel-files"), undefined);
   assert.equal(find(row, "panel-changes"), undefined);
 });
 
-test("panel-only strip keeps Files and Changes without tabs or tab navigation", async () => {
+test("right-side strip keeps new-tab, Files and Changes without tabs or tab navigation", async () => {
   const { row, calls } = await tabs("linux", "panels");
 
   assert.ok(find(row, "panel-files"));
   assert.ok(find(row, "panel-changes"));
   assert.equal(find(row, "tab-tab"), undefined);
-  assert.equal(find(row, "tab-new"), undefined);
+  assert.ok(find(row, "tab-new"));
   assert.equal(row.attributes.on_scroll_wheel, undefined);
 
   find(row, "panel-changes").attributes.on_click[0]();
