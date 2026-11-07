@@ -12,6 +12,10 @@
     copkgs.beads # nightly.beads # Advanced todo list for AI
     nightly.beads_viewer # Beads viewer for visualizing beads data
 
+    # Persistent agent terminals
+    copkgs.herdr-app
+    copkgs.herdr-core
+
     ## TOOLS (mostly for AI agents)
     copkgs.gob                      # Parallel job runner for AI
     # unstable.jira-cli-go            # Allow agent to access jira
