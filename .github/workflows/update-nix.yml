@@ -38,8 +38,8 @@ jobs:
       - name: Evaluate Linux and macOS system derivations
         working-directory: nix
         run: |
-          nix eval --locked --raw .#nixosConfigurations.nixos.config.system.build.toplevel.drvPath
-          nix eval --locked --raw .#darwinConfigurations.darwin.system.drvPath
+          nix eval --no-update-lock-file --raw .#nixosConfigurations.nixos.config.system.build.toplevel.drvPath
+          nix eval --no-update-lock-file --raw .#darwinConfigurations.darwin.system.drvPath
 
       - name: Create or update pull request
         uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676 # v7
