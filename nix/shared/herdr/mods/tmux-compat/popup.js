@@ -76,12 +76,13 @@ export async function openPopup(plan, io) {
     throw new Error(plan.missingMessage ?? `No executable script at ${plan.script}. From its project folder, run chmod +x .tmp/popup and add a shebang.`);
   }
   if (plan.dependencies && !await io.available(plan.dependencies)) {
-    throw new Error(`Kill-port requires ${plan.dependencies.join(", ")}. Install the missing commands in your Nix environment before retrying.`);
+    throw new Error(`Popup requires ${plan.dependencies.join(", ")}. Install the missing commands in your Nix environment before retrying.`);
   }
   // hc interprets a single argv string as shell text; env preserves a literal script path.
   const receipt = data(await io.core([
     "run", "--bg", "--json", "--no-parent", "--no-notify", "--rm",
-    "--label", `${POPUP_LABEL}=1`, "--cwd", plan.cwd, "--", "env", "--", plan.script,
+    "--label", `${POPUP_LABEL}=1`, "--cwd", plan.cwd, "--", "env", "--",
+    ...(plan.command ?? [plan.script]), ...(plan.args ?? []),
   ]));
   validateAddress(receipt.address);
   if (receipt.state !== "live") return null;

@@ -1,11 +1,12 @@
 import { View, div } from "gpui-kit";
-import { spaces, focused, shared, setShared, nextCommand, run, notify, openOverlay, closeOverlay, props, hc, exec, home } from "herdr";
+import { spaces, focused, shared, setShared, nextCommand, run, notify, openOverlay, closeOverlay, props, hc, exec, home, appHome, panes, terminals } from "herdr";
 import { observeSpaces, lastSpace, observeTabs, lastTab } from "./history.js";
 import { folderTabName } from "./rename.js";
 import { RepeatMode } from "./repeat-view.js";
 import { CloseSpacesMode } from "./close-spaces-view.js";
 import { PopupHeader } from "./popup-header.js";
 import { popupPlan, killPortPlan, openPopup, releasePopup, popupIsLive } from "./popup.js";
+import { broadcastPlan } from "./broadcast.js";
 
 const HISTORY = "tmux-compat.space-history";
 const TAB_HISTORY = "tmux-compat.tab-history";
@@ -29,13 +30,14 @@ export default class TmuxCompat extends View {
         if (command === "close-spaces") openOverlay({ mod: "tmux-compat", props: { mode: "close-spaces" }, kind: "dialog", modal: true, width: 700, height: 480 });
         if (command === "popup") this.togglePopup(cx);
         if (command === "kill-port") this.togglePopup(cx, "kill-port");
+        if (command === "broadcast") this.togglePopup(cx, "broadcast");
       }
     });
   }
 
   togglePopup(cx, kind = "project") {
     if (this.popupOpening || this.closing) return;
-    const context = { focus: focused(), spaces: spaces() };
+    const context = { focus: focused(), spaces: spaces(), panes: panes(), terminals: terminals() };
     this.popupOpening = true;
     cx.spawn(async (cx) => {
       try {
@@ -50,10 +52,15 @@ export default class TmuxCompat extends View {
           }
         }
         const killPort = kind === "kill-port";
-        const plan = killPort
-          ? killPortPlan(context.focus, context.spaces, home())
-          : popupPlan(context.focus, context.spaces);
-        const shortcut = killPort ? "Ctrl+A Shift+P" : "Ctrl+A Space";
+        const broadcast = kind === "broadcast";
+        let plan;
+        if (broadcast) plan = broadcastPlan(context.focus, context.spaces, context.panes, context.terminals, appHome());
+        else if (killPort) plan = killPortPlan(context.focus, context.spaces, home());
+        else plan = popupPlan(context.focus, context.spaces);
+        if (broadcast && (await exec("python3", ["-I", "-c", "import curses"])).code !== 0) {
+          throw new Error("Broadcast needs Python 3 with curses support in your Nix environment.");
+        }
+        const shortcut = broadcast ? "Ctrl+A e" : killPort ? "Ctrl+A Shift+P" : "Ctrl+A Space";
         this.popup = await openPopup(plan, {
           core: hc,
           check: async (script) => (await exec("test", ["-f", script, "-a", "-x", script])).code === 0,
@@ -63,11 +70,11 @@ export default class TmuxCompat extends View {
           ])).code === 0,
           open: (address) => {
             if (this.closing) throw new Error("Popup owner closed during startup.");
-            return openOverlay({ kind: "dialog", width: killPort ? 0.5 : 0.85, height: killPort ? 0.4 : 0.75, layout: {
+            return openOverlay({ kind: "dialog", width: killPort ? 0.5 : 0.85, height: broadcast ? 180 : killPort ? 0.4 : 0.75, layout: {
               type: "column",
               children: [
                 { id: "popup-header", type: "block", size: { px: 36 }, content: {
-                  mod: "tmux-compat", props: { mode: "popup-header", address, script: plan.script, shortcut },
+                  mod: "tmux-compat", props: { mode: "popup-header", address, script: plan.title ?? plan.script, shortcut },
                 } },
                 { id: "popup-terminal", type: "block", content: { terminal: address } },
               ],

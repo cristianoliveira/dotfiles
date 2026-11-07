@@ -53,6 +53,7 @@ enter the bounded navigation repeat mode below.
 | `-` | Select multiple spaces to close, with confirmation (`tmux` layout) |
 | `Space` | Toggle project-local `.tmp/popup` terminal (`tmux` layout) |
 | `Shift-p` | Toggle local listening-port process picker (`tmux` layout) |
+| `e` | Toggle prototype broadcast-input mode for current-tab panes (`tmux` layout) |
 | `w` / `_` | Split down |
 | `v` / `\|` | Split right |
 | `Ctrl-h/j/k/l` | Focus pane left/down/up/right |
@@ -238,6 +239,40 @@ Either popup shortcut dismisses an already-active compat terminal popup.
 Close and outside click stop only the picker terminal, not listed processes.
 Once a selection is confirmed, closing the overlay cannot undo the kill.
 
+### Broadcast input mode (prototype)
+
+Press `Ctrl-a`, then lowercase `e` to open a small **BROADCAST MODE** terminal.
+Wait for **READY / BROADCAST ON**, then type there. Each keystroke goes to every
+terminal pane captured from the current tab. **Enter submits in every target**;
+Ctrl+C is also broadcast. Escape exits instead of reaching the targets.
+The same shortcut, Close, or clicking outside dismisses the relay.
+
+This is an input proxy, not transparent synchronization while typing directly
+into an ordinary pane. It uses the existing core framed-stream API through one
+session-bound `hc connect` process. No native app/core patch, persistent service,
+network listener, or global keyboard permissions are needed. Typed content is
+not displayed or logged by the relay; normal target-program history still applies.
+
+The first version supports 2–8 live local terminal panes, ordinary UTF-8 text,
+punctuation, basic controls, arrows, Backspace, Delete, Home/End and Page Up/Down.
+SSH sessions inside local panes can receive input too; spaces hosted on a remote
+core are refused. Other tabs, detached agents, mod panes and popup terminals are
+not targets. The target list stays frozen; duplicate terminal references receive
+input only once. It requires Python 3 with curses, plus `hc` and `herdr-app`.
+
+Use it with shell-like input first. **Alt combinations, paste, function keys,
+and advanced TUI/Kitty keyboard modes are not supported.** Bracketed paste or
+Alt input starts with Escape and exits; Ctrl+V stops the mode. IME composition
+has not been tested. Input typed before READY is ignored. Clicking a normal pane
+leaves the broadcast input surface; it does not install a keyboard hook there.
+
+Before each queued batch, the relay checks the original space/tab, pane
+membership, target liveness and process identity. Changed context, failed
+checks, stream loss, an unsupported key, or a full bounded queue stops further
+delivery without retry. An in-flight batch can already have reached some panes;
+there is no rollback. Opening another dialog also stops delivery. Reopen the
+mode to review a new target set. Test on harmless commands before real work.
+
 Check it with:
 
 ```sh
@@ -250,12 +285,13 @@ herdr-app do tmux-compat.repeat
 herdr-app do tmux-compat.close-spaces
 herdr-app do tmux-compat.popup
 herdr-app do tmux-compat.kill-port
+herdr-app do tmux-compat.broadcast
 ```
 
 ## Remaining tmux differences
 
 Not mapped yet: transparent repeat key tables, other tmux popups,
-copy-mode vi selection, synchronization, pane resize/equalize, and mouse
+copy-mode vi selection, transparent pane synchronization, pane resize/equalize, and mouse
 toggles. Herdr has no direct equivalent in its current command list for
 these workflows. Settings and core configuration
 are left unchanged.
