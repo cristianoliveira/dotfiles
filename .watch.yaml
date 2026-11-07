@@ -79,7 +79,11 @@ jobs:
 
   - name: after commit attempt to rebase
     run:
-      - git fetch --all
-      - git rebase origin/$MAIN_BRANCH
+      - |
+        if ! git diff --quiet || ! git diff --cached --quiet; then
+          printf '%s\n' 'Skipping automatic rebase: tracked changes are uncommitted.'
+          exit 0
+        fi
+        git fetch --all && git rebase "origin/${MAIN_BRANCH:?Set MAIN_BRANCH to the upstream branch}"
     change:
       - ".git/COMMIT_EDITMSG"
