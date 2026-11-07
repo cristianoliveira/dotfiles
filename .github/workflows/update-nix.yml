@@ -1,0 +1,57 @@
+name: Update Nix packages
+
+on:
+  schedule:
+    # Monday at 06:17 UTC.
+    - cron: '17 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: update-nix
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Check out default branch
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@d9186cbdca7adedf113a159fa91f725a27866771 # v31
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update flake inputs
+        working-directory: nix
+        run: nix flake update
+
+      - name: Evaluate Linux and macOS system derivations
+        working-directory: nix
+        run: |
+          nix eval --locked --raw .#nixosConfigurations.nixos.config.system.build.toplevel.drvPath
+          nix eval --locked --raw .#darwinConfigurations.darwin.system.drvPath
+
+      - name: Create or update pull request
+        uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676 # v7
+        with:
+          branch: automation/update-nix
+          delete-branch: true
+          add-paths: nix/flake.lock
+          commit-message: 'chore(nix): update flake inputs'
+          title: 'chore(nix): update flake inputs'
+          body: |
+            Weekly update of all inputs in `nix/flake.lock` using `nix flake update`.
+
+            Both NixOS and macOS system derivations evaluated successfully.
+            Packages have not been built or tested on either machine.
+            Review the lockfile and rebuild each system before merging.

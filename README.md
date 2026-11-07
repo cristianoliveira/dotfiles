@@ -121,6 +121,37 @@ make setup
 Once you make a change in `nix/*` run `nix/rebuild.sh` and follow the steps.
 (Optional) Use the watcher with `fzz -t nix` which will auto-rebuild each time something changes.
 
+### Automated Nix updates
+
+[Update Nix packages](.github/workflows/update-nix.yml) runs every Monday at
+06:17 UTC. It updates all flake inputs, evaluates Linux and macOS system
+derivations, and opens or refreshes one PR containing only `nix/flake.lock`.
+No lockfile changes means no new PR. Evaluation failures stop publication;
+an older PR may still exist and does not represent the failed update.
+This does not upgrade the release branches declared in `nix/flake.nix`,
+update Homebrew packages, or deploy changes to a machine.
+
+After this workflow reaches the default branch:
+
+1. In **Settings → Actions → General → Workflow permissions**, enable
+   **Allow GitHub Actions to create and approve pull requests**.
+2. Run it from **Actions → Update Nix packages → Run workflow**, or use
+   `gh workflow run update-nix.yml`.
+3. Review the PR and rebuild both systems before merging. Evaluation is not
+   a full build or runtime test.
+
+Merging is manual by default. Auto-merge is possible: enable **Allow auto-merge**
+in repository settings, configure required build checks in branch protection,
+then run `gh pr merge <PR-number> --auto --squash`. With no required checks,
+a mergeable PR can merge immediately. PRs created with `GITHUB_TOKEN` do not
+trigger ordinary `pull_request` workflows; use a scoped GitHub App token if
+adding that CI flow. Direct commits are also possible, but skip PR review and
+remain subject to branch protection. A conflict-free update is not proof that
+packages work.
+
+GitHub can disable scheduled workflows after 60 days of inactivity in public
+repositories. Re-enable the workflow in Actions if this happens.
+
 ### Mappings
 
 Key modifier (MOD): `Command` (osx) and `Alt` (Nixos) 
