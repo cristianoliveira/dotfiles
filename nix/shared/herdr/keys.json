@@ -4,6 +4,7 @@
     "ctrl-a n": "tab.prev",
     "ctrl-a p": "tab.next",
     "ctrl-a ctrl-p": "mod.open:project-picker",
+    "ctrl-a ctrl-b": "mod.open:picker",
     "ctrl-a ,": "tab.rename",
     "ctrl-a 1": "tab.select:1",
     "ctrl-a 2": "tab.select:2",

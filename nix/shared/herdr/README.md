@@ -27,6 +27,7 @@ not tmux's repeat key table: repeat the prefix for each action.
 | `c` | New tab in the focused terminal's folder |
 | `n` / `p` | Previous / next tab (same order as your tmux config) |
 | `Ctrl-p` | Search projects under `~/work` and `~/other` |
+| `Ctrl-b` | Search existing spaces and tabs |
 | `1`–`9` | Select tab |
 | `,` | Rename tab with a prompt |
 | `w` / `_` | Split down |
@@ -76,6 +77,14 @@ herdr-app status
 The personal mod is not a copy of Herdr's shipped picker, so app upgrades do
 not replace it. Only files in this directory belong in Git; runtime state
 stays outside it.
+
+## Existing-space picker
+
+Press `Ctrl-a`, then `Ctrl-b` to open Herdr's shipped space/tab picker, the
+closest match to your tmux session switcher. Type to search, use arrows and
+Enter to switch, or Escape to cancel. Quiet spaces can be folded under
+“earlier”; searching includes them. The shipped picker also offers new-tab
+and new-space actions, unlike tmux's existing-session-only list.
 
 ## Remaining tmux differences
 
