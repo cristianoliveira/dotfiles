@@ -32,6 +32,7 @@ not tmux's repeat key table: repeat the prefix for each action.
 | `Ctrl-r` / `Tab` | Toggle last two tabs in this space (`tmux` layout) |
 | `1`–`9` | Select tab |
 | `,` | Rename tab with a prompt |
+| `Shift-n` (uppercase `N`) | Rename tab from focused terminal folder (`tmux` layout) |
 | `w` / `_` | Split down |
 | `v` / `\|` | Split right |
 | `Ctrl-h/j/k/l` | Focus pane left/down/up/right |
@@ -122,20 +123,28 @@ closed tabs and spaces are pruned. With no previous tab, selection stays
 unchanged and a notice explains why. Inactive spaces do not record unseen
 tab selections.
 
+Press `Ctrl-a`, then uppercase `N` to rename the current tab to the basename
+of the focused terminal’s working directory, matching your tmux mapping.
+This uses the focused pane, not the space’s original project folder. Names
+are passed directly to Herdr, without shell execution. With a mod focused or
+an unknown terminal cwd, it shows a notice and leaves the tab name unchanged.
+This supports Unix paths, including remote Unix terminals. `Ctrl-a ,` still
+opens the normal rename prompt.
+
 Check it with:
 
 ```sh
-node --experimental-default-type=module --test nix/shared/herdr/tests/compat.test.mjs
+node --experimental-default-type=module --test nix/shared/herdr/tests/*.test.mjs
 herdr-app check ~/.config/herdr-app/mods/tmux-compat
 herdr-app do tmux-compat.last-space
 herdr-app do tmux-compat.last-tab
+herdr-app do tmux-compat.rename-from-folder
 ```
 
 ## Remaining tmux differences
 
 Not mapped yet: repeat key tables and other tmux popups,
-copy-mode vi selection, synchronization, pane resize/equalize, mouse toggles,
-and automatic folder-based rename. Herdr has no direct equivalent in its
+copy-mode vi selection, synchronization, pane resize/equalize, and mouse toggles. Herdr has no direct equivalent in its
 current command list for these workflows. Settings and core configuration
 are left unchanged.
 

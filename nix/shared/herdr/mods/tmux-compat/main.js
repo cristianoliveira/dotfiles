@@ -1,6 +1,7 @@
 import { View, div } from "gpui-kit";
-import { spaces, shared, setShared, nextCommand, run, notify } from "herdr";
+import { spaces, focused, shared, setShared, nextCommand, run, notify } from "herdr";
 import { observeSpaces, lastSpace, observeTabs, lastTab } from "./history.js";
+import { folderTabName } from "./rename.js";
 
 const HISTORY = "tmux-compat.space-history";
 const TAB_HISTORY = "tmux-compat.tab-history";
@@ -14,8 +15,15 @@ export default class TmuxCompat extends View {
         const history = this.observe();
         if (command === "last-space") this.selectLast("space", lastSpace(history.spaces));
         if (command === "last-tab") this.selectLast("tab", lastTab(history.tabs, history.spaceId));
+        if (command === "rename-from-folder") this.renameFromFolder();
       }
     });
+  }
+
+  renameFromFolder() {
+    const target = folderTabName(focused());
+    if (target) run("tab.rename", target);
+    else notify({ title: "No terminal folder", body: "Focus a terminal with a known working directory first.", level: "info" });
   }
 
   selectLast(kind, target) {
