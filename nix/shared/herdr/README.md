@@ -267,6 +267,14 @@ terminal pane captured from the current tab. **Enter submits in every target**;
 Ctrl+C is also broadcast. Escape exits instead of reaching the targets.
 The same shortcut, Close, or clicking outside dismisses the relay.
 
+If an already-running app still shows the old wide dialog after updating the
+mod, dismiss it and switch away from the layout and back to recreate its mod:
+
+```sh
+herdr-app do layout.switch --name terminals
+herdr-app do layout.switch --name tmux
+```
+
 This is an input proxy, not transparent synchronization while typing directly
 into an ordinary pane. It uses the existing core framed-stream API through one
 session-bound `hc connect` process. No native app/core patch, persistent service,
