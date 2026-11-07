@@ -36,6 +36,7 @@ enter the bounded navigation repeat mode below.
 | `Shift-n` (uppercase `N`) | Rename tab from focused terminal folder (`tmux` layout) |
 | `Shift-r` (uppercase `R`) | Enter bounded navigation repeat mode (`tmux` layout) |
 | `-` | Select multiple spaces to close, with confirmation (`tmux` layout) |
+| `Space` | Toggle project-local `.tmp/popup` terminal (`tmux` layout) |
 | `w` / `_` | Split down |
 | `v` / `\|` | Split right |
 | `Ctrl-h/j/k/l` | Focus pane left/down/up/right |
@@ -171,6 +172,37 @@ become commands. Native failures, such as an unavailable remote machine,
 can cause partial completion: this is not an atomic batch and there is no
 success claim or automatic retry. The native app reports command errors.
 
+### Project-local terminal popup
+
+Press `Ctrl-a`, then Space to execute the focused local terminal's
+`.tmp/popup` script in a temporary terminal overlay. Press the same shortcut
+again, click Close in the header, or click outside the dialog to dismiss it.
+Escape stays available to the program inside, for example Vim or fzf.
+When the program exits, the overlay closes automatically.
+
+Create `.tmp/popup` in a trusted project with an executable shebang, for example:
+
+```sh
+#!/usr/bin/env bash
+exec zsh
+```
+
+Then run `chmod +x .tmp/popup` from that project. Missing or non-executable
+scripts produce a notice without creating a terminal. This deliberately
+executes project code; do not use it in an untrusted checkout. No command
+runs automatically when you visit a project. Remote spaces are rejected,
+not silently redirected to the local machine.
+
+The launcher passes paths as argv data, including whitespace and punctuation.
+It creates a separate, labelled core terminal without parent-agent notes,
+`keep`, or project tab adoption. Closing the popup releases only that owned
+terminal; unrelated terminals are never targets. If you explicitly adopt it
+with core keep, cleanup leaves it running. Script exit and duplicate cleanup
+are harmless. Orderly cleanup is best-effort on app shutdown; an app crash
+can leave a core terminal alive. `hc ls --all` lists core terminals for recovery.
+Very short commands may finish before there is a useful screen to display.
+This iteration does not add remote popups or the kill-port shortcut.
+
 Check it with:
 
 ```sh
@@ -181,6 +213,7 @@ herdr-app do tmux-compat.last-tab
 herdr-app do tmux-compat.rename-from-folder
 herdr-app do tmux-compat.repeat
 herdr-app do tmux-compat.close-spaces
+herdr-app do tmux-compat.popup
 ```
 
 ## Remaining tmux differences

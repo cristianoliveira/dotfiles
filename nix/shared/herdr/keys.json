@@ -12,6 +12,7 @@
     "ctrl-a shift-n": "tmux-compat.rename-from-folder",
     "ctrl-a shift-r": "tmux-compat.repeat",
     "ctrl-a -": "tmux-compat.close-spaces",
+    "ctrl-a space": "tmux-compat.popup",
     "ctrl-a 1": "tab.select:1",
     "ctrl-a 2": "tab.select:2",
     "ctrl-a 3": "tab.select:3",
