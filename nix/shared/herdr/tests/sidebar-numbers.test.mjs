@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 import vm from "node:vm";
+import { formatStatusTime } from "../mods/tmux-status/clock.js";
 
 function element() {
   const node = { children: [], attributes: {} };
@@ -22,7 +23,7 @@ async function loadMod(name, run, overrides = {}) {
     .replace(/^import .*;$/gm, "")
     .replace(/export default class /, "globalThis.Mod = class ")
     .replace(/export function /g, "function ");
-  const scope = { View: class {}, div: element, svg: element, h_flex: element, run, ...overrides };
+  const scope = { View: class {}, div: element, svg: element, h_flex: element, run, formatStatusTime, ...overrides };
   vm.runInNewContext(source, scope, { filename: path.pathname });
   return new scope.Mod();
 }
@@ -59,6 +60,32 @@ test("bottom status handles no active space, no branch, and no agents", async ()
   assert.equal(row.children[0].children.at(-1), "This computer");
   assert.equal(row.children[1].children[0], "0 agents");
   assert.equal(row.children[1].children.length, 1);
+});
+
+test("bottom clock refreshes at minute changes without redrawing for each tick", async () => {
+  let now = new Date(2026, 10, 7, 19, 5, 58);
+  let tick;
+  let notifications = 0;
+  const cx = {
+    timer: { every: (_ms, callback) => { tick = callback; } },
+    notify: () => { notifications++; },
+  };
+  const mod = await loadMod("tmux-status", () => {}, {
+    props: () => ({ mode: "clock" }),
+    Date: class { constructor() { return now; } },
+    theme: () => theme, spaces: () => [], agents: () => [],
+  });
+
+  mod.init({}, cx);
+  assert.equal(mod.render().children[0], "19:05 Sat 07-Nov-26");
+  now = new Date(2026, 10, 7, 19, 5, 59);
+  tick(cx);
+  assert.equal(notifications, 0);
+
+  now = new Date(2026, 10, 7, 19, 6, 0);
+  tick(cx);
+  assert.equal(notifications, 1);
+  assert.equal(mod.render().children[0], "19:06 Sat 07-Nov-26");
 });
 
 test("pane footer uses its own folder and branch, not another pane's", async () => {

@@ -191,6 +191,19 @@
               "content": {
                 "mod": "tabs"
               }
+            },
+            {
+              "id": "clock",
+              "type": "block",
+              "size": {
+                "px": 180
+              },
+              "content": {
+                "mod": "tmux-status",
+                "props": {
+                  "mode": "clock"
+                }
+              }
             }
           ]
         },

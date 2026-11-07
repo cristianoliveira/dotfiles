@@ -46,7 +46,10 @@ Expanded sidebar views keep the original controls.
 
 The `pane-footer` mod shows each pane's program, folder, and native `branch`
 value below its terminal. Branches are pane-specific, not taken from the space.
-The shared bottom bar uses `tmux-status` for computer and agent counts only.
+The shared bottom bar uses `tmux-status` for computer and agent counts on the
+left, with local time and date on the right (`HH:MM ddd DD-Mon-YY`, matching
+`tmux.conf`). The clock checks local time each second but redraws only when the
+displayed minute changes.
 
 These clones do not receive upstream mod updates. Compare them with Herdr's
 shipped `spaces` and `agents` mods when upgrading.
