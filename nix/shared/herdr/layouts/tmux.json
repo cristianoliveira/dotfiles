@@ -193,6 +193,16 @@
               }
             },
             {
+              "id": "funzzy-status",
+              "type": "block",
+              "size": {
+                "px": 220
+              },
+              "content": {
+                "mod": "funzzy-status"
+              }
+            },
+            {
               "id": "clock",
               "type": "block",
               "size": {
