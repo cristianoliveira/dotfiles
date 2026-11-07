@@ -189,7 +189,10 @@
               "type": "block",
               "min": 180,
               "content": {
-                "mod": "tmux-tabs"
+                "mod": "tmux-tabs",
+                "props": {
+                  "mode": "tabs"
+                }
               }
             },
             {
@@ -202,6 +205,19 @@
                 "mod": "funzzy-status",
                 "props": {
                   "binary": "~/.cargo/bin/fzz"
+                }
+              }
+            },
+            {
+              "id": "panel-buttons",
+              "type": "block",
+              "size": {
+                "px": 160
+              },
+              "content": {
+                "mod": "tmux-tabs",
+                "props": {
+                  "mode": "panels"
                 }
               }
             },

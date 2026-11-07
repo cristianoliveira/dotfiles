@@ -25,7 +25,7 @@ function find(node, id) {
   }
 }
 
-async function tabs(platform) {
+async function tabs(platform, mode) {
   const calls = [];
   const path = new URL("../mods/tmux-tabs/main.js", import.meta.url);
   const source = (await readFile(path, "utf8"))
@@ -35,7 +35,7 @@ async function tabs(platform) {
     View: class {}, div: element, svg: element, image: element, h_flex: element,
     theme: () => ({}), panes: () => [], layout: () => null, settings: () => ({ zoom: 1 }),
     window: () => ({ platform, buttons: true, titlebar: "none" }),
-    shared: () => ["files", "changes"], openOverlay: () => {},
+    shared: () => ["files", "changes"], openOverlay: () => {}, props: () => ({ mode }),
     spaces: () => [{ id: "space", active: true, tabs: [{ id: "tab", name: "1", active: true }] }],
     run: (...args) => calls.push(args), localStorage: { getItem: () => null },
   };
@@ -55,6 +55,31 @@ for (const platform of ["linux", "macos", "windows"]) {
     }
   });
 }
+
+test("tab-only strip keeps tab controls without duplicating panel buttons", async () => {
+  const { row } = await tabs("linux", "tabs");
+
+  assert.ok(find(row, "tab-tab"));
+  assert.ok(find(row, "tab-new"));
+  assert.equal(find(row, "panel-files"), undefined);
+  assert.equal(find(row, "panel-changes"), undefined);
+});
+
+test("panel-only strip keeps Files and Changes without tabs or tab navigation", async () => {
+  const { row, calls } = await tabs("linux", "panels");
+
+  assert.ok(find(row, "panel-files"));
+  assert.ok(find(row, "panel-changes"));
+  assert.equal(find(row, "tab-tab"), undefined);
+  assert.equal(find(row, "tab-new"), undefined);
+  assert.equal(row.attributes.on_scroll_wheel, undefined);
+
+  find(row, "panel-changes").attributes.on_click[0]();
+
+  assert.equal(calls[0][0], "layout.select");
+  assert.equal(calls[0][1].child, "changes");
+  assert.equal(calls[1][0], "layout.show");
+});
 
 test("bottom tabs still select a tab", async () => {
   const { row, calls } = await tabs("linux");

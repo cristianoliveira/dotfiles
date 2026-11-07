@@ -56,6 +56,11 @@ without minimize, maximize, or window-close buttons. Tab creation, selection,
 closing, reordering, and panel toggles remain available. Time/date stays at the
 far right of this bottom bar, not in the sidebar.
 
+The layout mounts `tmux-tabs` twice: `mode: "tabs"` for the tab strip and new-tab
+button, and `mode: "panels"` for Files/Changes. This puts the isolated Funzzy
+watcher status before the panel buttons, with time/date last. Without a mode,
+`tmux-tabs` retains its combined tab-and-panel rendering.
+
 These clones do not receive upstream mod updates. Compare them with Herdr's
 shipped `spaces`, `agents`, and `tabs` mods when upgrading.
 
