@@ -247,17 +247,25 @@ Press `Ctrl-a`, release it, then `Ctrl-o`. This matches tmux's `rotate-window`:
 swap. Focus stays at its original position, now on the incoming pane. Plain
 `Ctrl-a o` is not rebound.
 
-Rotation preserves split structure, widths/heights and slot constraints, including
-nested rows/columns and mod panes. A single pane is a no-op. Herdr's native
-`pane.swap` only swaps a directional neighbor and follows the moving pane, so
-this adapter uses Herdr Core's versioned `herdr-app` layout document instead.
-It changes only the original tab and rejects stale pane order or a concurrent
-layout write; it never retries a rotation automatically. Configured remote
-machines use their own document and qualified pane IDs. Python 3 and `hc` are
-required, as for the existing compat helpers.
+Two ordinary terminal panes use native swaps and focus restoration in one
+synchronous handler, without Python or awaiting a Core document round trip. Widths and
+heights stay at their screen positions. Both horizontal and vertical splits work,
+from either focused slot. A single pane is a no-op.
 
-If you select another pane or tab while rotation is running, the original tab
-still rotates, but the adapter does not pull focus back. Further rotation
+Native swaps carry pane-local properties (including custom `min`, `max` and
+`resizable` fields) with the pane. For layouts that need those constraints fixed
+to their slots, set `props: {"native_pair_rotation": false}` on the mounted
+`tmux-compat` block to retain the original adapter.
+
+Larger layouts, mod panes, zoomed/replaced terminals and opted-out layouts use
+Herdr Core's versioned `herdr-app` document. That path preserves split structure,
+widths/heights and slot constraints, changes only the original tab, and rejects
+stale pane order or concurrent writes without automatic retries. Configured
+remote machines use their own document and qualified IDs. The fallback requires
+Python 3 and `hc`, as for the existing compat helpers.
+
+If you select another pane or tab while the asynchronous fallback is running,
+the original tab still rotates, but the adapter does not pull focus back. Further rotation
 requests are ignored until the current one completes. A connection timeout
 can leave the write outcome uncertain; check pane positions before repeating.
 
