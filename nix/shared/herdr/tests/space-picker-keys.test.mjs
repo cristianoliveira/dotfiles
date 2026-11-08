@@ -132,6 +132,28 @@ test("space/tab picker matches machine then space then tab in compact queries", 
   assert.deepEqual(Array.from(p.mod.rows().filter(row => row.kind === "ctx"), row => row.ctx.id), ["local-shell", "mac-shell"]);
 });
 
+test("space/tab picker uses local as the current machine alias", async () => {
+  const p = await picker([
+    { id: "local", name: "dotfiles", machine: null, tabs: [{ id: "local-shell", name: "shell" }] },
+    { id: "empty", name: "dotfiles", machine: "", tabs: [{ id: "empty-shell", name: "shell" }] },
+    { id: "missing", name: "dotfiles", tabs: [{ id: "missing-shell", name: "shell" }] },
+    { id: "remote", name: "dotfiles", machine: "mac", tabs: [{ id: "remote-shell", name: "shell" }] },
+  ]);
+  delete p.mod.rows;
+
+  for (const query of ["localdotf", "LOCALDOTF", "local dotf", "localdotfshell"]) {
+    p.mod.filter = query;
+
+    assert.deepEqual(Array.from(p.mod.rows().filter(row => row.kind === "ctx"), row => row.ctx.id), ["local-shell", "empty-shell", "missing-shell"]);
+  }
+
+  p.mod.filter = "macdotf";
+  assert.deepEqual(Array.from(p.mod.rows().filter(row => row.kind === "ctx"), row => row.ctx.id), ["remote-shell"]);
+
+  p.mod.filter = "dotf";
+  assert.deepEqual(Array.from(p.mod.rows().filter(row => row.kind === "ctx"), row => row.ctx.id), ["local-shell", "empty-shell", "missing-shell", "remote-shell"]);
+});
+
 test("space/tab picker requires query characters in order and treats punctuation literally", async () => {
   const p = await picker([
     { id: "dot", name: "dotfiles", tabs: [{ id: "crew", name: "crew" }] },
