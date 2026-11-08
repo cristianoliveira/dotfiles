@@ -99,6 +99,19 @@ let
         command = [ "/run/current-system/sw/bin/herdr-app" "do" "tab.prev" ];
       }
 
+      {
+        fingers = 4;
+        direction = "up";
+        app = "dev.herdr.app";
+        command = [ "/run/current-system/sw/bin/herdr-app" "do" "mod.open" "--name" "tmux-picker" ];
+      }
+      {
+        fingers = 4;
+        direction = "down";
+        app = "dev.herdr.app";
+        command = [ "/run/current-system/sw/bin/herdr-app" "do" "mod.open" "--name" "intray" ];
+      }
+
       # cmd-ctrl-left = "focus left --boundaries all-monitors-outer-frame";
       # cmd-ctrl-right = "focus right --boundaries all-monitors-outer-frame";
       {
