@@ -339,9 +339,11 @@ in {
                         ||  aerospace-scratchpad show Obsidian \
                         ||  open -a Obsidian'';
 
-          # Terminal scratchpad: left-hand Cmd+Ctrl+A (A for Alacritty)
+          # Terminal scratchpad: prefer Herdr, then Alacritty.
           cmd-ctrl-a = ''
-            exec-and-forget aerospace-scratchpad show alacritty -F window-title='terminal-scratchpad' \
+            exec-and-forget aerospace-scratchpad show Herdr \
+                         || aerospace-scratchpad show alacritty -F window-title='terminal-scratchpad' \
+                         || herdr-app \
                          || alacritty -t 'terminal-scratchpad' --option window.opacity="0.9"
           '';
 
@@ -515,7 +517,7 @@ in {
 
         on-window-detected = [
           {
-            "if".app-name-regex-substring = "alacritty|terminal";
+            "if".app-name-regex-substring = "herdr|alacritty|terminal";
             run = [ "move-node-to-workspace 2" ];
           }
           {
