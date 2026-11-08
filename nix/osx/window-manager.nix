@@ -226,7 +226,7 @@ in {
           alt-shift-enter = "layout tiling";
 
           # Fixed bindings
-          ctrl-cmd-enter = "exec-and-forget herdr-app || open ~/Applications/Alacritty.app";
+          ctrl-cmd-enter = "exec-and-forget open ~/Applications/Alacritty.app";
           ctrl-cmd-b = "exec-and-forget open '/Applications/Brave Browser.app'";
 
           # [Y]outube (focus)
