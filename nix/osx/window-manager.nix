@@ -1,6 +1,7 @@
 { config, pkgs, lib, ... }:
 let
   gestureExecutable = "${pkgs.copkgs.aerospace-gestures}/bin/aerospace-gestures";
+  braveTabs = pkgs.writeText "brave-tabs.applescript" (builtins.readFile ./aerospace/brave-tabs.applescript);
   cycleWorkspace = pkgs.writeShellScript "aerospace-cycle-workspace" ''
     set -euo pipefail
 
@@ -110,6 +111,20 @@ let
         direction = "down";
         app = "dev.herdr.app";
         command = [ "/run/current-system/sw/bin/herdr-app" "do" "mod.open" "--name" "intray" ];
+      }
+
+      # Match Herdr's tab navigation without synthesizing keyboard shortcuts.
+      {
+        fingers = 4;
+        direction = "left";
+        app = "com.brave.Browser";
+        command = [ "/usr/bin/osascript" "${braveTabs}" "next" ];
+      }
+      {
+        fingers = 4;
+        direction = "right";
+        app = "com.brave.Browser";
+        command = [ "/usr/bin/osascript" "${braveTabs}" "prev" ];
       }
 
       # cmd-ctrl-left = "focus left --boundaries all-monitors-outer-frame";

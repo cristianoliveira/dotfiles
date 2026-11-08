@@ -37,7 +37,17 @@ jobs:
     run: 'SKIP_COMMIT=1 nix/rebuild.sh'
     change:
       - 'nix/**/*.nix'
+      - 'nix/osx/aerospace/*.applescript'
     # run_on_init: true
+
+  - name: test Brave tab gestures
+    run: python3 -m unittest discover -s nix/osx/aerospace/tests -v
+    change:
+      - 'nix/osx/aerospace/*.applescript'
+      - 'nix/osx/aerospace/tests/**/*.py'
+    ignore:
+      - '**/__pycache__'
+      - '**/__pycache__/**'
 
   - name: check nvim
     run: make nvim
