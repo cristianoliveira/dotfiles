@@ -66,6 +66,43 @@ test("space/tab picker keeps quiet spaces visible in recent order, including fil
   assert.deepEqual(Array.from(p.mod.rows().filter(r => r.kind === "ctx"), r => r.ctx.id), ["three"]);
 });
 
+test("space/tab picker filters compact queries across space and tab names", async () => {
+  const p = await picker([
+    { id: "dot", name: "dotfiles", tabs: [{ id: "crew", name: "crew" }, { id: "shell", name: "shell" }] },
+    { id: "other", name: "other", tabs: [{ id: "other-crew", name: "crew" }] },
+  ]);
+  delete p.mod.rows;
+
+  for (const query of ["dotcrew", "DOTCREW", " dot crew "]) {
+    p.mod.filter = query;
+    const matches = p.mod.rows().filter(row => row.kind === "ctx");
+
+    assert.deepEqual(Array.from(matches, row => row.ctx.id), ["crew"]);
+  }
+
+  p.mod.go(p.mod.rows().find(row => row.kind === "ctx"));
+
+  assert.equal(p.calls[0][0], "close");
+  assert.equal(p.calls[1][0], "tab.select");
+  assert.equal(p.calls[1][1].id, "crew");
+});
+
+test("space/tab picker requires query characters in order and treats punctuation literally", async () => {
+  const p = await picker([
+    { id: "dot", name: "dotfiles", tabs: [{ id: "crew", name: "crew" }] },
+  ]);
+  delete p.mod.rows;
+
+  for (const query of ["crewdot", "dot[crew", "dot.*crew", "unmatched"]) {
+    p.mod.filter = query;
+
+    assert.deepEqual(Array.from(p.mod.rows().filter(row => row.kind === "ctx")), []);
+  }
+
+  p.mod.filter = "   ";
+  assert.deepEqual(Array.from(p.mod.rows().filter(row => row.kind === "ctx"), row => row.ctx.id), ["crew"]);
+});
+
 test("space/tab picker Ctrl-j/k navigate and wrap across selectable items", async () => {
   const p = await picker();
 

@@ -34,6 +34,16 @@ function spaceColor(t, p) {
   return c.startsWith("#") ? c : (MARK[c] ?? t[c]);
 }
 
+// Match ordered characters across space, tab and agent names.
+function matchesQuery(text, query) {
+  let at = 0;
+  for (const character of text.toLowerCase()) {
+    if (character === query[at]) at++;
+    if (at === query.length) return true;
+  }
+  return query.length === 0;
+}
+
 export default class Picker extends View {
   init(_props, cx) {
     this.filter = "";
@@ -60,7 +70,7 @@ export default class Picker extends View {
   }
 
   rows() {
-    const f = this.filter.toLowerCase();
+    const query = [...this.filter.toLowerCase().replace(/\s+/g, "")];
     const all = agents();
     const live = terminals().filter((x) => x.state === "live");
     const teamOf = (addrs) => {
@@ -75,7 +85,7 @@ export default class Picker extends View {
           const mine = all.filter((a) => a.tab === ctx.id);
           return { w, ctx, mine, team: teamOf(mine.map((a) => a.address)) };
         })
-        .filter((c) => !f || [w.name, c.ctx.name, ...c.mine.map((a) => a.program?.name ?? "")].join(" ").toLowerCase().includes(f));
+        .filter((c) => matchesQuery([w.name, c.ctx.name, ...c.mine.map((a) => a.program?.name ?? "")].join(" "), query));
       return { w, ctxs };
     });
     const ordered = sortRecentGroups(groups.filter(p => p.ctxs.length), shared("tmux-compat.recent-tabs") ?? []);
