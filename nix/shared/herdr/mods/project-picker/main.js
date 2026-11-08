@@ -1,7 +1,7 @@
 import { View, div } from "gpui-kit";
 import { v_flex, h_flex, InputState, Input, v_virtual_list, VirtualListScrollHandle } from "gpui-base";
 import { appHome, home, exec, spaces, run, theme, props, closeOverlay } from "herdr";
-import { filterProjects, projectCommand } from "./model.js";
+import { filterProjects, projectCommand, projectKey } from "./model.js";
 
 export default class ProjectPicker extends View {
   init(_props, cx) {
@@ -13,7 +13,7 @@ export default class ProjectPicker extends View {
     this.opening = false;
     this.handle = cx.focus_handle();
     this.scroll = VirtualListScrollHandle.new();
-    this.input = InputState.new({ placeholder: "Search ~/work and ~/other…" });
+    this.input = InputState.new({ placeholder: "Search machines and projects…" });
     this.input.on("change", (_event, cx) => {
       this.query = this.input.value();
       this.at = 0;
@@ -26,13 +26,13 @@ export default class ProjectPicker extends View {
     cx.spawn(async (cx) => {
       try {
         const result = await exec("python3", [
-          `${appHome()}/mods/project-picker/projects.py`, home(), JSON.stringify(spaces()),
+          `${appHome()}/mods/project-picker/projects.py`, home(), JSON.stringify(spaces()), "--all-machines",
         ]);
         if (result.code !== 0) throw new Error(result.stderr.trim() || "Project discovery failed");
         const data = JSON.parse(result.stdout);
         this.projects = data.projects;
         this.warning = data.warnings.join("\n");
-        this.message = "No projects found in ~/work or ~/other.";
+        this.message = "No projects found in ~/work or ~/other on available machines.";
       } catch (error) {
         this.message = `Cannot load projects: ${error.message}`;
       }
@@ -82,14 +82,14 @@ export default class ProjectPicker extends View {
       .child(Input.new(this.input).h(36).w_full().px(10)
         .bg(t.background).text_color(t.foreground).rounded(6))
       .child(rows.length
-        ? v_virtual_list("project-list", rows.length, 32, (index) => rows[index].label,
+        ? v_virtual_list("project-list", rows.length, 32, (index) => projectKey(rows[index]),
           (range) => rows.slice(range.start, range.end).map((project, offset) =>
             h_flex().h(32).px(10).items_center().justify_between().rounded(5)
               .bg(range.start + offset === this.at ? t.hover : t.popover)
               .child(div().truncate().text_color(t.foreground).child(project.label))
-              .child(div().text_color(t.dim).child(project.spaceId ? "open" : "new"))))
+              .child(div().text_color(t.dim).child(`${project.machine || "local"} · ${project.spaceId ? "open" : "new"}`))))
           .h(300).w_full().track_scroll(this.scroll)
-          .on_item_click((label) => this.choose(rows.find((project) => project.label === label)))
+          .on_item_click((key) => this.choose(rows.find((project) => projectKey(project) === key)))
         : div().flex_1().text_color(t.muted)
           .child(this.projects.length ? "No matching projects." : this.message))
       .when(Boolean(this.warning), (element) => element.child(

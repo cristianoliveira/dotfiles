@@ -1,4 +1,6 @@
+import importlib.util
 import json
+import os
 from pathlib import Path
 import subprocess
 import tempfile
@@ -6,6 +8,9 @@ import unittest
 
 
 SCRIPT = Path(__file__).resolve().parents[1] / "mods/project-picker/projects.py"
+SPEC = importlib.util.spec_from_file_location("projects", SCRIPT)
+projects = importlib.util.module_from_spec(SPEC)
+SPEC.loader.exec_module(projects)
 
 
 class ProjectDiscoveryTests(unittest.TestCase):
@@ -97,6 +102,84 @@ class ProjectDiscoveryTests(unittest.TestCase):
         self.assertEqual([p["label"] for p in result["projects"]], ["other/repo"])
         self.assertEqual(len(result["warnings"]), 1)
         self.assertIn("work", result["warnings"][0])
+
+    def test_remote_discovery_reuses_only_the_same_machines_space(self):
+        folder = self.project("work/repo")
+        spaces = [
+            {"id": "local", "folder": str(folder), "machine": None},
+            {"id": "mac/open", "folder": str(folder), "machine": "mac"},
+        ]
+
+        result = projects.discover(self.home, spaces, machine="mac")
+
+        self.assertEqual(result["projects"][0]["machine"], "mac")
+        self.assertEqual(result["projects"][0]["spaceId"], "mac/open")
+
+    def test_remote_script_runs_without_installing_the_picker_on_that_machine(self):
+        self.project("work/agent's $(touch NEVER)")
+        calls = []
+
+        def run(argv, **options):
+            calls.append(argv)
+            return subprocess.run(["python3", "-"], input=options["input"],
+                                  env={**os.environ, "HOME": str(self.home)}, text=True, capture_output=True)
+
+        result = projects.remote_projects("mac", [], run=run)
+
+        self.assertEqual(result["projects"][0]["machine"], "mac")
+        self.assertEqual(result["projects"][0]["label"], "work/agent's $(touch NEVER)")
+        self.assertEqual(calls[0], ["hc", "exec", "--on", "mac", "--timeout", "6", "-i", "--", "python3", "-"])
+        self.assertFalse((self.home / "NEVER").exists())
+
+    def test_all_machines_keeps_local_results_when_one_remote_times_out(self):
+        self.project("work/local")
+
+        def run(argv, **options):
+            if argv[1:3] == ["machine", "ls"]:
+                return subprocess.CompletedProcess(argv, 0, json.dumps({"machines": [
+                    {"name": "mac", "state": "connected"},
+                    {"name": "slow", "state": "connected"},
+                    {"name": "offline", "state": "disconnected"},
+                    {"name": "temporary", "state": "connected", "temporary": True},
+                ]}), "")
+            machine = argv[argv.index("--on") + 1]
+            self.assertNotIn(machine, ["offline", "temporary"])
+            if machine == "slow":
+                raise subprocess.TimeoutExpired(argv, options["timeout"])
+            return subprocess.CompletedProcess(argv, 0, json.dumps({"projects": [
+                {"label": "work/remote", "folder": "/remote/work/remote", "spaceId": None, "machine": machine},
+            ], "warnings": []}), "")
+
+        result = projects.discover_all(self.home, [], run=run)
+
+        self.assertEqual([p["label"] for p in result["projects"]], ["work/local", "work/remote"])
+        self.assertEqual(len(result["warnings"]), 1)
+        self.assertIn("slow", result["warnings"][0])
+
+    def test_machine_listing_failure_keeps_local_projects_and_warns(self):
+        self.project("other/local")
+
+        def run(argv, **options):
+            return subprocess.CompletedProcess(argv, 1, "", "unavailable")
+
+        result = projects.discover_all(self.home, [], run=run)
+
+        self.assertEqual(result["projects"][0]["label"], "other/local")
+        self.assertTrue(result["warnings"])
+
+    def test_remote_failure_and_malformed_output_are_rejected(self):
+        for code, output in [
+            (1, ""), (0, "not json"), (0, "[]"),
+            (0, '{"projects": [{}], "warnings": []}'),
+            (0, '{"projects": [], "warnings": [42]}'),
+            (0, " " * (2 * 1024 * 1024 + 1)),
+        ]:
+            with self.subTest(code=code, output=output[:100]):
+                def run(argv, **options):
+                    return subprocess.CompletedProcess(argv, code, output, "unavailable")
+
+                with self.assertRaises(ValueError):
+                    projects.remote_projects("mac", [], run=run)
 
     def test_malformed_input_exits_without_producing_projects(self):
         result = subprocess.run(

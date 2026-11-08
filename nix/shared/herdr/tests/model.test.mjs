@@ -33,6 +33,30 @@ test("new projects explicitly target the local machine, ignoring remote collisio
   }]);
 });
 
+test("project search matches machine then project, including the local alias", () => {
+  const remote = { ...project, machine: "mac", label: "work/dotfiles" };
+  const local = { ...remote, machine: "" };
+
+  assert.deepEqual(filterProjects([local, remote], "macdotf"), [remote]);
+  assert.deepEqual(filterProjects([local, remote], "LOCALdotf"), [local]);
+  assert.deepEqual(filterProjects([local, remote], "dotf"), [local, remote]);
+});
+
+test("remote selection reuses only spaces on the matching machine", () => {
+  const remote = { ...project, machine: "mac", spaceId: "mac/open" };
+  const spaces = [
+    { id: "local", machine: null, folder: project.folder },
+    { id: "mac/open", machine: "mac", folder: "/alias" },
+  ];
+
+  assert.deepEqual(projectCommand(remote, spaces), ["space.select", { id: "mac/open" }]);
+  assert.deepEqual(projectCommand({ ...remote, spaceId: null }, spaces), ["space.new", {
+    name: project.label, folder: project.folder, machine: "mac",
+  }]);
+  assert.deepEqual(projectCommand(remote, [{ id: "mac/new", machine: "mac", folder: project.folder }]),
+    ["space.select", { id: "mac/new" }]);
+});
+
 test("empty selection does not issue any command", () => {
   assert.equal(projectCommand(undefined, []), null);
 });

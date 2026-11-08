@@ -133,12 +133,19 @@ Escape cancels without creating a space. Plain `Ctrl-a p` still means next tab.
 Discovery follows the same roots and depth as `bin/tmux-sp`: immediate child
 directories of `~/work` and `~/other`, including directory symlinks but excluding
 names that start with `.` (hidden directories and hidden symlinks). Labels are
-`work/project` or `other/project`. Missing roots are skipped; unreadable roots
-show a warning. Local spaces with the same canonical folder are reused;
-otherwise a local space is created with one terminal tab. Remote spaces are
-not reused. Unlike the tmux script, it does not create five starter windows.
-Python 3, already installed by the shared developer tools, handles discovery.
-Project names are passed as data, never interpolated into shell commands.
+`work/project` or `other/project`, with the machine shown beside each row.
+Discovery includes this machine and connected, non-temporary Herdr machines.
+Search machine → project: `macdotf` finds the Mac's `dotfiles`, `localdotf`
+finds this machine's, and `dotf` finds both.
+
+Missing roots are skipped; unreadable roots and failed remote scans show a
+warning without hiding other results. Spaces with the same canonical folder
+on the same machine are reused; otherwise a space is created on that machine
+with one terminal tab. Unlike the tmux script, it does not create five starter
+windows. Python 3 is required on each scanned machine. Remote discovery sends
+the scanner over `hc exec` stdin; no remote mod installation is needed. Scans
+run up to four at a time, with a six-second remote execution limit and an
+eight-second client timeout. Project names are data, never shell commands.
 
 Verify changes with:
 
