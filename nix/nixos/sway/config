@@ -239,8 +239,9 @@ input "type:keyboard" {
 ### Mappings
 #
 # Terminal
-# Focus or launch the main Alacritty terminal.
-bindsym $mod+Ctrl+Return exec swaymsg [app_id=$termMain] focus || $term $termMain
+# Focus or launch Herdr; fall back to the main Alacritty terminal.
+bindsym $mod+Ctrl+Return exec swaymsg '[app_id="herdr-app"] focus' || herdr-app || \
+                            swaymsg [app_id=$termMain] focus || $term $termMain
 # Scratchpad terminal: left-hand Mod+Ctrl+A (A for Alacritty)
 set $termFloating term-floating
 bindsym $mod+Ctrl+a exec ~/.dotfiles/nix/nixos/sway/bin/sway-toggle-terminal.sh
