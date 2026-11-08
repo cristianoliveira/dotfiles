@@ -88,6 +88,7 @@ enter the bounded navigation repeat mode below.
 | `n` / `p` | Previous / next tab (same order as your tmux config) |
 | `Ctrl-p` | Search projects under `~/work` and `~/other` |
 | `Ctrl-b` | Search existing spaces and tabs |
+| `j` / `Shift-j` | Open Intray's newest unread events |
 | `Shift-l` (uppercase `L`) | Toggle last two spaces (`tmux` layout) |
 | `Ctrl-r` / `Tab` | Toggle last two tabs in this space (`tmux` layout) |
 | `Shift-Left` / `Shift-Right` | Move current tab left / right, stopping at either end (`tmux` layout) |
@@ -150,6 +151,33 @@ herdr-app status
 The personal mod is not a copy of Herdr's shipped picker, so app upgrades do
 not replace it. Only files in this directory belong in Git; runtime state
 stays outside it.
+
+## Intray: unread events
+
+Press `Cmd-j`, or `Ctrl-a` then `j` / `Shift-j`, to toggle `intray`.
+This is a Herdr-native personal mod, independent of `tmux-compat` and the
+tmux-intray database. It is one flat list: newest unread event first, no
+sections or folding. The newest event is selected on opening.
+
+Use ↑/↓, j/k or Ctrl-j/k to select, or click a row. Enter jumps to its terminal
+and marks **only that event** read. It disappears from the queue and stays gone
+when you reopen Intray. Other unread messages, including earlier messages from
+the same terminal, remain. Failed jumps do not mark events read. Escape leaves
+the queue unchanged; `d` dismisses the selected event without jumping.
+
+The `tmux` layout mounts an `intray` observer, so Herdr agent transitions to
+`done` (Finished) or `blocked` (Needs input) are collected while the list is
+closed. Reading a completion's terminal can change its displayed status to idle;
+that acknowledgement does not create another event. New attention transitions
+create new messages. Manual selection stays on its event as newer messages arrive.
+
+Intray keeps the newest 100 unread events in Herdr's persisted shared store,
+using bounded title/project/tab metadata rather than terminal output. Ended or
+missing terminals stay visible as unavailable until dismissed. Capture covers
+status transitions observed while this mod is mounted; it does not recover
+notifications from before installation or while Herdr is closed. Other layouts
+need the same `intray` block with `props: {"mode": "observer"}` for background
+capture. The popup also collects the current snapshot when opened.
 
 ## Existing-space picker
 

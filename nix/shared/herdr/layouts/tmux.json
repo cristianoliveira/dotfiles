@@ -237,6 +237,19 @@
           ]
         },
         {
+          "id": "intray-observer",
+          "type": "block",
+          "size": {
+            "px": 1
+          },
+          "content": {
+            "mod": "intray",
+            "props": {
+              "mode": "observer"
+            }
+          }
+        },
+        {
           "id": "tmux-compat",
           "type": "block",
           "size": {
