@@ -1,11 +1,16 @@
 import { View, div } from "gpui-kit";
 import { v_flex, h_flex, InputState, Input, v_virtual_list, VirtualListScrollHandle } from "gpui-base";
-import { appHome, home, exec, spaces, run, theme, props, closeOverlay } from "herdr";
+import { appHome, home, exec, spaces, run, theme, props, closeOverlay, shared, setShared } from "herdr";
 import { filterProjects, projectCommand, projectKey } from "./model.js";
+import { refreshProjects, restoreProjectCache } from "./discovery.js";
+
+const CACHE_KEY = "project-picker.cache";
 
 export default class ProjectPicker extends View {
   init(_props, cx) {
-    this.projects = [];
+    const cache = restoreProjectCache(shared(CACHE_KEY));
+    this.projects = cache.flatMap(entry => entry.projects.map(project => ({ ...project, machine: entry.machine })));
+    this.loading = true;
     this.query = "";
     this.at = 0;
     this.message = "Loading projects…";
@@ -24,19 +29,46 @@ export default class ProjectPicker extends View {
     this.input.focus();
 
     cx.spawn(async (cx) => {
+      let names = ["", ...cache.map(entry => entry.machine)];
+      let machineWarning = "";
       try {
         const result = await exec("python3", [
-          `${appHome()}/mods/project-picker/projects.py`, home(), JSON.stringify(spaces()), "--all-machines",
+          `${appHome()}/mods/project-picker/projects.py`, home(), "[]", "--list-machines",
         ]);
-        if (result.code !== 0) throw new Error(result.stderr.trim() || "Project discovery failed");
-        const data = JSON.parse(result.stdout);
-        this.projects = data.projects;
-        this.warning = data.warnings.join("\n");
-        this.message = "No projects found in ~/work or ~/other on available machines.";
+        if (result.code !== 0) throw new Error("Cannot list machines; check hc machine ls.");
+        const machines = JSON.parse(result.stdout).machines;
+        if (!Array.isArray(machines)) throw new Error("Invalid machine list; check hc machine ls.");
+        names = ["", ...machines.filter(machine => typeof machine === "string" && machine)];
       } catch (error) {
-        this.message = `Cannot load projects: ${error.message}`;
+        machineWarning = error.message;
       }
-      cx.notify();
+      await refreshProjects({
+        cache, machines: names,
+        scan: async machine => {
+          const result = await exec("python3", [
+            `${appHome()}/mods/project-picker/projects.py`, home(), JSON.stringify(spaces()),
+            ...(machine ? ["--remote", machine] : []),
+          ]);
+          if (result.code !== 0) throw new Error(result.stderr.trim() || "Project discovery failed");
+          return JSON.parse(result.stdout);
+        },
+        publish: state => {
+          const selected = this.rows()[this.at];
+          this.projects = state.projects;
+          if (selected) {
+            const at = this.rows().findIndex(project => projectKey(project) === projectKey(selected));
+            this.at = at >= 0 ? at : 0;
+          }
+          this.loading = state.loading;
+          this.warning = [machineWarning, ...state.warnings].filter(Boolean).join("\n");
+          this.message = state.loading ? "Loading projects…" : "No projects found on available machines.";
+          cx.notify();
+        },
+        persist: entry => {
+          const entries = restoreProjectCache(shared(CACHE_KEY)).filter(cached => cached.machine !== entry.machine);
+          setShared(CACHE_KEY, { version: 1, entries: [...entries, entry] });
+        },
+      });
     });
   }
 
@@ -95,6 +127,6 @@ export default class ProjectPicker extends View {
       .when(Boolean(this.warning), (element) => element.child(
         div().text_color(t.muted).child(this.warning)))
       .child(div().text_size(11).text_color(t.dim)
-        .child(`${rows.length} projects · ↑/↓ or Ctrl-j/k select · Enter open · Esc cancel`));
+        .child(`${rows.length} projects${this.loading ? " · refreshing…" : ""} · ↑/↓ or Ctrl-j/k select · Enter open · Esc cancel`));
   }
 }

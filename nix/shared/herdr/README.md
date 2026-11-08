@@ -147,6 +147,13 @@ the scanner over `hc exec` stdin; no remote mod installation is needed. Scans
 run up to four at a time, with a six-second remote execution limit and an
 eight-second client timeout. Project names are data, never shell commands.
 
+Projects are cached per machine in Herdr's persisted shared store. Reopening
+shows cached projects immediately; entries less than one minute old skip
+scanning. Expired entries refresh in the background, and results appear as each
+machine finishes. Failed refreshes keep cached projects with a warning. Machine
+order and the selected project stay stable as results arrive. Disconnected
+machines are removed from the visible results after checking connectivity.
+
 Verify changes with:
 
 ```sh

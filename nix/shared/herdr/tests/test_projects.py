@@ -156,6 +156,23 @@ class ProjectDiscoveryTests(unittest.TestCase):
         self.assertEqual(len(result["warnings"]), 1)
         self.assertIn("slow", result["warnings"][0])
 
+    def test_machine_listing_has_a_three_second_timeout(self):
+        def run(argv, **options):
+            self.assertEqual(options["timeout"], 3)
+            raise subprocess.TimeoutExpired(argv, options["timeout"])
+
+        with self.assertRaises(subprocess.TimeoutExpired):
+            projects.connected_machines(run=run)
+
+    def test_invalid_machine_listing_is_rejected(self):
+        for machines in ({}, [None], ["mac"]):
+            with self.subTest(machines=machines):
+                def run(argv, **options):
+                    return subprocess.CompletedProcess(argv, 0, json.dumps({"machines": machines}), "")
+
+                with self.assertRaises(ValueError):
+                    projects.connected_machines(run=run)
+
     def test_machine_listing_failure_keeps_local_projects_and_warns(self):
         self.project("other/local")
 

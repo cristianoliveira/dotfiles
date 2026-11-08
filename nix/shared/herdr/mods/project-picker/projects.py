@@ -70,19 +70,23 @@ def remote_projects(machine, spaces, run=subprocess.run):
     return data
 
 
+def connected_machines(run=subprocess.run):
+    listing = run(["hc", "machine", "ls", "--json"],
+                  text=True, capture_output=True, timeout=3)
+    if listing.returncode != 0:
+        raise ValueError("machine listing failed; check hc machine ls")
+    machines = json.loads(listing.stdout)["machines"]
+    if not isinstance(machines, list) or not all(isinstance(m, dict) for m in machines):
+        raise ValueError("invalid machine list; check hc machine ls")
+    return [m["name"] for m in machines
+            if m.get("state") == "connected" and not m.get("temporary")
+            and isinstance(m.get("name"), str) and m["name"]]
+
+
 def discover_all(home, spaces, run=subprocess.run):
     result = discover(home, spaces)
     try:
-        listing = run(["hc", "machine", "ls", "--json"],
-                      text=True, capture_output=True, timeout=3)
-        if listing.returncode != 0:
-            raise ValueError("machine listing failed")
-        machines = json.loads(listing.stdout)["machines"]
-        if not isinstance(machines, list):
-            raise ValueError("invalid machine list")
-        names = [m["name"] for m in machines
-                 if m.get("state") == "connected" and not m.get("temporary")
-                 and isinstance(m.get("name"), str) and m["name"]]
+        names = connected_machines(run=run)
     except (OSError, subprocess.TimeoutExpired, ValueError, KeyError, TypeError, AttributeError):
         result["warnings"].append("Cannot list remote machines; check hc machine ls.")
         return result
@@ -112,16 +116,24 @@ def main():
     parser.add_argument("home", type=Path)
     parser.add_argument("spaces", help="JSON array of current Herdr spaces")
     parser.add_argument("--machine", default="", help="Machine owning the scanned folders")
-    parser.add_argument("--all-machines", action="store_true", help="Also scan connected Herdr machines (requires remote python3)")
+    targets = parser.add_mutually_exclusive_group()
+    targets.add_argument("--all-machines", action="store_true", help="Also scan connected Herdr machines (requires remote python3)")
+    targets.add_argument("--remote", help="Scan one connected machine via hc exec (requires remote python3)")
+    targets.add_argument("--list-machines", action="store_true", help="List connected, non-temporary machines (three-second timeout)")
     args = parser.parse_args()
     try:
         spaces = json.loads(args.spaces)
         if not isinstance(spaces, list):
             raise ValueError("spaces must be a JSON array")
-        scan = discover_all if args.all_machines else discover
-        options = {} if args.all_machines else {"machine": args.machine}
-        result = scan(args.home.expanduser(), spaces, **options)
-    except (ValueError, KeyError, TypeError, OSError) as error:
+        if args.list_machines:
+            result = {"machines": connected_machines()}
+        elif args.remote:
+            result = remote_projects(args.remote, spaces)
+        elif args.all_machines:
+            result = discover_all(args.home.expanduser(), spaces)
+        else:
+            result = discover(args.home.expanduser(), spaces, machine=args.machine)
+    except (ValueError, KeyError, TypeError, OSError, subprocess.TimeoutExpired) as error:
         parser.exit(1, f"Project discovery failed: {error}\n")
     print(json.dumps(result, ensure_ascii=False))
 
