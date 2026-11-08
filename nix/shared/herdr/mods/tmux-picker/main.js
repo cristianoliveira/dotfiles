@@ -34,7 +34,7 @@ function spaceColor(t, p) {
   return c.startsWith("#") ? c : (MARK[c] ?? t[c]);
 }
 
-// Match ordered characters across space, tab and agent names.
+// Match ordered characters across space, machine, tab and agent names.
 function matchesQuery(text, query) {
   let at = 0;
   for (const character of text.toLowerCase()) {
@@ -47,7 +47,7 @@ function matchesQuery(text, query) {
 export default class Picker extends View {
   init(_props, cx) {
     this.filter = "";
-    this.input = InputState.new({ placeholder: "Go to a tab, space or agent…" });
+    this.input = InputState.new({ placeholder: "Search spaces, machines, tabs or agents…" });
     this.input.on("change", (_e, cx) => { this.filter = this.input.value(); this.at = 0; cx.notify(); });
     this.input.on("submit", () => this.go(this.rows().filter(r => r.kind === "ctx" || r.kind === "new" || r.kind === "space")[this.at]));
     this.input.focus();
@@ -85,7 +85,7 @@ export default class Picker extends View {
           const mine = all.filter((a) => a.tab === ctx.id);
           return { w, ctx, mine, team: teamOf(mine.map((a) => a.address)) };
         })
-        .filter((c) => matchesQuery([w.name, c.ctx.name, ...c.mine.map((a) => a.program?.name ?? "")].join(" "), query));
+        .filter((c) => matchesQuery([w.name, w.machine ?? "", c.ctx.name, ...c.mine.map((a) => a.program?.name ?? "")].join(" "), query));
       return { w, ctxs };
     });
     const ordered = sortRecentGroups(groups.filter(p => p.ctxs.length), shared("tmux-compat.recent-tabs") ?? []);

@@ -87,6 +87,30 @@ test("space/tab picker filters compact queries across space and tab names", asyn
   assert.equal(p.calls[1][1].id, "crew");
 });
 
+test("space/tab picker searches machine names without hiding matching local spaces", async () => {
+  const p = await picker([
+    { id: "local", name: "work/api", machine: null, tabs: [{ id: "local-tab", name: "shell" }] },
+    { id: "remote", name: "work/api", machine: "maya", tabs: [{ id: "remote-tab", name: "shell" }] },
+    { id: "other", name: "other", tabs: [{ id: "other-tab", name: "editor" }] },
+  ]);
+  delete p.mod.rows;
+
+  for (const query of ["maya", "MAYA", " ma ya ", "mayashell"]) {
+    p.mod.filter = query;
+
+    assert.deepEqual(Array.from(p.mod.rows().filter(row => row.kind === "ctx"), row => row.ctx.id), ["remote-tab"]);
+  }
+
+  for (const query of ["workapi", "shell"]) {
+    p.mod.filter = query;
+
+    assert.deepEqual(Array.from(p.mod.rows().filter(row => row.kind === "ctx"), row => row.ctx.id), ["local-tab", "remote-tab"]);
+  }
+
+  p.mod.filter = "unknown-machine";
+  assert.deepEqual(Array.from(p.mod.rows().filter(row => row.kind === "ctx")), []);
+});
+
 test("space/tab picker requires query characters in order and treats punctuation literally", async () => {
   const p = await picker([
     { id: "dot", name: "dotfiles", tabs: [{ id: "crew", name: "crew" }] },
