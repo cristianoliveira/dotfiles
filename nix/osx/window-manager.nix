@@ -226,7 +226,7 @@ in {
           alt-shift-enter = "layout tiling";
 
           # Fixed bindings
-          ctrl-cmd-enter = "exec-and-forget open ~/Applications/Alacritty.app";
+          ctrl-cmd-enter = "exec-and-forget herdr-app || open ~/Applications/Alacritty.app";
           ctrl-cmd-b = "exec-and-forget open '/Applications/Brave Browser.app'";
 
           # [Y]outube (focus)
@@ -381,11 +381,9 @@ in {
                         ||  aerospace-scratchpad show Obsidian \
                         ||  open -a Obsidian'';
 
-          # Terminal scratchpad: prefer Herdr, then Alacritty.
+          # Terminal scratchpad: Alacritty only.
           cmd-ctrl-a = ''
-            exec-and-forget aerospace-scratchpad show Herdr \
-                         || aerospace-scratchpad show alacritty -F window-title='terminal-scratchpad' \
-                         || herdr-app \
+            exec-and-forget aerospace-scratchpad show alacritty -F window-title='terminal-scratchpad' \
                          || alacritty -t 'terminal-scratchpad' --option window.opacity="0.9"
           '';
 
