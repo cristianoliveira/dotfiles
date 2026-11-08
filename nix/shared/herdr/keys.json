@@ -41,6 +41,7 @@
     "ctrl-a ctrl-k": "pane.go:up",
     "ctrl-a ctrl-l": "pane.go:right",
     "ctrl-a ctrl-o": "tmux-compat.rotate-panes",
+    "ctrl-a ctrl-y": "tmux-compat.shrink-height",
     "ctrl-a ctrl-f": "pane.zoom",
     "ctrl-a z": "pane.zoom",
     "ctrl-a ?": "app.help",

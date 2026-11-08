@@ -106,6 +106,7 @@ enter the bounded navigation repeat mode below.
 | `v` / `\|` | Split right |
 | `Ctrl-h/j/k/l` | Focus pane left/down/up/right |
 | `Ctrl-o` | Rotate all panes forward, keeping focus at the same screen position (`tmux` layout) |
+| `Ctrl-y` | Stack panes vertically and shrink the focused pane to 4% height (`tmux` layout) |
 | `Ctrl-f` / `z` | Toggle pane zoom |
 | `?` | Key help |
 | `:` | Herdr command palette, not a tmux command line |
@@ -241,6 +242,24 @@ are passed directly to Herdr, without shell execution. With a mod focused or
 an unknown terminal cwd, it shows a notice and leaves the tab name unchanged.
 This supports Unix paths, including remote Unix terminals. `Ctrl-a ,` still
 opens the normal rename prompt.
+
+### Small terminal strip
+
+Press `Ctrl-a`, release it, then `Ctrl-y`. This matches the custom tmux
+`select-layout even-vertical; resize-pane -y 4%` binding: panes stack vertically,
+then the focused pane becomes a short terminal strip. With more than two panes,
+the freed height goes to the next pane, or the previous pane when shrinking the
+last one. Other panes start at equal heights. Pane order and keyboard focus stay
+unchanged. Plain `Ctrl-y` is not rebound.
+
+This is a one-way resize, not a collapse/restore toggle. A single pane is a no-op.
+An already-zoomed pane is unzoomed after success only if it remains selected;
+navigating away does not pull focus back. The helper preserves container IDs and
+pane contents, updates only the original tab, and uses a versioned Core write
+without retries. Stale pane order, custom min/max/resizable constraints, or more
+than 25 panes are rejected rather than changing an incompatible layout.
+Python 3 and `hc` are required. Herdr may clamp the strip to its minimum usable
+size in a small window.
 
 ### Pane rotation
 

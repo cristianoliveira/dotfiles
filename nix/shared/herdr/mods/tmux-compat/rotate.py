@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Rotate Herdr tab panes forward, preserving slot geometry and versioned layout edits."""
+"""Adjust Herdr pane layouts with scoped, versioned edits and optional native rotation plans."""
 import argparse
 import copy
 import json
@@ -12,30 +12,30 @@ GEOMETRY = ("size", "min", "max", "resizable")
 
 def normalize_context(context):
     if not isinstance(context, dict):
-        raise ValueError("Rotation needs a tab pane context.")
+        raise ValueError("Pane layout adjustment needs a tab pane context.")
     machine = context.get("machine")
     if machine is not None and (not isinstance(machine, str) or not machine or "/" in machine):
-        raise ValueError("Invalid rotation machine.")
+        raise ValueError("Invalid pane layout machine.")
     prefix = machine + "/" if machine else ""
 
     def local_id(value):
         if not isinstance(value, str) or not value or len(value) > 512:
-            raise ValueError("Invalid rotation pane context.")
+            raise ValueError("Invalid pane layout context.")
         if prefix and not value.startswith(prefix):
-            raise ValueError("Rotation context belongs to another machine.")
+            raise ValueError("Pane layout context belongs to another machine.")
         value = value[len(prefix):]
         if not value or "/" in value:
-            raise ValueError("Invalid machine-qualified rotation id.")
+            raise ValueError("Invalid machine-qualified pane id.")
         return value
 
     panes = context.get("panes")
     if not isinstance(panes, list) or not 1 <= len(panes) <= 1000:
-        raise ValueError("Rotation needs 1–1000 panes in one tab.")
+        raise ValueError("Pane layout adjustment needs 1–1000 panes in one tab.")
     return {"space": local_id(context.get("space")), "tab": local_id(context.get("tab")),
             "pane": local_id(context.get("pane")), "panes": [local_id(pane) for pane in panes], "machine": machine}
 
 
-def rotate_document(value, context):
+def validated_layout(value, context):
     if not isinstance(value, dict) or not isinstance(value.get("spaces"), list):
         raise ValueError("Unsupported Herdr layout document.")
     result = copy.deepcopy(value)
@@ -65,8 +65,13 @@ def rotate_document(value, context):
     visit(tab.get("root"))
     ids = [leaf["id"] for leaf in leaves]
     if ids != context["panes"] or len(set(ids)) != len(ids) or context["pane"] not in ids:
-        raise ValueError("Tab panes changed before rotation; try again.")
-    position = ids.index(context["pane"])
+        raise ValueError("Tab panes changed before layout adjustment; try again.")
+    return result, tab, leaves
+
+
+def rotate_document(value, context):
+    result, _, leaves = validated_layout(value, context)
+    position = context["panes"].index(context["pane"])
     payloads = copy.deepcopy(leaves)
     for index, slot in enumerate(leaves):
         geometry = {key: slot[key] for key in GEOMETRY if key in slot}
@@ -77,6 +82,38 @@ def rotate_document(value, context):
         slot.clear()
         slot.update(incoming)
     return result, leaves[position]["id"]
+
+
+def shrink_document(value, context):
+    result, tab, leaves = validated_layout(value, context)
+    count = len(leaves)
+    if count == 1:
+        return result, context["pane"]
+    if count > 25:
+        raise ValueError("Four-percent height needs at most 25 panes; close panes before shrinking.")
+    position = context["panes"].index(context["pane"])
+    neighbor = position + 1 if position + 1 < count else position - 1
+    shares = [1 / count] * count
+    shares[neighbor] += shares[position] - .04
+    shares[position] = .04
+    heights = dict(zip(context["panes"], shares))
+
+    def stack(node, root=False):
+        if any(node.get(key) is not None for key in GEOMETRY[1:]):
+            raise ValueError("Custom min/max/resizable constraints prevent a four-percent strip; remove those constraints first.")
+        if node["type"] == "block":
+            height = heights[node["id"]]
+        else:
+            node["type"] = "column"
+            height = sum(stack(child) for child in node["children"])
+        # Preserve container identities and metadata: replacing the tree can
+        # break Herdr's native split bookkeeping. We only change axis and size.
+        if not root:
+            node["size"] = {"weight": height}
+        return height
+
+    stack(tab["root"], root=True)
+    return result, context["pane"]
 
 
 def native_swaps(root, ids):
@@ -131,9 +168,9 @@ def rpc(method, params):
         process = subprocess.run(["hc", "connect"], input="".join(json.dumps(message) + "\n" for message in messages),
                                  text=True, capture_output=True, timeout=5)
     except subprocess.TimeoutExpired:
-        raise RuntimeError(f"Core {method} timed out. Check pane positions before repeating a rotation.") from None
+        raise RuntimeError(f"Core {method} timed out. Check pane positions before repeating the command.") from None
     if process.returncode:
-        raise RuntimeError(f"Could not confirm Core {method}; check pane positions before repeating a rotation.")
+        raise RuntimeError(f"Could not confirm Core {method}; check pane positions before repeating the command.")
     for line in process.stdout.splitlines():
         response = json.loads(line)
         if not isinstance(response, dict):
@@ -144,14 +181,14 @@ def rpc(method, params):
                 raise RuntimeError(f"Core {method} returned an invalid error.")
             data = error.get("data")
             if (isinstance(data, dict) and data.get("kind") == "conflict") or error.get("message") == "conflict":
-                raise RuntimeError("Layout changed during rotation; no write applied. Try again.")
+                raise RuntimeError("Layout changed during the command; no write applied. Try again.")
             raise RuntimeError(f"Core {method}: {error.get('message', 'request failed')}")
         if response.get("id") == 1 and isinstance(response.get("result"), dict):
             return response["result"]
-    raise RuntimeError(f"Core {method} returned no result; check pane positions before repeating a rotation.")
+    raise RuntimeError(f"Core {method} returned no result; check pane positions before repeating the command.")
 
 
-def rotate(context, request=rpc):
+def rotate(context, request=rpc, *, shrink_height=False):
     scope = normalize_context(context)
     if type(context.get("native", False)) is not bool:
         raise ValueError("Native rotation preference must be a boolean.")
@@ -161,10 +198,11 @@ def rotate(context, request=rpc):
     current = request("doc.get", params)
     if type(current.get("version")) is not int or current["version"] < 0:
         raise ValueError("Core returned an invalid layout version.")
-    value, target = rotate_document(current.get("value"), scope)
-    changed = len(scope["panes"]) > 1
+    transform = shrink_document if shrink_height else rotate_document
+    value, target = transform(current.get("value"), scope)
+    changed = value != current.get("value") if shrink_height else len(scope["panes"]) > 1
     prefix = scope["machine"] + "/" if scope["machine"] else ""
-    if context.get("native") and changed:
+    if context.get("native") and changed and not shrink_height:
         tab = next(tab for space in current["value"]["spaces"] if space["id"] == scope["space"]
                    for tab in space["tabs"] if tab["id"] == scope["tab"])
         swaps = native_swaps(tab["root"], scope["panes"])
@@ -178,12 +216,15 @@ def rotate(context, request=rpc):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__,
-        epilog="Needs Python 3 and hc. Normally run: herdr-app do tmux-compat.rotate-panes")
+        epilog="Needs Python 3 and hc. Normally run: herdr-app do tmux-compat.rotate-panes; "
+               "for a four-percent strip: herdr-app do tmux-compat.shrink-height")
+    parser.add_argument("--shrink-height", action="store_true",
+                        help="Stack panes vertically and shrink the focused pane to 4%% height; keep focus and pane identities.")
     parser.add_argument("context", help="JSON space/tab/pane IDs, ordered panes, optional machine and native boolean; "
                         "native=true prefers a swap plan, otherwise uses a versioned write")
     args = parser.parse_args()
     try:
-        print(json.dumps(rotate(json.loads(args.context))))
+        print(json.dumps(rotate(json.loads(args.context), shrink_height=args.shrink_height)))
     except (ValueError, RuntimeError, OSError) as error:
         print(str(error), file=sys.stderr)
         return 1
