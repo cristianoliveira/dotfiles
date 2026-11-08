@@ -116,7 +116,7 @@ test("native command errors do not retry through the Core helper", async () => {
 test("zoomed, temporarily replaced or opted-out terminals retain the versioned helper path", async () => {
   for (const mode of ["zoomed", "shown", "disabled"]) {
     const f = nativePair();
-    if (mode === "disabled") f.deps.nativePairs = false;
+    if (mode === "disabled") f.deps.nativeRotation = false;
     if (mode === "zoomed") f.deps.spaces = () => [{ id: "space", machine: null, tabs: [{ id: "tab", zoomed: true }] }];
     if (mode === "shown") f.deps.focused = () => ({ space: "space", tab: "tab", pane: "left", shown: "temporary-terminal" });
 
@@ -127,7 +127,7 @@ test("zoomed, temporarily replaced or opted-out terminals retain the versioned h
   }
 });
 
-test("three terminal panes still use the versioned Core rotation", async () => {
+test("three terminal panes request a read-only native plan when available", async () => {
   const f = fixture();
   f.deps.panes = () => ["left", "right", "third"].map(pane => ({ pane, tab: "tab", terminal: `terminal-${pane}` }));
 
@@ -135,7 +135,81 @@ test("three terminal panes still use the versioned Core rotation", async () => {
 
   assert.equal(f.calls[0][0], "python3");
   assert.deepEqual(JSON.parse(f.calls[0][1][2]).panes, ["left", "right", "third"]);
+  assert.equal(JSON.parse(f.calls[0][1][2]).native, true);
   assert.equal(f.calls.some(call => call[0] === "pane.swap"), false);
+});
+
+test("a master-stack native plan rotates all slots and restores focus before yielding", async () => {
+  const f = fixture();
+  const order = ["left", "right", "third"];
+  let active = "left";
+  const frames = [];
+  f.deps.panes = () => order.map(pane => ({ pane, tab: "tab", terminal: `t-${pane}` }));
+  f.deps.exec = async () => ({ code: 0, stdout: JSON.stringify({ pane: "third", changed: true,
+    swaps: [{ pane: "third", direction: "left" }, { pane: "right", direction: "left" }] }) });
+  f.deps.run = (name, args) => {
+    f.calls.push([name, args]);
+    if (name === "pane.focus") active = args.pane;
+    if (name === "pane.swap") {
+      const index = order.indexOf(active);
+      assert.equal(args.direction, "left");
+      assert.notEqual(active, "left");
+      const neighbor = order.indexOf("left"); // Native geometry is keyed by the original identity.
+      [order[neighbor], order[index]] = [order[index], order[neighbor]];
+    }
+    queueMicrotask(() => frames.push({ order: [...order], active }));
+  };
+
+  assert.equal(await rotateTabPanes(f.deps), true);
+
+  assert.deepEqual(order, ["third", "left", "right"]);
+  assert.equal(active, "third");
+  assert.equal(f.calls.length, 5);
+  assert.ok(frames.length > 0);
+  assert.ok(frames.every(frame => frame.order.join() === order.join() && frame.active === active));
+});
+
+test("native plans are discarded after navigation, changed order, zoom or terminal replacement", async () => {
+  for (const mode of ["navigation", "order", "zoom", "shown"]) {
+    const f = fixture();
+    let order = ["left", "right", "third"];
+    let zoomed = false;
+    f.deps.spaces = () => [{ id: "space", tabs: [{ id: "tab", zoomed }] }];
+    f.deps.panes = () => order.map(pane => ({ pane, tab: "tab", terminal: `t-${pane}` }));
+    f.deps.exec = async () => {
+      if (mode === "navigation") f.focus({ space: "space", tab: "other", pane: "elsewhere" });
+      if (mode === "order") order.reverse();
+      if (mode === "zoom") zoomed = true;
+      if (mode === "shown") f.focus({ space: "space", tab: "tab", pane: "left", shown: "replacement" });
+      return { code: 0, stdout: JSON.stringify({ pane: "third", changed: true,
+        swaps: [{ pane: "right", direction: "left" }, { pane: "third", direction: "left" }] }) };
+    };
+
+    assert.equal(await rotateTabPanes(f.deps), false);
+    assert.deepEqual(f.calls, []);
+  }
+});
+
+test("native plans cannot focus a valid pane outside the original slot", async () => {
+  const f = fixture();
+  f.deps.panes = () => ["left", "right", "third"].map(pane => ({ pane, tab: "tab", terminal: `t-${pane}` }));
+  f.deps.exec = async () => ({ code: 0, stdout: JSON.stringify({ pane: "right", changed: true,
+    swaps: [{ pane: "third", direction: "left" }, { pane: "right", direction: "left" }] }) });
+
+  await assert.rejects(rotateTabPanes(f.deps), /invalid native plan/);
+  assert.deepEqual(f.calls, []);
+});
+
+test("malformed native plans never execute partial commands", async () => {
+  for (const swaps of [[{ pane: "right", direction: "left" }, { pane: "elsewhere", direction: "left" }],
+    [{ pane: "right", direction: "left" }, { pane: "third", direction: "shell" }], null, []]) {
+    const f = fixture();
+    f.deps.panes = () => ["left", "right", "third"].map(pane => ({ pane, tab: "tab", terminal: `t-${pane}` }));
+    f.deps.exec = async () => ({ code: 0, stdout: JSON.stringify({ pane: "third", changed: true, swaps }) });
+
+    await assert.rejects(rotateTabPanes(f.deps));
+    assert.deepEqual(f.calls, []);
+  }
 });
 
 test("a mod pane retains the versioned helper rather than using terminal fast path", async () => {
@@ -163,13 +237,15 @@ async function compat(rotateTabPanes, options = {}) {
 }
 
 test("compat passes the custom-layout native rotation opt-out to its adapter", async () => {
-  let nativePairs;
-  const f = await compat(async deps => { nativePairs = deps.nativePairs; }, { native_pair_rotation: false });
+  for (const options of [{ native_rotation: false }, { native_pair_rotation: false }]) {
+    let nativeRotation;
+    const f = await compat(async deps => { nativeRotation = deps.nativeRotation; }, options);
 
-  f.view.rotatePanes(f.cx);
-  await Promise.all(f.tasks);
+    f.view.rotatePanes(f.cx);
+    await Promise.all(f.tasks);
 
-  assert.equal(nativePairs, false);
+    assert.equal(nativeRotation, false);
+  }
 });
 
 test("compat ignores overlapping rotations until the current helper finishes", async () => {

@@ -117,7 +117,7 @@ export default class TmuxCompat extends View {
     cx.spawn(async (cx) => {
       try {
         await rotateTabPanes({ focused, spaces, panes, appHome, exec, run,
-          nativePairs: props()?.native_pair_rotation !== false,
+          nativeRotation: (props()?.native_rotation ?? props()?.native_pair_rotation) !== false,
         });
       } catch (error) {
         notify({ title: "Pane rotation failed", body: error.message, level: "error" });

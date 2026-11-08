@@ -116,6 +116,91 @@ class RotationTests(unittest.TestCase):
         self.assertEqual(calls[1][1]["on"], "maya")
         self.assertEqual(calls[1][0], "doc.set")
 
+    def test_native_plans_rotate_rows_columns_and_master_stacks_without_a_core_write(self):
+        for axis, previous in [("row", "left"), ("column", "up")]:
+            for count in [3, 4]:
+                for master in [None, 0, count - 1]:
+                    with self.subTest(axis=axis, count=count, master=master):
+                        ids = list("abcd"[:count])
+                        nodes = [pane(name) for name in ids]
+                        if master is None:
+                            root = {"type": axis, "children": nodes}
+                        else:
+                            stack = {"type": "column" if axis == "row" else "row",
+                                     "children": [node for index, node in enumerate(nodes) if index != master]}
+                            root = {"type": axis, "children": [nodes[master], stack] if master == 0 else [stack, nodes[master]]}
+                        original = document(root)
+                        before = copy.deepcopy(original)
+                        calls = []
+                        def rpc(method, params):
+                            calls.append(method)
+                            return {"value": original, "version": 17}
+
+                        result = rotate.rotate({**context(ids, ids[1]), "native": True}, rpc)
+
+                        self.assertEqual(calls, ["doc.get"])
+                        slots = ids[:]
+                        for step in result["swaps"]:
+                            source = slots.index(step["pane"])
+                            original_slot = ids.index(step["pane"])
+                            if master is None:
+                                self.assertEqual(step["direction"], previous)
+                                neighbor = slots.index(ids[original_slot - 1])
+                            else:
+                                toward = previous if master == 0 else ("right" if axis == "row" else "down")
+                                self.assertEqual(step["direction"], toward)
+                                self.assertNotEqual(original_slot, master)
+                                neighbor = slots.index(ids[master])
+                            slots[source], slots[neighbor] = slots[neighbor], slots[source]
+                        self.assertEqual(slots, [ids[-1], *ids[:-1]])
+                        self.assertEqual(result["pane"], ids[0])
+                        self.assertEqual(original, before)
+
+    def test_native_plan_flattens_same_axis_groups_and_qualifies_remote_targets(self):
+        root = {"type": "row", "children": [pane("a"), {"type": "row", "children": [pane("b"), pane("c")]}]}
+        calls = []
+        def rpc(method, params):
+            calls.append((method, params))
+            return {"value": document(root), "version": 17}
+        scope = {"space": "maya/space", "tab": "maya/tab", "pane": "maya/b", "panes": ["maya/a", "maya/b", "maya/c"], "machine": "maya", "native": True}
+
+        result = rotate.rotate(scope, rpc)
+
+        self.assertEqual(calls, [("doc.get", {"name": "herdr-app", "on": "maya"})])
+        self.assertEqual(result["pane"], "maya/a")
+        self.assertEqual(result["swaps"], [{"pane": "maya/b", "direction": "left"}, {"pane": "maya/c", "direction": "left"}])
+
+    def test_native_planner_bounds_command_count_and_rejects_hidden_or_collapsed_slots(self):
+        cases = [
+            ({"type": "row", "children": [pane(str(index)) for index in range(17)]}, [str(index) for index in range(17)]),
+            ({"type": "row", "children": [pane("a", 0), pane("b"), pane("c")]}, list("abc")),
+            ({"type": "row", "hidden": True, "children": [pane("a"), pane("b"), pane("c")]}, list("abc")),
+        ]
+        for root, ids in cases:
+            with self.subTest(root=root):
+                self.assertIsNone(rotate.native_swaps(root, ids))
+
+    def test_native_planner_keeps_custom_constraints_and_complex_grids_on_cas_path(self):
+        roots = [
+            {"type": "row", "children": [{**pane("a"), "min": 300}, pane("b"), pane("c")]},
+            {"type": "row", "children": [
+                {"type": "column", "children": [pane("a"), pane("b")]},
+                {"type": "column", "children": [pane("c"), pane("d")]}]},
+        ]
+        for root in roots:
+            with self.subTest(root=root):
+                ids = ["a", "b", "c"] if len(root["children"]) == 3 else list("abcd")
+                calls = []
+                def rpc(method, params):
+                    calls.append((method, params))
+                    return {"value": document(root), "version": 17}
+
+                result = rotate.rotate({**context(ids), "native": True}, rpc)
+
+                self.assertNotIn("swaps", result)
+                self.assertEqual([method for method, _ in calls], ["doc.get", "doc.set"])
+                self.assertEqual(calls[1][1]["version"], 17)
+
     def test_rpc_uses_json_lines_and_a_bounded_connection(self):
         response = {"jsonrpc": "2.0", "id": 1, "result": {"version": 2, "value": {}}}
         process = subprocess.CompletedProcess([], 0, json.dumps(response) + "\n", "")
@@ -153,6 +238,7 @@ class RotationTests(unittest.TestCase):
         invalid = [None, {}, {**context(["a", "b"]), "machine": 7},
                    {**context(["a", "b"]), "machine": "bad/name"},
                    {**context(["a", "b"]), "panes": []},
+                   {**context(["a", "b"]), "native": "yes"},
                    {**context(["a", "b"]), "space": "other/space"}]
         for scope in invalid:
             with self.subTest(scope=scope), self.assertRaises(ValueError):

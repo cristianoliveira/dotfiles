@@ -79,6 +79,51 @@ def rotate_document(value, context):
     return result, leaves[position]["id"]
 
 
+def native_swaps(root, ids):
+    """Plan only splits whose directional neighbors do not depend on pixel sizes."""
+    if not 2 <= len(ids) <= 16:
+        return None
+
+    def ordinary(node):
+        size = node.get("size", {})
+        return (isinstance(size, dict) and node.get("type") == "block" and node["content"].get("terminal")
+                and not any(key in node for key in GEOMETRY[1:])
+                and not node.get("hidden")
+                and all(isinstance(value, (int, float)) and value > 0
+                        for value in size.values()))
+
+    def flat_children(node):
+        children = []
+        for child in node.get("children", []):
+            if child.get("type") == node.get("type") and not child.get("hidden"):
+                children.extend(flat_children(child))
+            else:
+                children.append(child)
+        return children
+
+    axis = root.get("type")
+    children = flat_children(root)
+    if root.get("hidden") or axis not in ("row", "column"):
+        return None
+    previous = "left" if axis == "row" else "up"
+    if all(ordinary(child) for child in children):
+        return [{"pane": pane, "direction": previous} for pane in ids[1:]]
+    if len(children) != 2:
+        return None
+    for master in (0, 1):
+        stack = children[1 - master]
+        if (not ordinary(children[master]) or stack.get("type") != ("column" if axis == "row" else "row")
+                or stack.get("hidden") or not all(ordinary(child) for child in flat_children(stack))):
+            continue
+        # Native neighbor rectangles are cached for the script turn, keyed by
+        # original pane identity. These are identity transpositions, not a walk
+        # through freshly rendered positions: visit the small panes in reverse.
+        direction = previous if master == 0 else ("right" if axis == "row" else "down")
+        others = ids[1:] if master == 0 else ids[:-1]
+        return [{"pane": pane, "direction": direction} for pane in reversed(others)]
+    return None
+
+
 def rpc(method, params):
     messages = [{"jsonrpc": "2.0", "id": 0, "method": "hello", "params": {"generation": 1, "framed": False}},
                 {"jsonrpc": "2.0", "id": 1, "method": method, "params": params}]
@@ -108,6 +153,8 @@ def rpc(method, params):
 
 def rotate(context, request=rpc):
     scope = normalize_context(context)
+    if type(context.get("native", False)) is not bool:
+        raise ValueError("Native rotation preference must be a boolean.")
     params = {"name": "herdr-app"}
     if scope["machine"]:
         params["on"] = scope["machine"]
@@ -116,16 +163,24 @@ def rotate(context, request=rpc):
         raise ValueError("Core returned an invalid layout version.")
     value, target = rotate_document(current.get("value"), scope)
     changed = len(scope["panes"]) > 1
+    prefix = scope["machine"] + "/" if scope["machine"] else ""
+    if context.get("native") and changed:
+        tab = next(tab for space in current["value"]["spaces"] if space["id"] == scope["space"]
+                   for tab in space["tabs"] if tab["id"] == scope["tab"])
+        swaps = native_swaps(tab["root"], scope["panes"])
+        if swaps is not None:
+            return {"pane": prefix + target, "changed": True,
+                    "swaps": [{**step, "pane": prefix + step["pane"]} for step in swaps]}
     if changed:
         request("doc.set", {**params, "value": value, "version": current["version"]})
-    prefix = scope["machine"] + "/" if scope["machine"] else ""
     return {"pane": prefix + target, "changed": changed}
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__,
         epilog="Needs Python 3 and hc. Normally run: herdr-app do tmux-compat.rotate-panes")
-    parser.add_argument("context", help="JSON space/tab/pane IDs, ordered panes, and optional machine")
+    parser.add_argument("context", help="JSON space/tab/pane IDs, ordered panes, optional machine and native boolean; "
+                        "native=true prefers a swap plan, otherwise uses a versioned write")
     args = parser.parse_args()
     try:
         print(json.dumps(rotate(json.loads(args.context))))

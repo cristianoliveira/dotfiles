@@ -254,22 +254,32 @@ synchronous handler, without Python or awaiting a Core document round trip. Widt
 heights stay at their screen positions. Both horizontal and vertical splits work,
 from either focused slot. A single pane is a no-op.
 
-Native swaps carry pane-local properties (including custom `min`, `max` and
-`resizable` fields) with the pane. For layouts that need those constraints fixed
-to their slots, set `props: {"native_pair_rotation": false}` on the mounted
-`tmux-compat` block to retain the original adapter.
+For 3–16 ordinary terminal panes in a row, column, or one master beside a
+perpendicular stack, the helper reads the layout once and returns a native swap
+plan instead of rewriting the document. The master may be at either edge;
+nested same-axis groups are supported. Swaps and final focus run in one script
+turn, preserving structure and slot dimensions. Navigation, changed pane order,
+zoom or terminal replacement during the read cancels the plan before any moves.
+Python 3 and `hc` are still required for this read-only planning step.
 
-Larger layouts, mod panes, zoomed/replaced terminals and opted-out layouts use
-Herdr Core's versioned `herdr-app` document. That path preserves split structure,
-widths/heights and slot constraints, changes only the original tab, and rejects
-stale pane order or concurrent writes without automatic retries. Configured
-remote machines use their own document and qualified IDs. The fallback requires
-Python 3 and `hc`, as for the existing compat helpers.
+Two-pane native swaps carry pane-local properties (including custom `min`, `max`
+and `resizable` fields) with the pane. The multi-pane planner rejects custom slot
+constraints. To keep the original adapter everywhere, set
+`props: {"native_rotation": false}` on the mounted `tmux-compat` block.
+The earlier `native_pair_rotation` preference remains a fallback alias.
 
-If you select another pane or tab while the asynchronous fallback is running,
-the original tab still rotates, but the adapter does not pull focus back. Further rotation
-requests are ignored until the current one completes. A connection timeout
-can leave the write outcome uncertain; check pane positions before repeating.
+Complex grids, larger counts, custom constraints, mod panes, zoomed/replaced
+terminals and opted-out layouts use Core's versioned `herdr-app` document. That
+path preserves structure, widths/heights and slot constraints, changes only the
+original tab, and rejects stale pane order or concurrent writes without retries.
+Configured remote machines use their own document and qualified IDs. If you
+navigate away during this fallback, the original tab still rotates without
+pulling focus back. Python 3 and `hc` are required.
+
+Further rotation requests are ignored until the current one completes. Native
+commands are not retried through the document adapter after a partial failure.
+A connection timeout can leave a document write uncertain; check pane positions
+before repeating.
 
 ### Navigation repeat mode
 
