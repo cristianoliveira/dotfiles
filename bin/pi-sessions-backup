@@ -1,0 +1,77 @@
+#!/usr/bin/env python3
+"""Create a private, local archive of Pi session history."""
+
+import argparse
+from datetime import datetime, timezone
+import os
+from pathlib import Path
+import sys
+import tarfile
+import tempfile
+
+
+def backup_sessions(source, destination):
+    source = source.expanduser().resolve()
+    destination = destination.expanduser().resolve()
+    if not source.is_dir():
+        raise ValueError(f"Sessions directory not found: {source}. Set --source PATH.")
+    if destination == source or source in destination.parents:
+        raise ValueError("Choose a destination outside the sessions directory.")
+
+    destination.mkdir(parents=True, exist_ok=True, mode=0o700)
+    timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    fd, name = tempfile.mkstemp(
+        prefix=f"pi-sessions-{timestamp}-", suffix=".tar.gz.partial", dir=destination
+    )
+    partial = Path(name)
+    archive = partial.with_suffix("")
+    try:
+        with os.fdopen(fd, "wb") as output:
+            with tarfile.open(fileobj=output, mode="w:gz", dereference=False) as backup:
+                backup.add(source, arcname="sessions")
+            output.flush()
+            os.fsync(output.fileno())
+        # Publish only completed archives, without overwriting an existing backup.
+        os.link(partial, archive)
+    finally:
+        partial.unlink(missing_ok=True)
+    return archive
+
+
+def main():
+    agent_dir = Path(os.environ.get("PI_AGENT_DIR", "~/.pi/agent")).expanduser()
+    parser = argparse.ArgumentParser(
+        description="Back up all Pi sessions to a new, owner-only .tar.gz archive.",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""Examples (requires Python 3; no extra packages):
+  pi-sessions-backup ~/Backups/pi
+  pi-sessions-backup /Volumes/Backup/pi --source ~/.pi/agent/sessions
+
+Inspect and restore into a NEW directory first:
+  tar -tzf /path/to/pi-sessions-TIMESTAMP-ID.tar.gz
+  mkdir -m 700 ~/pi-restore
+  tar -xzf /path/to/pi-sessions-TIMESTAMP-ID.tar.gz -C ~/pi-restore
+
+The archive contains sessions/ only, not Pi settings or auth.json.
+Symbolic links are preserved, not followed. Existing backups are kept.
+Close other Pi sessions first for a consistent backup: live files can change
+while being read. A live backup is not an atomic snapshot.
+Archives are NOT encrypted. Sessions may contain secrets and private content;
+use encrypted storage. Nothing is uploaded or deleted from the source.
+""",
+    )
+    parser.add_argument("destination", type=Path, help="local backup directory (created if needed)")
+    parser.add_argument(
+        "--source", type=Path, default=agent_dir / "sessions",
+        help="sessions directory (default: $PI_AGENT_DIR/sessions or ~/.pi/agent/sessions)",
+    )
+    args = parser.parse_args()
+    try:
+        archive = backup_sessions(args.source, args.destination)
+    except (OSError, ValueError, tarfile.TarError) as error:
+        parser.exit(1, f"Backup failed: {error}\n")
+    print(archive)
+
+
+if __name__ == "__main__":
+    main()
