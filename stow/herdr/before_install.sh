@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Keep Herdr's mutable state outside the Stow package.
-mkdir -p "$HOME/.config/herdr-app/mods" "$HOME/.config/herdr-app/layouts" \
-    "$HOME/.config/herdr-app/themes"
+# Ignore project Python paths; only this package owns the installation policy.
+python3 -I "$(dirname "${BASH_SOURCE[0]}")/install.py"

@@ -14,10 +14,18 @@ without rebuilding or processing other Stow packages, run from the repository ro
 bash stow/install.sh herdr
 ```
 
-If Stow reports an existing `keys.json`, quit Herdr first, review the file,
-and back it up outside the app directory before retrying. A running app can
-recreate a missing keys file before Stow links it. Do not use `--adopt`, which
-would replace the repository's config.
+Repository configs take precedence at the paths this package manages:
+`keys.json`, the personal mods, the `tmux` layout and the Solarized theme.
+The install hook preserves conflicting files, directories and symlinks under
+`~/.config/herdr-app.backup.*/`, then replaces them with repository links.
+Files are replaced atomically, so a running app cannot recreate `keys.json`
+during an unlink/relink gap. Repeated installs need no extra backups when links
+are already correct. Do not use `--adopt`, which would change repository content.
+
+Settings, sessions, view state and unrelated custom mods/layouts/themes are
+not overwritten. Mutable container directories must be real directories; the
+installer refuses unexpected linked containers rather than writing through
+them into another location.
 Keys reload live. Check `herdr-app status` and `~/.config/herdr-app/keys.error`
 if an edit does not take effect. Edit the source file in this directory.
 
@@ -82,7 +90,7 @@ enter the bounded navigation repeat mode below.
 | `Ctrl-b` | Search existing spaces and tabs |
 | `Shift-l` (uppercase `L`) | Toggle last two spaces (`tmux` layout) |
 | `Ctrl-r` / `Tab` | Toggle last two tabs in this space (`tmux` layout) |
-| `Cmd-Shift-h` / `Cmd-Shift-l` | Move current tab left / right, stopping at either end (`tmux` layout) |
+| `Shift-Left` / `Shift-Right` | Move current tab left / right, stopping at either end (`tmux` layout) |
 | `1`–`9` | Select tab |
 | `,` | Rename tab with a prompt |
 | `Shift-n` (uppercase `N`) | Rename tab from focused terminal folder (`tmux` layout) |

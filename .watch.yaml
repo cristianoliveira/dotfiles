@@ -51,6 +51,10 @@ jobs:
       - 'nix/shared/herdr/**/*.py'
       - 'nix/shared/herdr/**/*.js'
       - 'nix/shared/herdr/**/*.mjs'
+      - 'stow/herdr/**'
+    ignore:
+      - '**/__pycache__'
+      - '**/__pycache__/**'
 
   - name: reload tmux
     run: tmux/reload.sh
@@ -61,6 +65,9 @@ jobs:
       - make check-symlinks
       - make stow
     change: 'stow/**'
+    ignore:
+      - '**/__pycache__'
+      - '**/__pycache__/**'
 
   - name: adds to git
     # run_on_init: true
