@@ -49,6 +49,11 @@
 
       # Group windows in Mission Control
       CustomUserPreferences = {
+        # Undocumented macOS Tahoe corner-radius override.
+        NSGlobalDomain = {
+          NSConvolutionOverride1 = 0.01;
+        };
+
         "com.apple.dock" = {
           "expose-group-apps" = 1;
           "expose-group-apps-enabled" = 1;
