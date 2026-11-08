@@ -1,3 +1,18 @@
+export function moveTabTo(snapshot, target, value, run) {
+  const space = snapshot.find(space => space.id === target.spaceId);
+  if (!space?.tabs.some(tab => tab.id === target.tabId)) {
+    return "The original tab is no longer available. Cancel and try again.";
+  }
+
+  const position = Number(value);
+  if (!/^\d+$/.test(value) || !Number.isSafeInteger(position) || position >= space.tabs.length) {
+    return `Enter a position from 0 to ${space.tabs.length - 1}.`;
+  }
+
+  run("tab.move", { id: target.tabId, index: position + 1 });
+  return null;
+}
+
 export function moveTab(snapshot, direction, run) {
   const space = snapshot.find(space => space.active);
   if (!space) return;

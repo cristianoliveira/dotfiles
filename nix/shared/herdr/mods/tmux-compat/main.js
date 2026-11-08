@@ -9,6 +9,7 @@ import { popupPlan, killPortPlan, openPopup, releasePopup, popupIsLive, popupPre
 import { broadcastPlan } from "./broadcast.js";
 import { copyPlan } from "./copy.js";
 import { moveTab } from "./move-tab.js";
+import { MoveTabMode } from "./move-tab-view.js";
 
 const HISTORY = "tmux-compat.space-history";
 const TAB_HISTORY = "tmux-compat.tab-history";
@@ -16,6 +17,7 @@ const TAB_HISTORY = "tmux-compat.tab-history";
 export default class TmuxCompat extends View {
   init(_props, cx) {
     const options = props();
+    if (options?.mode === "move-tab") this.mode = new MoveTabMode(options, cx);
     if (options?.mode === "repeat") this.mode = new RepeatMode(options, cx);
     if (options?.mode === "close-spaces") this.mode = new CloseSpacesMode(options, cx);
     if (options?.mode === "popup-header") this.mode = new PopupHeader(options);
@@ -29,6 +31,7 @@ export default class TmuxCompat extends View {
         if (command === "last-tab") this.selectLast("tab", lastTab(history.tabs, history.spaceId));
         if (command === "move-tab-left") moveTab(spaces(), -1, run);
         if (command === "move-tab-right") moveTab(spaces(), 1, run);
+        if (command === "move-tab-to") this.promptTabPosition();
         if (command === "rename-from-folder") this.renameFromFolder();
         if (command === "repeat") openOverlay({ mod: "tmux-compat", props: { mode: "repeat" }, kind: "popup", width: 580, height: 108 });
         if (command === "close-spaces") openOverlay({ mod: "tmux-compat", props: { mode: "close-spaces" }, kind: "dialog", modal: true, width: 700, height: 480 });
@@ -106,6 +109,16 @@ export default class TmuxCompat extends View {
     });
   }
 
+  promptTabPosition() {
+    const space = spaces().find(space => space.active);
+    const tab = space?.tabs.find(tab => tab.active);
+    if (!tab) return;
+
+    openOverlay({ mod: "tmux-compat", props: {
+      mode: "move-tab", target: { spaceId: space.id, tabId: tab.id },
+    }, kind: "dialog", modal: true, width: 520, height: 160 });
+  }
+
   renameFromFolder() {
     const target = folderTabName(focused());
     if (target) run("tab.rename", target);
@@ -133,7 +146,7 @@ export default class TmuxCompat extends View {
 
   async close() {
     this.closing = true;
-    await this.mode?.close();
+    await this.mode?.close?.();
     if (this.popup) {
       closeOverlay(this.popup.overlay);
       await releasePopup(this.popup.address, hc);
