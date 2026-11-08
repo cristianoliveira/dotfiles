@@ -85,6 +85,20 @@ let
         ];
       }
 
+      # In Herdr, browse tabs instead of focusing another AeroSpace window.
+      {
+        fingers = 4;
+        direction = "left";
+        app = "dev.herdr.app";
+        command = [ "/run/current-system/sw/bin/herdr-app" "do" "tab.next" ];
+      }
+      {
+        fingers = 4;
+        direction = "right";
+        app = "dev.herdr.app";
+        command = [ "/run/current-system/sw/bin/herdr-app" "do" "tab.prev" ];
+      }
+
       # cmd-ctrl-left = "focus left --boundaries all-monitors-outer-frame";
       # cmd-ctrl-right = "focus right --boundaries all-monitors-outer-frame";
       {
