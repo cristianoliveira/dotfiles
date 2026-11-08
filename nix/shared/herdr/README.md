@@ -183,8 +183,10 @@ capture. The popup also collects the current snapshot when opened.
 ## Existing-space picker
 
 Press `Ctrl-a`, then `Ctrl-b` to open `tmux-picker`, a personal clone of
-Herdr 0.1.13's space/tab picker. Type to search, use ↑/↓ or Ctrl-j/Ctrl-k to
-move down/up, Enter to switch, or Escape to cancel. Ctrl-d still closes the
+Herdr 0.1.13's space/tab picker. Type a compact fuzzy query across space and tab
+names: `dotcrew` matches `dotfiles → crew`. Matching is case-insensitive, keeps
+character order, and ignores whitespace. Use ↑/↓ or Ctrl-j/Ctrl-k to move down/up,
+Enter to switch, or Escape to cancel. Ctrl-d still closes the
 selected tab. Spaces are ordered by their most recently focused tab, and tabs
 within each space are most-recent-first. Quiet spaces remain visible; unvisited
 items retain their source order. New-tab and new-space actions stay at the end.
