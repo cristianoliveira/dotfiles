@@ -10,6 +10,7 @@ import { broadcastPlan } from "./broadcast.js";
 import { copyPlan } from "./copy.js";
 import { moveTab } from "./move-tab.js";
 import { MoveTabMode } from "./move-tab-view.js";
+import { rotateTabPanes } from "./rotate.js";
 
 const HISTORY = "tmux-compat.space-history";
 const TAB_HISTORY = "tmux-compat.tab-history";
@@ -32,6 +33,7 @@ export default class TmuxCompat extends View {
         if (command === "move-tab-left") moveTab(spaces(), -1, run);
         if (command === "move-tab-right") moveTab(spaces(), 1, run);
         if (command === "move-tab-to") this.promptTabPosition();
+        if (command === "rotate-panes") this.rotatePanes(cx);
         if (command === "rename-from-folder") this.renameFromFolder();
         if (command === "repeat") openOverlay({ mod: "tmux-compat", props: { mode: "repeat" }, kind: "popup", width: 580, height: 108 });
         if (command === "close-spaces") openOverlay({ mod: "tmux-compat", props: { mode: "close-spaces" }, kind: "dialog", modal: true, width: 700, height: 480 });
@@ -104,6 +106,21 @@ export default class TmuxCompat extends View {
         notify({ title: "Terminal popup failed", body: error.message, level: "error" });
       } finally {
         this.popupOpening = false;
+        cx.notify();
+      }
+    });
+  }
+
+  rotatePanes(cx) {
+    if (this.rotating) return;
+    this.rotating = true;
+    cx.spawn(async (cx) => {
+      try {
+        await rotateTabPanes({ focused, spaces, panes, appHome, exec, run });
+      } catch (error) {
+        notify({ title: "Pane rotation failed", body: error.message, level: "error" });
+      } finally {
+        this.rotating = false;
         cx.notify();
       }
     });

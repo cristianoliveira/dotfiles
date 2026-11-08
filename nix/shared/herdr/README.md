@@ -105,6 +105,7 @@ enter the bounded navigation repeat mode below.
 | `w` / `_` | Split down |
 | `v` / `\|` | Split right |
 | `Ctrl-h/j/k/l` | Focus pane left/down/up/right |
+| `Ctrl-o` | Rotate all panes forward, keeping focus at the same screen position (`tmux` layout) |
 | `Ctrl-f` / `z` | Toggle pane zoom |
 | `?` | Key help |
 | `:` | Herdr command palette, not a tmux command line |
@@ -238,6 +239,27 @@ are passed directly to Herdr, without shell execution. With a mod focused or
 an unknown terminal cwd, it shows a notice and leaves the tab name unchanged.
 This supports Unix paths, including remote Unix terminals. `Ctrl-a ,` still
 opens the normal rename prompt.
+
+### Pane rotation
+
+Press `Ctrl-a`, release it, then `Ctrl-o`. This matches tmux's `rotate-window`:
+`[A, B, C]` becomes `[C, A, B]` in layout order. With two panes, left and right
+swap. Focus stays at its original position, now on the incoming pane. Plain
+`Ctrl-a o` is not rebound.
+
+Rotation preserves split structure, widths/heights and slot constraints, including
+nested rows/columns and mod panes. A single pane is a no-op. Herdr's native
+`pane.swap` only swaps a directional neighbor and follows the moving pane, so
+this adapter uses Herdr Core's versioned `herdr-app` layout document instead.
+It changes only the original tab and rejects stale pane order or a concurrent
+layout write; it never retries a rotation automatically. Configured remote
+machines use their own document and qualified pane IDs. Python 3 and `hc` are
+required, as for the existing compat helpers.
+
+If you select another pane or tab while rotation is running, the original tab
+still rotates, but the adapter does not pull focus back. Further rotation
+requests are ignored until the current one completes. A connection timeout
+can leave the write outcome uncertain; check pane positions before repeating.
 
 ### Navigation repeat mode
 
