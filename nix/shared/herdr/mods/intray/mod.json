@@ -1,5 +1,5 @@
 {
   "place": "none",
   "title": "Intray",
-  "overlay": { "kind": "popup", "at": "top", "offset": 40, "width": 700, "height": 440 }
+  "overlay": { "kind": "popup", "at": "top", "offset": 40, "width": 700, "height": 486 }
 }

@@ -156,16 +156,24 @@ stays outside it.
 
 ## Intray: unread events
 
-Press `Cmd-j`, or `Ctrl-a` then `j` / `Shift-j`, to toggle `intray`.
+Press `Cmd-g` or `Cmd-j`, or `Ctrl-a` then `j` / `Shift-j`, to toggle `intray`.
 This is a Herdr-native personal mod, independent of `tmux-compat` and the
 tmux-intray database. It is one flat list: newest unread event first, no
 sections or folding. The newest event is selected on opening.
 
-Use ↑/↓, j/k or Ctrl-j/k to select, or click a row. Enter jumps to its terminal
+Type in the focused search field to filter by title, space, tab, terminal address,
+or status (`done` / `finished`, `blocked` / `needs input`). Matching is literal,
+case-insensitive, and accepts multiple words across fields. Results keep their
+newest-first order. Filtering does not mark anything read; clear the search to
+show all unread events. Changing the query selects the first matching event.
+
+Use ↑/↓ or Ctrl-j/k to select, or click a row. Enter jumps to its terminal
 and marks **only that event** read. It disappears from the queue and stays gone
 when you reopen Intray. Other unread messages, including earlier messages from
 the same terminal, remain. Failed jumps do not mark events read. Escape leaves
-the queue unchanged; `d` dismisses the selected event without jumping.
+the queue unchanged; `Ctrl-d` dismisses the selected visible event without jumping.
+Plain `d`, `j`, and `k` remain available for search text. With no matches, Enter
+and Ctrl-d leave all unread events untouched.
 
 The `tmux` layout mounts an `intray` observer, so Herdr agent transitions to
 `done` (Finished) or `blocked` (Needs input) are collected while the list is

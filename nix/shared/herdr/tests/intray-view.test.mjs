@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 import vm from "node:vm";
-import { restoreState, observeEvents, dismissEvent, jumpCommand } from "../mods/intray/model.js";
+import { restoreState, observeEvents, dismissEvent, jumpCommand, filterEvents } from "../mods/intray/model.js";
 
 const agent = (address, status, seq) => ({ address, status, seq, title: address, space_name: "Project", tab_name: "Work" });
 
@@ -14,10 +14,12 @@ async function intray() {
   let live = [];
   let options = {};
   let jumpError = null;
+  let stopped = 0;
   function element() {
     const node = { handlers: {} };
     const builder = new Proxy(node, { get(target, name) {
       if (name in target) return target[name];
+      if (name === "child") return child => { (target.children ??= []).push(child); return builder; };
       if (name === "when") return (condition, apply) => condition ? apply(builder) : builder;
       return (...args) => { target.handlers[name] = args; return builder; };
     } });
@@ -38,7 +40,14 @@ async function intray() {
       return list;
     },
     VirtualListScrollHandle: { new: () => ({ scroll_to_item() {} }) },
-    restoreState, observeEvents, dismissEvent, jumpCommand,
+    Input: { new: element },
+    InputState: { new: () => {
+      let value = "";
+      const handlers = {};
+      return { handlers, on: (name, callback) => { handlers[name] = callback; }, value: () => value,
+        focus() { calls.push(["focus"]); }, type(text, cx) { value = text; handlers.change({}, cx); } };
+    } },
+    restoreState, observeEvents, dismissEvent, jumpCommand, filterEvents,
     agents: () => snapshot, terminals: () => live, props: () => options, theme: () => ({}),
     shared: key => sharedState.get(key), setShared: (key, value) => sharedState.set(key, value),
     run: (...args) => { if (jumpError) throw jumpError; calls.push(args); },
@@ -46,17 +55,42 @@ async function intray() {
     notify: message => calls.push(["notice", message.title]),
   };
   vm.runInNewContext(source, scope, { filename: path.pathname });
-  const cx = { focus_handle: () => ({ focus() { calls.push(["focus"]); } }), notify() {}, stop_propagation() {} };
+  const cx = { focus_handle: () => ({ focus() { calls.push(["focus"]); } }), notify() {}, stop_propagation() { stopped++; } };
   return {
-    calls, lists,
+    calls, lists, stopped: () => stopped,
     setAgents(value) { snapshot = value; live = value.map(a => ({ address: a.address, state: "live" })); },
     setLive(value) { live = value; },
     failJump() { jumpError = new Error("offline"); },
     open(mode) { options = { mode, overlay: "intray" }; const view = new scope.Intray(); view.init({}, cx); return view; },
-    press(view, key) { view.render().handlers.on_key_down[0]({ key, keystroke: key }, cx); },
+    press(view, key) {
+      const root = view.render();
+      if (key === "enter") view.input.handlers.submit({}, cx);
+      else root.handlers.on_key_down[0]({ key, keystroke: key }, cx);
+    },
+    search(view, text) { view.input.type(text, cx); view.render(); },
     state() { return restoreState(sharedState.get("intray.state")); },
   };
 }
+
+function renderedText(node) {
+  if (typeof node === "string") return node;
+  return Array.isArray(node?.children) ? node.children.map(renderedText).join(" ") : "";
+}
+
+test("search distinguishes an empty queue from no matches and shows visible versus unread counts", async () => {
+  const app = await intray();
+  const view = app.open();
+  assert.match(renderedText(view.render()), /No unread events/);
+  app.setAgents([agent("one", "done", 1), agent("two", "blocked", 2)]);
+  app.search(view, "one");
+  assert.match(renderedText(view.render()), /1 of 2 unread/);
+
+  app.search(view, "absent");
+
+  assert.match(renderedText(view.render()), /No matching notifications/);
+  assert.match(renderedText(view.render()), /0 of 2 unread/);
+  assert.equal(app.state().events.length, 2);
+});
 
 test("background observer captures events while the intray list is closed", async () => {
   const app = await intray();
@@ -123,18 +157,18 @@ test("a failed jump leaves its event unread and keeps intray open", async () => 
   assert.deepEqual(app.calls.at(-1), ["notice", "Could not jump"]);
 });
 
-test("j/k and arrows navigate the flat list and Escape cancels", async () => {
+test("Ctrl-j/k and arrows navigate the flat list and Escape cancels", async () => {
   const app = await intray();
   app.setAgents([agent("old", "done", 1), agent("new", "blocked", 2)]);
   const view = app.open();
 
-  app.press(view, "j");
+  app.press(view, "ctrl-j");
   app.press(view, "enter");
 
   assert.equal(app.calls.find(call => call[0] === "agent.focus")[1].terminal, "old");
   const next = app.open();
   app.press(next, "down");
-  app.press(next, "k");
+  app.press(next, "ctrl-k");
   app.press(next, "up");
   app.press(next, "escape");
   assert.deepEqual(app.calls.at(-1), ["close", "intray"]);
@@ -171,7 +205,7 @@ test("dismissed events stay dismissed when observer and popup render again", asy
   observer.render();
   const view = app.open();
 
-  app.press(view, "d");
+  app.press(view, "ctrl-d");
   observer.render();
   app.open().render();
 
@@ -193,10 +227,97 @@ test("ended terminals remain unread when a jump cannot be made", async () => {
   assert.equal(app.state().events.length, 1);
 });
 
+test("typing filters without reading notifications and Enter jumps only to a visible match", async () => {
+  const app = await intray();
+  app.setAgents([agent("older", "done", 1), agent("newer", "blocked", 2)]);
+  const view = app.open();
+  view.render();
+
+  app.search(view, "older");
+
+  assert.equal(app.state().events.length, 2);
+  assert.equal(app.lists.get("intray-events").count, 1);
+  app.press(view, "enter");
+  assert.equal(app.calls.find(call => call[0] === "agent.focus")[1].terminal, "older");
+  assert.deepEqual(app.state().events.map(event => event.address), ["newer"]);
+});
+
+test("changing search resets a hidden selection and filtered clicks read the exact event", async () => {
+  const app = await intray();
+  app.setAgents([agent("old", "done", 1), agent("middle", "done", 2), agent("new", "blocked", 3)]);
+  const view = app.open();
+  app.press(view, "down");
+
+  app.search(view, "old");
+  const list = app.lists.get("intray-events");
+  list.handlers.on_item_click[0](list.keys[0]);
+
+  assert.equal(app.calls.find(call => call[0] === "agent.focus")[1].terminal, "old");
+  assert.deepEqual(app.state().events.map(event => event.address), ["new", "middle"]);
+});
+
+test("no matches cannot jump or dismiss hidden notifications and clearing restores them", async () => {
+  const app = await intray();
+  app.setAgents([agent("one", "done", 1)]);
+  const view = app.open();
+  view.render();
+  app.search(view, "absent");
+
+  app.press(view, "enter");
+  app.press(view, "ctrl-d");
+  assert.equal(app.state().events.length, 1);
+  assert.equal(app.calls.some(call => call[0] === "agent.focus" || call[0] === "close"), false);
+  app.search(view, "");
+  assert.equal(app.lists.get("intray-events").count, 1);
+  app.press(view, "escape");
+  assert.equal(app.state().events.length, 1);
+});
+
+test("plain d/j/k are available for typing; Ctrl-d dismisses only the filtered event", async () => {
+  const app = await intray();
+  app.setAgents([agent("docs", "done", 1), agent("new", "blocked", 2)]);
+  const view = app.open();
+  for (const key of ["d", "j", "k"]) app.press(view, key);
+  assert.equal(app.state().events.length, 2);
+  assert.equal(app.stopped(), 0);
+
+  app.search(view, "docs");
+  app.press(view, "ctrl-d");
+
+  assert.deepEqual(app.state().events.map(event => event.address), ["new"]);
+  assert.equal(app.calls.some(call => call[0] === "agent.focus"), false);
+});
+
+test("a new query resets selection to its first result even if the previous selection still matches", async () => {
+  const app = await intray();
+  app.setAgents([agent("old", "done", 1), agent("new", "done", 2)]);
+  const view = app.open();
+  app.press(view, "down");
+
+  app.search(view, "Project");
+  app.press(view, "enter");
+
+  assert.equal(app.calls.find(call => call[0] === "agent.focus")[1].terminal, "new");
+});
+
+test("filtered navigation retains the selected event when new matching notifications arrive", async () => {
+  const app = await intray();
+  app.setAgents([agent("match-old", "done", 1), agent("match-new", "blocked", 2)]);
+  const view = app.open();
+  view.render();
+  app.search(view, "match");
+  app.press(view, "ctrl-j");
+  app.setAgents([agent("match-old", "done", 1), agent("match-new", "blocked", 2), agent("match-latest", "done", 3)]);
+
+  app.press(view, "enter");
+
+  assert.equal(app.calls.find(call => call[0] === "agent.focus")[1].terminal, "match-old");
+});
+
 test("empty intray navigation is harmless and later events appear", async () => {
   const app = await intray();
   const view = app.open();
-  for (const key of ["j", "k", "up", "down", "enter"]) app.press(view, key);
+  for (const key of ["ctrl-j", "ctrl-k", "up", "down", "enter"]) app.press(view, key);
 
   app.setAgents([agent("one", "done", 1)]);
   app.press(view, "enter");

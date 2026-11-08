@@ -68,6 +68,16 @@ export function observeEvents(state, agents) {
     seen: [...seen], events: [...events, ...state.events].slice(0, 100) };
 }
 
+export function filterEvents(events, query) {
+  const terms = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
+  if (!terms.length) return events;
+  return events.filter(event => {
+    const label = event.status === "blocked" ? "needs input" : "finished";
+    const text = [event.title, event.space, event.tab, event.address, event.status, label].join(" ").toLowerCase();
+    return terms.every(term => text.includes(term));
+  });
+}
+
 export function dismissEvent(state, id) {
   const events = state.events.filter(event => event.id !== id);
   return events.length === state.events.length ? state : { ...state, events };

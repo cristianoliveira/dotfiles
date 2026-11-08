@@ -8,6 +8,7 @@
     "ctrl-a j": "mod.open:intray",
     "ctrl-a shift-j": "mod.open:intray",
     "cmd-j": "mod.open:intray",
+    "cmd-g": "mod.open:intray",
     "ctrl-a [": "tmux-compat.copy-mode",
     "ctrl-a ctrl-[": "tmux-compat.copy-mode",
     "ctrl-a shift-l": "tmux-compat.last-space",
