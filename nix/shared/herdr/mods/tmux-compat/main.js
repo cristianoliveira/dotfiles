@@ -8,6 +8,7 @@ import { PopupHeader } from "./popup-header.js";
 import { popupPlan, killPortPlan, openPopup, releasePopup, popupIsLive, popupPresentation } from "./popup.js";
 import { broadcastPlan } from "./broadcast.js";
 import { copyPlan } from "./copy.js";
+import { moveTab } from "./move-tab.js";
 
 const HISTORY = "tmux-compat.space-history";
 const TAB_HISTORY = "tmux-compat.tab-history";
@@ -26,6 +27,8 @@ export default class TmuxCompat extends View {
         const history = this.observe();
         if (command === "last-space") this.selectLast("space", lastSpace(history.spaces));
         if (command === "last-tab") this.selectLast("tab", lastTab(history.tabs, history.spaceId));
+        if (command === "move-tab-left") moveTab(spaces(), -1, run);
+        if (command === "move-tab-right") moveTab(spaces(), 1, run);
         if (command === "rename-from-folder") this.renameFromFolder();
         if (command === "repeat") openOverlay({ mod: "tmux-compat", props: { mode: "repeat" }, kind: "popup", width: 580, height: 108 });
         if (command === "close-spaces") openOverlay({ mod: "tmux-compat", props: { mode: "close-spaces" }, kind: "dialog", modal: true, width: 700, height: 480 });

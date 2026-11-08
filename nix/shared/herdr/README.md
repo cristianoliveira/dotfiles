@@ -82,6 +82,7 @@ enter the bounded navigation repeat mode below.
 | `Ctrl-b` | Search existing spaces and tabs |
 | `Shift-l` (uppercase `L`) | Toggle last two spaces (`tmux` layout) |
 | `Ctrl-r` / `Tab` | Toggle last two tabs in this space (`tmux` layout) |
+| `Cmd-Shift-h` / `Cmd-Shift-l` | Move current tab left / right, stopping at either end (`tmux` layout) |
 | `1`–`9` | Select tab |
 | `,` | Rename tab with a prompt |
 | `Shift-n` (uppercase `N`) | Rename tab from focused terminal folder (`tmux` layout) |
