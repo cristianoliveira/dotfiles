@@ -85,7 +85,7 @@ export default class Picker extends View {
           const mine = all.filter((a) => a.tab === ctx.id);
           return { w, ctx, mine, team: teamOf(mine.map((a) => a.address)) };
         })
-        .filter((c) => matchesQuery([w.name, w.machine ?? "", c.ctx.name, ...c.mine.map((a) => a.program?.name ?? "")].join(" "), query));
+        .filter((c) => matchesQuery([w.machine ?? "", w.name, c.ctx.name, ...c.mine.map((a) => a.program?.name ?? "")].join(" "), query));
       return { w, ctxs };
     });
     const ordered = sortRecentGroups(groups.filter(p => p.ctxs.length), shared("tmux-compat.recent-tabs") ?? []);

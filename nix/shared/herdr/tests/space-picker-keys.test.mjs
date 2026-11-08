@@ -111,6 +111,27 @@ test("space/tab picker searches machine names without hiding matching local spac
   assert.deepEqual(Array.from(p.mod.rows().filter(row => row.kind === "ctx")), []);
 });
 
+test("space/tab picker matches machine then space then tab in compact queries", async () => {
+  const p = await picker([
+    { id: "local", name: "dotfiles", tabs: [{ id: "local-shell", name: "shell" }] },
+    { id: "remote", name: "dotfiles", machine: "mac", tabs: [{ id: "mac-shell", name: "shell" }, { id: "mac-editor", name: "editor" }] },
+    { id: "other", name: "work", machine: "mac", tabs: [{ id: "work-shell", name: "shell" }] },
+  ]);
+  delete p.mod.rows;
+
+  for (const query of ["macdotf", "MACDOTF", "mac dotf"]) {
+    p.mod.filter = query;
+
+    assert.deepEqual(Array.from(p.mod.rows().filter(row => row.kind === "ctx"), row => row.ctx.id), ["mac-shell", "mac-editor"]);
+  }
+
+  p.mod.filter = "macdotfshell";
+  assert.deepEqual(Array.from(p.mod.rows().filter(row => row.kind === "ctx"), row => row.ctx.id), ["mac-shell"]);
+
+  p.mod.filter = "dotfshell";
+  assert.deepEqual(Array.from(p.mod.rows().filter(row => row.kind === "ctx"), row => row.ctx.id), ["local-shell", "mac-shell"]);
+});
+
 test("space/tab picker requires query characters in order and treats punctuation literally", async () => {
   const p = await picker([
     { id: "dot", name: "dotfiles", tabs: [{ id: "crew", name: "crew" }] },
