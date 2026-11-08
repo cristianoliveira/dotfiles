@@ -7,14 +7,17 @@ layouts.
 The install hook creates a real app directory so Stow cannot link the whole
 mutable directory into this repository.
 
-From the repository root, run:
+`make nix` runs Stow after a successful system rebuild. To install only Herdr
+without rebuilding or processing other Stow packages, run from the repository root:
 
 ```sh
 bash stow/install.sh herdr
 ```
 
-If Stow reports an existing `keys.json`, review it and move it aside before
-retrying. Do not use `--adopt`, which would replace the repository's config.
+If Stow reports an existing `keys.json`, quit Herdr first, review the file,
+and back it up outside the app directory before retrying. A running app can
+recreate a missing keys file before Stow links it. Do not use `--adopt`, which
+would replace the repository's config.
 Keys reload live. Check `herdr-app status` and `~/.config/herdr-app/keys.error`
 if an edit does not take effect. Edit the source file in this directory.
 
