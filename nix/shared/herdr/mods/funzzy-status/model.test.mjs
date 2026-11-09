@@ -185,6 +185,28 @@ test("project switch clears status immediately and ignores an old pending respon
   assert.equal(calls[2][2].cwd, "/work/two");
 });
 
+test("switching remote machines at the same folder ignores the prior machine's late result", async () => {
+  let resolve;
+  const first = { ...local, machine: "server-one" };
+  const second = { ...local, machine: "server-two" };
+  const { status, select, calls } = harness([
+    () => new Promise((done) => { resolve = done; }),
+    success(capabilities), success(snapshot("running", 7)),
+  ]);
+  select(first);
+  const pending = status.poll();
+
+  select(second);
+  resolve(success(capabilities));
+  await pending;
+  assert.deepEqual(status.value, { state: "loading" });
+
+  await status.poll();
+
+  assert.deepEqual(status.value, { state: "running", generation: 7, failures: 0 });
+  assert.deepEqual(calls.map((call) => call[2].on), ["server-one", "server-two", "server-two"]);
+});
+
 test("selection is checked again after capabilities without requiring a render", async () => {
   let space = local;
   const calls = [];

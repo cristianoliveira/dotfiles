@@ -175,6 +175,25 @@ test("current indicator follows space selection without displaying another proje
   assert.deepEqual(monitors.current(), { state: "loading" });
 });
 
+test("a surviving duplicate remote space keeps the monitor and receives its notification", async () => {
+  const duplicate = { ...remote, id: "remote-duplicate", name: "Remote duplicate" };
+  const { monitors, values, notifications, setSpaces } = harness([
+    { ...remote, active: false }, { ...duplicate, active: true },
+  ]);
+  const place = JSON.stringify([remote.machine, remote.folder]);
+  values.set(place, { state: "running", generation: 2, token: "remote-first" });
+  await monitors.poll();
+
+  setSpaces([{ ...duplicate, active: true }]);
+  values.set(place, { state: "failed", generation: 2, token: "remote-first" });
+  await monitors.poll();
+
+  assert.deepEqual(notifications, [{
+    title: "Funzzy · Remote duplicate", body: "Run #2 failed", level: "error",
+    action: { name: "space.select", args: { id: duplicate.id } },
+  }]);
+});
+
 test("remote completion notifications select the remote space without a local pane action", async () => {
   const { monitors, values, notifications } = harness([{ ...remote, active: false }]);
   const place = JSON.stringify([remote.machine, remote.folder]);
