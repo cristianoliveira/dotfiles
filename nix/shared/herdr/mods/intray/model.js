@@ -80,7 +80,12 @@ export function filterEvents(events, query, status = "all") {
 }
 
 export function dismissEvent(state, id) {
-  const events = state.events.filter(event => event.id !== id);
+  return dismissEvents(state, [id]);
+}
+
+export function dismissEvents(state, ids) {
+  const dismissed = new Set(ids);
+  const events = state.events.filter(event => !dismissed.has(event.id));
   return events.length === state.events.length ? state : { ...state, events };
 }
 

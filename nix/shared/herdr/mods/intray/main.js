@@ -1,7 +1,7 @@
 import { View, div } from "gpui-kit";
-import { v_flex, h_flex, v_virtual_list, VirtualListScrollHandle, InputState, Input, Tabs, Tab } from "gpui-base";
+import { v_flex, h_flex, v_virtual_list, VirtualListScrollHandle, InputState, Input, Tabs, Tab, Button } from "gpui-base";
 import { agents, terminals, run, theme, props, closeOverlay, shared, setShared, notify } from "herdr";
-import { restoreState, observeEvents, dismissEvent, jumpCommand, filterEvents } from "./model.js";
+import { restoreState, observeEvents, dismissEvent, dismissEvents, jumpCommand, filterEvents } from "./model.js";
 
 const STATUS_TABS = [["all", "All"], ["done", "Finished"], ["blocked", "Needs input"]];
 
@@ -15,6 +15,7 @@ export default class Intray extends View {
     this.scroll = VirtualListScrollHandle.new();
     this.filter = "";
     this.statusFilter = "all";
+    this.pendingDismissal = null;
     this.input = InputState.new({ placeholder: "Search notifications…" });
     this.input.on("change", (_event, cx) => {
       this.filter = this.input.value();
@@ -23,6 +24,7 @@ export default class Intray extends View {
       cx.notify();
     });
     this.input.on("submit", () => {
+      if (this.pendingDismissal) return;
       const rows = filterEvents(this.observe(), this.filter, this.statusFilter);
       this.choose(rows.find(event => event.id === this.selected) ?? rows[0]);
     });
@@ -45,8 +47,36 @@ export default class Intray extends View {
     this.input.focus();
   }
 
+  requestDismissAll(events) {
+    if (!events.length) return;
+    this.pendingDismissal = events.map(event => event.id);
+    this.input.focus();
+  }
+
+  cancelDismissAll() {
+    this.pendingDismissal = null;
+    this.input.focus();
+  }
+
+  confirmDismissAll() {
+    if (!this.pendingDismissal) return;
+    const state = restoreState(shared("intray.state"));
+    const next = dismissEvents(state, this.pendingDismissal);
+    if (next !== state) setShared("intray.state", JSON.stringify(next));
+    this.cancelDismissAll();
+    this.selected = null;
+    this.scroll.scroll_to_item(0, "center");
+  }
+
+  button(id, label, action, disabled = false) {
+    const t = theme();
+    return Button.new(id).px(10).py(4).rounded(5).bg(t.hover)
+      .text_color(disabled ? t.dim : t.foreground).disabled(disabled).cursor_pointer()
+      .child(label).on_click((_event, cx) => { action(); cx.notify(); });
+  }
+
   choose(event) {
-    if (!event) return;
+    if (!event || this.pendingDismissal) return;
     const command = jumpCommand(event, terminals());
     if (!command) {
       notify({ title: "Terminal unavailable", body: "That event's terminal is no longer running.", level: "info" });
@@ -68,21 +98,27 @@ export default class Intray extends View {
     if (this.observer) return div().h(1);
     const category = filterEvents(events, "", this.statusFilter);
     const rows = filterEvents(category, this.filter);
+    const pendingCount = this.pendingDismissal
+      ? events.filter(event => this.pendingDismissal.includes(event.id)).length : 0;
     const t = theme();
     const at = Math.max(0, rows.findIndex(event => event.id === this.selected));
     const live = new Set(terminals().filter(terminal => terminal.state === "live").map(terminal => terminal.address));
     return v_flex().id("intray").track_focus(this.handle)
-      .w_full().h(524).p(16).gap(10).bg(t.popover).text_size(13)
+      .w_full().h(536).p(16).gap(10).bg(t.popover).text_size(13)
       .on_key_down((event, cx) => {
         const direct = ["ctrl-1", "ctrl-2", "ctrl-3"].indexOf(event.keystroke);
-        if (event.key === "escape") closeOverlay(this.overlay);
+        if (event.key === "escape") {
+          if (this.pendingDismissal) this.cancelDismissAll();
+          else closeOverlay(this.overlay);
+        }
+        else if (event.keystroke === "ctrl-enter") this.confirmDismissAll();
         else if (direct !== -1) this.selectStatus(STATUS_TABS[direct][0]);
         else if (["tab", "shift-tab", "ctrl-h", "ctrl-l"].includes(event.keystroke)) {
           const index = STATUS_TABS.findIndex(([status]) => status === this.statusFilter);
           const step = ["tab", "ctrl-l"].includes(event.keystroke) ? 1 : -1;
           this.selectStatus(STATUS_TABS[(index + step + STATUS_TABS.length) % STATUS_TABS.length][0]);
         }
-        else if (event.keystroke === "ctrl-d" && rows[at]) {
+        else if (event.keystroke === "ctrl-d" && !this.pendingDismissal && rows[at]) {
           const state = dismissEvent(restoreState(shared("intray.state")), rows[at].id);
           setShared("intray.state", JSON.stringify(state));
           this.selected = null;
@@ -96,9 +132,14 @@ export default class Intray extends View {
         cx.stop_propagation();
         cx.notify();
       })
-      .child(h_flex().justify_between().items_center()
-        .child(div().font_semibold().text_color(t.foreground).child("Intray"))
-        .child(div().text_color(t.dim).child("Newest unread first")))
+      .child(h_flex().h(28).flex_none().justify_between().items_center().gap(10)
+        .child(div().text_color(t.foreground).text_size(this.pendingDismissal ? 12 : 13)
+          .child(this.pendingDismissal ? `Dismiss ${pendingCount} unread across all statuses/search?` : "Intray"))
+        .child(this.pendingDismissal
+          ? h_flex().gap(6)
+            .child(this.button("dismiss-cancel", "Cancel", () => this.cancelDismissAll()))
+            .child(this.button("dismiss-confirm", "Confirm · Ctrl+Enter", () => this.confirmDismissAll(), pendingCount === 0))
+          : this.button("dismiss-all", "Dismiss all", () => this.requestDismissAll(this.observe()), events.length === 0)))
       .child(h_flex().h(28).flex_none().items_center().gap(10)
         .child(Tabs.new("intray-status").flex().flex_row().flex_1().gap(6)
           .children(STATUS_TABS.map(([status, label]) => {
@@ -130,6 +171,8 @@ export default class Intray extends View {
           ? "No matching notifications. Clear search or choose another status."
           : "No unread events. Finished agents and requests for input appear here."))
       .child(div().text_size(11).text_color(t.dim)
-        .child(`${rows.length} of ${category.length} unread · ↑/↓ or Ctrl-j/k select · Enter jump & read · Ctrl-d dismiss · Esc close`));
+        .child(this.pendingDismissal
+          ? "Ctrl+Enter confirm · Esc cancel · New arrivals stay unread"
+          : `${rows.length} of ${category.length} unread · ↑/↓ or Ctrl-j/k select · Enter jump & read · Ctrl-d dismiss · Esc close`));
   }
 }

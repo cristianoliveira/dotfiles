@@ -199,6 +199,14 @@ the queue unchanged; `Ctrl-d` dismisses the selected visible event without jumpi
 Plain `d`, `j`, and `k` remain available for search text. With no matches, Enter
 and Ctrl-d leave all unread events untouched.
 
+**Dismiss all** opens an inline confirmation for every unread notification,
+including other status tabs and items hidden by search. Click **Confirm** or
+press `Ctrl-Enter` to dismiss that reviewed set. **Cancel** or Escape cancels
+without closing the picker. Plain Enter, row clicks, and Ctrl-d cannot act
+behind the confirmation. Notifications arriving after confirmation opened stay
+unread. This only dismisses notifications; it does not stop terminals or reset
+observation history. The button is disabled when the unread queue is empty.
+
 The `tmux` layout mounts an `intray` observer, so Herdr agent transitions to
 `done` (Finished) or `blocked` (Needs input) are collected while the list is
 closed. Reading a completion's terminal can change its displayed status to idle;

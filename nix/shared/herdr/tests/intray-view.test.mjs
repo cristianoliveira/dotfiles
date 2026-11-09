@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 import vm from "node:vm";
-import { restoreState, observeEvents, dismissEvent, jumpCommand, filterEvents } from "../mods/intray/model.js";
+import { restoreState, observeEvents, dismissEvent, dismissEvents, jumpCommand, filterEvents } from "../mods/intray/model.js";
 
 const agent = (address, status, seq) => ({ address, status, seq, title: address, space_name: "Project", tab_name: "Work" });
 
@@ -41,14 +41,14 @@ async function intray() {
       return list;
     },
     VirtualListScrollHandle: { new: () => ({ scroll_to_item() {} }) },
-    Input: { new: element }, Tabs: { new: element }, Tab: { new: element },
+    Input: { new: element }, Button: { new: element }, Tabs: { new: element }, Tab: { new: element },
     InputState: { new: () => {
       let value = "";
       const handlers = {};
       return { handlers, on: (name, callback) => { handlers[name] = callback; }, value: () => value,
         focus() { calls.push(["focus"]); }, type(text, cx) { value = text; handlers.change({}, cx); } };
     } },
-    restoreState, observeEvents, dismissEvent, jumpCommand, filterEvents,
+    restoreState, observeEvents, dismissEvent, dismissEvents, jumpCommand, filterEvents,
     agents: () => snapshot, terminals: () => live, props: () => options, theme: () => ({}),
     shared: key => sharedState.get(key), setShared: (key, value) => sharedState.set(key, value),
     run: (...args) => { if (jumpError) throw jumpError; calls.push(args); },
@@ -76,6 +76,21 @@ async function intray() {
       }
       const button = find(view.render());
       assert.ok(button, `Missing status tab: ${label}`);
+      button.handlers.on_click[0]({}, cx);
+      view.render();
+    },
+    button(view, label) {
+      function find(node) {
+        if (node?.handlers?.on_click && renderedText(node) === label) return node;
+        return Array.isArray(node?.children) ? node.children.map(find).find(Boolean) : undefined;
+      }
+      const button = find(view.render());
+      assert.ok(button, `Missing button: ${label}`);
+      return button;
+    },
+    click(view, label) {
+      const button = this.button(view, label);
+      assert.notEqual(button.handlers.disabled?.[0], true);
       button.handlers.on_click[0]({}, cx);
       view.render();
     },
@@ -197,6 +212,104 @@ test("Ctrl-h wraps from All to Needs input and Ctrl-d dismisses only that status
   app.press(view, "ctrl-d");
 
   assert.deepEqual(app.state().events.map(event => event.address), ["finished"]);
+});
+
+test("dismiss all requires confirmation and clears all statuses despite search filters", async () => {
+  const app = await intray();
+  app.setAgents([agent("one", "done", 1), agent("two", "blocked", 2)]);
+  const view = app.open();
+  view.render();
+  app.search(view, "one");
+  app.tab(view, "Finished");
+
+  app.click(view, "Dismiss all");
+
+  assert.equal(app.state().events.length, 2);
+  assert.match(renderedText(view.render()), /Dismiss 2 unread across all statuses\/search/);
+  app.click(view, "Confirm · Ctrl+Enter");
+  assert.deepEqual(app.state().events, []);
+  assert.equal(app.calls.some(call => call[0] === "agent.focus" || call[0] === "close"), false);
+  app.open().render();
+  assert.deepEqual(app.state().events, []);
+});
+
+test("cancel and Escape leave the unread queue unchanged and do not close the picker", async () => {
+  for (const cancel of ["button", "escape"]) {
+    const app = await intray();
+    app.setAgents([agent("one", "done", 1)]);
+    const view = app.open();
+    app.click(view, "Dismiss all");
+
+    if (cancel === "button") app.click(view, "Cancel");
+    else app.press(view, "escape");
+
+    assert.equal(app.state().events.length, 1);
+    assert.equal(app.calls.some(call => call[0] === "close"), false);
+    assert.ok(app.button(view, "Dismiss all"));
+  }
+});
+
+test("new arrivals during confirmation survive bulk dismissal", async () => {
+  const app = await intray();
+  app.setAgents([agent("old", "done", 1)]);
+  const view = app.open();
+  app.click(view, "Dismiss all");
+  app.setAgents([agent("old", "done", 1), agent("new", "blocked", 2)]);
+  view.render();
+
+  app.press(view, "ctrl-enter");
+
+  assert.deepEqual(app.state().events.map(event => event.address), ["new"]);
+});
+
+test("confirmation does not delete replacements when reviewed events were dismissed elsewhere", async () => {
+  const app = await intray();
+  app.setAgents([agent("old", "done", 1)]);
+  const first = app.open();
+  app.click(first, "Dismiss all");
+  const second = app.open();
+  app.press(second, "ctrl-d");
+  app.setAgents([agent("old", "done", 1), agent("new", "blocked", 2)]);
+  first.render();
+
+  assert.equal(app.button(first, "Confirm · Ctrl+Enter").handlers.disabled[0], true);
+  app.press(first, "ctrl-enter");
+
+  assert.deepEqual(app.state().events.map(event => event.address), ["new"]);
+});
+
+test("plain Enter, single-dismiss and row clicks cannot act behind the confirmation", async () => {
+  const app = await intray();
+  app.setAgents([agent("one", "done", 1)]);
+  const view = app.open();
+  app.click(view, "Dismiss all");
+
+  app.press(view, "enter");
+  app.press(view, "ctrl-d");
+  const list = app.lists.get("intray-events");
+  list.handlers.on_item_click[0](list.keys[0]);
+
+  assert.equal(app.state().events.length, 1);
+  assert.equal(app.calls.some(call => call[0] === "agent.focus" || call[0] === "close"), false);
+});
+
+test("Ctrl-Enter outside confirmation is consumed without jumping or dismissing", async () => {
+  const app = await intray();
+  app.setAgents([agent("one", "done", 1)]);
+  const view = app.open();
+
+  app.press(view, "ctrl-enter");
+
+  assert.equal(app.stopped(), 1);
+  assert.equal(app.state().events.length, 1);
+  assert.equal(app.calls.some(call => call[0] === "agent.focus" || call[0] === "close"), false);
+});
+
+test("dismiss all is disabled when there are no unread notifications", async () => {
+  const app = await intray();
+  const view = app.open();
+
+  assert.equal(app.button(view, "Dismiss all").handlers.disabled[0], true);
 });
 
 test("background observer captures events while the intray list is closed", async () => {
