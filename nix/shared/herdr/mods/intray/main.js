@@ -1,7 +1,9 @@
 import { View, div } from "gpui-kit";
-import { v_flex, h_flex, v_virtual_list, VirtualListScrollHandle, InputState, Input } from "gpui-base";
+import { v_flex, h_flex, v_virtual_list, VirtualListScrollHandle, InputState, Input, Tabs, Tab } from "gpui-base";
 import { agents, terminals, run, theme, props, closeOverlay, shared, setShared, notify } from "herdr";
 import { restoreState, observeEvents, dismissEvent, jumpCommand, filterEvents } from "./model.js";
+
+const STATUS_TABS = [["all", "All"], ["done", "Finished"], ["blocked", "Needs input"]];
 
 export default class Intray extends View {
   init(_props, cx) {
@@ -12,6 +14,7 @@ export default class Intray extends View {
     this.handle = cx.focus_handle();
     this.scroll = VirtualListScrollHandle.new();
     this.filter = "";
+    this.statusFilter = "all";
     this.input = InputState.new({ placeholder: "Search notifications…" });
     this.input.on("change", (_event, cx) => {
       this.filter = this.input.value();
@@ -20,7 +23,7 @@ export default class Intray extends View {
       cx.notify();
     });
     this.input.on("submit", () => {
-      const rows = filterEvents(this.observe(), this.filter);
+      const rows = filterEvents(this.observe(), this.filter, this.statusFilter);
       this.choose(rows.find(event => event.id === this.selected) ?? rows[0]);
     });
     this.input.focus();
@@ -33,6 +36,13 @@ export default class Intray extends View {
     const encoded = JSON.stringify(state);
     if (encoded !== raw) setShared("intray.state", encoded);
     return state.events;
+  }
+
+  selectStatus(status) {
+    this.statusFilter = status;
+    this.selected = null;
+    this.scroll.scroll_to_item(0, "center");
+    this.input.focus();
   }
 
   choose(event) {
@@ -56,14 +66,22 @@ export default class Intray extends View {
   render() {
     const events = this.observe();
     if (this.observer) return div().h(1);
-    const rows = filterEvents(events, this.filter);
+    const category = filterEvents(events, "", this.statusFilter);
+    const rows = filterEvents(category, this.filter);
     const t = theme();
     const at = Math.max(0, rows.findIndex(event => event.id === this.selected));
     const live = new Set(terminals().filter(terminal => terminal.state === "live").map(terminal => terminal.address));
     return v_flex().id("intray").track_focus(this.handle)
-      .w_full().h(486).p(16).gap(10).bg(t.popover).text_size(13)
+      .w_full().h(524).p(16).gap(10).bg(t.popover).text_size(13)
       .on_key_down((event, cx) => {
+        const direct = ["ctrl-1", "ctrl-2", "ctrl-3"].indexOf(event.keystroke);
         if (event.key === "escape") closeOverlay(this.overlay);
+        else if (direct !== -1) this.selectStatus(STATUS_TABS[direct][0]);
+        else if (["tab", "shift-tab", "ctrl-h", "ctrl-l"].includes(event.keystroke)) {
+          const index = STATUS_TABS.findIndex(([status]) => status === this.statusFilter);
+          const step = ["tab", "ctrl-l"].includes(event.keystroke) ? 1 : -1;
+          this.selectStatus(STATUS_TABS[(index + step + STATUS_TABS.length) % STATUS_TABS.length][0]);
+        }
         else if (event.keystroke === "ctrl-d" && rows[at]) {
           const state = dismissEvent(restoreState(shared("intray.state")), rows[at].id);
           setShared("intray.state", JSON.stringify(state));
@@ -81,6 +99,17 @@ export default class Intray extends View {
       .child(h_flex().justify_between().items_center()
         .child(div().font_semibold().text_color(t.foreground).child("Intray"))
         .child(div().text_color(t.dim).child("Newest unread first")))
+      .child(h_flex().h(28).flex_none().items_center().gap(10)
+        .child(Tabs.new("intray-status").flex().flex_row().flex_1().gap(6)
+          .children(STATUS_TABS.map(([status, label]) => {
+            const active = status === this.statusFilter;
+            const count = filterEvents(events, "", status).length;
+            return Tab.new(`intray-status-${status}`).selected(active).px(10).py(5).rounded(5)
+              .bg(active ? t.hover : t.popover).text_color(active ? t.accent : t.dim).cursor_pointer()
+              .child(`${label} (${count})`)
+              .on_click((_event, cx) => { this.selectStatus(status); cx.notify(); });
+          })))
+        .child(div().text_size(11).text_color(t.dim).child("Tab / Shift-Tab · Ctrl-h/l · Ctrl-1/2/3")))
       .child(h_flex().h(36).flex_none().px(10).items_center().rounded(5)
         .border_1().border_color(t.accent).bg(t.background)
         .child(Input.new(this.input).flex_1().h_full().text_size(13).text_color(t.foreground)))
@@ -98,9 +127,9 @@ export default class Intray extends View {
           .h(340).w_full().track_scroll(this.scroll)
           .on_item_click(id => this.choose(rows.find(event => String(event.id) === id)))
         : div().flex_1().text_color(t.muted).child(events.length
-          ? "No matching notifications. Clear search to show all unread events."
+          ? "No matching notifications. Clear search or choose another status."
           : "No unread events. Finished agents and requests for input appear here."))
       .child(div().text_size(11).text_color(t.dim)
-        .child(`${rows.length} of ${events.length} unread · ↑/↓ or Ctrl-j/k select · Enter jump & read · Ctrl-d dismiss · Esc close`));
+        .child(`${rows.length} of ${category.length} unread · ↑/↓ or Ctrl-j/k select · Enter jump & read · Ctrl-d dismiss · Esc close`));
   }
 }

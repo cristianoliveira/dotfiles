@@ -68,7 +68,8 @@ export function observeEvents(state, agents) {
     seen: [...seen], events: [...events, ...state.events].slice(0, 100) };
 }
 
-export function filterEvents(events, query) {
+export function filterEvents(events, query, status = "all") {
+  if (status !== "all") events = events.filter(event => event.status === status);
   const terms = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
   if (!terms.length) return events;
   return events.filter(event => {

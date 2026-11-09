@@ -20,6 +20,7 @@ async function intray() {
     const builder = new Proxy(node, { get(target, name) {
       if (name in target) return target[name];
       if (name === "child") return child => { (target.children ??= []).push(child); return builder; };
+      if (name === "children") return children => { target.children = children; return builder; };
       if (name === "when") return (condition, apply) => condition ? apply(builder) : builder;
       return (...args) => { target.handlers[name] = args; return builder; };
     } });
@@ -40,7 +41,7 @@ async function intray() {
       return list;
     },
     VirtualListScrollHandle: { new: () => ({ scroll_to_item() {} }) },
-    Input: { new: element },
+    Input: { new: element }, Tabs: { new: element }, Tab: { new: element },
     InputState: { new: () => {
       let value = "";
       const handlers = {};
@@ -68,6 +69,16 @@ async function intray() {
       else root.handlers.on_key_down[0]({ key, keystroke: key }, cx);
     },
     search(view, text) { view.input.type(text, cx); view.render(); },
+    tab(view, label) {
+      function find(node) {
+        if (node?.handlers?.on_click && renderedText(node).startsWith(`${label} (`)) return node;
+        return Array.isArray(node?.children) ? node.children.map(find).find(Boolean) : undefined;
+      }
+      const button = find(view.render());
+      assert.ok(button, `Missing status tab: ${label}`);
+      button.handlers.on_click[0]({}, cx);
+      view.render();
+    },
     state() { return restoreState(sharedState.get("intray.state")); },
   };
 }
@@ -90,6 +101,102 @@ test("search distinguishes an empty queue from no matches and shows visible vers
   assert.match(renderedText(view.render()), /No matching notifications/);
   assert.match(renderedText(view.render()), /0 of 2 unread/);
   assert.equal(app.state().events.length, 2);
+});
+
+test("status tabs show unread counts and switching does not mark events read", async () => {
+  const app = await intray();
+  app.setAgents([agent("old", "done", 1), agent("new", "blocked", 2)]);
+  const view = app.open();
+  assert.match(renderedText(view.render()), /All \(2\).*Finished \(1\).*Needs input \(1\)/);
+
+  app.tab(view, "Finished");
+
+  assert.equal(app.lists.get("intray-events").count, 1);
+  assert.equal(app.state().events.length, 2);
+  app.press(view, "enter");
+  assert.equal(app.calls.find(call => call[0] === "agent.focus")[1].terminal, "old");
+  assert.deepEqual(app.state().events.map(event => event.address), ["new"]);
+});
+
+test("status tabs retain search, reset selection and restore results when returning to All", async () => {
+  const app = await intray();
+  app.setAgents([agent("match-old", "done", 1), agent("match-new", "blocked", 2), agent("other", "done", 3)]);
+  const view = app.open();
+  view.render();
+  app.search(view, "match");
+  app.press(view, "down");
+
+  app.tab(view, "Finished");
+  assert.equal(app.lists.get("intray-events").count, 1);
+  assert.equal(view.input.value(), "match");
+  app.tab(view, "All");
+  assert.equal(app.lists.get("intray-events").count, 2);
+  app.press(view, "enter");
+
+  assert.equal(app.calls.find(call => call[0] === "agent.focus")[1].terminal, "match-new");
+});
+
+test("empty status tabs cannot jump or dismiss events in another status", async () => {
+  const app = await intray();
+  app.setAgents([agent("finished", "done", 1)]);
+  const view = app.open();
+
+  app.tab(view, "Needs input");
+  app.press(view, "enter");
+  app.press(view, "ctrl-d");
+
+  assert.equal(app.state().events.length, 1);
+  assert.equal(app.calls.some(call => call[0] === "agent.focus" || call[0] === "close"), false);
+  app.tab(view, "All");
+  assert.equal(app.lists.get("intray-events").count, 1);
+});
+
+test("Tab and Ctrl-h/l cycle status tabs in both directions with wrapping and preserve search", async () => {
+  const app = await intray();
+  app.setAgents([agent("match-finished", "done", 1), agent("match-blocked", "blocked", 2)]);
+  const view = app.open();
+  view.render();
+  app.search(view, "match");
+  for (const key of ["tab", "tab", "ctrl-l"]) app.press(view, key);
+  view.render();
+  assert.equal(app.lists.get("intray-events").count, 2);
+  app.press(view, "shift-tab");
+  app.press(view, "ctrl-h");
+  assert.equal(view.input.value(), "match");
+
+  app.press(view, "enter");
+
+  assert.equal(app.calls.find(call => call[0] === "agent.focus")[1].terminal, "match-finished");
+  assert.equal(app.state().events.length, 1);
+});
+
+test("Ctrl-1/2/3 directly select All, Finished and Needs input without clearing search", async () => {
+  for (const [key, address] of [["ctrl-1", "match-blocked"], ["ctrl-2", "match-finished"], ["ctrl-3", "match-blocked"]]) {
+    const app = await intray();
+    app.setAgents([agent("match-finished", "done", 1), agent("match-blocked", "blocked", 2), agent("other", "done", 3)]);
+    const view = app.open();
+    view.render();
+    app.search(view, "match");
+    app.tab(view, "Finished");
+
+    app.press(view, key);
+    assert.equal(view.input.value(), "match");
+    assert.equal(app.state().events.length, 3);
+    app.press(view, "enter");
+
+    assert.equal(app.calls.find(call => call[0] === "agent.focus")[1].terminal, address);
+  }
+});
+
+test("Ctrl-h wraps from All to Needs input and Ctrl-d dismisses only that status", async () => {
+  const app = await intray();
+  app.setAgents([agent("finished", "done", 1), agent("blocked", "blocked", 2)]);
+  const view = app.open();
+
+  app.press(view, "ctrl-h");
+  app.press(view, "ctrl-d");
+
+  assert.deepEqual(app.state().events.map(event => event.address), ["finished"]);
 });
 
 test("background observer captures events while the intray list is closed", async () => {

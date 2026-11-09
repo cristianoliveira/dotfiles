@@ -172,14 +172,24 @@ stays outside it.
 
 Press `Cmd-g` or `Cmd-j`, or `Ctrl-a` then `j` / `Shift-j`, to toggle `intray`.
 This is a Herdr-native personal mod, independent of `tmux-compat` and the
-tmux-intray database. It is one flat list: newest unread event first, no
-sections or folding. The newest event is selected on opening.
+tmux-intray database. Status tabs filter one flat list, newest unread event first,
+without per-terminal folding. The newest event in All is selected on opening.
+
+Click **All**, **Finished**, or **Needs input** to filter by status. Tab counts
+show all unread events in each status, regardless of search. Use `Tab` / `Shift-Tab`
+or `Ctrl-l` / `Ctrl-h` to cycle right/left, with wrapping. Jump directly with
+`Ctrl-1` (All), `Ctrl-2` (Finished), or `Ctrl-3` (Needs input). Switching tabs keeps
+search text, resets selection to the first match, and keeps the input focused.
+Herdr currently exposes no separate agent Error status; errors are not guessed
+from titles or treated as Needs input.
 
 Type in the focused search field to filter by title, space, tab, terminal address,
 or status (`done` / `finished`, `blocked` / `needs input`). Matching is literal,
 case-insensitive, and accepts multiple words across fields. Results keep their
 newest-first order. Filtering does not mark anything read; clear the search to
-show all unread events. Changing the query selects the first matching event.
+show all unread events in the selected status. Changing the query selects the
+first matching event. The footer counts visible results against unread events
+in that status.
 
 Use ↑/↓ or Ctrl-j/k to select, or click a row. Enter jumps to its terminal
 and marks **only that event** read. It disappears from the queue and stays gone
