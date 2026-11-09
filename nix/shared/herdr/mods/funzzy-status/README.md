@@ -1,15 +1,19 @@
 # Funzzy status experiment
 
-One existing watcher per local project folder, shared by all its agents.
+One existing watcher per machine and project folder, shared by all its agents.
 Herdr spaces are the project contexts; tabs and panes do not get separate watchers.
-Multiple spaces with the same folder share one monitor. Different path aliases
-or nested folders are not canonicalized or searched upward.
+Multiple spaces on the same machine with the same folder share one monitor. Equal
+paths on different machines stay independent. Different path aliases or nested
+folders are not canonicalized or searched upward.
 
 ## Behavior
 
-- Poll open local projects every three seconds through `fzz ctl`.
-- Show the active project's state, generation, failure count, and located watcher
-  tab in the bottom bar. Click the indicator to focus its watcher pane.
+- Poll open local and connected remote projects every three seconds through
+  `fzz ctl`. Remote commands use Herdr Core's existing machine transport; this mod
+  does not open another SSH connection or socket tunnel.
+- Show the active project's state, generation, failure count, and any locally
+  located watcher tab in the bottom bar. Click a located local indicator to focus
+  its watcher pane.
 - Locate watchers through Herdr's foreground process metadata, not terminal title
   text or the shell's startup command. Rename an unnamed matching tab to `watcher`
   once; custom tab names stay unchanged.
@@ -19,7 +23,7 @@ or nested folders are not canonicalized or searched upward.
 - Initial results and first results after a watcher restart are silent. Repeated
   observations do not repeat notifications. Offline periods keep the last observed
   generation for notification deduplication, but the indicator shows `offline`.
-- Closing the last space for a folder stops monitoring it.
+- Closing the last space for a machine and folder stops monitoring it.
 
 No watcher is started. No jobs are triggered, retried, or cancelled. No output,
 commands, failure messages, or credentials are copied into notifications.
@@ -29,6 +33,7 @@ read-only feedback, not proof that a particular agent's edit passed checks.
 Notifications are local to this mounted mod, not coordinated across app windows.
 
 Location discovery queries only panes in local project spaces with `hc get`.
+Remote status remains read-only and does not claim a local watcher-pane location.
 It recognizes bare `fzz`/`funzzy` or explicit `fzz watch` invocations (absolute
 executable paths work). Flag-prefixed implicit watch commands are not inferred.
 Foreground cwd must match the project folder exactly. This is a location hint,
@@ -39,13 +44,18 @@ Background/detached watchers without a matching foreground pane remain unlocated
 
 ## Use
 
-The mod needs a control-capable Funzzy CLI (v2). Desktop and terminal PATHs can
-resolve different versions. The `tmux` layout explicitly sets the mod prop
-`"binary": "~/.cargo/bin/fzz"` to use the local Cargo installation, not Nix's
-older `fzz`. Change this prop to your v2 executable if installed elsewhere.
-`~/` expands to Herdr's home directory; other executable paths are literal.
-Without the prop, the mod uses `fzz` from the desktop PATH. It does not invoke a
-shell or search project-local binaries.
+The mod needs a control-capable Funzzy CLI (v2) on each monitored machine.
+Desktop, terminal, and remote PATHs can resolve different versions. The `tmux`
+layout explicitly sets the local mod prop `"binary": "~/.cargo/bin/fzz"` to use
+the local Cargo installation, not Nix's older `fzz`. Change this prop to your
+local v2 executable if installed elsewhere. `~/` expands to Herdr's local home
+directory; other executable paths are literal.
+
+Remote projects deliberately do not reuse that local absolute path. They use
+`fzz` from the remote machine's non-interactive PATH by default. Set the optional
+`"remoteBinary"` prop to an executable name or absolute path that exists on remote
+machines when needed. `~/` is not expanded remotely because Herdr executes argv
+directly without a shell. The mod does not search project-local binaries.
 
 In each project's existing `.watch.yaml` (or `.watch.yml`), configure a socket,
 for example:
@@ -56,9 +66,10 @@ on:
 ```
 
 Keep the project's existing jobs and other settings. Start its watcher manually
-with `fzz` in a terminal. The mod uses the space's project folder as cwd, leaving
-config and socket discovery to Funzzy. Custom config filenames or CLI-only socket
-overrides are not supported by this experiment.
+with `fzz` in a terminal on that project machine. The mod uses the space's project
+folder and machine as Herdr exec context, leaving config and socket discovery to
+the Funzzy installed there. It never starts a watcher. Custom config filenames or
+CLI-only socket overrides are not supported by this experiment.
 
 Install and reload the personal layout:
 
@@ -69,13 +80,19 @@ herdr-app do layout.switch --name tmux
 herdr-app status
 ```
 
-`offline` means the CLI could not be started or could not query the configured
-watcher. To diagnose this layout, run
-`~/.cargo/bin/fzz ctl --format json capabilities` from that project. A v1 CLI on
-the desktop PATH also reports `offline`, since it rejects control arguments.
+`offline` means the selected machine was unavailable, the CLI could not be
+started there, or it could not query the configured watcher. To diagnose a local
+project, run `~/.cargo/bin/fzz ctl --format json capabilities` from that project.
+For a remote project, run the equivalent command through Herdr Core:
+
+```sh
+hc exec --on MACHINE --cwd FOLDER -- fzz ctl --format json capabilities
+```
+
+A v1 CLI also reports `offline`, since it rejects control arguments.
 `unsupported` means capabilities do not advertise schema 1 and `status`.
-`error` means invalid JSON or status data. `remote` means deliberately unmonitored.
-Unidentified legacy watchers can display status but do not send completion alerts.
+`error` means invalid JSON or status data. Unidentified legacy watchers can
+display status but do not send completion alerts.
 The indicator uses text as well as color: theme blue (`ansi4`) for running,
 green (`ansi2`) for passed, red (`ansi1`) for failed, and muted for other states.
 

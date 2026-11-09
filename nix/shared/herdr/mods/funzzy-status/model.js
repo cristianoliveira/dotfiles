@@ -34,8 +34,9 @@ export class WatcherStatus {
     if (key === this.key) return;
     this.key = key;
     this.revision += 1;
-    this.folder = !space?.machine && space?.folder ? space.folder : null;
-    this.value = { state: space?.machine ? "remote" : this.folder ? "loading" : "no-project" };
+    this.folder = space?.folder || null;
+    this.machine = space?.machine || null;
+    this.value = { state: this.folder ? "loading" : "no-project" };
   }
 
   async poll() {
@@ -44,13 +45,15 @@ export class WatcherStatus {
     this.busy = true;
     const revision = this.revision;
     const folder = this.folder;
+    const machine = this.machine;
     const current = () => {
       this.select();
       return revision === this.revision;
     };
     const query = async (action) => {
       // Never invoke a shell or read job output. Herdr bounds exec to 30 s / 8 MiB.
-      const result = await this.exec(this.binary, ["ctl", "--format", "json", action], { cwd: folder });
+      const options = machine ? { cwd: folder, on: machine } : { cwd: folder };
+      const result = await this.exec(this.binary, ["ctl", "--format", "json", action], options);
       if (result.code !== 0) return null;
       return { data: JSON.parse(result.stdout) };
     };

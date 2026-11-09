@@ -77,15 +77,28 @@ for (const state of ["idle", "running", "passed", "failed", "cancelled"]) {
   });
 }
 
-test("remote and absent project contexts never execute local commands", async () => {
-  for (const space of [null, { ...local, machine: "server" }, { ...local, folder: "" }]) {
+test("remote project queries use Herdr's machine transport and project cwd", async () => {
+  const remote = { ...local, machine: "server" };
+  const { status, calls, select } = harness();
+  select(remote);
+
+  await status.poll();
+
+  assert.deepEqual(calls, ["capabilities", "status"].map((action) => [
+    "fzz", ["ctl", "--format", "json", action], { cwd: remote.folder, on: "server" },
+  ]));
+  assert.deepEqual(status.value, { state: "passed", generation: 4, failures: 0 });
+});
+
+test("absent project contexts never execute commands", async () => {
+  for (const space of [null, { ...local, folder: "" }]) {
     const { status, calls, select } = harness();
     select(space);
 
     await status.poll();
 
     assert.deepEqual(calls, []);
-    assert.equal(status.value.state, space?.machine ? "remote" : "no-project");
+    assert.equal(status.value.state, "no-project");
   }
 });
 
@@ -98,6 +111,17 @@ test("unreachable watcher clears a previous passing result", async () => {
   await status.poll();
 
   assert.deepEqual(status.value, { state: "offline" });
+});
+
+test("remote transport failure reports offline", async () => {
+  const remote = { ...local, machine: "server" };
+  const { status, calls, select } = harness([{ code: 1, stdout: "", stderr: "offline" }]);
+  select(remote);
+
+  await status.poll();
+
+  assert.deepEqual(status.value, { state: "offline" });
+  assert.deepEqual(calls[0][2], { cwd: remote.folder, on: remote.machine });
 });
 
 test("missing executable is offline rather than a failed job", async () => {

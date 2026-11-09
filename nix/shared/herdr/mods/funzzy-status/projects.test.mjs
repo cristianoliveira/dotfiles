@@ -4,6 +4,7 @@ import { ProjectWatchers } from "./projects.js";
 
 const project = { id: "one", folder: "/work/one", name: "One", machine: null, active: true };
 const other = { id: "two", folder: "/work/two", name: "Two", machine: null };
+const remote = { id: "remote", folder: "/work/two", name: "Remote", machine: "server" };
 
 function harness(initial = [project, other], locate = () => null) {
   let spaces = initial;
@@ -14,9 +15,12 @@ function harness(initial = [project, other], locate = () => null) {
     spaces: () => spaces,
     locate,
     notify: (message) => notifications.push(message),
-    exec: async (_command, args, options) => {
-      calls.push({ action: args.at(-1), folder: options.cwd });
-      const value = values.get(options.cwd) ?? { state: "idle", generation: 0, token: "first" };
+    exec: async (command, args, options) => {
+      const machine = options.on ?? null;
+      calls.push({ action: args.at(-1), command, folder: options.cwd, machine });
+      const place = JSON.stringify([machine, options.cwd]);
+      const value = values.get(place) ?? values.get(options.cwd)
+        ?? { state: "idle", generation: 0, token: "first" };
       if (value.offline) return { code: 1, stdout: "" };
       const data = args.at(-1) === "capabilities"
         ? { schemaVersion: 1, methods: ["status"], instance: { token: value.token } }
@@ -27,26 +31,51 @@ function harness(initial = [project, other], locate = () => null) {
   return { monitors, calls, notifications, values, setSpaces: (next) => { spaces = next; monitors.sync(); } };
 }
 
-test("configured binary is forwarded to every project's monitor", async () => {
+test("local and remote projects use independent configured binaries", async () => {
   const commands = [];
-  const monitors = new ProjectWatchers({ spaces: () => [project, other], notify: () => {},
-    binary: "/home/me/.cargo/bin/fzz",
-    exec: async (command) => { commands.push(command); return { code: 1, stdout: "" }; },
+  const monitors = new ProjectWatchers({ spaces: () => [project, remote], notify: () => {},
+    binary: "/home/me/.cargo/bin/fzz", remoteBinary: "/opt/remote/bin/fzz",
+    exec: async (command, _args, options) => {
+      commands.push([command, options.on ?? null]);
+      return { code: 1, stdout: "" };
+    },
   });
 
   await monitors.poll();
 
-  assert.deepEqual(commands, ["/home/me/.cargo/bin/fzz", "/home/me/.cargo/bin/fzz"]);
+  assert.deepEqual(commands, [
+    ["/home/me/.cargo/bin/fzz", null],
+    ["/opt/remote/bin/fzz", "server"],
+  ]);
 });
 
-test("one monitor per local project folder, shared by spaces and their agents", async () => {
-  const { monitors, calls } = harness([project, { ...project, id: "duplicate" }, other,
-    { ...other, machine: "remote" }, { ...other, folder: "" }]);
+test("remote projects default to remote PATH instead of the local absolute binary", async () => {
+  const commands = [];
+  const monitors = new ProjectWatchers({ spaces: () => [remote], notify: () => {},
+    binary: "/home/me/.cargo/bin/fzz",
+    exec: async (command, _args, options) => {
+      commands.push([command, options]);
+      return { code: 1, stdout: "" };
+    },
+  });
 
   await monitors.poll();
 
-  assert.deepEqual(calls.filter((call) => call.action === "status").map((call) => call.folder),
-    [project.folder, other.folder]);
+  assert.deepEqual(commands, [["fzz", { cwd: remote.folder, on: remote.machine }]]);
+});
+
+test("one monitor per machine and project folder, shared by matching spaces", async () => {
+  const { monitors, calls } = harness([project, { ...project, id: "duplicate" }, other,
+    remote, { ...remote, id: "remote-duplicate" }, { ...other, folder: "" }]);
+
+  await monitors.poll();
+
+  assert.deepEqual(calls.filter((call) => call.action === "status")
+    .map(({ folder, machine }) => [machine, folder]), [
+    [null, project.folder],
+    [null, other.folder],
+    [remote.machine, remote.folder],
+  ]);
   assert.equal(monitors.current().state, "idle");
 });
 
@@ -136,10 +165,29 @@ test("current indicator follows space selection without displaying another proje
 
   setSpaces([{ ...project, active: false }, { ...other, active: true }]);
   assert.equal(monitors.current().state, "idle");
-  setSpaces([{ ...project, machine: "remote" }]);
-  assert.deepEqual(monitors.current(), { state: "remote" });
+  setSpaces([{ ...remote, active: true }]);
+  assert.deepEqual(monitors.current(), { state: "loading" });
+  values.set(JSON.stringify([remote.machine, remote.folder]),
+    { state: "running", generation: 3, token: "remote-first" });
+  await monitors.poll();
+  assert.deepEqual(monitors.current(), { state: "running", generation: 3, failures: 0 });
   setSpaces([{ ...project, folder: "/work/new" }]);
   assert.deepEqual(monitors.current(), { state: "loading" });
+});
+
+test("remote completion notifications select the remote space without a local pane action", async () => {
+  const { monitors, values, notifications } = harness([{ ...remote, active: false }]);
+  const place = JSON.stringify([remote.machine, remote.folder]);
+  values.set(place, { state: "running", generation: 2, token: "remote-first" });
+  await monitors.poll();
+  values.set(place, { state: "passed", generation: 2, token: "remote-first" });
+
+  await monitors.poll();
+
+  assert.deepEqual(notifications, [{
+    title: "Funzzy · Remote", body: "Run #2 passed", level: "success",
+    action: { name: "space.select", args: { id: remote.id } },
+  }]);
 });
 
 test("repeated timer polls do not overlap a project's pending request", async () => {

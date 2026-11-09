@@ -7,9 +7,12 @@ import { WatcherLocations } from "./location.js";
 
 export default class FunzzyStatus extends View {
   init(_props, cx) {
-    const binary = watcherBinary(props()?.binary, home());
+    const options = props() ?? {};
+    const binary = watcherBinary(options.binary, home());
+    const remoteBinary = typeof options.remoteBinary === "string" && options.remoteBinary
+      ? options.remoteBinary : "fzz";
     this.locations = new WatcherLocations({ spaces, panes, core: hc, run });
-    this.watchers = new ProjectWatchers({ spaces, exec, notify, binary,
+    this.watchers = new ProjectWatchers({ spaces, exec, notify, binary, remoteBinary,
       locate: (folder) => this.locations.unique(folder),
     });
     const poll = (cx) => {
