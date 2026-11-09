@@ -1,6 +1,6 @@
 { config, pkgs, lib, ... }:
 let
-  gestureExecutable = "${pkgs.copkgs.aerospace-gestures}/bin/aerospace-gestures";
+  gestureExecutable = "${pkgs.cafune}/bin/cafune";
   braveTabs = pkgs.writeText "brave-tabs.applescript" (builtins.readFile ./aerospace/brave-tabs.applescript);
   cycleWorkspace = pkgs.writeShellScript "aerospace-cycle-workspace" ''
     set -euo pipefail
@@ -34,7 +34,7 @@ let
 
     [[ -n "$target" ]] && "$aerospace" workspace "$target"
   '';
-  gestureConfig = (pkgs.formats.toml { }).generate "aerospace-gestures.toml" {
+  gestureConfig = (pkgs.formats.toml { }).generate "cafune.toml" {
     threshold = 0.08;
     bindings = [
       {
@@ -164,19 +164,19 @@ let
     ];
   };
 in {
-  environment.etc."aerospace-gestures/config.toml".source = gestureConfig;
+  environment.etc."cafune/config.toml".source = gestureConfig;
 
   # Run the Nix-installed binary; no separate release binary is needed.
-  # Nix owns this job; do not also run `aerospace-gestures service install`.
+  # Nix owns this job; do not also run `cafune service install`.
   # Refer to the immutable config path so config changes update the plist and
   # nix-darwin reloads the LaunchAgent during activation.
-  launchd.user.agents.aerospace-gestures = {
+  launchd.user.agents.cafune = {
     serviceConfig = {
-      Label = "com.aerospace-gestures";
+      Label = "com.cafune";
       ProgramArguments = [ gestureExecutable "run" (toString gestureConfig) ];
       # The menu reload action verifies this installed plist before reloading.
       EnvironmentVariables = {
-        AEROSPACE_GESTURES_NIX_MANAGED = "1";
+        CAFUNE_NIX_MANAGED = "1";
         HOME = "/Users/${config.system.primaryUser}";
         PATH = "/Users/${config.system.primaryUser}/.nix-profile/bin:/run/current-system/sw/bin:/usr/bin:/bin:/usr/sbin:/sbin";
       };
@@ -184,8 +184,8 @@ in {
       KeepAlive = { SuccessfulExit = false; };
       ThrottleInterval = 30;
       LimitLoadToSessionType = "Aqua";
-      StandardOutPath = "/tmp/aerospace-gestures.log";
-      StandardErrorPath = "/tmp/aerospace-gestures.error.log";
+      StandardOutPath = "/tmp/cafune.log";
+      StandardErrorPath = "/tmp/cafune.error.log";
     };
   };
 
@@ -194,7 +194,7 @@ in {
     # FIXME: Issue "error: a 'x86_64-linux' with features {} is required to build"
     copkgs.aerospace-marks
     copkgs.aerospace-scratchpad
-    copkgs.aerospace-gestures
+    cafune
   ];
 
   services = {

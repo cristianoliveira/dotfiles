@@ -1,23 +1,5 @@
 {
   "nodes": {
-    "aerospace-gestures": {
-      "inputs": {
-        "nixpkgs": "nixpkgs"
-      },
-      "locked": {
-        "lastModified": 1794165737,
-        "narHash": "sha256-ItWnE/YjNhJ3s2fCqtSGEBj5/eeEfnj3Fu802hX2Iuc=",
-        "owner": "cristianoliveira",
-        "repo": "aerospace-gestures",
-        "rev": "c65c59227be9392802b8174c50c6ef7f1322a387",
-        "type": "github"
-      },
-      "original": {
-        "owner": "cristianoliveira",
-        "repo": "aerospace-gestures",
-        "type": "github"
-      }
-    },
     "aerospace-marks": {
       "inputs": {
         "nixpkgs": "nixpkgs_2",
@@ -80,6 +62,25 @@
         "owner": "nix-community",
         "ref": "2.0.8",
         "repo": "bun2nix",
+        "type": "github"
+      }
+    },
+    "cafune": {
+      "inputs": {
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1794256646,
+        "narHash": "sha256-o03Q8Hds6PKFgzAqKhLBdjO4OegTHCsrI7eW+UsCgaY=",
+        "owner": "cristianoliveira",
+        "repo": "cafune",
+        "rev": "45762fa1e10f99dcdc71b07f2637dba813742b6d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cristianoliveira",
+        "repo": "cafune",
+        "rev": "45762fa1e10f99dcdc71b07f2637dba813742b6d",
         "type": "github"
       }
     },
@@ -537,7 +538,7 @@
     },
     "root": {
       "inputs": {
-        "aerospace-gestures": "aerospace-gestures",
+        "cafune": "cafune",
         "copkgs": "copkgs",
         "nix-darwin": "nix-darwin",
         "nixpkgs": "nixpkgs_13",

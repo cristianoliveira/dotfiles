@@ -19,9 +19,8 @@
 
     copkgs.url = "github:cristianoliveira/nixpkgs";
 
-    # Built from source because pinch bindings are not in any released
-    # aerospace-gestures version yet (copkgs pins the release binary).
-    aerospace-gestures.url = "github:cristianoliveira/aerospace-gestures";
+    # Use the merged source package until a published package is available.
+    cafune.url = "github:cristianoliveira/cafune/45762fa1e10f99dcdc71b07f2637dba813742b6d";
   };
 
   outputs = {
@@ -30,7 +29,7 @@
     nix-darwin,
     copkgs,
     nixpkgsnur,
-    aerospace-gestures,
+    cafune,
     ...
   }:
   let
@@ -64,7 +63,7 @@
           nixpkgs.overlays = [
             nixpkgsnur.overlays.default
             (import ./overlays/default.nix {
-              inherit copkgs unstable system aerospace-gestures;
+              inherit copkgs unstable system cafune;
             })
           ];
 
@@ -86,7 +85,7 @@
           nixpkgs.overlays = [
             nixpkgsnur.overlays.default
             (import ./overlays/default.nix {
-              inherit copkgs unstable system aerospace-gestures;
+              inherit copkgs unstable system cafune;
             })
           ];
 
