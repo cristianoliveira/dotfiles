@@ -305,6 +305,52 @@ test("Ctrl-Enter outside confirmation is consumed without jumping or dismissing"
   assert.equal(app.calls.some(call => call[0] === "agent.focus" || call[0] === "close"), false);
 });
 
+test("Ctrl-Shift-d then Ctrl-Enter dismisses all without a mouse, including hidden results", async () => {
+  const app = await intray();
+  app.setAgents([agent("one", "done", 1), agent("two", "blocked", 2)]);
+  const view = app.open();
+  view.render();
+  assert.match(renderedText(view.render()), /Ctrl\+Shift\+D/);
+  app.search(view, "absent");
+  app.tab(view, "Finished");
+
+  app.press(view, "ctrl-shift-d");
+
+  assert.equal(app.state().events.length, 2);
+  assert.match(renderedText(view.render()), /Dismiss 2 unread/);
+  app.press(view, "ctrl-enter");
+  assert.deepEqual(app.state().events, []);
+  assert.equal(app.calls.some(call => call[0] === "agent.focus" || call[0] === "close"), false);
+});
+
+test("Escape cancels keyboard bulk-dismiss and key repeat never expands the reviewed set", async () => {
+  const app = await intray();
+  app.setAgents([agent("old", "done", 1)]);
+  const view = app.open();
+  app.press(view, "ctrl-shift-d");
+  app.press(view, "escape");
+  assert.equal(app.state().events.length, 1);
+  assert.equal(app.calls.some(call => call[0] === "close"), false);
+  app.press(view, "ctrl-shift-d");
+  app.setAgents([agent("old", "done", 1), agent("new", "blocked", 2)]);
+
+  app.press(view, "ctrl-shift-d");
+  app.press(view, "ctrl-enter");
+
+  assert.deepEqual(app.state().events.map(event => event.address), ["new"]);
+});
+
+test("keyboard bulk-dismiss on an empty queue is consumed without opening confirmation", async () => {
+  const app = await intray();
+  const view = app.open();
+
+  app.press(view, "ctrl-shift-d");
+
+  assert.equal(app.stopped(), 1);
+  assert.doesNotMatch(renderedText(view.render()), /Confirm · Ctrl\+Enter/);
+  assert.equal(app.state().events.length, 0);
+});
+
 test("dismiss all is disabled when there are no unread notifications", async () => {
   const app = await intray();
   const view = app.open();

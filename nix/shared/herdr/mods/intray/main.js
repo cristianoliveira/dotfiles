@@ -48,7 +48,7 @@ export default class Intray extends View {
   }
 
   requestDismissAll(events) {
-    if (!events.length) return;
+    if (!events.length || this.pendingDismissal) return;
     this.pendingDismissal = events.map(event => event.id);
     this.input.focus();
   }
@@ -111,6 +111,7 @@ export default class Intray extends View {
           if (this.pendingDismissal) this.cancelDismissAll();
           else closeOverlay(this.overlay);
         }
+        else if (event.keystroke === "ctrl-shift-d") this.requestDismissAll(this.observe());
         else if (event.keystroke === "ctrl-enter") this.confirmDismissAll();
         else if (direct !== -1) this.selectStatus(STATUS_TABS[direct][0]);
         else if (["tab", "shift-tab", "ctrl-h", "ctrl-l"].includes(event.keystroke)) {
@@ -139,7 +140,9 @@ export default class Intray extends View {
           ? h_flex().gap(6)
             .child(this.button("dismiss-cancel", "Cancel", () => this.cancelDismissAll()))
             .child(this.button("dismiss-confirm", "Confirm · Ctrl+Enter", () => this.confirmDismissAll(), pendingCount === 0))
-          : this.button("dismiss-all", "Dismiss all", () => this.requestDismissAll(this.observe()), events.length === 0)))
+          : h_flex().items_center().gap(6)
+            .child(div().text_size(11).text_color(t.dim).child("Ctrl+Shift+D"))
+            .child(this.button("dismiss-all", "Dismiss all", () => this.requestDismissAll(this.observe()), events.length === 0))))
       .child(h_flex().h(28).flex_none().items_center().gap(10)
         .child(Tabs.new("intray-status").flex().flex_row().flex_1().gap(6)
           .children(STATUS_TABS.map(([status, label]) => {
