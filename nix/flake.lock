@@ -5,11 +5,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1794132138,
-        "narHash": "sha256-Kil5/Bbg/qcEYWpyz5DTQOdRC8WUFIod0HlvxjUrcZw=",
+        "lastModified": 1794165737,
+        "narHash": "sha256-ItWnE/YjNhJ3s2fCqtSGEBj5/eeEfnj3Fu802hX2Iuc=",
         "owner": "cristianoliveira",
         "repo": "aerospace-gestures",
-        "rev": "8f97c66df6b25c602f8f57cd9646b48efea70af9",
+        "rev": "c65c59227be9392802b8174c50c6ef7f1322a387",
         "type": "github"
       },
       "original": {
@@ -522,11 +522,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794127185,
-        "narHash": "sha256-fKCAdDeSKdduNgrF2ZBtw697IFyU/10t560UlNzaVM4=",
+        "lastModified": 1794205130,
+        "narHash": "sha256-E0eat/F5DB51z4rwwJV6ZE1LtYq5+KsRpCq2RNTM2XM=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "3a91124e472df1a2ab8232b7381b9982b095a4d9",
+        "rev": "6d02d9af0cf58b3a3ef7df8191c83960aafc146e",
         "type": "github"
       },
       "original": {
