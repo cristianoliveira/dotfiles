@@ -1,5 +1,5 @@
 {
   "place": "none",
   "title": "Image preview",
-  "overlay": { "kind": "dialog" }
+  "overlay": { "kind": "dialog", "width": 1, "height": 1, "frame": "none" }
 }

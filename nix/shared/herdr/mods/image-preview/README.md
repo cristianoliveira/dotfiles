@@ -1,16 +1,22 @@
 # Image preview
 
-Open a PNG or JPEG in a separate, near-full-window Herdr popup. The complete
-image fits without cropping or changing the source terminal.
+Open a PNG or JPEG in a separate popup that fills Herdr's window. The complete
+image fits without cropping or changing the source terminal. This does not
+change the operating system's fullscreen setting.
 
 ## Use
 
 1. Copy the image's **file path**, not the image itself.
-2. Press **Ctrl-a**, release Ctrl, then **i**.
+2. Press **Ctrl-Shift-i**. **Ctrl-a**, release Ctrl, then **i** also works.
 3. The popup reads the copied path and opens it on the focused space's machine.
    If no path was copied, paste one into the field and press Enter.
-4. Choose a machine with the buttons or **Alt-m**, then press Enter to reload.
-5. Press **Esc** or click Close to leave.
+4. The controls hide after loading so the image uses the full window. Press
+   **E** or click Edit to show the path and machine controls again.
+5. Choose a machine with the buttons or **Alt-m**, then press Enter to reload.
+6. Press **Esc** or click Close to leave.
+
+You can also drop an image file onto the open popup. Dropped desktop files
+always open on `local`, even if the original space is remote.
 
 From a terminal, run `herdr-app do mod.open:image-preview`.
 
