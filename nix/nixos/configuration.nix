@@ -25,6 +25,7 @@ in {
 
       # Services
       ./services/rclone.nix
+      ./vpn.nix
 
       # Shared configurations
       ../shared/direnv.nix

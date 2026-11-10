@@ -15,6 +15,7 @@ in {
       ./global-shortcuts.nix
       ./window-manager.nix
       ./virtualization.nix
+      ./tailscale.nix
       ./devenv-prune.nix
 
       # Shared between linux and darwin
