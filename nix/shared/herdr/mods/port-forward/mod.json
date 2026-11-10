@@ -1,0 +1,5 @@
+{
+  "place": "none",
+  "title": "Port Forward",
+  "overlay": { "kind": "dialog", "width": 0.7, "height": 0.85 }
+}

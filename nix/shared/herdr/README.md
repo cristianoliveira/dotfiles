@@ -103,6 +103,7 @@ enter the bounded navigation repeat mode below.
 | `e` | Toggle prototype broadcast-input mode for current-tab panes (`tmux` layout) |
 | `[` | Open keyboard-only copy mode for the focused terminal (`tmux` layout) |
 | `i` | Open full-window image preview (also Ctrl-Shift-i without the prefix) |
+| `t` / `Ctrl-t` | Discover remote ports and start/stop owned localhost tunnels |
 | `w` / `_` | Split down |
 | `v` / `\|` | Split right |
 | `Ctrl-h/j/k/l` | Focus pane left/down/up/right |
@@ -123,6 +124,26 @@ Common macOS editing, window, clipboard, and pane shortcuts remain available;
 Linux clipboard/search and new-tab/split shortcuts are also included.
 This file replaces defaults rather than merging them; it is a selected shared
 keymap, not a full copy of either platform's stock keymap.
+
+## Port forwarding
+
+Press `Ctrl-a t` to open the standalone `port-forward` mod. Choose a remote
+machine and discovered port, or enter a port manually. Enter toggles forwarding;
+the optional Local field avoids occupied ports without killing other programs.
+Closing the popup keeps tunnels running; Stop ends only the owned tunnel, not
+the server. Browser opening is explicit, and tunnel state is not app health.
+
+Agents use the same bundled Python helper; no CLI installation is needed:
+
+```sh
+python3 ~/.config/herdr-app/mods/port-forward/forward.py start --machine mac --port 3000
+python3 ~/.config/herdr-app/mods/port-forward/forward.py status
+python3 ~/.config/herdr-app/mods/port-forward/forward.py stop --machine mac --port 3000
+```
+
+Run it on the computer where the browser runs. Remote agents can invoke it
+through an existing `hc exec` route back to this desktop. See
+[port-forward usage, agent routing, and safety](mods/port-forward/README.md).
 
 ## Image preview
 
