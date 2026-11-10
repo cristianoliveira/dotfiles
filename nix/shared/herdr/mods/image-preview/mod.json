@@ -1,0 +1,5 @@
+{
+  "place": "none",
+  "title": "Image preview",
+  "overlay": { "kind": "dialog" }
+}

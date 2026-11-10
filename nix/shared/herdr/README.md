@@ -102,6 +102,7 @@ enter the bounded navigation repeat mode below.
 | `Shift-p` | Toggle local listening-port process picker (`tmux` layout) |
 | `e` | Toggle prototype broadcast-input mode for current-tab panes (`tmux` layout) |
 | `[` | Open keyboard-only copy mode for the focused terminal (`tmux` layout) |
+| `i` | Open a large image-preview popup from a copied PNG/JPEG path |
 | `w` / `_` | Split down |
 | `v` / `\|` | Split right |
 | `Ctrl-h/j/k/l` | Focus pane left/down/up/right |
@@ -122,6 +123,15 @@ Common macOS editing, window, clipboard, and pane shortcuts remain available;
 Linux clipboard/search and new-tab/split shortcuts are also included.
 This file replaces defaults rather than merging them; it is a selected shared
 keymap, not a full copy of either platform's stock keymap.
+
+## Image preview
+
+Press `Ctrl-a`, release Ctrl, then `i` to open the standalone `image-preview`
+mod. Copy an image file path before opening it, or paste a path into the popup
+and press Enter. The machine defaults to the focused space; use the machine
+buttons or Alt-m to change it. Esc closes the popup. The complete image fits
+without cropping; terminal-rendered images cannot be detected automatically.
+See [image-preview usage and limits](mods/image-preview/README.md).
 
 ## Project picker
 
