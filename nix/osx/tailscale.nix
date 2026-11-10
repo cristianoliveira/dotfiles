@@ -1,4 +1,7 @@
 { pkgs, ... }:
 {
-  environment.systemPackages = [ pkgs.tailscale ];
+  environment.systemPackages = [
+    pkgs.tailscale
+    pkgs.tailscale-gui
+  ];
 }
