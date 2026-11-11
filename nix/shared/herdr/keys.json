@@ -4,7 +4,7 @@
     "ctrl-a n": "tab.prev",
     "ctrl-a p": "tab.next",
     "ctrl-a ctrl-p": "mod.open:project-picker",
-    "ctrl-a ctrl-b": "mod.open:muxcle-picker",
+    "ctrl-a ctrl-b": "mod.open:tmux-picker",
     "ctrl-a t": "mod.open:port-forward",
     "ctrl-a ctrl-t": "mod.open:port-forward",
     "ctrl-a i": "mod.open:image-preview",

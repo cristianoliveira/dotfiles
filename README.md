@@ -140,9 +140,7 @@ dependencies with npm lifecycle scripts disabled when needed, builds complete im
 generations, then links selected mods into `$HOME/.config/herdr-app/mods/`. A pin, build, or
 preflight conflict failure stops before Stow changes links. The development selection leaves
 existing Stow-owned mods, keys, and layouts unchanged; a foreign path at a selected mod name is
-refused. Herdr's dotfiles keymap routes `Ctrl-a Ctrl-b` to this picker; the old
-`tmux-picker` remains available for rollback. The link tool itself does not edit
-keys or change the active layout.
+refused. The picker link does not add a key binding or change the active layout.
 
 The development loop requires Node.js 22.23.4 and npm 10.9.9. Use these commands for the
 selected `muxcle-picker` link:
