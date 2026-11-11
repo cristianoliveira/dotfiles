@@ -16,6 +16,11 @@ INSTALL_SPEC = importlib.util.spec_from_file_location(
 )
 HERDR_INSTALL = importlib.util.module_from_spec(INSTALL_SPEC)
 INSTALL_SPEC.loader.exec_module(HERDR_INSTALL)
+CHECKER_SPEC = importlib.util.spec_from_file_location(
+    "herdr_bootstrap_checker", ROOT / "stow/herdr/tests/check_bootstrap.py"
+)
+HERDR_CHECKER = importlib.util.module_from_spec(CHECKER_SPEC)
+CHECKER_SPEC.loader.exec_module(HERDR_CHECKER)
 
 
 class ControlledCommands:
@@ -23,12 +28,20 @@ class ControlledCommands:
         self.directory = parent / "mock-bin"
         self.directory.mkdir()
         self.trace = parent / "commands.log"
-        self.environment = os.environ.copy()
-        self.environment.update({
+        self.safe_bin = parent / "safe-bin"
+        self.safe_bin.mkdir()
+        for name in ("bash", "ls", "basename", "dirname", "cp", "mkdir"):
+            source = shutil.which(name, path=os.defpath)
+            if source is None:
+                raise AssertionError(f"Required safe system tool is missing: {name}")
+            (self.safe_bin / name).symlink_to(Path(source).resolve(strict=True))
+        self.environment = {
             "HOME": str(parent / "home"),
             "COMMAND_TRACE": str(self.trace),
-            "PATH": f"{self.directory}:/usr/bin:/bin",
-        })
+            "PATH": f"{self.directory}:{self.safe_bin}",
+            "LANG": "C.UTF-8",
+            "LC_ALL": "C.UTF-8",
+        }
         Path(self.environment["HOME"]).mkdir()
 
     def add(self, name, body):
@@ -55,6 +68,53 @@ class ControlledCommands:
         for name in names:
             self.add(name, f'printf "forbidden:{name}\\n" >> "$COMMAND_TRACE"; exit 97')
             self.assert_mock_resolves(name)
+
+
+class BootstrapGuardTests(unittest.TestCase):
+    def assert_guard_fails_closed(self, mode):
+        with tempfile.TemporaryDirectory(prefix="dotfiles-herdr-guard-test-") as directory:
+            root = Path(directory)
+            mock_bin = root / "mock-bin"
+            safe_bin = root / "safe-bin"
+            wrong_bin = root / "wrong-bin"
+            mock_bin.mkdir()
+            safe_bin.mkdir()
+            wrong_bin.mkdir()
+            trace = root / "sentinel.log"
+            HERDR_CHECKER.write_executable(mock_bin / "stow", "#!/bin/sh\nexit 0\n")
+            for name in HERDR_CHECKER.BLOCKED:
+                HERDR_CHECKER.write_executable(
+                    mock_bin / name,
+                    f'#!/bin/sh\nprintf "ran:{name}\\n" >> "{trace}"\nexit 97\n',
+                )
+            for name in ("git", "node", "npm", "python3"):
+                (safe_bin / name).symlink_to(
+                    HERDR_CHECKER.safe_tool(name, os.environ.get("PATH", os.defpath))
+                )
+            expected = mock_bin / "hc"
+            path = f"{mock_bin}:{safe_bin}"
+            if mode == "missing":
+                expected.unlink()
+            elif mode == "wrong":
+                HERDR_CHECKER.write_executable(
+                    wrong_bin / "hc",
+                    f'#!/bin/sh\nprintf "ran:hc\\n" >> "{trace}"\nexit 97\n',
+                )
+                path = f"{wrong_bin}:{mock_bin}:{safe_bin}"
+            else:
+                expected.chmod(0o600)
+            with self.assertRaises(RuntimeError):
+                HERDR_CHECKER.validate_mocks(mock_bin, safe_bin, path)
+            self.assertFalse(trace.exists(), f"{mode} guard executed a sentinel")
+
+    def test_missing_forbidden_command_guard_fails_before_execution(self):
+        self.assert_guard_fails_closed("missing")
+
+    def test_wrong_forbidden_command_resolution_fails_before_execution(self):
+        self.assert_guard_fails_closed("wrong")
+
+    def test_non_executable_forbidden_mock_fails_before_execution(self):
+        self.assert_guard_fails_closed("nonexec")
 
 
 class InstallerPolicyTests(unittest.TestCase):
@@ -252,6 +312,111 @@ class InstallerEntryTests(unittest.TestCase):
         return path.read_text().splitlines() if path.exists() else []
 
 
+class InstallerMainPreparationTests(unittest.TestCase):
+    def setUp(self):
+        self.temporary = tempfile.TemporaryDirectory(prefix="dotfiles-herdr-main-")
+        self.addCleanup(self.temporary.cleanup)
+        self.home = Path(self.temporary.name) / "home"
+        self.home.mkdir()
+
+    def test_direct_installer_prepares_once(self):
+        with mock.patch.dict(os.environ, {"HOME": str(self.home), "HERDR_DEV_PREPARED": "false"}, clear=False), \
+             mock.patch.object(HERDR_INSTALL.sys, "argv", ["install.py"]), \
+             mock.patch.object(HERDR_INSTALL, "prepare") as prepare, \
+             mock.patch.object(HERDR_INSTALL, "install") as install:
+            self.assertEqual(HERDR_INSTALL.main(), 0)
+        prepare.assert_called_once_with(self.home)
+        install.assert_called_once_with(self.home)
+
+    def test_parent_prepared_flag_skips_only_duplicate_prepare(self):
+        with mock.patch.dict(
+            os.environ, {"HOME": str(self.home), "HERDR_DEV_PREPARED": "true"}, clear=False
+        ), mock.patch.object(HERDR_INSTALL.sys, "argv", ["install.py"]), \
+             mock.patch.object(HERDR_INSTALL, "prepare") as prepare, \
+             mock.patch.object(HERDR_INSTALL, "install") as install:
+            self.assertEqual(HERDR_INSTALL.main(), 0)
+        prepare.assert_not_called()
+        install.assert_called_once_with(self.home)
+
+
+class InstallBoundarySafetyTests(unittest.TestCase):
+    def test_missing_retained_generation_leaves_the_home_unchanged_even_when_prepared(self):
+        with tempfile.TemporaryDirectory(prefix="dotfiles-herdr-boundary-") as directory:
+            root = Path(directory)
+            source = root / "source"
+            (source / "layouts").mkdir(parents=True)
+            (source / "mods").mkdir()
+            (source / "keys.json").write_text("managed keys\n")
+            (source / "layouts/tmux.json").write_text("managed layout\n")
+            mods_file = root / "dev-mods.txt"
+            mods_file.write_text("muxcle-picker\n")
+            dev_loop = root / "herdr-term/scripts/dev-loop.mjs"
+            dev_loop.parent.mkdir(parents=True)
+            dev_loop.write_text("// test fixture\n")
+            home = root / "home"
+            app = home / ".config/herdr-app"
+            (app / "layouts").mkdir(parents=True)
+            (app / "mods/personal").mkdir(parents=True)
+            (app / "keys.json").write_text("old keys\n")
+            (app / "layouts/tmux.json").write_text("old layout\n")
+            (app / "mods/personal/note").write_text("keep\n")
+
+            def snapshot(path):
+                return {
+                    entry.relative_to(path).as_posix(): (
+                        "symlink", os.readlink(entry)
+                    ) if entry.is_symlink() else (
+                        "file", entry.read_bytes()
+                    ) if entry.is_file() else ("directory",)
+                    for entry in sorted(path.rglob("*"))
+                }
+
+            before = snapshot(home)
+            with mock.patch.object(HERDR_INSTALL, "SOURCE_ROOT", source), \
+                 mock.patch.object(HERDR_INSTALL, "DEV_MODS_FILE", mods_file), \
+                 mock.patch.object(HERDR_INSTALL, "SUBMODULE", root / "herdr-term"), \
+                 mock.patch.object(HERDR_INSTALL, "DEV_LOOP", dev_loop), \
+                 mock.patch.object(HERDR_INSTALL, "command_path", return_value="/test/node"), \
+                 mock.patch.object(HERDR_INSTALL, "run_checked", side_effect=RuntimeError("no retained generation")), \
+                 mock.patch.dict(
+                     os.environ,
+                     {
+                         "HOME": str(home),
+                         "HERDR_DEV_PREPARED": "true",
+                         "HERDR_DEV_MODS_FILE": str(mods_file),
+                     },
+                     clear=False,
+                 ):
+                with mock.patch.object(HERDR_INSTALL.sys, "argv", ["install.py"]):
+                    self.assertEqual(HERDR_INSTALL.main(), 1)
+            self.assertEqual(snapshot(home), before)
+
+
+class BeforeInstallInvocationTests(unittest.TestCase):
+    def test_direct_hook_delegates_prepare_once_to_installer_main(self):
+        with tempfile.TemporaryDirectory(prefix="dotfiles-herdr-hook-") as directory:
+            parent = Path(directory)
+            commands = ControlledCommands(parent)
+            commands.guard_commands(("git", "npm", "node", "nix", "nix-shell", "herdr-app", "hc", "stow"))
+            commands.add(
+                "python3",
+                'printf "python3" >> "$COMMAND_TRACE"; for arg do printf "|%s" "$arg" >> "$COMMAND_TRACE"; done; printf "\\n" >> "$COMMAND_TRACE"',
+            )
+            commands.assert_mock_resolves("python3")
+            result = subprocess.run(
+                [str(BASH), str(ROOT / "stow/herdr/before_install.sh")],
+                env=commands.environment,
+                text=True,
+                capture_output=True,
+                check=False,
+            )
+            self.assertEqual(result.returncode, 0, result.stderr)
+            calls = commands.entries()
+            self.assertEqual(len(calls), 1)
+            self.assertIn("install.py", calls[0])
+            self.assertNotIn("--prepare", calls[0])
+
+
 class StowPreflightOrderingTests(unittest.TestCase):
     def setUp(self):
         self.temporary = tempfile.TemporaryDirectory(prefix="dotfiles-herdr-stow-test-")
@@ -290,6 +455,41 @@ class StowPreflightOrderingTests(unittest.TestCase):
         stow = next(i for i, event in enumerate(events) if event == "stow")
         self.assertLess(prepare, install)
         self.assertLess(install, stow)
+        self.assertEqual(sum("--prepare" in event for event in events), 1)
+
+
+@unittest.skipUnless(shutil.which("stow"), "GNU Stow is required")
+class StowPayloadTests(unittest.TestCase):
+    def test_bootstrap_tools_and_metadata_are_not_installed_into_home(self):
+        with tempfile.TemporaryDirectory(prefix="dotfiles-herdr-stow-payload-") as directory:
+            commands = ControlledCommands(Path(directory))
+            commands.guard_commands(("git", "npm", "node", "nix", "nix-shell", "herdr-app", "hc"))
+            home = Path(commands.environment["HOME"])
+            for name in ("tests", ".pi"):
+                (home / name).mkdir()
+                (home / name / "personal.txt").write_text("keep personal data\n")
+            (home / "dev-mods.txt").write_text("personal file\n")
+            (home / ".config/herdr-app").mkdir(parents=True)
+            stow = Path(shutil.which("stow")).resolve(strict=True)
+
+            for operation in ("--stow", "--restow"):
+                result = subprocess.run(
+                    [str(stow), "--dir", str(ROOT / "stow"), "--target", str(home), operation, "herdr"],
+                    env=commands.environment,
+                    text=True,
+                    capture_output=True,
+                    check=False,
+                    timeout=30,
+                )
+
+                self.assertEqual(result.returncode, 0, result.stderr)
+                for name in ("tests", ".pi"):
+                    self.assertEqual(sorted(p.name for p in (home / name).iterdir()), ["personal.txt"])
+                    self.assertEqual((home / name / "personal.txt").read_text(), "keep personal data\n")
+                self.assertEqual((home / "dev-mods.txt").read_text(), "personal file\n")
+                self.assertFalse((home / "install.py").exists())
+                self.assertFalse((home / "__pycache__").exists())
+                self.assertEqual(commands.entries(), [])
 
 
 if __name__ == "__main__":

@@ -131,8 +131,9 @@ git submodule update --init --recursive -- herdr-term
 ```
 
 `stow/herdr/dev-mods.txt` is the explicit development selection. It currently selects only
-`muxcle-picker`; edit that file to change the selected compiled mods. Removing a name does not
-automatically unlink an existing development link; use the explicit `unlink` command below.
+`muxcle-picker`; edit that file to change the selected compiled mods. Isolated tests may set
+`HERDR_DEV_MODS_FILE` to a temporary selection file. Removing a name does not automatically unlink
+an existing development link; use the explicit `unlink` command below.
 
 `make setup` validates the pin and existing target ownership, installs locked TypeScript
 dependencies with npm lifecycle scripts disabled when needed, builds complete immutable

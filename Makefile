@@ -12,7 +12,7 @@ herdr-bootstrap-unit: ## Run Herdr installer tests with controlled command stubs
 	@python3 -B -m unittest discover -s tests -p 'test_herdr_bootstrap.py' -v
 
 herdr-bootstrap-check: ## Build and install selected Herdr mods in disposable homes
-	@python3 -B scripts/check-herdr-bootstrap.py
+	@python3 -B stow/herdr/tests/check_bootstrap.py
 
 herdr-test: herdr-bootstrap-unit herdr-bootstrap-check ## Run Herdr bootstrap tests and isolated end-to-end validation
 

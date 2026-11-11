@@ -1,3 +1,6 @@
 ^/before_install\.sh$
 ^/install\.py$
 ^/__pycache__(/|$)
+^/dev-mods\.txt$
+^/tests(/|$)
+^/\.pi(/|$)

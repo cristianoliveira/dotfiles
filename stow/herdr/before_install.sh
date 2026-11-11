@@ -9,8 +9,4 @@ if [ "${1:-}" = "--prepare" ]; then
   exit 0
 fi
 
-if [ "${HERDR_DEV_PREPARED:-false}" != "true" ]; then
-  python3 -I "$INSTALLER" --prepare
-fi
-
 python3 -I "$INSTALLER"

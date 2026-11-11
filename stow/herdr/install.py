@@ -24,7 +24,8 @@ MOD_NAME = re.compile(r"^[a-z0-9][a-z0-9-]*$")
 GENERATION_ID = re.compile(r"^[a-z0-9][a-z0-9-]*$")
 
 
-def read_dev_mods(path=DEV_MODS_FILE):
+def read_dev_mods(path=None):
+    path = Path(path or os.environ.get("HERDR_DEV_MODS_FILE", DEV_MODS_FILE))
     mods = []
     seen = set()
     for line_number, raw_line in enumerate(Path(path).read_text().splitlines(), 1):
@@ -209,6 +210,36 @@ def build_selected_mods(mods):
         print(f"Validated {mod_name} generation {generation_id}", flush=True)
 
 
+def select_generation(mod_name):
+    node = command_path("node")
+    module_url = DEV_LOOP.resolve(strict=True).as_uri()
+    query = (
+        f'import {{ listModGenerations }} from {json.dumps(module_url)}; '
+        f'const generations = await listModGenerations({json.dumps(mod_name)}); '
+        'process.stdout.write(JSON.stringify(generations.map(({ id, home }) => ({ id, home }))));'
+    )
+    result = run_checked(
+        [node, "--input-type=module", "-e", query], cwd=SUBMODULE
+    )
+    try:
+        generations = json.loads(result)
+    except json.JSONDecodeError as error:
+        raise RuntimeError(f"dev-loop returned invalid generations for {mod_name}") from error
+    if not isinstance(generations, list) or not generations:
+        raise RuntimeError(
+            f"No retained generation is available for {mod_name}; build it before installing."
+        )
+    selected = generations[-1]
+    if not isinstance(selected, dict) or not selected.get("id") or not selected.get("home"):
+        raise RuntimeError(f"dev-loop returned incomplete generation data for {mod_name}")
+    output = f"Built {mod_name} generation {selected['id']}\n{selected['home']}"
+    return validate_generation(mod_name, output)
+
+
+def select_generations(mods):
+    return {mod_name: select_generation(mod_name) for mod_name in mods}
+
+
 def plan(home):
     if not home.is_absolute():
         raise ValueError("HOME must be an absolute path.")
@@ -290,6 +321,7 @@ def install(home):
     mods = read_dev_mods()
     home, app, directories, links = plan(home)
     preflight(home, mods)
+    generations = select_generations(mods)
 
     for directory in directories:
         directory.mkdir(parents=True, exist_ok=True)
@@ -324,11 +356,12 @@ def install(home):
         finally:
             temporary.unlink(missing_ok=True)
 
-    if mods:
+    if generations:
         node = command_path("node")
-        for mod_name in mods:
+        for mod_name, generation_id in generations.items():
             run_checked([
-                node, str(DEV_LOOP), "link", "--mod", mod_name, "--app-home", str(app),
+                node, str(DEV_LOOP), "revert", "--mod", mod_name,
+                "--app-home", str(app), "--generation", generation_id,
             ], cwd=SUBMODULE)
     return backup
 

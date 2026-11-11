@@ -7,9 +7,10 @@ on:
       - "Makefile"
       - "README.md"
       - "stow/**"
-      - "scripts/check-herdr-bootstrap.py"
+      - "stow/herdr/tests/**"
       - "tests/test_herdr_bootstrap.py"
       - "herdr-term"
+      - ".gitmodules"
       - ".github/workflows/herdr-bootstrap.yml"
   push:
     branches: [main]
@@ -39,6 +40,9 @@ jobs:
 
       - name: Install pinned npm without lifecycle scripts
         run: npm install --global npm@10.9.9 --ignore-scripts --no-audit --no-fund
+
+      - name: Install GNU Stow for isolated link tests
+        run: sudo apt-get update && sudo apt-get install --yes --no-install-recommends stow
 
       - name: Test setup and development-link safety in disposable homes
         run: make herdr-test
