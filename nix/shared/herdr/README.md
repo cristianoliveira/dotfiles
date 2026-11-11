@@ -259,26 +259,27 @@ capture. The popup also collects the current snapshot when opened.
 
 ## Existing-space picker
 
-Press `Ctrl-a`, then `Ctrl-b` to open `tmux-picker`, a personal clone of
-Herdr 0.1.13's space/tab picker. Type a compact fuzzy query across space,
-machine, tab, and agent names: `dotcrew` matches `dotfiles → crew`, and a
-machine name finds its remote spaces. Search order is machine → space → tab →
-agent: `macdotf` finds all tabs in `mac → dotfiles`. The current machine uses
-`local`: `localdotf` finds its `dotfiles` tabs. Matching is case-insensitive, keeps
-character order, and ignores whitespace. Use ↑/↓ or Ctrl-j/Ctrl-k to move down/up,
-Enter to switch, or Escape to cancel. Ctrl-d still closes the
-selected tab. Spaces are ordered by their most recently focused tab, and tabs
-within each space are most-recent-first. Quiet spaces remain visible; unvisited
-items retain their source order. New-tab and new-space actions stay at the end.
+Press `Ctrl-a`, then `Ctrl-b` to open Herdr Term's `muxcle-picker`. The pinned
+`herdr-term` submodule owns its source; the Herdr setup hook builds and links it
+from the explicit `stow/herdr/dev-mods.txt` selection. No layout change is needed.
+Type a compact fuzzy query across machine, space, tab, and agent names. Use ↑/↓
+or Ctrl-j/Ctrl-k to navigate, Enter to select, and Escape to cancel.
 
-`tmux-compat` records focus order while the `tmux` layout is active, whether
-navigation comes from a picker, sidebar, or shortcut. History builds as you
-navigate and persists in Herdr's own `shared.json` under
-`tmux-compat.recent-tabs`; closed tabs/spaces are removed. Existing last-space
-and last-tab shortcuts keep their separate two-item history.
+This first migration uses native ordering. The old `tmux-compat.recent-tabs`
+store is not imported; recent-first ordering needs the separate Herdr Term
+History observer and an explicit config opt-in. Existing last-space/last-tab
+shortcuts and their old history remain unchanged. Creation, close actions,
+remote management, and agent-context annotations remain off by default; the old
+picker's direct close/create actions are not enabled automatically. See the
+[picker recipe](https://github.com/cristianoliveira/herdr-term/blob/161ac472b9865646aa477ef50066359d765f7d32/packages/picker/RECIPE.md)
+for optional behavior and access requirements.
 
-Compare this clone with the shipped `picker` on Herdr upgrades; it does not
-receive upstream updates automatically.
+Keep `mods/tmux-picker` installed while dogfooding. To roll back, change only
+`global["ctrl-a ctrl-b"]` in `keys.json` from `mod.open:muxcle-picker` back to
+`mod.open:tmux-picker`; do not restore a whole keymap over later personal edits.
+The old picker and its history stay available until the new picker is verified
+in daily use. Native popup/keyboard behavior and helper/asset reload are not
+proved by the compiled-link checks.
 
 ## Tmux compatibility layer
 
