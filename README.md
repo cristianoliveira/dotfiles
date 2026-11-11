@@ -103,7 +103,7 @@ curl https://raw.githubusercontent.com/cristianoliveira/dotfiles/main/install.sh
 Or step by step
 
 ```bash
-git clone git@github.com:cristianoliveira/dotfiles.git ~/.dotfiles
+git clone --recurse-submodules git@github.com:cristianoliveira/dotfiles.git ~/.dotfiles
 
 cd ~/.dotfiles
 
@@ -115,6 +115,18 @@ make osx
 # Updating and setup
 make setup
 ```
+
+### Herdr development checkout
+
+`herdr-term/` is a Git submodule pointing to the Muxcle repository. Dotfiles pin its exact commit; update that pointer deliberately after committing and pushing changes in the submodule.
+
+For an existing dotfiles checkout:
+
+```bash
+git submodule update --init --recursive -- herdr-term
+```
+
+This fetches source only. It does not build mods, replace existing configuration, or activate development links. Build/watch and deployment wiring are separate steps; existing Herdr mods remain unchanged.
 
 ### OS change workflow
 
