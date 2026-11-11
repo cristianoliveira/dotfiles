@@ -118,7 +118,7 @@ make setup
 
 ### Herdr development checkout
 
-`herdr-term/` is a Git submodule pointing to the Muxcle repository. Dotfiles pin its exact
+`herdr-term/` is a Git submodule pointing to the [Herdr Term repository](https://github.com/cristianoliveira/herdr-term). Dotfiles pin its exact
 commit; update that pointer deliberately after committing and pushing changes in the submodule.
 Fresh clones use `--recurse-submodules`; the installer never follows the child repository's
 `main` branch.

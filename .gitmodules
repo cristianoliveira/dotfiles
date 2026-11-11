@@ -3,4 +3,4 @@
 	url = https://github.com/cristianoliveira/ai
 [submodule "herdr-term"]
 	path = herdr-term
-	url = https://github.com/cristianoliveira/herdr-muxcle.git
+	url = https://github.com/cristianoliveira/herdr-term.git
