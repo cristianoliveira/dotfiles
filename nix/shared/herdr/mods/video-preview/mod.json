@@ -1,0 +1,5 @@
+{
+  "place": "none",
+  "title": "Video Preview",
+  "overlay": { "kind": "dialog", "width": 680, "height": 300 }
+}

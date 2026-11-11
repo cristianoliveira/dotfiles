@@ -44,6 +44,7 @@ class InstallTests(unittest.TestCase):
             self.assertEqual((app / "mods/project-picker").resolve(), ROOT / "nix/shared/herdr/mods/project-picker")
             self.assertEqual((app / "mods/image-preview").resolve(), ROOT / "nix/shared/herdr/mods/image-preview")
             self.assertEqual((app / "mods/port-forward").resolve(), ROOT / "nix/shared/herdr/mods/port-forward")
+            self.assertEqual((app / "mods/video-preview").resolve(), ROOT / "nix/shared/herdr/mods/video-preview")
             self.assertEqual((app / "themes/solarized-dark.json").resolve(), ROOT / "nix/shared/herdr/themes/solarized-dark.json")
             self.assertEqual((app / "layouts/tmux.json").resolve(), ROOT / "nix/shared/herdr/layouts/tmux.json")
             self.assertEqual((app / "settings.json").read_text(), "personal settings")

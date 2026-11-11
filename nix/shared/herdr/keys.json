@@ -9,6 +9,8 @@
     "ctrl-a ctrl-t": "mod.open:port-forward",
     "ctrl-a i": "mod.open:image-preview",
     "ctrl-shift-i": "mod.open:image-preview",
+    "ctrl-a m": "mod.open:video-preview",
+    "ctrl-shift-m": "mod.open:video-preview",
     "ctrl-a j": "mod.open:intray",
     "ctrl-a shift-j": "mod.open:intray",
     "cmd-j": "mod.open:intray",

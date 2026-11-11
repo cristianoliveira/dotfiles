@@ -104,6 +104,7 @@ enter the bounded navigation repeat mode below.
 | `[` | Open keyboard-only copy mode for the focused terminal (`tmux` layout) |
 | `i` | Open full-window image preview (also Ctrl-Shift-i without the prefix) |
 | `t` / `Ctrl-t` | Discover remote ports and start/stop owned localhost tunnels |
+| `m` | Preview a local video in mpv (also Ctrl-Shift-m without the prefix) |
 | `w` / `_` | Split down |
 | `v` / `\|` | Split right |
 | `Ctrl-h/j/k/l` | Focus pane left/down/up/right |
@@ -144,6 +145,15 @@ python3 ~/.config/herdr-app/mods/port-forward/forward.py stop --machine mac --po
 Run it on the computer where the browser runs. Remote agents can invoke it
 through an existing `hc exec` route back to this desktop. See
 [port-forward usage, agent routing, and safety](mods/port-forward/README.md).
+
+## Video preview
+
+Press `Ctrl-Shift-m` (or `Ctrl-a m`) to open the separate `video-preview` mod.
+Copy a local video path first, paste a path into the picker, or drop a video.
+The picker launches an independent, large **mpv** window, initially paused.
+Space plays/pauses, arrows seek, F toggles fullscreen, and Esc closes the player.
+Playback is not embedded in Herdr; the mod uses existing mpv/ffprobe rather
+than emulating video with images. See [video-preview usage](mods/video-preview/README.md).
 
 ## Image preview
 
