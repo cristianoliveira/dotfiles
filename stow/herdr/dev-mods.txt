@@ -1,0 +1,3 @@
+# Compiled Herdr mods built and linked from the pinned herdr-term submodule.
+# One mod name per line; this does not add keys or change the active layout.
+muxcle-picker

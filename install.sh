@@ -1,32 +1,34 @@
-set -e # fail on error
-set -u # do not allow unset variables
+#!/usr/bin/env bash
+set -euo pipefail
 
-OS=f$1
-if [ "$OS" = "" ]
-then
-  echo "Missing OS "
-  echo "Options: osx, linux"
-  exit
+OS="${1:-}"
+if [ "$#" -ne 1 ]; then
+  printf 'Usage: %s {osx|linux}\n' "$0" >&2
+  exit 2
 fi
 
-echo "Clonning dotfiles"
+case "$OS" in
+  osx|linux) ;;
+  *)
+    printf 'Unsupported OS: %s\nUsage: %s {osx|linux}\n' "$OS" "$0" >&2
+    exit 2
+    ;;
+esac
+
+echo "Cloning dotfiles with pinned submodules"
 nix-shell \
   -p git vim \
-  --command "git clone https://github.com/cristianoliveira/dotfiles.git ~/.dotfiles"
+  --command "git clone --recurse-submodules https://github.com/cristianoliveira/dotfiles.git ~/.dotfiles"
 
-cd ~/.dotfiles
+cd "$HOME/.dotfiles"
 
-## IF OS is osx
-if [ "$OS" = "osx" ]; then
-  echo "Installing for OSX"
-  ./nix/osx/setup.sh
-fi
-
-if [ "$OS" = "linux" ]; then
-  echo "Installing for OSX"
-  ./nix/nixos/setup.sh
-else
-  echo "OS not supported: $OS"
-  echo "Options: osx, linux"
-  exit
-fi
+case "$OS" in
+  osx)
+    echo "Installing for macOS"
+    ./nix/osx/setup.sh
+    ;;
+  linux)
+    echo "Installing for Linux"
+    ./nix/nixos/setup.sh
+    ;;
+esac
