@@ -23,7 +23,7 @@
     "ctrl-a ,": "tab.rename",
     "ctrl-a .": "tmux-compat.move-tab-to",
     "ctrl-a shift-n": "tmux-compat.rename-from-folder",
-    "ctrl-a shift-r": "tmux-compat.repeat",
+    "ctrl-a shift-r": "mod.open:muxcle-repeat",
     "ctrl-a -": "tmux-compat.close-spaces",
     "ctrl-a space": "tmux-compat.popup",
     "ctrl-a shift-p": "tmux-compat.kill-port",

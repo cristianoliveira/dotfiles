@@ -96,7 +96,7 @@ enter the bounded navigation repeat mode below.
 | `1`–`9` | Select tab |
 | `,` | Rename tab with a prompt |
 | `Shift-n` (uppercase `N`) | Rename tab from focused terminal folder (`tmux` layout) |
-| `Shift-r` (uppercase `R`) | Enter bounded navigation repeat mode (`tmux` layout) |
+| `Shift-r` (uppercase `R`) | Enter standalone Herdr Term navigation repeat mode (no layout dependency) |
 | `-` | Select multiple spaces to close, with confirmation (`tmux` layout) |
 | `Space` | Toggle project-local `.tmp/popup` terminal (`tmux` layout) |
 | `Shift-p` | Toggle local listening-port process picker (`tmux` layout) |
@@ -392,8 +392,16 @@ press the key again to type normally. Existing app shortcuts may still run.
 This is an explicit navigation mode, not a transparent emulation of tmux's
 `bind -r` table. Normal typing outside the popup is unchanged. Splits,
 terminal creation, resizing, and destructive actions are not repeatable.
-The pure repeat controller owns timeout state; the separate repeat view
-adapts it to Herdr. It remains part of `tmux-compat`, not the project picker.
+The shortcut opens Herdr Term's standalone `muxcle-repeat`, built and linked
+from the pinned `herdr-term` source through `stow/herdr/dev-mods.txt`. It requires
+no mounted host, layout change, helper process, filesystem scan, or network access.
+The new popup heading is **Repeat navigation**; test navigation and idle/Escape
+exit in the live app before treating migration as verified.
+
+Keep `tmux-compat` installed and mounted: its other commands are not migrated.
+For repeat-only rollback, change `global["ctrl-a shift-r"]` in `keys.json` back
+from `mod.open:muxcle-repeat` to `tmux-compat.repeat`; preserve all other bindings.
+Do not restore a whole keymap or remove the compatibility host.
 
 ### Close multiple spaces
 
@@ -551,7 +559,7 @@ herdr-app check ~/.config/herdr-app/mods/tmux-compat
 herdr-app do tmux-compat.last-space
 herdr-app do tmux-compat.last-tab
 herdr-app do tmux-compat.rename-from-folder
-herdr-app do tmux-compat.repeat
+herdr-app do mod.open:muxcle-repeat
 herdr-app do tmux-compat.close-spaces
 herdr-app do tmux-compat.popup
 herdr-app do tmux-compat.kill-port
