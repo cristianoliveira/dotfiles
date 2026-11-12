@@ -104,13 +104,13 @@ let
         fingers = 4;
         direction = "up";
         app = "dev.herdr.app";
-        command = [ "/run/current-system/sw/bin/herdr-app" "do" "mod.open" "--name" "tmux-picker" ];
+        command = [ "/run/current-system/sw/bin/herdr-app" "do" "mod.open" "--name" "muxcle-picker" ];
       }
       {
         fingers = 4;
         direction = "down";
         app = "dev.herdr.app";
-        command = [ "/run/current-system/sw/bin/herdr-app" "do" "mod.open" "--name" "intray" ];
+        command = [ "/run/current-system/sw/bin/herdr-app" "do" "mod.open" "--name" "muxcle-agent-intray" ];
       }
 
       # Match Herdr's tab navigation without synthesizing keyboard shortcuts.

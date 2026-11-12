@@ -271,6 +271,19 @@ def exercise_checkout(root, work, search_path, tools, forbidden_trace):
         if owner != {"schema": 1, "package": mod} or not (installed / "main.js").is_file():
             raise AssertionError(f"selected development payload is incomplete or unowned: {mod}")
 
+    personal_mods = {
+        entry.name for entry in (root / "stow/herdr/.config/herdr-app/mods").iterdir()
+        if entry.is_dir()
+    }
+    expected_mods = set(selected_mods) | personal_mods
+    installed_mods = {entry.name for entry in (app_home / "mods").iterdir()}
+    if installed_mods != expected_mods:
+        raise AssertionError(
+            f"installed modules differ from configured ownership: "
+            f"missing={sorted(expected_mods - installed_mods)}, "
+            f"unexpected={sorted(installed_mods - expected_mods)}"
+        )
+
     if settings.read_text() != '{"preserve": true}\n':
         raise AssertionError("setup changed the unmanaged app-home setting")
     backups = list((home / ".config").glob("herdr-app.backup.*"))
@@ -288,11 +301,11 @@ def exercise_checkout(root, work, search_path, tools, forbidden_trace):
         raise AssertionError("setup did not link the managed layout")
     if (backups[0] / "layouts/tmux.json").read_text() != "keep existing layout\n":
         raise AssertionError("setup did not preserve the previous layout")
-    legacy_picker = app_home / "mods/tmux-picker"
-    if not legacy_picker.is_symlink() or legacy_picker.resolve() != (
-        root / "stow/herdr/.config/herdr-app/mods/tmux-picker"
+    personal_mod = app_home / "mods/port-forward"
+    if not personal_mod.is_symlink() or personal_mod.resolve() != (
+        root / "stow/herdr/.config/herdr-app/mods/port-forward"
     ).resolve():
-        raise AssertionError("setup replaced or missed the existing Stow-owned picker")
+        raise AssertionError("setup replaced or missed the existing Stow-owned personal mod")
 
     # An existing foreign target stops before generation build or Stow calls.
     conflict_home = work / "conflict-home"

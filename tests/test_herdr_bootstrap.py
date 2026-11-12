@@ -142,8 +142,8 @@ class InstallerPolicyTests(unittest.TestCase):
 
     def test_selection_refuses_names_owned_by_the_existing_stow_tree(self):
         selection = self.root / "dev-mods.txt"
-        selection.write_text("tmux-picker\n")
-        (self.source / "mods/tmux-picker").symlink_to(self.root / "legacy-picker")
+        selection.write_text("personal-mod\n")
+        (self.source / "mods/personal-mod").symlink_to(self.root / "personal-source")
         with mock.patch.object(HERDR_INSTALL, "SOURCE_ROOT", self.source):
             with self.assertRaisesRegex(ValueError, "already owned by the Stow"):
                 HERDR_INSTALL.read_dev_mods(selection)
