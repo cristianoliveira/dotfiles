@@ -203,10 +203,10 @@ def run_setup(root, home, search_path, trace, forbidden_trace, *, check=True, ex
     return result
 
 
-def active_generation(app_home, node, search_path):
+def active_generation(app_home, node, search_path, mod="muxcle-picker"):
     environment = controlled_environment(app_home.parent.parent, search_path, app_home.parent / "status.log")
     result = subprocess.run(
-        [str(node), str(CHILD / "scripts/dev-loop.mjs"), "status", "--mod", "muxcle-picker", "--app-home", str(app_home)],
+        [str(node), str(CHILD / "scripts/dev-loop.mjs"), "status", "--mod", mod, "--app-home", str(app_home)],
         env=environment,
         text=True,
         capture_output=True,
@@ -253,6 +253,24 @@ def exercise_checkout(root, work, search_path, tools, forbidden_trace):
     generation_id = link_target.parents[2].name
     if active_id != generation_id:
         raise AssertionError(f"installed link generation {generation_id} differs from active {active_id}")
+
+    selected_mods = [
+        name for line in (root / "stow/herdr/dev-mods.txt").read_text().splitlines()
+        if (name := line.partition("#")[0].strip())
+    ]
+    for mod in selected_mods:
+        selected_target = app_home / "mods" / mod
+        if not selected_target.is_symlink():
+            raise AssertionError(f"setup did not create selected development link: {mod}")
+        installed = selected_target.resolve(strict=True)
+        if managed_root not in installed.parents:
+            raise AssertionError(f"selected development link escaped managed generations: {mod}")
+        if active_generation(app_home, tools["node"], search_path, mod) != installed.parents[2].name:
+            raise AssertionError(f"selected development link has a different active generation: {mod}")
+        owner = json.loads((installed / "package-owner.json").read_text())
+        if owner != {"schema": 1, "package": mod} or not (installed / "main.js").is_file():
+            raise AssertionError(f"selected development payload is incomplete or unowned: {mod}")
+
     if settings.read_text() != '{"preserve": true}\n':
         raise AssertionError("setup changed the unmanaged app-home setting")
     backups = list((home / ".config").glob("herdr-app.backup.*"))
@@ -298,8 +316,8 @@ def exercise_checkout(root, work, search_path, tools, forbidden_trace):
     if trace.read_text().splitlines() != before_stow:
         raise AssertionError("Stow ran after the foreign-link preflight failed")
 
-    # A failed build cannot move the known-good target or run Stow.
-    old_link = target.readlink()
+    # A late build failure cannot move any known-good target or run Stow.
+    old_links = {mod: (app_home / "mods" / mod).readlink() for mod in selected_mods}
     before_stow = trace.read_text().splitlines()
     fail_bin = work / "failing-node-bin"
     fail_bin.mkdir()
@@ -309,7 +327,7 @@ def exercise_checkout(root, work, search_path, tools, forbidden_trace):
         wrapper,
         "#!/bin/sh\n"
         'case "$*" in\n'
-        '  *"dev-loop.mjs build"*) echo "forced build failure" >&2; exit 42 ;;\n'
+        f'  *"dev-loop.mjs build --mod {selected_mods[-1]}"*) echo "forced build failure" >&2; exit 42 ;;\n'
         f'  *) exec "{real_node}" "$@" ;;\n'
         'esac\n',
     )
@@ -332,8 +350,8 @@ def exercise_checkout(root, work, search_path, tools, forbidden_trace):
     )
     if failed.returncode == 0 or "forced build failure" not in failed.stderr:
         raise AssertionError(f"build failure was not reported:\n{failed.stdout}\n{failed.stderr}")
-    if target.readlink() != old_link:
-        raise AssertionError("failed build replaced the last-good development link")
+    if any((app_home / "mods" / mod).readlink() != old_links[mod] for mod in selected_mods):
+        raise AssertionError("failed build replaced a last-good development link")
     if trace.read_text().splitlines() != before_stow:
         raise AssertionError("Stow ran after the failed build")
     if forbidden_trace.exists():

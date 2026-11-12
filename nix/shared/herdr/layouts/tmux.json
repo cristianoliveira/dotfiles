@@ -120,7 +120,10 @@
                   },
                   "header": {
                     "content": {
-                      "mod": "pane-footer"
+                      "mod": "muxcle-workspace-chrome",
+                      "props": {
+                        "role": "pane-footer"
+                      }
                     },
                     "height": 26,
                     "position": "bottom",
@@ -181,7 +184,7 @@
                 "px": 180
               },
               "content": {
-                "mod": "tmux-status"
+                "mod": "workspace-status"
               }
             },
             {
@@ -202,9 +205,10 @@
                 "px": 160
               },
               "content": {
-                "mod": "funzzy-status",
+                "mod": "muxcle-funzzy-status",
                 "props": {
-                  "binary": "~/.cargo/bin/fzz"
+                  "binary": "~/.cargo/bin/fzz",
+                  "remote": true
                 }
               }
             },
@@ -228,9 +232,9 @@
                 "px": 150
               },
               "content": {
-                "mod": "tmux-status",
+                "mod": "muxcle-workspace-chrome",
                 "props": {
-                  "mode": "clock"
+                  "role": "status-clock"
                 }
               }
             }
@@ -243,9 +247,9 @@
             "px": 1
           },
           "content": {
-            "mod": "intray",
+            "mod": "muxcle-agent-intray",
             "props": {
-              "mode": "observer"
+              "role": "observer"
             }
           }
         },
@@ -257,6 +261,32 @@
           },
           "content": {
             "mod": "tmux-compat"
+          }
+        },
+        {
+          "id": "muxcle-history-observer",
+          "type": "block",
+          "size": {
+            "px": 1
+          },
+          "min": 1,
+          "max": 1,
+          "resizable": false,
+          "content": {
+            "mod": "muxcle-history"
+          }
+        },
+        {
+          "id": "muxcle-tab-tools-host",
+          "type": "block",
+          "size": {
+            "px": 1
+          },
+          "min": 1,
+          "max": 1,
+          "resizable": false,
+          "content": {
+            "mod": "muxcle-tab-tools"
           }
         }
       ]

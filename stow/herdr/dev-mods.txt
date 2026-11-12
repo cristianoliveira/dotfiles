@@ -1,4 +1,14 @@
 # Compiled Herdr mods built and linked from the pinned herdr-term submodule.
 # One mod name per line; this does not add keys or change the active layout.
+muxcle-agent-intray
+muxcle-broadcast-prototype
+muxcle-copy-mode
+muxcle-funzzy-status
+muxcle-history
 muxcle-picker
+muxcle-port-process-picker
+muxcle-project-popup
 muxcle-repeat
+muxcle-space-closer
+muxcle-tab-tools
+muxcle-workspace-chrome

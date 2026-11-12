@@ -1,5 +1,10 @@
 # Herdr key bindings
 
+**Current activation:** see [Herdr Term adoption](MIGRATION.md) for the batch's
+active routes, dependencies, retained controls, state boundaries, and rollback.
+The older mod-specific sections below also describe retained legacy implementations;
+use that adoption guide and the actual keymap/layout as the routing authority.
+
 Nix installs `herdr-app` and `herdr-core`. Stow links `keys.json` and the
 personal mods, Solarized Dark theme, and `tmux` layout into
 `~/.config/herdr-app`; Herdr owns settings, sessions, runtime state, and other
@@ -86,9 +91,9 @@ enter the bounded navigation repeat mode below.
 |---|---|
 | `c` | New tab in the focused terminal's folder |
 | `n` / `p` | Previous / next tab (same order as your tmux config) |
-| `Ctrl-p` | Search projects under `~/work` and `~/other` |
+| `Ctrl-p` | Legacy project discovery under `~/work` and `~/other`, locally and on connected machines |
 | `Ctrl-b` | Search existing spaces and tabs |
-| `j` / `Shift-j` | Open Intray's newest unread events |
+| `j` / `Shift-j` | Open Herdr Term Agent Intray (separate unread store) |
 | `Shift-l` (uppercase `L`) | Toggle last two spaces (`tmux` layout) |
 | `Ctrl-r` / `Tab` | Toggle last two tabs in this space (`tmux` layout) |
 | `Shift-Left` / `Shift-Right` | Move current tab left / right, stopping at either end (`tmux` layout) |
@@ -97,11 +102,11 @@ enter the bounded navigation repeat mode below.
 | `,` | Rename tab with a prompt |
 | `Shift-n` (uppercase `N`) | Rename tab from focused terminal folder (`tmux` layout) |
 | `Shift-r` (uppercase `R`) | Enter standalone Herdr Term navigation repeat mode (no layout dependency) |
-| `-` | Select multiple spaces to close, with confirmation (`tmux` layout) |
-| `Space` | Toggle project-local `.tmp/popup` terminal (`tmux` layout) |
-| `Shift-p` | Toggle local listening-port process picker (`tmux` layout) |
-| `e` | Toggle prototype broadcast-input mode for current-tab panes (`tmux` layout) |
-| `[` | Open keyboard-only copy mode for the focused terminal (`tmux` layout) |
+| `-` | Open space selection/review; explicit confirmation closes reviewed spaces |
+| `Space` | Open project-popup launcher; explicit Run executes `.tmp/popup` |
+| `Shift-p` | Open local TCP listener review; scanning and signals are explicit |
+| `e` | Open broadcast prototype review; explicit Start targets 2–8 local terminal panes |
+| `[` | Open copy launcher; explicit Copy snapshot starts capture/viewer |
 | `i` | Open full-window image preview (also Ctrl-Shift-i without the prefix) |
 | `t` / `Ctrl-t` | Discover remote ports and start/stop owned localhost tunnels |
 | `w` / `_` | Split down |

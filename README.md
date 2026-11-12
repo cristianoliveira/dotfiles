@@ -130,8 +130,9 @@ needed. To fetch it without installing dotfiles:
 git submodule update --init --recursive -- herdr-term
 ```
 
-`stow/herdr/dev-mods.txt` is the explicit development selection. It currently selects
-`muxcle-picker` and `muxcle-repeat`; edit that file to change the selected compiled mods. Isolated tests may set
+`stow/herdr/dev-mods.txt` is the explicit development selection for the compiled
+Herdr Term modules. See [active routing and retained legacy capabilities](nix/shared/herdr/MIGRATION.md)
+for the batch migration, dependencies, state boundaries, and rollback. Isolated tests may set
 `HERDR_DEV_MODS_FILE` to a temporary selection file. Removing a name does not automatically unlink
 an existing development link; use the explicit `unlink` command below.
 
@@ -140,11 +141,10 @@ dependencies with npm lifecycle scripts disabled when needed, builds complete im
 generations, then links selected mods into `$HOME/.config/herdr-app/mods/`. A pin, build, or
 preflight conflict failure stops before Stow changes links. The development selection leaves
 existing Stow-owned mods, keys, and layouts unchanged; a foreign path at a selected mod name is
-refused. Herdr's dotfiles keymap routes `Ctrl-a Ctrl-b` to the new picker and
-`Ctrl-a Shift-r` to the standalone navigation-repeat popup. The old `tmux-picker`
-and `tmux-compat` implementations remain available for rollback; other compatibility
-commands still use `tmux-compat`. The link tool itself does not edit keys or change
-the active layout.
+refused. The reviewed keymap/layout route compatible capabilities to Herdr Term
+while retaining expanded personal controls and unsupported legacy features.
+All old implementations remain available for rollback; mixed-pane rotation/sizing
+still use `tmux-compat`. The link tool itself does not edit keys or choose a layout.
 
 The development loop requires Node.js 22.23.4 and npm 10.9.9. Use these commands for the
 selected `muxcle-picker` link:
