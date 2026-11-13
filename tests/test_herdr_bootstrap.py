@@ -493,6 +493,34 @@ class StowPayloadTests(unittest.TestCase):
                 self.assertEqual(commands.entries(), [])
 
 
+class CompiledOnlyPayloadTests(unittest.TestCase):
+    def test_install_creates_real_mod_container_without_a_stow_runtime_payload(self):
+        with tempfile.TemporaryDirectory(prefix="dotfiles-herdr-compiled-only-") as directory:
+            root = Path(directory)
+            source = root / "source"
+            source.mkdir()
+            (source / "keys.json").write_text("{}\n")
+            home = root / "home"
+            home.mkdir()
+            mods = home / ".config/herdr-app/mods"
+            observed = []
+
+            def activate(*_args, **_options):
+                observed.append(mods.is_dir() and not mods.is_symlink())
+                return ""
+
+            with mock.patch.object(HERDR_INSTALL, "SOURCE_ROOT", source), \
+                    mock.patch.object(HERDR_INSTALL, "read_dev_mods", return_value=["muxcle-test"]), \
+                    mock.patch.object(HERDR_INSTALL, "read_native_views", return_value={}), \
+                    mock.patch.object(HERDR_INSTALL, "select_generations", return_value={"muxcle-test": "ready"}), \
+                    mock.patch.object(HERDR_INSTALL, "command_path", return_value="node"), \
+                    mock.patch.object(HERDR_INSTALL, "run_checked", side_effect=activate):
+                HERDR_INSTALL.install(home)
+
+            self.assertEqual(observed, [True])
+            self.assertEqual((home / ".config/herdr-app/keys.json").read_text(), "{}\n")
+
+
 class NativeViewTests(unittest.TestCase):
     def setUp(self):
         self.temporary = tempfile.TemporaryDirectory(prefix="herdr-native-views-")

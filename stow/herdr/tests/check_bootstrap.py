@@ -271,17 +271,13 @@ def exercise_checkout(root, work, search_path, tools, forbidden_trace):
         if owner != {"schema": 1, "package": mod} or not (installed / "main.js").is_file():
             raise AssertionError(f"selected development payload is incomplete or unowned: {mod}")
 
-    personal_mods = {
-        entry.name for entry in (root / "stow/herdr/.config/herdr-app/mods").iterdir()
-        if entry.is_dir()
-    }
     views_file = root / "stow/herdr/native-views.json"
     native_views = json.loads(views_file.read_text())["views"] if views_file.exists() else {}
     for name, options in native_views.items():
         alias = app_home / "mods" / name
         if not alias.is_symlink() or alias.readlink() != Path(options["module"]):
             raise AssertionError(f"native view does not reuse its declared provider: {name}")
-    expected_mods = set(selected_mods) | personal_mods | set(native_views)
+    expected_mods = set(selected_mods) | set(native_views)
     installed_mods = {entry.name for entry in (app_home / "mods").iterdir()}
     if installed_mods != expected_mods:
         raise AssertionError(
@@ -307,11 +303,13 @@ def exercise_checkout(root, work, search_path, tools, forbidden_trace):
         raise AssertionError("setup did not link the managed layout")
     if (backups[0] / "layouts/tmux.json").read_text() != "keep existing layout\n":
         raise AssertionError("setup did not preserve the previous layout")
-    personal_mod = app_home / "mods/port-forward"
-    if not personal_mod.is_symlink() or personal_mod.resolve() != (
-        root / "stow/herdr/.config/herdr-app/mods/port-forward"
+    sessionizer_config = app_home / "data/muxcle-sessionizer/config.json"
+    if not sessionizer_config.is_symlink() or sessionizer_config.resolve() != (
+        root / "nix/shared/herdr/sessionizer.json"
     ).resolve():
-        raise AssertionError("setup replaced or missed the existing Stow-owned personal mod")
+        raise AssertionError("setup missed the personal Sessionizer configuration")
+    if (app_home / "data").is_symlink() or sessionizer_config.parent.is_symlink():
+        raise AssertionError("setup linked a mutable data container instead of the config file")
 
     # An existing foreign target stops before generation build or Stow calls.
     conflict_home = work / "conflict-home"

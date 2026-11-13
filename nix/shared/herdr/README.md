@@ -11,7 +11,11 @@ This directory owns personal configuration:
 - `keys.json`: shortcut chords and actions.
 - `layouts/tmux.json`: composition, theme, geometry, and required shown hosts.
 - `themes/solarized-dark.json`: the personal palette.
-- `mods/`: local capabilities not yet supplied by the selected packages/native views.
+- `sessionizer.json`: home-relative discovery roots for this computer and connected permanent machines.
+
+Runtime implementations do not live here. Image Preview, Port Forward, Sessionizer,
+Rotation and Sizing come from the pinned source packages. Both pane-tool command
+hosts share the existing one-pixel layout row.
 
 Herdr owns settings, sessions, shared state, and unrelated layouts. Native modules
 and assets are reused from the installed app, not copied into this repository.

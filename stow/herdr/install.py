@@ -348,8 +348,11 @@ def plan(home):
                 entry.resolve(strict=True)
                 links.append((entry, destination))
 
-    visit(SOURCE_ROOT, home / ".config/herdr-app")
-    return home, home / ".config/herdr-app", directories, links
+    app = home / ".config/herdr-app"
+    visit(SOURCE_ROOT, app)
+    if app / "mods" not in directories:
+        directories.append(app / "mods")
+    return home, app, directories, links
 
 
 def preflight(home, mods):

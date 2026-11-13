@@ -5,10 +5,15 @@ muxcle-broadcast-prototype
 muxcle-copy-mode
 muxcle-funzzy-status
 muxcle-history
+muxcle-image-preview
 muxcle-picker
+muxcle-port-forward
 muxcle-port-process-picker
 muxcle-project-popup
 muxcle-repeat
+muxcle-rotation
+muxcle-sessionizer
+muxcle-sizing
 muxcle-space-closer
 muxcle-tab-tools
 muxcle-workspace-chrome

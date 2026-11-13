@@ -241,14 +241,27 @@
           }
         },
         {
-          "id": "tmux-compat",
-          "type": "block",
+          "id": "muxcle-pane-tools-hosts",
+          "type": "row",
           "size": {
             "px": 1
           },
-          "content": {
-            "mod": "tmux-compat"
-          }
+          "children": [
+            {
+              "id": "muxcle-rotation-host",
+              "type": "block",
+              "content": {
+                "mod": "muxcle-rotation"
+              }
+            },
+            {
+              "id": "muxcle-sizing-host",
+              "type": "block",
+              "content": {
+                "mod": "muxcle-sizing"
+              }
+            }
+          ]
         },
         {
           "id": "muxcle-history-observer",
