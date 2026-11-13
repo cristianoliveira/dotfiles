@@ -37,7 +37,7 @@ class PinnedSourceTests(unittest.TestCase):
         self.addCleanup(temporary.cleanup)
         self.root = Path(temporary.name)
         self.submodule = self.root / "herdr-term"
-        self.source_tree = self.submodule / "herdr"
+        self.source_tree = self.submodule
         self.pin = "a" * 40
 
     def run_pinned_check(self, responses):
@@ -62,6 +62,8 @@ class PinnedSourceTests(unittest.TestCase):
                 return self.pin
             if "submodule" in command:
                 self.source_tree.mkdir(parents=True)
+                (self.source_tree / "mods").mkdir()
+                (self.source_tree / "keys.json").write_text("{}\n")
                 (self.submodule / ".git").write_text("gitdir: ../modules/herdr-term\n")
                 return ""
             if command[-2:] == ["rev-parse", "HEAD"]:
@@ -81,7 +83,7 @@ class PinnedSourceTests(unittest.TestCase):
     def test_initialized_submodule_at_different_commit_is_refused_without_checkout(self):
         self.submodule.mkdir()
         (self.submodule / ".git").write_text("gitdir: ../modules/herdr-term\n")
-        self.source_tree.mkdir()
+        (self.source_tree / "mods").mkdir()
         commands = []
         results = iter((self.pin, "b" * 40))
 
@@ -103,7 +105,7 @@ class PinnedSourceTests(unittest.TestCase):
         self.assertEqual(len(commands), 2)
         self.assertFalse(any("submodule" in command for command in commands))
 
-    def test_missing_herdr_source_tree_is_refused(self):
+    def test_empty_flat_source_tree_is_refused(self):
         self.submodule.mkdir()
         (self.submodule / ".git").write_text("gitdir: ../modules/herdr-term\n")
 
@@ -116,6 +118,33 @@ class PinnedSourceTests(unittest.TestCase):
                 installer.ensure_pinned_submodule()
 
 
+    def test_missing_or_linked_flat_payload_is_refused(self):
+        self.submodule.mkdir()
+        (self.submodule / ".git").write_text("gitdir: ../modules/herdr-term\n")
+        for missing in ("keys.json", "mods", "linked-mods"):
+            with self.subTest(missing=missing):
+                keys = self.source_tree / "keys.json"
+                mods = self.source_tree / "mods"
+                if missing != "keys.json":
+                    keys.write_text("{}\n")
+                if missing == "linked-mods":
+                    foreign = self.root / "foreign"
+                    foreign.mkdir()
+                    mods.symlink_to(foreign, target_is_directory=True)
+                elif missing != "mods":
+                    mods.mkdir()
+
+                try:
+                    with self.assertRaisesRegex(RuntimeError, "herdr source tree is missing"):
+                        self.run_pinned_check(lambda _command: self.pin)
+                finally:
+                    keys.unlink(missing_ok=True)
+                    if mods.is_symlink():
+                        mods.unlink()
+                    elif mods.exists():
+                        mods.rmdir()
+
+
 class DirectSourceInstallTests(unittest.TestCase):
     def test_install_uses_only_git_and_links_mod_directory_from_submodule_source(self):
         with tempfile.TemporaryDirectory(prefix="herdr-direct-") as temporary:
@@ -123,7 +152,8 @@ class DirectSourceInstallTests(unittest.TestCase):
             submodule = root / "herdr-term"
             submodule.mkdir()
             (submodule / ".git").write_text("gitdir: ../modules/herdr-term\n")
-            mod = submodule / "herdr/mods/sample-mod"
+            (submodule / "keys.json").write_text("{}\n")
+            mod = submodule / "mods/sample-mod"
             mod.mkdir(parents=True)
             (mod / "main.js").write_text("export {};\n")
 
@@ -156,7 +186,7 @@ class DirectSourceInstallTests(unittest.TestCase):
 
             with mock.patch.object(installer, "DOTFILES_ROOT", root), \
                  mock.patch.object(installer, "SUBMODULE", submodule), \
-                 mock.patch.object(installer, "SOURCE_TREE", submodule / "herdr"), \
+                 mock.patch.object(installer, "SOURCE_TREE", submodule), \
                  mock.patch.object(installer, "SOURCE_ROOT", source), \
                  mock.patch.dict(os.environ, environment, clear=True), \
                  mock.patch.object(installer.sys, "argv", ["install.py"]):

@@ -130,7 +130,8 @@ needed. To fetch it without installing dotfiles:
 git submodule update --init --recursive -- herdr-term
 ```
 
-`herdr-term/herdr/` contains the original JavaScript mods, helpers, keys, layout and theme.
+`herdr-term/` contains the original JavaScript mods in root `mods/`, with root keys,
+layout and theme directories. Recipes compose selected mods without a capability-package layer.
 Stow links those files directly into `$HOME/.config/herdr-app/`. There is no compilation,
 npm installation, capability packaging or generated runtime.
 

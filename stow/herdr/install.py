@@ -14,7 +14,7 @@ PACKAGE = Path(__file__).resolve().parent
 DOTFILES_ROOT = PACKAGE.parents[1]
 SOURCE_ROOT = PACKAGE / ".config/herdr-app"
 SUBMODULE = DOTFILES_ROOT / "herdr-term"
-SOURCE_TREE = SUBMODULE / "herdr"
+SOURCE_TREE = SUBMODULE
 
 
 def command_path(name):
@@ -63,7 +63,14 @@ def ensure_pinned_submodule():
             "refusing to change the checkout. To restore the pin, run: "
             "git submodule update --init --recursive -- herdr-term"
         )
-    if SOURCE_TREE.is_symlink() or not SOURCE_TREE.is_dir():
+    mods = SOURCE_TREE / "mods"
+    if (
+        SOURCE_TREE.is_symlink()
+        or not SOURCE_TREE.is_dir()
+        or mods.is_symlink()
+        or not mods.is_dir()
+        or not (SOURCE_TREE / "keys.json").is_file()
+    ):
         raise RuntimeError(f"Pinned herdr source tree is missing: {SOURCE_TREE}")
 
 

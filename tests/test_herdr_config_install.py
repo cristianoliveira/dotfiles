@@ -30,7 +30,7 @@ class ConfigInstallTests(unittest.TestCase):
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_text(content)
 
-        self.submodule_source = self.root / "herdr-term/herdr"
+        self.submodule_source = self.root / "herdr-term"
         self.mod = self.submodule_source / "mods/sample-mod"
         self.mod.mkdir(parents=True)
         (self.mod / "main.js").write_text("export {};\n")
