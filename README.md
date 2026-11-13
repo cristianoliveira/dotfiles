@@ -116,7 +116,7 @@ make osx
 make setup
 ```
 
-### Herdr development checkout
+### Herdr setup
 
 `herdr-term/` is a Git submodule pointing to the [Herdr Term repository](https://github.com/cristianoliveira/herdr-term). Dotfiles pin its exact
 commit; update that pointer deliberately after committing and pushing changes in the submodule.
@@ -130,35 +130,14 @@ needed. To fetch it without installing dotfiles:
 git submodule update --init --recursive -- herdr-term
 ```
 
-`stow/herdr/dev-mods.txt` selects the compiled Herdr Term modules.
-Runtime changes belong in `herdr-term`; personal keys and layout composition belong
-in `nix/shared/herdr`. Isolated tests may set
-`HERDR_DEV_MODS_FILE` to a temporary selection file. Removing a name does not automatically unlink
-an existing development link; use the explicit `unlink` command below.
+`herdr-term/herdr/` contains the original JavaScript mods, helpers, keys, layout and theme.
+Stow links those files directly into `$HOME/.config/herdr-app/`. There is no compilation,
+npm installation, capability packaging or generated runtime.
 
-`make setup` validates the pin and existing target ownership, installs locked TypeScript
-dependencies with npm lifecycle scripts disabled when needed, builds complete immutable
-generations, then links selected mods into `$HOME/.config/herdr-app/mods/`. A pin, build, or
-preflight conflict failure stops before Stow changes links. The development selection leaves
-existing Stow-owned mods, keys, and layouts unchanged; a foreign path at a selected mod name is
-refused. `keys.json` and `layouts/tmux.json` own bindings and composition.
-The link tool itself does not edit keys or choose a layout.
-
-The development loop requires Node.js 22.23.4 and npm 10.9.9. Use these commands for the
-selected `muxcle-picker` link:
-
-```bash
-node herdr-term/scripts/dev-loop.mjs status --mod muxcle-picker --app-home "$HOME/.config/herdr-app"
-node herdr-term/scripts/dev-loop.mjs watch --mod muxcle-picker --app-home "$HOME/.config/herdr-app"
-node herdr-term/scripts/dev-loop.mjs revert --mod muxcle-picker --app-home "$HOME/.config/herdr-app" --generation <retained-generation-id>
-node herdr-term/scripts/dev-loop.mjs unlink --mod muxcle-picker --app-home "$HOME/.config/herdr-app"
-```
-
-Use the `active` ID and `retained` list from `status` to choose a rollback generation.
-`unlink` removes only a verified development link; retained generations remain available. Watch
-swaps the selected mod only after a successful build. It does not restart Herdr or guarantee
-native module/asset reload behavior, which must be checked separately. No settings, keys, layouts,
-session data, or other mod links are changed by the development loop.
+The Herdr hook checks the pinned source and keeps mutable app-home containers real. It
+preserves replaced configuration in a backup and leaves settings, sessions and unrelated
+paths alone. Use `make herdr-test` for isolated installation checks. Runtime tests belong
+to the source checkout: `make -C herdr-term gate`.
 
 ### OS change workflow
 

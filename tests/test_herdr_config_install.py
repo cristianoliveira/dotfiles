@@ -1,4 +1,4 @@
-"""Exercise managed config links with isolated homes and no native commands."""
+"""Exercise source links with isolated homes and preserve unrelated runtime state."""
 import importlib.util
 import os
 from contextlib import ExitStack
@@ -19,7 +19,7 @@ class ConfigInstallTests(unittest.TestCase):
         temporary = tempfile.TemporaryDirectory(prefix="herdr-config-install-")
         self.addCleanup(temporary.cleanup)
         self.root = Path(temporary.name).resolve()
-        self.source = self.root / "source"
+        self.source = self.root / "stow/herdr/.config/herdr-app"
         for path, content in {
             "keys.json": "managed keys\n",
             "layouts/tmux.json": "managed layout\n",
@@ -29,16 +29,33 @@ class ConfigInstallTests(unittest.TestCase):
             target = self.source / path
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_text(content)
+
+        self.submodule_source = self.root / "herdr-term/herdr"
+        self.mod = self.submodule_source / "mods/sample-mod"
+        self.mod.mkdir(parents=True)
+        (self.mod / "main.js").write_text("export {};\n")
+        (self.mod / "mod.json").write_text('{"name":"sample-mod"}\n')
+        (self.source / "mods").mkdir()
+        (self.source / "mods/sample-mod").symlink_to(self.mod, target_is_directory=True)
+
         self.home = self.root / "home"
         self.app = self.home / ".config/herdr-app"
         self.app.mkdir(parents=True)
         patches = ExitStack()
         self.addCleanup(patches.close)
         patches.enter_context(mock.patch.object(installer, "SOURCE_ROOT", self.source))
-        patches.enter_context(mock.patch.object(installer, "read_dev_mods", return_value=[]))
-        patches.enter_context(mock.patch.object(installer, "read_native_views", return_value={}))
-        patches.enter_context(mock.patch.object(installer, "select_generations", return_value={}))
-        patches.enter_context(mock.patch.object(installer, "command_path", side_effect=AssertionError("Native command forbidden")))
+
+    def test_links_each_mod_as_one_directory_and_keeps_mutable_containers_real(self):
+        self.assertIsNone(installer.install(self.home))
+
+        installed_mod = self.app / "mods/sample-mod"
+        self.assertTrue(installed_mod.is_symlink())
+        self.assertEqual(installed_mod.resolve(), self.mod.resolve())
+        self.assertEqual((installed_mod / "main.js").read_text(), "export {};\n")
+        for relative in (".", "mods", "data"):
+            container = self.app if relative == "." else self.app / relative
+            self.assertTrue(container.is_dir())
+            self.assertFalse(container.is_symlink())
 
     def test_repeat_install_preserves_runtime_state_and_real_mutable_containers(self):
         (self.app / "data").mkdir()
@@ -53,15 +70,22 @@ class ConfigInstallTests(unittest.TestCase):
         for relative, content in preserved.items():
             (self.app / relative).write_text(content)
 
+        installed_mod = self.app / "mods/sample-mod"
         for _ in range(2):
             self.assertIsNone(installer.install(self.home))
             for relative, content in preserved.items():
                 self.assertEqual((self.app / relative).read_text(), content)
             for relative in ("mods", "data", "data/muxcle-sessionizer", "layouts", "themes"):
-                self.assertTrue((self.app / relative).is_dir())
-                self.assertFalse((self.app / relative).is_symlink())
-            for relative in ("keys.json", "layouts/tmux.json", "data/muxcle-sessionizer/config.json"):
+                container = self.app / relative
+                self.assertTrue(container.is_dir())
+                self.assertFalse(container.is_symlink())
+            for relative in (
+                "keys.json",
+                "layouts/tmux.json",
+                "data/muxcle-sessionizer/config.json",
+            ):
                 self.assertEqual((self.app / relative).resolve(), self.source / relative)
+            self.assertEqual(installed_mod.resolve(), self.mod.resolve())
 
     def test_conflicting_keys_are_backed_up_without_a_missing_file_window(self):
         keys = self.app / "keys.json"
@@ -82,32 +106,47 @@ class ConfigInstallTests(unittest.TestCase):
         self.assertEqual((backup / "keys.json").read_text(), "original keys\n")
         self.assertEqual(keys.read_text(), "managed keys\n")
 
-    def test_broken_managed_link_is_preserved_before_replacement(self):
-        missing = self.root / "missing"
-        keys = self.app / "keys.json"
-        keys.symlink_to(missing)
+    def test_conflicting_directory_and_symlink_are_preserved_in_backup(self):
+        layout = self.app / "layouts/tmux.json"
+        missing = self.root / "missing-layout"
+        layout.parent.mkdir()
+        layout.symlink_to(missing)
+        theme = self.app / "themes/personal.json"
+        theme.mkdir(parents=True)
+        (theme / "personal.json").write_text("keep directory\n")
 
         backup = installer.install(self.home)
 
-        self.assertEqual((backup / "keys.json").readlink(), missing)
-        self.assertFalse(missing.exists())
-        self.assertEqual(keys.resolve(), self.source / "keys.json")
+        self.assertEqual((backup / "layouts/tmux.json").readlink(), missing)
+        self.assertEqual((backup / "themes/personal.json/personal.json").read_text(), "keep directory\n")
+        self.assertEqual(layout.resolve(), self.source / "layouts/tmux.json")
+        self.assertEqual(theme.resolve(), self.source / "themes/personal.json")
 
-    def test_linked_mutable_container_refuses_before_changing_any_files(self):
-        foreign = self.root / "foreign"
-        foreign.mkdir()
-        (foreign / "keep").write_text("untouched\n")
-        (self.app / "keys.json").write_text("original keys\n")
-        for name in ("mods", "data", "layouts", "themes"):
-            with self.subTest(container=name):
-                link = self.app / name
-                link.symlink_to(foreign, target_is_directory=True)
+    def test_linked_app_mod_or_data_container_refuses_before_changes(self):
+        for container in ("app", "mods", "data"):
+            with self.subTest(container=container):
+                foreign = self.root / f"foreign-{container}"
+                foreign.mkdir(exist_ok=True)
+                marker = foreign / "keep"
+                marker.write_text("untouched\n")
+                target = self.app if container == "app" else self.app / container
+                if target == self.app:
+                    target.rmdir()
+                elif target.exists():
+                    target.rmdir()
+                target.symlink_to(foreign, target_is_directory=True)
                 try:
                     with self.assertRaisesRegex(ValueError, "linked container"):
                         installer.install(self.home)
-                    self.assertEqual((self.app / "keys.json").read_text(), "original keys\n")
-                    self.assertEqual((foreign / "keep").read_text(), "untouched\n")
+                    self.assertEqual(marker.read_text(), "untouched\n")
                     self.assertEqual(sorted(path.name for path in foreign.iterdir()), ["keep"])
+                    self.assertFalse((self.app / "keys.json").exists())
                     self.assertEqual(list((self.home / ".config").glob("herdr-app.backup.*")), [])
                 finally:
-                    link.unlink()
+                    target.unlink()
+                    if target == self.app:
+                        self.app.mkdir()
+
+
+if __name__ == "__main__":
+    unittest.main()

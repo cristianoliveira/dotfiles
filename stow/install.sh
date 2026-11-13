@@ -11,7 +11,7 @@ packageToInstall="${1:-}"
 # Prepare Herdr before any package links can change the user's home.
 if [ -z "$packageToInstall" ] || [ "$packageToInstall" = "herdr" ]; then
     bash ./stow/herdr/before_install.sh --prepare
-    export HERDR_DEV_PREPARED=true
+    export HERDR_PREPARED=true
 fi
 
 # list all packages in stow directory

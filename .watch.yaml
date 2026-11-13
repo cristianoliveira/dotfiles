@@ -53,10 +53,9 @@ jobs:
     run: make nvim
     change: 'nvim/**'
 
-  - name: test herdr bootstrap
-    run: make herdr-bootstrap-unit
+  - name: test herdr install
+    run: make herdr-test
     change:
-      - 'nix/shared/herdr/**/*.json'
       - 'stow/herdr/**'
       - 'tests/test_herdr_*.py'
     ignore:

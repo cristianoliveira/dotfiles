@@ -1,8 +1,0 @@
-{
-  "schema": 1,
-  "views": {
-    "muxcle-native-spaces": { "module": "spaces", "state": "number-spaces" },
-    "muxcle-native-agents": { "module": "agents", "state": "number-agents" },
-    "muxcle-native-tabs": { "module": "tabs", "state": "tmux-tabs" }
-  }
-}

@@ -1,4 +1,4 @@
-.PHONY: help herdr-bootstrap-unit herdr-bootstrap-check herdr-test
+.PHONY: help herdr-installer-unit herdr-test
 help: ## Lists the available commands. Add a comment with '##' to describe a command.
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST)\
 		| sort\
@@ -8,13 +8,10 @@ help: ## Lists the available commands. Add a comment with '##' to describe a com
 setup: ## Run the setup script (stow)
 	@bash ./stow/install.sh
 
-herdr-bootstrap-unit: ## Run Herdr installer tests with controlled command stubs
+herdr-installer-unit: ## Run Herdr installer tests with controlled command stubs
 	@python3 -B -m unittest discover -s tests -p 'test_herdr_*.py' -v
 
-herdr-bootstrap-check: ## Build and install selected Herdr mods in disposable homes
-	@python3 -B stow/herdr/tests/check_bootstrap.py
-
-herdr-test: herdr-bootstrap-unit herdr-bootstrap-check ## Run Herdr bootstrap tests and isolated end-to-end validation
+herdr-test: herdr-installer-unit ## Run Herdr source-link installer tests
 
 .PHONY: ssh
 ssh: ## Run the ssh-key script to generate a new ssh key
