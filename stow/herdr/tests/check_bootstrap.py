@@ -275,7 +275,13 @@ def exercise_checkout(root, work, search_path, tools, forbidden_trace):
         entry.name for entry in (root / "stow/herdr/.config/herdr-app/mods").iterdir()
         if entry.is_dir()
     }
-    expected_mods = set(selected_mods) | personal_mods
+    views_file = root / "stow/herdr/native-views.json"
+    native_views = json.loads(views_file.read_text())["views"] if views_file.exists() else {}
+    for name, options in native_views.items():
+        alias = app_home / "mods" / name
+        if not alias.is_symlink() or alias.readlink() != Path(options["module"]):
+            raise AssertionError(f"native view does not reuse its declared provider: {name}")
+    expected_mods = set(selected_mods) | personal_mods | set(native_views)
     installed_mods = {entry.name for entry in (app_home / "mods").iterdir()}
     if installed_mods != expected_mods:
         raise AssertionError(
@@ -379,6 +385,7 @@ def candidate_files():
         "stow/herdr/before_install.sh",
         "stow/herdr/install.py",
         "stow/herdr/dev-mods.txt",
+        "stow/herdr/native-views.json",
         "stow/herdr/.stow-local-ignore",
         "stow/herdr/tests/check_bootstrap.py",
     )

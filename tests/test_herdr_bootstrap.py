@@ -487,9 +487,165 @@ class StowPayloadTests(unittest.TestCase):
                     self.assertEqual(sorted(p.name for p in (home / name).iterdir()), ["personal.txt"])
                     self.assertEqual((home / name / "personal.txt").read_text(), "keep personal data\n")
                 self.assertEqual((home / "dev-mods.txt").read_text(), "personal file\n")
+                self.assertFalse((home / "native-views.json").exists())
                 self.assertFalse((home / "install.py").exists())
                 self.assertFalse((home / "__pycache__").exists())
                 self.assertEqual(commands.entries(), [])
+
+
+class NativeViewTests(unittest.TestCase):
+    def setUp(self):
+        self.temporary = tempfile.TemporaryDirectory(prefix="herdr-native-views-")
+        self.addCleanup(self.temporary.cleanup)
+        self.root = Path(self.temporary.name)
+        self.app = self.root / "app"
+        (self.app / "mods").mkdir(parents=True)
+        self.source = self.root / "source"
+        (self.source / "mods").mkdir(parents=True)
+        self.views = {"muxcle-native-spaces": {"module": "spaces", "state": "number-spaces"}}
+
+    def install(self, views=None):
+        with mock.patch.object(HERDR_INSTALL, "SOURCE_ROOT", self.source):
+            HERDR_INSTALL.install_native_views(self.app, self.views if views is None else views)
+
+    def test_native_view_reuses_code_and_existing_state_without_copying(self):
+        native = self.app / "mods/spaces"
+        native.mkdir()
+        (native / "main.js").write_text("native implementation\n")
+        state = self.app / "data/number-spaces"
+        state.mkdir(parents=True)
+        (state / "store.json").write_text('{"preferences":"keep"}\n')
+
+        self.install()
+
+        alias = self.app / "mods/muxcle-native-spaces"
+        adopted = self.app / "data/muxcle-native-spaces"
+        self.assertEqual(alias.readlink(), Path("spaces"))
+        self.assertEqual(alias.resolve(), native.resolve())
+        self.assertEqual(adopted.readlink(), Path("number-spaces"))
+        self.assertEqual(adopted.resolve(), state.resolve())
+        self.assertEqual((state / "store.json").read_text(), '{"preferences":"keep"}\n')
+        self.assertEqual((native / "main.js").read_text(), "native implementation\n")
+
+    def test_existing_new_view_state_is_not_overwritten(self):
+        old = self.app / "data/number-spaces"
+        new = self.app / "data/muxcle-native-spaces"
+        old.mkdir(parents=True)
+        new.mkdir()
+        (old / "store.json").write_text("old preferences\n")
+        (new / "store.json").write_text("current preferences\n")
+
+        self.install()
+
+        self.assertFalse(new.is_symlink())
+        self.assertEqual((new / "store.json").read_text(), "current preferences\n")
+        self.assertEqual((old / "store.json").read_text(), "old preferences\n")
+
+    def test_fresh_profile_does_not_create_old_state_or_copy_native_payload(self):
+        self.install()
+
+        alias = self.app / "mods/muxcle-native-spaces"
+        self.assertTrue(alias.is_symlink())
+        self.assertEqual(alias.readlink(), Path("spaces"))
+        self.assertFalse((self.app / "data").exists())
+        self.assertFalse((self.app / "mods/spaces").exists())
+
+    def test_repeated_install_keeps_existing_owned_aliases(self):
+        state = self.app / "data/number-spaces"
+        state.mkdir(parents=True)
+        self.install()
+        target = self.app / "mods/muxcle-native-spaces"
+        inode = target.lstat().st_ino
+
+        self.install()
+
+        self.assertEqual(target.lstat().st_ino, inode)
+        self.assertEqual((self.app / "data/muxcle-native-spaces").resolve(), state.resolve())
+
+    def test_foreign_target_refuses_before_any_alias_or_state_write(self):
+        state = self.app / "data/number-spaces"
+        state.mkdir(parents=True)
+        foreign = self.app / "mods/foreign-view"
+        foreign.mkdir()
+        (foreign / "keep").write_text("user data\n")
+        views = dict(self.views, **{"foreign-view": {"module": "agents"}})
+
+        with self.assertRaisesRegex(ValueError, "native view"):
+            self.install(views)
+
+        self.assertFalse((self.app / "mods/muxcle-native-spaces").is_symlink())
+        self.assertFalse((self.app / "data/muxcle-native-spaces").exists())
+        self.assertEqual((foreign / "keep").read_text(), "user data\n")
+
+    def test_wrong_alias_is_not_replaced(self):
+        alias = self.app / "mods/muxcle-native-spaces"
+        alias.symlink_to("unrelated")
+
+        with self.assertRaisesRegex(ValueError, "native view"):
+            self.install()
+
+        self.assertEqual(alias.readlink(), Path("unrelated"))
+
+    def test_linked_data_container_and_state_sources_are_refused(self):
+        outside = self.root / "outside"
+        outside.mkdir()
+        data = self.app / "data"
+        data.symlink_to(outside, target_is_directory=True)
+        with self.assertRaisesRegex(ValueError, "data"):
+            self.install()
+        self.assertEqual(list(outside.iterdir()), [])
+        data.unlink()
+        data.mkdir()
+        (data / "number-spaces").symlink_to(outside, target_is_directory=True)
+        with self.assertRaisesRegex(ValueError, "state"):
+            self.install()
+        self.assertFalse((self.app / "mods/muxcle-native-spaces").is_symlink())
+
+    def test_foreign_state_alias_is_not_followed_or_replaced(self):
+        data = self.app / "data"
+        data.mkdir()
+        (data / "muxcle-native-spaces").symlink_to(self.root / "outside")
+
+        with self.assertRaisesRegex(ValueError, "state"):
+            self.install()
+
+        self.assertEqual((data / "muxcle-native-spaces").readlink(), self.root / "outside")
+        self.assertFalse((self.app / "mods/muxcle-native-spaces").is_symlink())
+
+    def test_native_provider_must_not_be_a_file(self):
+        provider = self.app / "mods/spaces"
+        provider.write_text("keep\n")
+
+        with self.assertRaisesRegex(ValueError, "provider"):
+            self.install()
+
+        self.assertEqual(provider.read_text(), "keep\n")
+        self.assertFalse((self.app / "mods/muxcle-native-spaces").is_symlink())
+
+    def test_compiled_and_stow_owned_names_cannot_be_native_aliases(self):
+        (self.source / "mods/muxcle-native-spaces").mkdir()
+        with self.assertRaisesRegex(ValueError, "owned"):
+            self.install()
+        (self.source / "mods/muxcle-native-spaces").rmdir()
+        with mock.patch.object(HERDR_INSTALL, "SOURCE_ROOT", self.source):
+            with self.assertRaisesRegex(ValueError, "selected"):
+                HERDR_INSTALL.native_view_links(self.app, self.views, ["muxcle-native-spaces"])
+
+    def test_native_view_configuration_rejects_paths_and_alias_chains(self):
+        config = self.root / "native-views.json"
+        config.write_text(json.dumps({"schema": 1, "views": self.views}))
+        self.assertEqual(HERDR_INSTALL.read_native_views(config), self.views)
+        for invalid in [
+            {"outside": {"module": "../outside"}},
+            {"../outside": {"module": "spaces"}},
+            {"same": {"module": "same"}},
+            {"view": {"module": "spaces", "state": "../outside"}},
+            {"a": {"module": "b"}, "b": {"module": "spaces"}},
+        ]:
+            with self.subTest(views=invalid):
+                config.write_text(json.dumps({"schema": 1, "views": invalid}))
+                with self.assertRaises(ValueError):
+                    HERDR_INSTALL.read_native_views(config)
 
 
 if __name__ == "__main__":

@@ -3,6 +3,8 @@
 Herdr Term owns the compiled terminal-workflow packages. Its source is the pinned
 `herdr-term` submodule; `stow/herdr/dev-mods.txt` selects the installed modules.
 Change reusable behavior there instead of copying implementations into dotfiles.
+`stow/herdr/native-views.json` selects installed native views and existing view-state
+directories. It creates links, not runtime copies or copied preference stores.
 
 This directory owns personal configuration:
 

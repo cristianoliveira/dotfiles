@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Prepare pinned Herdr mods and link repository-managed app-home paths."""
+"""Prepare pinned Herdr mods, reuse native views, and link personal configuration."""
 import argparse
 import hashlib
 import json
@@ -17,6 +17,7 @@ DOTFILES_ROOT = PACKAGE.parents[1]
 SOURCE_ROOT = PACKAGE / ".config/herdr-app"
 SUBMODULE = DOTFILES_ROOT / "herdr-term"
 DEV_MODS_FILE = PACKAGE / "dev-mods.txt"
+NATIVE_VIEWS_FILE = PACKAGE / "native-views.json"
 DEV_LOOP = SUBMODULE / "scripts/dev-loop.mjs"
 GENERATION_FILE = ".muxcle-dev-generation.json"
 OWNER_FILE = ".muxcle-dev-loop.json"
@@ -41,6 +42,94 @@ def read_dev_mods(path=None):
         seen.add(name)
         mods.append(name)
     return mods
+
+
+def validate_native_views(views):
+    if not isinstance(views, dict):
+        raise ValueError("Native views must be a name-to-provider object")
+    for name, options in views.items():
+        if not isinstance(name, str) or not MOD_NAME.fullmatch(name):
+            raise ValueError(f"Invalid native view name: {name!r}")
+        if not isinstance(options, dict) or set(options) - {"module", "state"}:
+            raise ValueError(f"Invalid native view options: {name}")
+        module = options.get("module")
+        state = options.get("state")
+        if not isinstance(module, str) or not MOD_NAME.fullmatch(module) or module in views:
+            raise ValueError(f"Invalid native view provider: {name}")
+        if state is not None and (
+            not isinstance(state, str) or not MOD_NAME.fullmatch(state) or state in views
+        ):
+            raise ValueError(f"Invalid native view state source: {name}")
+    return views
+
+
+def read_native_views(path=None):
+    path = Path(path or NATIVE_VIEWS_FILE)
+    if not path.exists():
+        return {}
+    config = json.loads(path.read_text())
+    if (
+        not isinstance(config, dict) or set(config) != {"schema", "views"}
+        or type(config["schema"]) is not int or config["schema"] != 1
+    ):
+        raise ValueError(f"Invalid native view configuration: {path}")
+    return validate_native_views(config["views"])
+
+
+def native_view_links(app, views, selected_mods=()):
+    views = validate_native_views(views)
+    for container in (app, app / "mods", app / "data"):
+        if container.is_symlink() or (container.exists() and not container.is_dir()):
+            raise ValueError(f"Refusing linked or non-directory native view data/container: {container}")
+
+    state_links = []
+    module_links = []
+    for name, options in views.items():
+        source = SOURCE_ROOT / "mods" / name
+        if source.exists() or source.is_symlink():
+            raise ValueError(f"Native view is already owned by Stow: {name}")
+        if name in selected_mods:
+            raise ValueError(f"Native view is already selected as a compiled mod: {name}")
+        target = app / "mods" / name
+        expected = options["module"]
+        provider = app / "mods" / expected
+        if (provider.exists() or provider.is_symlink()) and not provider.is_dir():
+            raise ValueError(f"Refusing non-directory native view provider: {provider}")
+        if target.exists() or target.is_symlink():
+            if not target.is_symlink() or os.readlink(target) != expected:
+                raise ValueError(f"Refusing unowned native view target: {target}")
+        module_links.append((target, expected))
+
+        state = options.get("state")
+        if state is None:
+            continue
+        previous = app / "data" / state
+        current = app / "data" / name
+        if previous.is_symlink() or (previous.exists() and not previous.is_dir()):
+            raise ValueError(f"Refusing linked or non-directory native view state source: {previous}")
+        if current.is_symlink():
+            if os.readlink(current) != state or not previous.is_dir():
+                raise ValueError(f"Refusing unowned native view state alias: {current}")
+        elif current.exists():
+            if not current.is_dir():
+                raise ValueError(f"Refusing non-directory native view state: {current}")
+            continue
+        elif not previous.is_dir():
+            continue
+        state_links.append((current, state))
+
+    # State must be ready before exposing a module the running app can load.
+    return state_links + module_links
+
+
+def install_native_views(app, views, selected_mods=()):
+    links = native_view_links(app, views, selected_mods)
+    for target, expected in links:
+        if target.is_symlink() and os.readlink(target) == expected:
+            continue
+        target.parent.mkdir(parents=True, exist_ok=True)
+        # Exclusive creation preserves a target created after the preflight.
+        target.symlink_to(expected, target_is_directory=True)
 
 
 def command_path(name):
@@ -272,6 +361,7 @@ def preflight(home, mods):
                 "Use a real directory before installing."
             )
 
+    native_view_links(app, read_native_views(), mods)
     if not mods:
         return
     node = command_path("node")
@@ -325,6 +415,7 @@ def install(home):
 
     for directory in directories:
         directory.mkdir(parents=True, exist_ok=True)
+    install_native_views(app, read_native_views(), mods)
 
     backup = None
     for source, target in links:
@@ -371,7 +462,9 @@ def main():
         description=__doc__,
         epilog=(
             "Normally run: bash stow/install.sh herdr. The prepare phase validates the pinned "
-            "submodule, build output, and selected module targets before creating links."
+            "submodule, build output, and selected module targets before creating links. "
+            "native-views.json names installed native providers; existing per-view state "
+            "is reused only when the new namespace has no state of its own."
         ),
     )
     parser.add_argument("--prepare", action="store_true", help="initialize/build selected mods and preflight without linking")
