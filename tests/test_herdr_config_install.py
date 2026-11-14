@@ -24,7 +24,6 @@ class ConfigInstallTests(unittest.TestCase):
             "keys.json": "managed keys\n",
             "layouts/tmux.json": "managed layout\n",
             "themes/personal.json": "managed theme\n",
-            "data/muxcle-sessionizer/config.json": "managed discovery roots\n",
         }.items():
             target = self.source / path
             target.parent.mkdir(parents=True, exist_ok=True)
@@ -75,14 +74,13 @@ class ConfigInstallTests(unittest.TestCase):
             self.assertIsNone(installer.install(self.home))
             for relative, content in preserved.items():
                 self.assertEqual((self.app / relative).read_text(), content)
-            for relative in ("mods", "data", "data/muxcle-sessionizer", "layouts", "themes"):
+            for relative in ("mods", "data", "layouts", "themes"):
                 container = self.app / relative
                 self.assertTrue(container.is_dir())
                 self.assertFalse(container.is_symlink())
             for relative in (
                 "keys.json",
                 "layouts/tmux.json",
-                "data/muxcle-sessionizer/config.json",
             ):
                 self.assertEqual((self.app / relative).resolve(), self.source / relative)
             self.assertEqual(installed_mod.resolve(), self.mod.resolve())

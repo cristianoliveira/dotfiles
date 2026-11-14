@@ -140,6 +140,12 @@ preserves replaced configuration in a backup and leaves settings, sessions and u
 paths alone. Use `make herdr-test` for isolated installation checks. Runtime tests belong
 to the source checkout: `make -C herdr-term gate`.
 
+The old `nix/shared/herdr` source tree and compiled `muxcle-*` capability-package
+installation are retired. The pinned submodule is the only mod source; do not
+restore old build generations or npm-based install hooks. macOS gestures target
+`tmux-picker` and `intray`. Nix still installs the native `herdr-app` and
+`herdr-core` programs; those are not deprecated.
+
 ### OS change workflow
 
 Once you make a change in `nix/*` run `nix/rebuild.sh` and follow the steps.
