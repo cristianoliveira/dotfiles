@@ -146,20 +146,6 @@ restore old build generations or npm-based install hooks. macOS gestures target
 `tmux-picker` and `intray`. Nix still installs the native `herdr-app` and
 `herdr-core` programs; those are not deprecated.
 
-### Herdr Mobile customization
-
-`stow/herdr-mobile/.config/herdr-mobile/` stores personal mobile mods, the
-personal layout and its selection. Link them into the definition machine's home:
-
-```bash
-stow --no-folding -d stow -t "$HOME" herdr-mobile
-node "$HOME/.config/herdr-mobile/check.mjs"
-```
-
-Edit these dotfiles to update the connected phone. Keep shipped mods, generated
-guides, `installed.json` and runtime `.error` files outside Git. Existing files
-at the same paths must be backed up before linking; do not use `stow --adopt`.
-
 ### OS change workflow
 
 Once you make a change in `nix/*` run `nix/rebuild.sh` and follow the steps.
