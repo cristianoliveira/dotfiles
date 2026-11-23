@@ -9,10 +9,10 @@ default = "personal"
 browser = "brave"
 
 [browsers.work]
-browser = "chrome"
+command = "/Users/cristianoliveira/.dotfiles/nix/shared/brouter/canary-work.sh"
 
 [browsers.dev]
-command = "/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary"
+command = "/Users/cristianoliveira/.dotfiles/nix/shared/brouter/canary-dev.sh"
 
 # NOTE: Routes are resolved by the route command below
 # [[rules]]

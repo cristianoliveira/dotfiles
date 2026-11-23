@@ -11,6 +11,12 @@ The external route command preserves work-first precedence during working hours.
 
 The Canary executable path is macOS-specific. Change that target for a Linux installation; Brave/Chrome names resolve per platform.
 
+## Canary profiles
+
+The installed Brouter build rejects `profile` on executable targets and does not recognize Canary as a known browser. `canary-work.sh` and `canary-dev.sh` pass `--profile-directory` directly to Canary for `Profile 1` and `Profile 2`. Each script checks that its profile directory exists before launch to avoid creating a new profile silently.
+
+The config uses absolute script paths because executable targets do not resolve relative to the config. Update these paths if the checkout moves. No app restart is required after a config change.
+
 ## Use
 
 Validate before installing (using your built or installed `brouter`):
