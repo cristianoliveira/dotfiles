@@ -15,18 +15,23 @@ PERSONAL = re.compile(
     rb"$"
 )
 WORK = re.compile(
-    rb"github\.com/(wireapp|pydio)|"
-
-    rb"meet\.google|atlassian\.(net|com)|ngrok-free|tuple|figma|smartling|"
-    rb"sentry\.io|expo.dev|mail\.google|mixpanel\.com|miro\.com|"
-    rb"segment\.com|sanity\.studio|superblocks|slack|notion\.so|docs\.google|"
-    # Storage
-    rb"drive\.google\.com|"
+    rb"atlassian\.(net|com)|ngrok-free|tuple|figma|smartling|"
+    rb"sentry\.io|expo.dev|mixpanel\.com|miro\.com|"
+    rb"segment\.com|sanity\.studio|superblocks|slack|notion\.so|"
 
     # wire
     rb"shortcut\.com|jumpcloud\.com|"
     rb"wire\.com|pydio\.com|zendesk\.com"
     rb"$"
+)
+INWORKHOURS = re.compile(
+    rb"github\.com/(wireapp|pydio)|"
+
+    rb"meet\.google"
+    rb"mail\.google"
+    rb"docs\.google|"
+    # Storage
+    rb"drive\.google\.com|"
 )
 DEV = re.compile(
     rb"localhost|local\.gd|"
@@ -59,7 +64,13 @@ def choose_target(url: bytes, now: datetime) -> bytes:
         return b"personal"
 
     is_work_url = WORK.search(url) is not None
-    if is_work_url and is_working_hours(now):
+    if is_work_url:
+        # return b"dev"
+        return b"work"
+
+    is_url_working_hours = INWORKHOURS.search(url) is not None
+    if is_url_working_hours and is_working_hours(now):
+        # return b"dev"
         return b"work"
 
     is_dev_url = DEV.search(url) is not None or is_wire_link_host(url)
